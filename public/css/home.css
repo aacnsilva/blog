@@ -1,0 +1,94 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Georgia', serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+  background-color: #fdfdfd;
+  padding: 0;
+  margin: 0;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 2rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.blog-title {
+  font-size: 2.5rem;
+  font-weight: normal;
+  color: #000;
+}
+
+.nav {
+  margin-top: 1rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #555;
+  margin: 0 1rem;
+  font-size: 1rem;
+}
+
+.nav a:hover {
+  color: #000;
+}
+
+/* Main Content */
+.main {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.post {
+  margin-bottom: 2rem;
+}
+
+.post-title {
+  font-size: 1.8rem;
+  color: #000;
+  margin-bottom: 0.5rem;
+}
+
+.post-date {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 1rem;
+}
+
+.post-content {
+  font-size: 1rem;
+  color: #333;
+}
+
+.post-title a {
+  text-decoration: none;
+  color: #007BFF;
+  font-size: 1.2rem;
+}
+
+.post-title a:hover {
+  text-decoration: underline;
+}
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 1.5rem 0;
+  border-top: 1px solid #ddd;
+  margin-top: 2rem;
+}
+
+.footer p {
+  font-size: 0.9rem;
+  color: #777;
+}

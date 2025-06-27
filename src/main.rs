@@ -44,8 +44,8 @@ fn main() -> std::io::Result<()> {
 
             let mut data = std::collections::HashMap::new();
             data.insert("title".to_string(), post.title.clone());
+            data.insert("date".to_string(), post.date.clone());
             data.insert("content".to_string(), content_html);
-            data.insert("back_link".to_string(), "/blog".to_string());
 
             let rendered_html = handlebars.render("layout", &data).unwrap();
 
@@ -91,4 +91,3 @@ fn parse_front_matter(markdown: &str) -> (String, &str) {
         ("".to_string(), markdown)
     }
 }
-

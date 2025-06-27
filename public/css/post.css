@@ -1,0 +1,146 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Georgia', serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: #333;
+  background-color: #fdfdfd;
+  padding: 0;
+  margin: 0;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 2rem 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.blog-title {
+  font-size: 2.5rem;
+  font-weight: normal;
+  color: #000;
+}
+
+.nav {
+  margin-top: 1rem;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #555;
+  margin: 0 1rem;
+  font-size: 1rem;
+}
+
+.nav a:hover {
+  color: #000;
+}
+
+/* Post Layout */
+.post-main {
+  padding: 2rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.post {
+  margin-bottom: 2rem;
+}
+
+.post-title {
+  font-size: 2.2rem;
+  color: #000;
+  margin-bottom: 0.5rem;
+}
+
+.post-date {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 1.5rem;
+}
+
+.post-content p {
+  margin-bottom: 1.5rem;
+}
+
+.post-content h2 {
+  font-size: 1.8rem;
+  color: #000;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.post-content h3 {
+  font-size: 1.5rem;
+  color: #000;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.post-content ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.post-content ul li {
+  margin-bottom: 0.5rem;
+}
+
+.post-content a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+.post-content a:hover {
+  text-decoration: underline;
+}
+
+blockquote {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-left: 4px solid #ddd;
+  font-style: italic;
+  color: #555;
+}
+
+.post-footer {
+  margin-top: 2rem;
+}
+
+.post-footer hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin-bottom: 1rem;
+}
+
+.post-footer ol {
+  margin-top: 1rem;
+  padding-left: 1.5rem;
+}
+
+.post-footer ol li {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 1.5rem 0;
+  border-top: 1px solid #ddd;
+  margin-top: 2rem;
+}
+
+.footer p {
+  font-size: 0.9rem;
+  color: #777;
+}

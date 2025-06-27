@@ -1,27 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog</title>
+  <link rel="stylesheet" href="css/home.css" />
 </head>
 <body>
-    <header>
-        <h1>My Awesome Blog</h1>
-        <nav>
-            <a href="/blog">Home</a>
-        </nav>
-    </header>
-    <main>
-        <ul>
-            {{#each posts}}
-                <li>
-                    <h2><a href="{{this.file_name}}.html">{{this.title}}</a></h2>
-                    <p>{{this.date}}</p>
-                </li>
-            {{/each}}
-        </ul>
-    </main>
+  <header class="header">
+    <h1 class="blog-title">Blog</h1>
+    <nav class="nav">
+      <a href="/blog">Home</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    {{#each posts}}
+      <article class="post">
+        <h2 class="post-title"><a href="{{this.file_name}}.html">{{this.title}}</a></h2>
+        <p class="post-date">{{this.date}}</p>
+      </article>
+    {{/each}}
+  </main>
 </body>
 </html>

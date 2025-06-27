@@ -3,8 +3,6 @@ title: What are events in Business Central
 date: 2020-03-29
 ---
 
-# What Are Events in Dynamics NAV/Business Central?
-
 Events were introduced in **Dynamics NAV 2016**.
 
 But you’re asking — what *are* events?

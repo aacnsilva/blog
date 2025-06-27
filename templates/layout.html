@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }}</title>
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="css/post.css" />
 </head>
 <body>
-    <header>
-        <h1>My Awesome Blog</h1>
-        <nav>
-            <a href="/blog">Home</a>
-        </nav>
-    </header>
-    <main>
-        {{#if back_link}}
-            <a href="{{back_link}}">Back to Home</a>
-        {{/if}}
+  <header class="header">
+    <h1 class="blog-title">Blog</h1>
+    <nav class="nav">
+      <a href="/blog"> Home</a>
+    </nav>
+  </header>
+
+  <main class="post-main">
+    <article class="post">
+        <h1 class="post-title">{{{this.title}}}</h1>
+        <p class="post-date">Published on {{{this.date}}}</p>
+      <div class="post-content">
         {{{ content }}}
-    </main>
+      </div>
+    </article>
+  </main>
 </body>
 </html>
