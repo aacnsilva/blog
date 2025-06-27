@@ -144,5 +144,3 @@ http://bc14/NAV/?company=CRONUS%20International%20Ltd.&page=9510
 ```
 
 ---
-
-Let me know if you'd like this exported to a `.md` file or want diagrams added.
