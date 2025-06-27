@@ -45,7 +45,7 @@ fn main() -> std::io::Result<()> {
             let mut data = std::collections::HashMap::new();
             data.insert("title".to_string(), post.title.clone());
             data.insert("content".to_string(), content_html);
-            data.insert("back_link".to_string(), "/".to_string());
+            data.insert("back_link".to_string(), "/blog".to_string());
 
             let rendered_html = handlebars.render("layout", &data).unwrap();
 
