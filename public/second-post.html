@@ -3,25 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>My Second Post</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
         <h1>My Awesome Blog</h1>
         <nav>
-            <a href="/blog">Home</a>
+            <a href="/">Home</a>
         </nav>
     </header>
     <main>
-        <ul>
-            {{#each posts}}
-                <li>
-                    <h2><a href="blog/{{this.file_name}}.html">{{this.title}}</a></h2>
-                    <p>{{this.date}}</p>
-                </li>
-            {{/each}}
-        </ul>
+            <a href="/">Back to Home</a>
+        <h1>Hello World again!</h1>
+<p>This is my second blog post using the new Rust SSG.</p>
+
     </main>
 </body>
 </html>
