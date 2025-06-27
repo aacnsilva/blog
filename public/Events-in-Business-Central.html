@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What are events in Business Central</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>My Awesome Blog</h1>
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+    </header>
+    <main>
+            <a href="/">Back to Home</a>
+        <h1>What Are Events in Dynamics NAV/Business Central?</h1>
+<p>Events were introduced in <strong>Dynamics NAV 2016</strong>.</p>
+<p>But you’re asking — what <em>are</em> events?</p>
+<p>In short, <strong>Events in Dynamics NAV/Business Central implement a Design Pattern known as the “Observer Pattern.”</strong></p>
+<hr />
+<h2>Explanation</h2>
+<p>In Dynamics NAV/Business Central, you can create new functions and make them <strong>Events</strong>.
+An Event can be of type <strong>Subscriber</strong> or <strong>Publisher</strong>.</p>
+<h3>Publisher Event Types:</h3>
+<ul>
+<li><strong>Integration</strong></li>
+<li><strong>Business</strong></li>
+</ul>
+<blockquote>
+<p><em>(You may also see <code>Global</code> and <code>Trigger</code> types, but you can only define the first two)</em></p>
+</blockquote>
+<p>The difference?</p>
+<ul>
+<li><strong>Business Events</strong>: Microsoft guarantees they won’t be removed in future versions.</li>
+<li><strong>Integration Events</strong>: These <em>might</em> be removed if deemed not useful by Microsoft.</li>
+</ul>
+<p><img src="https://aacnsilva.wordpress.com/wp-content/uploads/2020/03/image.png" alt="Event publishers syntax" /></p>
+<hr />
+<h2>What’s the Difference Between a Publisher and a Subscriber?</h2>
+<ul>
+<li>A <strong>Publisher</strong> knows its <strong>Subscribers</strong>.</li>
+<li>A <strong>Publisher</strong> stays alert to a certain condition and, when met, it <em>calls</em> the subscriber to act.</li>
+</ul>
+<blockquote>
+<p>Think of the <strong>Subscriber</strong> as the <em>response</em> to a given situation monitored by the <strong>Publisher</strong>.</p>
+</blockquote>
+<ul>
+<li>One <strong>Publisher</strong> can have many <strong>Subscribers</strong>.</li>
+<li>One <strong>Subscriber</strong> can only have one <strong>Publisher</strong>.</li>
+</ul>
+<hr />
+<h2>Built-in Events in NAV/Business Central</h2>
+<p>All table and page triggers like:</p>
+<ul>
+<li><code>Insert</code></li>
+<li><code>Modify</code></li>
+<li><code>Delete</code></li>
+<li><code>Validate</code></li>
+</ul>
+<p>...have <strong>two default publishers</strong>:</p>
+<ul>
+<li><code>OnBeforeInsertEvent</code></li>
+<li><code>OnAfterInsertEvent</code></li>
+</ul>
+<h3>Note:</h3>
+<p>Since a <strong>Publisher</strong> can have multiple <strong>Subscribers</strong>, <strong>execution order is not guaranteed</strong>.</p>
+<p>So, if you want <code>sub1</code> to run <em>before</em> <code>sub2</code>, you need to:</p>
+<ul>
+<li>Remove <code>sub2</code></li>
+<li>Combine its logic inside <code>sub1</code></li>
+</ul>
+<hr />
+<h2>Practical Example</h2>
+<p>You might start with:</p>
+<pre><code class="language-al">// Sub1 and Sub2 both subscribing to the same event
+[EventSubscriber(...)]
+procedure Sub1(...)
+
+[EventSubscriber(...)]
+procedure Sub2(...)
+</code></pre>
+<p>After applying the workaround:</p>
+<pre><code class="language-al">// Only Sub1 remains, containing logic from both
+[EventSubscriber(...)]
+procedure Sub1(...)
+    // Logic for Sub1
+    // Logic for Sub2
+</code></pre>
+<hr />
+<h2>The Observer Pattern</h2>
+<p>Let’s compare it to the Observer Pattern:</p>
+<h3>Class Diagram Focus:</h3>
+<h4>Subject:</h4>
+<ul>
+<li>
+<p>Holds a list of Observers (<code>observerCollection</code>)</p>
+</li>
+<li>
+<p>Functions:</p>
+<ul>
+<li><code>registerObserver</code> → Adds an observer</li>
+<li><code>unregisterObserver</code> → Removes an observer</li>
+<li><code>notifyObservers</code> → Invokes all observers</li>
+</ul>
+</li>
+</ul>
+<h4>Observer:</h4>
+<ul>
+<li>Has one method: <code>update</code> (the response to the subject)</li>
+</ul>
+<h3>Sequence Diagram</h3>
+<ol>
+<li><code>Subject s1</code> adds <code>Observer o1</code> and <code>Observer o2</code> (attach/register).</li>
+<li>The monitored condition occurs (notifyObservers).</li>
+<li><code>Observer o1</code> is invoked.</li>
+<li>Then <code>Observer o2</code>.</li>
+</ol>
+<hr />
+<h2>Mapping to NAV/BC</h2>
+<p>| Observer Pattern | Dynamics NAV/BC |
+| ---------------- | --------------- |
+| Subject          | Publisher       |
+| Observer         | Subscriber      |</p>
+<hr />
+<h2>TIP</h2>
+<p>You can check subscribers in <strong>NAV/Business Central</strong> via the <strong>Event Subscriptions</strong> page.</p>
+<p>Example link (BC14 Web Client):</p>
+<pre><code>http://bc14/NAV/?company=CRONUS%20International%20Ltd.&amp;page=9510
+</code></pre>
+<hr />
+<p>Let me know if you'd like this exported to a <code>.md</code> file or want diagrams added.</p>
+
+    </main>
+</body>
+</html>
