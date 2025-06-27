@@ -1,0 +1,93 @@
+use handlebars::Handlebars;
+use serde::{Deserialize, Serialize};
+use std::fs::{self, File};
+use std::io::Write;
+use std::path::Path;
+
+#[derive(Serialize, Deserialize, Clone)]
+struct Post {
+    title: String,
+    date: String,
+}
+
+fn main() -> std::io::Result<()> {
+    let posts_dir = Path::new("posts");
+    let public_dir = Path::new("public");
+    let layout_template_path = Path::new("templates/layout.html");
+    let index_template_path = Path::new("templates/index.html");
+
+    if !public_dir.exists() {
+        fs::create_dir(public_dir)?;
+    }
+
+    let mut handlebars = Handlebars::new();
+    handlebars
+        .register_template_string("layout", fs::read_to_string(layout_template_path)?)
+        .unwrap();
+    handlebars
+        .register_template_string("index", fs::read_to_string(index_template_path)?)
+        .unwrap();
+
+    let mut posts = Vec::new();
+
+    for entry in fs::read_dir(posts_dir)? {
+        let entry = entry?;
+        let path = entry.path();
+        if path.is_file() && path.extension().unwrap_or_default() == "md" {
+            let markdown = fs::read_to_string(&path)?;
+            let (front_matter, content) = parse_front_matter(&markdown);
+
+            let mut post: Post = serde_yaml::from_str(&front_matter).unwrap();
+            let content_html = markdown::to_html(content);
+
+            let file_name = path.file_stem().unwrap().to_str().unwrap().to_string();
+
+            let mut data = std::collections::HashMap::new();
+            data.insert("title".to_string(), post.title.clone());
+            data.insert("content".to_string(), content_html);
+            data.insert("back_link".to_string(), "/".to_string());
+
+            let rendered_html = handlebars.render("layout", &data).unwrap();
+
+            let mut output_file = File::create(public_dir.join(format!("{}.html", file_name)))?;
+            output_file.write_all(rendered_html.as_bytes())?;
+
+            posts.push((post, file_name));
+        }
+    }
+
+    let mut posts_data = Vec::new();
+    for (post, file_name) in posts {
+        let mut data = std::collections::HashMap::new();
+        data.insert("title".to_string(), post.title);
+        data.insert("date".to_string(), post.date);
+        data.insert("file_name".to_string(), file_name);
+        posts_data.push(data);
+    }
+
+    let mut data = std::collections::HashMap::new();
+    data.insert(
+        "posts".to_string(),
+        serde_json::to_value(posts_data).unwrap(),
+    );
+
+    let rendered_index = handlebars.render("index", &data).unwrap();
+    let mut index_file = File::create(public_dir.join("index.html"))?;
+    index_file.write_all(rendered_index.as_bytes())?;
+
+    Ok(())
+}
+
+fn parse_front_matter(markdown: &str) -> (String, &str) {
+    if markdown.starts_with("---") {
+        if let Some(end_pos) = markdown[3..].find("---") {
+            let front_matter = &markdown[3..end_pos + 3];
+            let content = &markdown[end_pos + 6..];
+            (front_matter.to_string(), content)
+        } else {
+            ("".to_string(), markdown)
+        }
+    } else {
+        ("".to_string(), markdown)
+    }
+}

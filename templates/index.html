@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>My Awesome Blog</h1>
+        <nav>
+            <a href="/">Home</a>
+        </nav>
+    </header>
+    <main>
+        <ul>
+            {{#each posts}}
+                <li>
+                    <h2><a href="/{{this.file_name}}.html">{{this.title}}</a></h2>
+                    <p>{{this.date}}</p>
+                </li>
+            {{/each}}
+        </ul>
+    </main>
+</body>
+</html>
