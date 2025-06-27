@@ -37,7 +37,7 @@ fn main() -> std::io::Result<()> {
             let markdown = fs::read_to_string(&path)?;
             let (front_matter, content) = parse_front_matter(&markdown);
 
-            let mut post: Post = serde_yaml::from_str(&front_matter).unwrap();
+            let post: Post = serde_yaml::from_str(&front_matter).unwrap();
             let content_html = markdown::to_html(content);
 
             let file_name = path.file_stem().unwrap().to_str().unwrap().to_string();
@@ -91,3 +91,4 @@ fn parse_front_matter(markdown: &str) -> (String, &str) {
         ("".to_string(), markdown)
     }
 }
+
