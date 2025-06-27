@@ -38,7 +38,10 @@ fn main() -> std::io::Result<()> {
             let (front_matter, content) = parse_front_matter(&markdown);
 
             let post: Post = serde_yaml::from_str(&front_matter).unwrap();
-            let content_html = markdown::to_html(content);
+            // let content_html = markdown::to_html(content);
+            let mut options = comrak::ComrakOptions::default();
+            options.extension.table = true;
+            let content_html = comrak::markdown_to_html(content, &options);
 
             let file_name = path.file_stem().unwrap().to_str().unwrap().to_string();
 

@@ -129,8 +129,6 @@ Let’s compare it to the Observer Pattern:
 | Subject          | Publisher       |
 | Observer         | Subscriber      |
 
----
-
 ## TIP
 
 You can check subscribers in **NAV/Business Central** via the **Event Subscriptions** page.

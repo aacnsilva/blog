@@ -144,3 +144,36 @@ blockquote {
   font-size: 0.9rem;
   color: #777;
 }
+/* General Table Styling */
+table {
+  width: 100%; /* Full width for consistency */
+  border-collapse: collapse; /* Remove gaps between borders */
+  margin: 1.5rem 0; /* Add spacing above and below the table */
+  font-size: 16px; /* Keep font size consistent with the blog */
+  color: #333; /* Neutral text color */
+}
+
+th, td {
+  border: 1px solid #ccc; /* Subtle borders for structure */
+  padding: 0.5rem 1rem; /* Balanced padding for readability */
+  text-align: left; /* Align text to the left */
+}
+
+th {
+  background-color: #f7f7f7; /* Light background for headers */
+  font-weight: normal; /* Keep header text weight consistent */
+  color: #222; /* Slightly darker text for emphasis */
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9; /* Subtle striped effect for even rows */
+}
+
+tr:hover {
+  background-color: #f1f1f1; /* Highlight row on hover */
+}
+
+/* Optional: Add subtle spacing between rows */
+tr {
+  border-bottom: 1px solid #ddd; /* Thin border between rows */
+}
