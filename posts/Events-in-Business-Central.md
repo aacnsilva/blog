@@ -1,6 +1,6 @@
 ---
 title: What are events in Business Central
-date: 2025-06-27
+date: 2020-03-29
 ---
 
 # What Are Events in Dynamics NAV/Business Central?
@@ -29,10 +29,6 @@ The difference?
 
 * **Business Events**: Microsoft guarantees they won’t be removed in future versions.
 * **Integration Events**: These *might* be removed if deemed not useful by Microsoft.
-
-![Event publishers syntax](https://aacnsilva.wordpress.com/wp-content/uploads/2020/03/image.png)
-
----
 
 ## What’s the Difference Between a Publisher and a Subscriber?
 
@@ -102,6 +98,8 @@ Let’s compare it to the Observer Pattern:
 
 ### Class Diagram Focus:
 
+![class diagram](https://aacnsilva.wordpress.com/wp-content/uploads/2020/03/image-4.png)
+
 #### Subject:
 
 * Holds a list of Observers (`observerCollection`)
@@ -116,6 +114,8 @@ Let’s compare it to the Observer Pattern:
 * Has one method: `update` (the response to the subject)
 
 ### Sequence Diagram
+
+![sequence diagram](https://aacnsilva.wordpress.com/wp-content/uploads/2020/03/image-5.png)
 
 1. `Subject s1` adds `Observer o1` and `Observer o2` (attach/register).
 2. The monitored condition occurs (notifyObservers).
