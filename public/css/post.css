@@ -177,3 +177,55 @@ tr:hover {
 tr {
   border-bottom: 1px solid #ddd; /* Thin border between rows */
 }
+/* General Image Styling */
+img {
+  max-width: 100%; /* Ensure images never exceed the width of their container */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove inline spacing and align images properly */
+  margin: 1.5rem auto; /* Center images and add spacing above and below */
+  border: 1px solid #ccc; /* Subtle border for structure */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle shadow */
+}
+/* General Code Block Styling */
+pre {
+  background-color: #f7f7f7; /* Light gray background for code blocks */
+  border: 1px solid #ddd; /* Subtle border for structure */
+  border-radius: 4px; /* Rounded corners for a clean look */
+  padding: 1rem; /* Add padding inside the block */
+  font-family: 'Courier New', Courier, monospace; /* Monospace font for code */
+  font-size: 16px; /* Adjust font size for readability */
+  line-height: 1.6; /* Improve line spacing */
+  overflow-x: auto; /* Enable horizontal scrolling for long lines */
+  margin: 1.5rem 0; /* Add spacing above and below the block */
+  color: #333; /* Neutral text color */
+}
+
+/* Inline Code Styling */
+code {
+  background-color: #f7f7f7; /* Light gray background for inline code */
+  border: 1px solid #ddd; /* Subtle border for inline code */
+  border-radius: 4px; /* Rounded corners */
+  padding: 0.2rem 0.4rem; /* Add padding around inline code */
+  font-family: 'Courier New', Courier, monospace; /* Monospace font */
+  font-size: 0.9rem; /* Slightly smaller font for inline code */
+  color: #222; /* Darker text color for emphasis */
+}
+
+/* Optional: Highlighting for Syntax */
+pre code {
+  color: #005cc5; /* Default text color for code */
+}
+
+/* Scrollbar Styling (Optional) */
+pre::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+pre::-webkit-scrollbar-thumb {
+  background-color: #ccc; /* Color of the scrollbar thumb */
+  border-radius: 4px; /* Rounded corners for the scrollbar */
+}
+
+pre::-webkit-scrollbar-track {
+  background-color: #f7f7f7; /* Background color of the scrollbar track */
+}
