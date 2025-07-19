@@ -1,3 +1,4 @@
+use chrono::NaiveDate;
 use handlebars::Handlebars;
 use serde::{Deserialize, Serialize};
 use std::fs::{self, File};
@@ -58,6 +59,12 @@ fn main() -> std::io::Result<()> {
         }
     }
 
+    posts.sort_by(|a, b| {
+        let date_a = parse_date(&a.0.date);
+        let date_b = parse_date(&b.0.date);
+        date_b.cmp(&date_a)
+    });
+
     let mut posts_data = Vec::new();
     for (post, file_name) in posts {
         let mut data = std::collections::HashMap::new();
@@ -78,6 +85,23 @@ fn main() -> std::io::Result<()> {
     index_file.write_all(rendered_index.as_bytes())?;
 
     Ok(())
+}
+
+fn parse_date(date_str: &str) -> NaiveDate {
+    if let Ok(date) = NaiveDate::parse_from_str(date_str, "%Y-%m-%d") {
+        return date;
+    }
+    if let Ok(date) = NaiveDate::parse_from_str(date_str, "%m/%d/%Y") {
+        return date;
+    }
+    if let Ok(date) = NaiveDate::parse_from_str(date_str, "%d/%m/%Y") {
+        return date;
+    }
+    if let Ok(date) = NaiveDate::parse_from_str(date_str, "%B %d, %Y") {
+        return date;
+    }
+
+    NaiveDate::from_ymd_opt(1970, 1, 1).unwrap()
 }
 
 fn parse_front_matter(markdown: &str) -> (String, &str) {
