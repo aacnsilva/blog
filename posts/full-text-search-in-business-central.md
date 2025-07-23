@@ -17,8 +17,8 @@ Here’s a comparison of how different search inputs might be interpreted:
 
 | Full-text search input | Equivalent traditional search logic     |
 | :--------------------- | :-------------------------------------- |
-| `&&com`                | @*COM*       |
-| `&&com&&&cust`         | @*COM*&*CUST* |
+| `&&com`                | @\*COM\*       |
+| `&&com&&&cust`         | @\*COM\*&\*CUST\* |
 
 ### Precision in Results: A Key Difference
 
