@@ -14,7 +14,7 @@ struct Post {
 fn main() -> std::io::Result<()> {
     let posts_dir = Path::new("posts");
     let public_dir = Path::new("public");
-    let layout_template_path = Path::new("templates/layout.hbs");
+    let post_template_path = Path::new("templates/post.hbs");
     let index_template_path = Path::new("templates/index.hbs");
 
     if !public_dir.exists() {
@@ -23,20 +23,19 @@ fn main() -> std::io::Result<()> {
 
     let mut handlebars = Handlebars::new();
     handlebars
-        .register_template_string("layout", fs::read_to_string(layout_template_path)?)
-        .unwrap();
+        .register_template_string("post", fs::read_to_string(post_template_path)?)
+        .expect("Failed to register layout template");
     handlebars
         .register_template_string("index", fs::read_to_string(index_template_path)?)
-        .unwrap();
+        .expect("Failed to register index template");
 
     let mut posts = Vec::new();
-
     for entry in fs::read_dir(posts_dir)? {
         let entry = entry?;
         let path = entry.path();
         if path.is_file() && path.extension().unwrap_or_default() == "md" {
             let markdown = fs::read_to_string(&path)?;
-            let (front_matter, content) = parse_front_matter(&markdown);
+            let (front_matter, content) = parse_post_data(&markdown);
 
             let post: Post = serde_yaml::from_str(&front_matter).unwrap();
             let mut options = comrak::ComrakOptions::default();
@@ -46,11 +45,11 @@ fn main() -> std::io::Result<()> {
             let file_name = path.file_stem().unwrap().to_str().unwrap().to_string();
 
             let mut data = std::collections::HashMap::new();
-            data.insert("title".to_string(), post.title.clone());
-            data.insert("date".to_string(), post.date.clone());
-            data.insert("content".to_string(), content_html);
+            data.insert("title", post.title.clone());
+            data.insert("date", post.date.clone());
+            data.insert("content", content_html);
 
-            let rendered_html = handlebars.render("layout", &data).unwrap();
+            let rendered_html = handlebars.render("post", &data).unwrap();
 
             let mut output_file = File::create(public_dir.join(format!("{}.html", file_name)))?;
             output_file.write_all(rendered_html.as_bytes())?;
@@ -104,7 +103,7 @@ fn parse_date(date_str: &str) -> NaiveDate {
     NaiveDate::from_ymd_opt(1970, 1, 1).unwrap()
 }
 
-fn parse_front_matter(markdown: &str) -> (String, &str) {
+fn parse_post_data(markdown: &str) -> (String, &str) {
     if markdown.starts_with("---") {
         if let Some(end_pos) = markdown[3..].find("---") {
             let front_matter = &markdown[3..end_pos + 3];
