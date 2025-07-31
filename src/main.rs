@@ -14,8 +14,8 @@ struct Post {
 fn main() -> std::io::Result<()> {
     let posts_dir = Path::new("posts");
     let public_dir = Path::new("public");
-    let layout_template_path = Path::new("templates/layout.html");
-    let index_template_path = Path::new("templates/index.html");
+    let layout_template_path = Path::new("templates/layout.hbs");
+    let index_template_path = Path::new("templates/index.hbs");
 
     if !public_dir.exists() {
         fs::create_dir(public_dir)?;
