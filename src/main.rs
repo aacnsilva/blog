@@ -14,8 +14,10 @@ struct Post {
 fn main() -> std::io::Result<()> {
     let posts_dir = Path::new("posts");
     let public_dir = Path::new("public");
-    let post_template_path = Path::new("templates/post.hbs");
-    let index_template_path = Path::new("templates/index.hbs");
+    let base_template_path = Path::new("templates/base.hbs");
+    let header_template_path = Path::new("templates/partials/header.hbs");
+    let post_template_path = Path::new("templates/partials/post.hbs");
+    let home_template_path = Path::new("templates/partials/home.hbs");
 
     if !public_dir.exists() {
         fs::create_dir(public_dir)?;
@@ -23,11 +25,19 @@ fn main() -> std::io::Result<()> {
 
     let mut handlebars = Handlebars::new();
     handlebars
+        .register_template_string("base", fs::read_to_string(base_template_path)?)
+        .expect("Failed to register base template");
+    handlebars
+        .register_template_string("header", fs::read_to_string(header_template_path)?)
+        .expect("Failed to register layout template");
+    handlebars
         .register_template_string("post", fs::read_to_string(post_template_path)?)
         .expect("Failed to register layout template");
     handlebars
-        .register_template_string("index", fs::read_to_string(index_template_path)?)
+        .register_template_string("home", fs::read_to_string(home_template_path)?)
         .expect("Failed to register index template");
+
+    let header_html = handlebars.render("header", &{}).unwrap();
 
     let mut posts = Vec::new();
     for entry in fs::read_dir(posts_dir)? {
@@ -49,8 +59,12 @@ fn main() -> std::io::Result<()> {
             data.insert("date", post.date.clone());
             data.insert("content", content_html);
 
-            let rendered_html = handlebars.render("post", &data).unwrap();
-
+            let post_html = handlebars.render("post", &data).unwrap();
+            let mut base_data = std::collections::HashMap::new();
+            base_data.insert("content", post_html);
+            base_data.insert("header", header_html.clone());
+            base_data.insert("post_title", post.title.clone());
+            let rendered_html = handlebars.render("base", &base_data).unwrap();
             let mut output_file = File::create(public_dir.join(format!("{}.html", file_name)))?;
             output_file.write_all(rendered_html.as_bytes())?;
 
@@ -79,9 +93,13 @@ fn main() -> std::io::Result<()> {
         serde_json::to_value(posts_data).unwrap(),
     );
 
-    let rendered_index = handlebars.render("index", &data).unwrap();
+    let home_html = handlebars.render("home", &data).unwrap();
+    let mut base_data = std::collections::HashMap::new();
+    base_data.insert("content", &home_html);
+    base_data.insert("header", &header_html);
+    let index_html = handlebars.render("base", &base_data).unwrap();
     let mut index_file = File::create(public_dir.join("index.html"))?;
-    index_file.write_all(rendered_index.as_bytes())?;
+    index_file.write_all(index_html.as_bytes())?;
 
     Ok(())
 }

@@ -1,0 +1,8 @@
+<main class="main">
+  {{#each posts}}
+    <article class="post">
+      <h2 class="post-title"><a href="{{this.file_name}}.html">{{this.title}}</a></h2>
+      <p class="post-date">{{this.date}}</p>
+    </article>
+  {{/each}}
+</main>
