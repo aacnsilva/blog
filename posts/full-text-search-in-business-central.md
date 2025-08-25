@@ -15,10 +15,13 @@ In Business Central, full-text search often utilizes specific syntax to trigger 
 
 Here’s a comparison of how different search inputs might be interpreted:
 
-| Full-text search input | Equivalent traditional search logic     |
-| :--------------------- | :-------------------------------------- |
-| `&&com`                | @\*COM\*       |
-| `&&com&&&cust`         | @\*COM\*&\*CUST\* |
+| Full-text search input | Equivalent traditional search logic     | Microsoft fall-back |
+| :--------------------- | :-------------------------------------- | :------------------ |
+| `&&com`                | @ \*COM\*                                | @\*COM\* 
+| `&&com&&&cust`         | @ \*COM\*& \*CUST\*                       | @\*COM\*&\*CUST\* 
+
+#### Note
+Please take into consideration the added space in the equivalent search logic, as this is what mimics the full-text search results
 
 ### Precision in Results: A Key Difference
 
