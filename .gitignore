@@ -1,2 +1,3 @@
 /target
 public/*.html
+.DS_Store
