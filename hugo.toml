@@ -1,0 +1,4 @@
+baseURL = 'https://aacnsilva.com/'
+languageCode = 'en-us'
+title = "António's DevLog"
+theme = 'ananke'

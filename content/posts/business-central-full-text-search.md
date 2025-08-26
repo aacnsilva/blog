@@ -1,7 +1,8 @@
----
-title: Full-text search in Business Central
-date: 2025-07-19
----
++++
+date = '2025-07-19T21:42:21+01:00'
+draft = false
+title = 'Full-text search in Business Central'
++++
 
 Effective search functionality is crucial for navigating large datasets and finding the information you need quickly within your business applications. With the release of **Business Central 25**, there's an enhanced approach to text search that significantly impacts how you retrieve precise results. Let's explore the power of full-text search within Business Central and what sets it apart.
 

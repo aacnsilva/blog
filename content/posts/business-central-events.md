@@ -1,7 +1,8 @@
----
-title: What are events in Business Central
-date: 2020-03-29
----
++++
+date = '2020-03-29T21:42:21+01:00'
+draft = false
+title = 'What are events in Business Central'
++++
 
 Events were introduced in **Dynamics NAV 2016**.
 

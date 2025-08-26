@@ -1,3 +1,9 @@
++++
+date = '2025-06-27T21:42:21+01:00'
+draft = false
+title = 'Keyboard Shortcuts in Business Central'
++++
+
 ---
 title: Keyboard Shortcuts in Business Central
 date: 2025-06-27

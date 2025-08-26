@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>What are events in Business Central | António&#39;s DevLog</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="description" content="Events were introduced in Dynamics NAV 2016.
+But you’re asking — what are events?
+In short, Events in Dynamics NAV/Business Central implement a Design Pattern known as the “Observer Pattern.”
+
+Explanation
+In Dynamics NAV/Business Central, you can create new functions and make them Events.
+An Event can be of type Subscriber or Publisher.
+Publisher Event Types:
+
+Integration
+Business
+
+
+(You may also see Global and Trigger types, but you can only define the first two)">
+    <meta name="generator" content="Hugo 0.148.2">
+    
+    
+    
+      <meta name="robots" content="noindex, nofollow">
+    
+    
+
+    
+<link rel="stylesheet" href="/ananke/css/main.min.css" >
+
+
+
+
+    
+
+
+    
+      
+
+    
+
+    
+
+    
+      <link rel="canonical" href="http://localhost:1313/posts/business-central-events/">
+    
+
+    <meta property="og:url" content="http://localhost:1313/posts/business-central-events/">
+  <meta property="og:site_name" content="António&#39;s DevLog">
+  <meta property="og:title" content="What are events in Business Central">
+  <meta property="og:description" content="Events were introduced in Dynamics NAV 2016.
+But you’re asking — what are events?
+In short, Events in Dynamics NAV/Business Central implement a Design Pattern known as the “Observer Pattern.”
+Explanation In Dynamics NAV/Business Central, you can create new functions and make them Events. An Event can be of type Subscriber or Publisher.
+Publisher Event Types: Integration Business (You may also see Global and Trigger types, but you can only define the first two)">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-03-29T21:42:21+01:00">
+    <meta property="article:modified_time" content="2020-03-29T21:42:21+01:00">
+
+  <meta itemprop="name" content="What are events in Business Central">
+  <meta itemprop="description" content="Events were introduced in Dynamics NAV 2016.
+But you’re asking — what are events?
+In short, Events in Dynamics NAV/Business Central implement a Design Pattern known as the “Observer Pattern.”
+Explanation In Dynamics NAV/Business Central, you can create new functions and make them Events. An Event can be of type Subscriber or Publisher.
+Publisher Event Types: Integration Business (You may also see Global and Trigger types, but you can only define the first two)">
+  <meta itemprop="datePublished" content="2020-03-29T21:42:21+01:00">
+  <meta itemprop="dateModified" content="2020-03-29T21:42:21+01:00">
+  <meta itemprop="wordCount" content="355">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="What are events in Business Central">
+  <meta name="twitter:description" content="Events were introduced in Dynamics NAV 2016.
+But you’re asking — what are events?
+In short, Events in Dynamics NAV/Business Central implement a Design Pattern known as the “Observer Pattern.”
+Explanation In Dynamics NAV/Business Central, you can create new functions and make them Events. An Event can be of type Subscriber or Publisher.
+Publisher Event Types: Integration Business (You may also see Global and Trigger types, but you can only define the first two)">
+
+	
+  </head><body class="ma0 avenir bg-near-white development">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l center items-center justify-between">
+    <a href="/" class="f3 fw2 hover-white white-90 dib no-underline">
+      
+        António&#39;s DevLog
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+      <div class="ananke-socials"></div>
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  
+  <article class="flex-l mw8 center ph3 flex-wrap justify-between">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked ttu">
+          
+        Posts
+      </aside><div id="sharing" class="mt3 ananke-socials"></div>
+<h1 class="f1 athelas mt3 mb1">What are events in Business Central</h1>
+      
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2020-03-29T21:42:21+01:00">March 29, 2020</time>
+      
+
+      
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links mid-gray pr4-l w-two-thirds-l"><p>Events were introduced in <strong>Dynamics NAV 2016</strong>.</p>
+<p>But you’re asking — what <em>are</em> events?</p>
+<p>In short, <strong>Events in Dynamics NAV/Business Central implement a Design Pattern known as the “Observer Pattern.”</strong></p>
+<hr>
+<h2 id="explanation">Explanation</h2>
+<p>In Dynamics NAV/Business Central, you can create new functions and make them <strong>Events</strong>.
+An Event can be of type <strong>Subscriber</strong> or <strong>Publisher</strong>.</p>
+<h3 id="publisher-event-types">Publisher Event Types:</h3>
+<ul>
+<li><strong>Integration</strong></li>
+<li><strong>Business</strong></li>
+</ul>
+<blockquote>
+<p><em>(You may also see <code>Global</code> and <code>Trigger</code> types, but you can only define the first two)</em></p></blockquote>
+<p>The difference?</p>
+<ul>
+<li><strong>Business Events</strong>: Microsoft guarantees they won’t be removed in future versions.</li>
+<li><strong>Integration Events</strong>: These <em>might</em> be removed if deemed not useful by Microsoft.</li>
+</ul>
+<h2 id="whats-the-difference-between-a-publisher-and-a-subscriber">What’s the Difference Between a Publisher and a Subscriber?</h2>
+<ul>
+<li>A <strong>Publisher</strong> knows its <strong>Subscribers</strong>.</li>
+<li>A <strong>Publisher</strong> stays alert to a certain condition and, when met, it <em>calls</em> the subscriber to act.</li>
+</ul>
+<blockquote>
+<p>Think of the <strong>Subscriber</strong> as the <em>response</em> to a given situation monitored by the <strong>Publisher</strong>.</p></blockquote>
+<ul>
+<li>One <strong>Publisher</strong> can have many <strong>Subscribers</strong>.</li>
+<li>One <strong>Subscriber</strong> can only have one <strong>Publisher</strong>.</li>
+</ul>
+<hr>
+<h2 id="built-in-events-in-navbusiness-central">Built-in Events in NAV/Business Central</h2>
+<p>All table and page triggers like:</p>
+<ul>
+<li><code>Insert</code></li>
+<li><code>Modify</code></li>
+<li><code>Delete</code></li>
+<li><code>Validate</code></li>
+</ul>
+<p>&hellip;have <strong>two default publishers</strong>:</p>
+<ul>
+<li><code>OnBeforeInsertEvent</code></li>
+<li><code>OnAfterInsertEvent</code></li>
+</ul>
+<h3 id="note">Note:</h3>
+<p>Since a <strong>Publisher</strong> can have multiple <strong>Subscribers</strong>, <strong>execution order is not guaranteed</strong>.</p>
+<p>So, if you want <code>sub1</code> to run <em>before</em> <code>sub2</code>, you need to:</p>
+<ul>
+<li>Remove <code>sub2</code></li>
+<li>Combine its logic inside <code>sub1</code></li>
+</ul>
+<hr>
+<h2 id="practical-example">Practical Example</h2>
+<p>You might start with:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-al" data-lang="al"><span style="display:flex;"><span><span style="color:#75715e">// Sub1 and Sub2 both subscribing to the same event
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>[EventSubscriber<span style="color:#f92672">(...)</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">procedure</span> Sub1<span style="color:#f92672">(...)
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672"></span>[EventSubscriber<span style="color:#f92672">(...)</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">procedure</span> Sub2<span style="color:#f92672">(...)
+</span></span></span></code></pre></div><p>After applying the workaround:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-al" data-lang="al"><span style="display:flex;"><span><span style="color:#75715e">// Only Sub1 remains, containing logic from both
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>[EventSubscriber<span style="color:#f92672">(...)</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">procedure</span> Sub1<span style="color:#f92672">(...)
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">    </span><span style="color:#75715e">// Logic for Sub1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// Logic for Sub2
+</span></span></span></code></pre></div><hr>
+<h2 id="the-observer-pattern">The Observer Pattern</h2>
+<p>Let’s compare it to the Observer Pattern:</p>
+<h3 id="class-diagram-focus">Class Diagram Focus:</h3>
+<p><img src="https://aacnsilva.wordpress.com/wp-content/uploads/2020/03/image-4.png" alt="class diagram"></p>
+<h4 id="subject">Subject:</h4>
+<ul>
+<li>
+<p>Holds a list of Observers (<code>observerCollection</code>)</p>
+</li>
+<li>
+<p>Functions:</p>
+<ul>
+<li><code>registerObserver</code> → Adds an observer</li>
+<li><code>unregisterObserver</code> → Removes an observer</li>
+<li><code>notifyObservers</code> → Invokes all observers</li>
+</ul>
+</li>
+</ul>
+<h4 id="observer">Observer:</h4>
+<ul>
+<li>Has one method: <code>update</code> (the response to the subject)</li>
+</ul>
+<h3 id="sequence-diagram">Sequence Diagram</h3>
+<p><img src="https://aacnsilva.wordpress.com/wp-content/uploads/2020/03/image-5.png" alt="sequence diagram"></p>
+<ol>
+<li><code>Subject s1</code> adds <code>Observer o1</code> and <code>Observer o2</code> (attach/register).</li>
+<li>The monitored condition occurs (notifyObservers).</li>
+<li><code>Observer o1</code> is invoked.</li>
+<li>Then <code>Observer o2</code>.</li>
+</ol>
+<hr>
+<h2 id="mapping-to-navbc">Mapping to NAV/BC</h2>
+<table>
+  <thead>
+      <tr>
+          <th>Observer Pattern</th>
+          <th>Dynamics NAV/BC</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Subject</td>
+          <td>Publisher</td>
+      </tr>
+      <tr>
+          <td>Observer</td>
+          <td>Subscriber</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="tip">TIP</h2>
+<p>You can check subscribers in <strong>NAV/Business Central</strong> via the <strong>Event Subscriptions</strong> page.</p>
+<p>Example link (BC14 Web Client):</p>
+<pre tabindex="0"><code>http://bc14/NAV/?company=CRONUS%20International%20Ltd.&amp;page=9510
+</code></pre><hr>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="http://localhost:1313/" >
+    &copy;  António's DevLog 2025 
+  </a>
+    <div><div class="ananke-socials"></div>
+</div>
+  </div>
+</footer>
+
+  </body>
+</html>

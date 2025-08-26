@@ -1,7 +1,8 @@
----
-title: Variant Type Inference in Business Central
-date: 2025-06-27
----
++++
+date = '2025-06-27T21:52:21+01:00'
+draft = false
+title = 'Variant Type Inference in Business Central'
++++
 
 What happens when you use the Variant data type in Business Central and assign different values?
 
