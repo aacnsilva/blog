@@ -21,6 +21,9 @@ Here’s a comparison of how different search inputs might be interpreted:
 | `&&com`                | @ \*COM\*                                | @\*COM\* 
 | `&&com&&&cust`         | @ \*COM\*& \*CUST\*                       | @\*COM\*&\*CUST\* 
 
+#### Note
+Please take into consideration the added space in the equivalent search logic, as this is what mimics the full-text search results
+
 ### Precision in Results: A Key Difference
 
 A primary advantage of full-text search in Business Central is its ability to deliver more focused and relevant results. Unlike searches that might capture any occurrence of a string, full-text search prioritizes matching whole words or the beginnings of words.
