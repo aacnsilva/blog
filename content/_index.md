@@ -36,7 +36,7 @@ Welcome to my corner of the internet. I'm a software engineer from **Porto, Port
 This site is where I share my thoughts on software engineering, document my learning journey, and showcase some of the work I'm proud of.
 
 **[Resume](/resume/)** — My professional background and experience  
-**[Blog](/posts/)** — Thoughts on tech, ERP systems, and software development  
+**[Blog](/blog/)** — Thoughts on tech, ERP systems, and software development  
 
 ---
 
