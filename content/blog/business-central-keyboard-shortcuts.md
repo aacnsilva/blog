@@ -1,7 +1,8 @@
----
-title: Keyboard Shortcuts in Business Central
-date: 2025-06-27
----
++++
+date = '2025-06-27T21:42:21+01:00'
+draft = false
+title = 'Keyboard Shortcuts in Business Central'
++++
 
 Ever wondered why some actions and caption on pages have an & sign?
 We'll, you guessed it, that is used to add keyboard shortcuts for actions, or better worded, configure an access key!
