@@ -4,24 +4,56 @@ menu = "main"
 weight = 1
 +++
 
-# A match made in heaven
+# Hello, I'm António 👋
 
-There is a website obesity crisis. Bloated websites full of scripts, ads, and trackers are slowing your readers down every time they try to read your well-crafted content.
-
-Hugo Bear Blog is all you need to build a fantastic and optimized site or blog. It works perfectly on **any** viewing device. All you need to focus on is writing good content.
-
-[Go to the original bear blog](https://bearblog.dev/).
+## Senior Software Engineer specializing in ERP & FinTech
 
 ---
 
-What happens when you combine the worlds' fastest, most lightweight static site generator with a design theme built to provide you with free, no-nonsense, super-fast blogging capabilities?
+Welcome to my corner of the internet. I'm a software engineer from **Porto, Portugal**, with a passion for building systems that make business operations smoother and more efficient.
 
-**Use this theme, and find out!**
+### What I'm up to
 
-Made with 💟 by [Jan Raasch](https://www.janraasch.com).
+**Currently:** Building scalable ERP solutions at **LS Retail**, working with **Microsoft Business Central**, **TypeScript**, and modern testing frameworks.
+
+**Learning:** Exploring **Go (Golang)** and cloud-native architectures in my free time — because there's always something new to discover in tech.
+
+**Passionate about:** Creating software that bridges the gap between complex business requirements and elegant technical solutions.
 
 ---
 
-Simply publish content online, grow an audience, and keep your pages tiny, fast, and **optimized for search engines**.
+### Quick facts about me
 
-Each page is ~5kb, and you can **host your blog yourself**.
+- 🏢 **10+ years** in ERP and FinTech development
+- 🌱 **Continuous learner** — currently diving into cloud backend development
+- 🇵🇹 **Based in Porto** — love the city, the coffee, and the tech scene
+- 💬 **Languages:** Portuguese (native), English (fluent), Spanish (intermediate)
+
+---
+
+### What you'll find here
+
+This site is where I share my thoughts on software engineering, document my learning journey, and showcase some of the work I'm proud of.
+
+**[Resume](/resume/)** — My professional background and experience  
+**[Blog](/posts/)** — Thoughts on tech, ERP systems, and software development  
+
+---
+
+### Recent thoughts
+
+*Coming soon — I'm working on some posts about Business Central development and my journey learning Go.*
+
+---
+
+### Let's connect
+
+I'm always interested in connecting with fellow developers, especially those working in ERP, FinTech, or anyone curious about **Microsoft Business Central** development.
+
+**Email:** [antoniosilva1017@gmail.com](mailto:antoniosilva1017@gmail.com)  
+**LinkedIn:** [linkedin.com/in/aacnsilva](https://www.linkedin.com/in/aacnsilva/)  
+**GitHub:** [github.com/aacnsilva](https://github.com/aacnsilva)
+
+---
+
+*"The best way to predict the future is to build it."*
