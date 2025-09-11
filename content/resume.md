@@ -4,6 +4,8 @@ menu = "main"
 weight = 20
 +++
 
+** [Website version of the resume - check here](/cv) **
+
 # António Silva
 ## Senior Software Engineer (ERP & FinTech)
 

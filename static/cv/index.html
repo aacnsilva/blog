@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+	<title>António Silva | Software Engineer</title>
+	<link rel="stylesheet" href="/cv/styles.css" />
+	<!-- <link rel="icon" type="image/x-icon" href="favicon.ico" /> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta name="description"
+		content="António Silva - Senior Software Engineer specializing in Business Central, JavaScript, and full-stack development">
+	<!-- Add Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
+		rel="stylesheet">
+</head>
+
+<body>
+	<!-- Header/Navigation -->
+	<header class="header">
+		<nav class="container">
+			<a href="#" class="logo">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+					stroke-width="1.5" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round"
+						d="m6.75 7.5 3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0 0 21 18V6a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6v12a2.25 2.25 0 0 0 2.25 2.25Z" />
+				</svg>
+				<span>António Silva</span>
+			</a>
+			<div class="nav-links">
+				<a href="#about">About</a>
+				<a href="#skills">Skills</a>
+				<a href="#experience">Experience</a>
+				<a href="#education">Education</a>
+				<a href="#projects">Projects</a>
+				<a href="#contact">Contact</a>
+				<a href="/blog">Blog</a>
+			</div>
+			<button id="menuButton" class="menu-button" aria-label="Toggle menu">
+				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+					stroke-width="1.5" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round"
+						d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+				</svg>
+			</button>
+		</nav>
+		<!-- Mobile menu -->
+		<div id="mobileMenu" class="mobile-menu">
+			<div class="mobile-menu-links">
+				<a href="#about">About</a>
+				<a href="#skills">Skills</a> <a href="#experience">Experience</a>
+				<a href="#education">Education</a>
+				<a href="#projects">Projects</a>
+				<a href="#contact">Contact</a>
+			</div>
+		</div>
+	</header>
+
+	<!-- Hero Section -->
+	<section class="hero">
+		<div class="container">
+			<div class="hero-content">
+				<div class="hero-text">
+					<div class="greeting">Hello, I'm</div>
+					<h1 class="name">
+						<span class="typing-animation">António Silva</span>
+					</h1>
+					<h2 class="title">Senior Software Engineer</h2>
+					<p class="description">
+						Specializing in Business Central, JavaScript, and full-stack development
+						with a passion for creating efficient and user-friendly solutions.
+					</p>
+					<div class="cta-buttons">
+						<a href="#contact" class="btn btn-primary">Get in Touch</a>
+						<a href="#experience" class="btn btn-secondary">View Experience</a>
+					</div>
+				</div>
+				<div class="hero-image">
+					<div class="flip-card">
+						<div class="flip-card-inner">
+							<div class="flip-card-front">
+								<img src="myPhoto.jpeg" alt="António Silva" />
+							</div>
+							<div class="flip-card-back">
+								<div class="card-content">
+									<h3>António Silva</h3>
+									<p>Senior Software Engineer</p>
+									<div class="social-links">
+										<a href="https://www.linkedin.com/in/aacnsilva/"
+											aria-label="LinkedIn">
+											<svg xmlns="http://www.w3.org/2000/svg"
+												width="24" height="24"
+												fill="currentColor"
+												viewBox="0 0 24 24">
+												<path
+													d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+											</svg>
+										</a>
+										<a href="https://github.com/aacnsilva"
+											aria-label="GitHub">
+											<svg xmlns="http://www.w3.org/2000/svg"
+												width="24" height="24"
+												fill="currentColor"
+												viewBox="0 0 24 24">
+												<path
+													d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+											</svg>
+										</a>
+										<a href="mailto:antoniosilva1017@gmail.com"
+											aria-label="Email">
+											<svg xmlns="http://www.w3.org/2000/svg"
+												width="24" height="24"
+												fill="currentColor"
+												viewBox="0 0 24 24">
+												<path
+													d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z" />
+											</svg>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- About Section -->
+	<section id="about" class="about-section">
+		<div class="container">
+			<div class="about-skills-grid">
+				<div class="about-container">
+					<div class="terminal">
+						<div class="terminal-header">
+							<div class="terminal-buttons">
+								<div class="terminal-button red"></div>
+								<div class="terminal-button yellow"></div>
+								<div class="terminal-button green"></div>
+							</div>
+							<div class="terminal-title">about.sh</div>
+						</div>
+						<div class="terminal-body">
+							<div class="terminal-content">
+								<div class="terminal-command">
+									<span class="prompt">~ %</span> <span
+										class="command">whoami</span>
+								</div>
+								<div class="terminal-output">
+									<p>António Silva</p>
+									<p>15 October 1992</p>
+									<p>Porto, Portugal</p>
+									<p>antoniosilva1017@gmail.com</p>
+								</div>
+							</div>
+
+							<div class="terminal-content">
+								<div class="terminal-command">
+									<span class="prompt">~ %</span> <span
+										class="command">whoami
+										--personalValues</span>
+								</div>
+								<div class="terminal-output">
+									<ul>
+										<li>Responsibility</li>
+										<li>Curiosity</li>
+										<li>Resilience</li>
+										<li>Empathy</li>
+										<li>Integrity</li>
+									</ul>
+								</div>
+							</div>
+
+							<div class="terminal-content">
+								<div class="terminal-command">
+									<span class="prompt">~ %</span> <span
+										class="command">whoami
+										--languages</span>
+								</div>
+								<div class="terminal-output">
+									<ul>
+										<li>Portuguese (Native)</li>
+										<li>English (Fluent)</li>
+										<li>Spanish (Intermediate)</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div id="skills" class="skills-container">
+					<div class="terminal">
+						<div class="terminal-header">
+							<div class="terminal-buttons">
+								<div class="terminal-button red"></div>
+								<div class="terminal-button yellow"></div>
+								<div class="terminal-button green"></div>
+							</div>
+							<div class="terminal-title">skills.sh</div>
+						</div>
+						<div class="terminal-body">
+							<div class="terminal-command">
+								<span class="prompt">~ %</span> <span
+									class="command">whoami --skills</span>
+							</div>
+
+							<div class="skills-grid">
+								<div class="skills-category">
+									<h3>Development</h3>
+									<div class="skill-bars">
+										<div class="skill-item">
+											<div class="skill-header">
+												<span>Business
+													Central</span>
+												<span>90%</span>
+											</div>
+											<div class="skill-bar">
+												<div class="skill-progress"
+													style="width: 90%">
+												</div>
+											</div>
+										</div>
+										<div class="skill-item">
+											<div class="skill-header">
+												<span>JavaScript</span>
+												<span>85%</span>
+											</div>
+											<div class="skill-bar">
+												<div class="skill-progress"
+													style="width: 85%">
+												</div>
+											</div>
+										</div>
+										<div class="skill-item">
+											<div class="skill-header">
+												<span>HTML/CSS</span>
+												<span>80%</span>
+											</div>
+											<div class="skill-bar">
+												<div class="skill-progress"
+													style="width: 80%">
+												</div>
+											</div>
+										</div>
+										<div class="skill-item">
+											<div class="skill-header">
+												<span>SQL</span>
+												<span>85%</span>
+											</div>
+											<div class="skill-bar">
+												<div class="skill-progress"
+													style="width: 85%">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="skills-category">
+									<h3>Tools & Methodologies</h3>
+									<div class="skill-bars">
+										<div class="skill-item">
+											<div class="skill-header">
+												<span>Azure
+													DevOps</span>
+												<span>85%</span>
+											</div>
+											<div class="skill-bar">
+												<div class="skill-progress"
+													style="width: 85%">
+												</div>
+											</div>
+										</div>
+										<div class="skill-item">
+											<div class="skill-header">
+												<span>Git</span>
+												<span>90%</span>
+											</div>
+											<div class="skill-bar">
+												<div class="skill-progress"
+													style="width: 90%">
+												</div>
+											</div>
+										</div>
+										<div class="skill-item">
+											<div class="skill-header">
+												<span>Agile/Scrum</span>
+												<span>90%</span>
+											</div>
+											<div class="skill-bar">
+												<div class="skill-progress"
+													style="width: 90%">
+												</div>
+											</div>
+										</div>
+										<div class="skill-item">
+											<div class="skill-header">
+												<span>UI Testing</span>
+												<span>80%</span>
+											</div>
+											<div class="skill-bar">
+												<div class="skill-progress"
+													style="width: 80%">
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Experience Section -->
+	<section id="experience" class="experience-section">
+		<div class="container">
+			<h2 class="section-title">
+				<span>Professional Experience</span>
+			</h2>
+
+			<div class="terminal">
+				<div class="terminal-header">
+					<div class="terminal-buttons">
+						<div class="terminal-button red"></div>
+						<div class="terminal-button yellow"></div>
+						<div class="terminal-button green"></div>
+					</div>
+					<div class="terminal-title">experience.sh</div>
+				</div>
+
+				<div class="terminal-body">
+					<div class="experience-timeline">
+						<!-- LS Retail -->
+						<div class="experience-company">
+							<div class="terminal-command">
+								<span class="prompt">~ %</span> <span class="command">cd
+									"LS Retail, an Aptos Company"; ls</span>
+							</div>
+
+							<div class="experience-positions">
+								<!-- Senior Software Engineer -->
+								<div class="experience-position">
+									<div class="position-header">
+										<h3>Senior Software Engineer</h3>
+										<span class="date-badge">Nov 2022 -
+											Present</span>
+									</div>
+									<ul class="position-responsibilities">
+										<li>Full-stack development (Node.js,
+											TypeScript, AL, YAML)</li>
+										<li>Automated UI Testing (puppeteer,
+											mocha, vitest)</li>
+										<li>Scrum methodology implementation and
+											optimization</li>
+									</ul>
+								</div>
+
+								<!-- Software Engineer -->
+								<div class="experience-position">
+									<div class="position-header">
+										<h3>Software Engineer</h3>
+										<span class="date-badge">Apr 2020 - Nov
+											2022</span>
+									</div>
+									<ul class="position-responsibilities">
+										<li>Full-stack development (HTML, CSS,
+											JavaScript, X++)</li>
+										<li>Automated UI Testing (Selenium)</li>
+										<li>Back-end development (C/AL)</li>
+										<li>Stakeholder management alongside
+											Solution Architect</li>
+										<li>Managing/Designing/Planning legal
+											requirements from certification
+											authorities</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
+						<!-- myPartner -->
+						<div class="experience-company">
+							<div class="terminal-command">
+								<span class="prompt">~ %</span> <span class="command">cd
+									myPartner; ls</span>
+							</div>
+
+							<div class="experience-positions">
+								<!-- Lead Engineer -->
+								<div class="experience-position">
+									<div class="position-header">
+										<h3>Lead Engineer</h3>
+										<span class="date-badge">May 2019 - May
+											2020</span>
+									</div>
+									<ul class="position-responsibilities">
+										<li>Back-end development (C/AL)</li>
+										<li>Planning/Designing Project
+											Implementation</li>
+										<li>Estimating Project
+											Implementation/Developments</li>
+										<li>Mentoring junior developers</li>
+									</ul>
+								</div>
+
+								<!-- Senior Software Engineer -->
+								<div class="experience-position">
+									<div class="position-header">
+										<h3>Senior Software Engineer</h3>
+										<span class="date-badge">Oct 2018 - Mar
+											2019</span>
+									</div>
+									<ul class="position-responsibilities">
+										<li>Back-end development (C/AL)</li>
+										<li>Planning/Designing Developments</li>
+										<li>Estimating Developments</li>
+										<li>Mentoring junior developers</li>
+										<li class="award">🏆 Awarded Senior
+											prize for demonstrating senior
+											knowledge and responsibility
+										</li>
+									</ul>
+								</div>
+
+								<!-- Support Software Engineer -->
+								<div class="experience-position">
+									<div class="position-header">
+										<h3>Support Software Engineer</h3>
+										<span class="date-badge">Jan 2017 - Oct
+											2018</span>
+									</div>
+									<ul class="position-responsibilities">
+										<li>Back-end development (C/AL)</li>
+										<li>Planning/Designing Developments</li>
+										<li>Estimating Developments</li>
+										<li>Mentoring junior developers</li>
+										<li class="award">🏆 Awarded Most
+											Profitable Employee of the year
+											in National Projects</li>
+									</ul>
+								</div>
+
+								<!-- Software Engineer (Trainee) -->
+								<div class="experience-position">
+									<div class="position-header">
+										<h3>Software Engineer (Trainee)</h3>
+										<span class="date-badge">Nov 2015 - Jan
+											2017</span>
+									</div>
+									<ul class="position-responsibilities">
+										<li>Back-end development (C/AL)</li>
+										<li class="award">🏆 Awarded Rookie of
+											the Year</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Education Section -->
+	<section id="education" class="education-section">
+		<div class="container">
+			<div class="education-grid">
+				<div class="education-container">
+					<div class="terminal">
+						<div class="terminal-header">
+							<div class="terminal-buttons">
+								<div class="terminal-button red"></div>
+								<div class="terminal-button yellow"></div>
+								<div class="terminal-button green"></div>
+							</div>
+							<div class="terminal-title">education.sh</div>
+						</div>
+						<div class="terminal-body">
+							<div class="terminal-command">
+								<span class="prompt">~ %</span> <span
+									class="command">whoami --education</span>
+							</div>
+
+							<div class="education-item">
+								<div class="education-icon">
+									<svg xmlns="http://www.w3.org/2000/svg"
+										fill="none" viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor">
+										<path stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+									</svg>
+								</div>
+								<div class="education-details">
+									<p class="education-school">Instituto Superior
+										de Engenharia do Porto</p>
+									<p class="education-degree">Software Engineering
+										Degree</p>
+									<p class="education-years">2011-2015</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="courses-container">
+					<div class="terminal">
+						<div class="terminal-header">
+							<div class="terminal-buttons">
+								<div class="terminal-button red"></div>
+								<div class="terminal-button yellow"></div>
+								<div class="terminal-button green"></div>
+							</div>
+							<div class="terminal-title">courses.sh</div>
+						</div>
+						<div class="terminal-body">
+							<div class="terminal-command">
+								<span class="prompt">~ %</span> <span
+									class="command">whoami --courses</span>
+							</div>
+
+							<div class="courses-list">
+								<div class="course-item">
+									<div class="course-icon">
+										<svg xmlns="http://www.w3.org/2000/svg"
+											fill="none" viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor">
+											<path stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41a60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+										</svg>
+									</div>
+									<div class="course-details">
+										<p class="course-name">PMI Introduction
+											to Project Management</p>
+									</div>
+								</div>
+
+								<div class="course-item">
+									<div class="course-icon">
+										<svg xmlns="http://www.w3.org/2000/svg"
+											fill="none" viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor">
+											<path stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41a60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+										</svg>
+									</div>
+									<div class="course-details">
+										<p class="course-name">PMI Agile
+											Certified Practitioner (PMI -
+											ACP)</p>
+									</div>
+								</div>
+
+								<div class="course-item">
+									<div class="course-icon">
+										<svg xmlns="http://www.w3.org/2000/svg"
+											fill="none" viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor">
+											<path stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41a60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+										</svg>
+									</div>
+									<div class="course-details">
+										<p class="course-name">Leadership & Team
+											Management: Rapid Training to
+											Managers</p>
+										<p class="course-provider">Key Training
+											& Consulting</p>
+									</div>
+								</div>
+
+								<div class="course-item">
+									<div class="course-icon">
+										<svg xmlns="http://www.w3.org/2000/svg"
+											fill="none" viewBox="0 0 24 24"
+											stroke-width="1.5"
+											stroke="currentColor">
+											<path stroke-linecap="round"
+												stroke-linejoin="round"
+												d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41a60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5" />
+										</svg>
+									</div>
+									<div class="course-details">
+										<p class="course-name">Assertive
+											Communication, Interpersonal
+											Relationship and Public
+											Presentations</p>
+										<p class="course-provider">Key Training
+											& Consulting</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Projects Section -->
+	<section id="projects" class="projects-section">
+		<div class="container">
+			<h2 class="section-title">
+				<span>Featured Projects</span>
+			</h2>
+
+			<div class="projects-grid">
+				<!-- Project 1 -->
+				<div class="project-card">
+					<div class="project-image">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+							stroke-width="1.5" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round"
+								d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+						</svg>
+					</div>
+					<div class="project-content">
+						<h3>Pharmacy Management System</h3>
+						<p>A comprehensive system for managing pharmacy operations, inventory,
+							and compliance with Swedish regulations.</p>
+						<div class="project-tags">
+							<span>Business Central</span>
+							<span>JavaScript</span>
+							<span>Azure DevOps</span>
+						</div>
+						<a href="https://www.lsretail.com/products/ls-central-for-pharmacies"
+							class="project-link">
+							Learn more
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none"
+								viewBox="0 0 24 24" stroke-width="1.5"
+								stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round"
+									d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+							</svg>
+						</a>
+					</div>
+				</div>
+
+				<!-- Project 2 -->
+				<div class="project-card">
+					<div class="project-image">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+							stroke-width="1.5" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round"
+								d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+						</svg>
+					</div>
+					<div class="project-content">
+						<h3>Retail POS System</h3>
+						<p>Modern point-of-sale system with inventory management, customer
+							loyalty, and reporting features.</p>
+						<div class="project-tags">
+							<span>TypeScript</span>
+							<span>Node.js</span>
+							<span>Business Central</span>
+						</div>
+						<a href="https://www.lsretail.com/products/ls-central-for-retail"
+							class="project-link">
+							Learn more
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none"
+								viewBox="0 0 24 24" stroke-width="1.5"
+								stroke="currentColor">
+								<path stroke-linecap="round" stroke-linejoin="round"
+									d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+							</svg>
+						</a>
+					</div>
+				</div>
+
+				<!-- Project 3 -->
+				<div class="project-card">
+					<div class="project-image">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+							stroke-width="1.5" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round"
+								d="M9 17.25v1.007a3 3 0 0 1-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0 1 15 18.257V17.25m6-12V15a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 15V5.25m18 0A2.25 2.25 0 0 0 18.75 3H5.25A2.25 2.25 0 0 0 3 5.25m18 0V12a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 12V5.25" />
+						</svg>
+					</div>
+					<div class="project-content">
+						<h3>Automated Testing Framework</h3>
+						<p>Developed a comprehensive UI testing framework for Business Central
+							applications using Puppeteer and Mocha.</p>
+						<div class="project-tags">
+							<span>JavaScript</span>
+							<span>Puppeteer</span>
+							<span>Mocha</span>
+						</div>
+						<p>This project is proprietary and cannot be shared publicly.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Contact Section -->
+	<section id="contact" class="contact-section">
+		<div class="container">
+			<h2 class="section-title">
+				<span>Get In Touch</span>
+			</h2>
+
+			<div class="contact-container">
+				<div class="terminal">
+					<div class="terminal-header">
+						<div class="terminal-buttons">
+							<div class="terminal-button red"></div>
+							<div class="terminal-button yellow"></div>
+							<div class="terminal-button green"></div>
+						</div>
+						<div class="terminal-title">contact.sh</div>
+					</div>
+
+					<div class="terminal-body">
+						<div class="terminal-command">
+							<span class="prompt">~ %</span> <span class="command">contact
+								--send "message"</span>
+						</div>
+
+						<!-- <form class="contact-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" required>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+              </div>
+              
+              <button type="submit" class="btn btn-primary">Send Message</button>
+            </form> -->
+
+						<div class="contact-info">
+							<h3>Contact Information</h3>
+							<div class="contact-details">
+								<p class="contact-item">
+									<svg xmlns="http://www.w3.org/2000/svg"
+										fill="none" viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor">
+										<path stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 18.75 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
+									</svg>
+									antoniosilva1017@gmail.com
+								</p>
+								<p class="contact-item">
+									<svg xmlns="http://www.w3.org/2000/svg"
+										fill="none" viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor">
+										<path stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+										<path stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+									</svg>
+									Porto, Portugal
+								</p>
+							</div>
+
+							<div class="social-links">
+								<a href="https://www.linkedin.com/in/aacnsilva/"
+									aria-label="LinkedIn">
+									<svg xmlns="http://www.w3.org/2000/svg"
+										width="24" height="24"
+										fill="currentColor" viewBox="0 0 24 24">
+										<path
+											d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+									</svg>
+								</a>
+								<a href="https://github.com/aacnsilva"
+									aria-label="GitHub">
+									<svg xmlns="http://www.w3.org/2000/svg"
+										width="24" height="24"
+										fill="currentColor" viewBox="0 0 24 24">
+										<path
+											d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+									</svg>
+								</a>
+								<a href="mailto:antoniosilva1017@gmail.com"
+									aria-label="Email">
+									<svg xmlns="http://www.w3.org/2000/svg"
+										width="24" height="24"
+										fill="currentColor" viewBox="0 0 24 24">
+										<path
+											d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z" />
+									</svg>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="container">
+			<div class="footer-content">
+				<div class="copyright">
+					<p>© <span class="copyright-year">2023</span> António Silva. All rights
+						reserved.</p>
+				</div>
+				<div class="footer-tagline">
+					<p><span class="terminal-prompt">$</span> Made with <span class="heart">❤</span>
+						using HTML, CSS, and JavaScript</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<!-- JavaScript for functionality -->
+	<script src="/cv/script.js"></script>
+</body>
+
+</html>
