@@ -41,8 +41,6 @@ After installing the AL tools, the important part is that you can launch the MCP
 al launchmcpserver <project directory>
 ```
 
-That is the part I had wrong before. You do not need some separate community AL MCP package for this workflow.
-
 ## Where Claude Code and Codex fit
 
 The important point is that the NuGet-delivered `al` tool is doing both jobs here: it gives the agent official Microsoft command-line AL tooling and it also launches the MCP server for the AL project.
