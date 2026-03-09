@@ -4,11 +4,9 @@ draft = false
 title = 'Business Central AL tools with Claude Code and Codex'
 +++
 
-One of the more interesting recent changes in the Business Central tooling story is that Microsoft now provides official **AL Development Tools** that can also launch an MCP server for an AL project.
+One of the more interesting recent changes in the Business Central tooling story is that Microsoft now provides official **AL Development Tools** that can launch an MCP server for an AL project.
 
-That makes Claude Code and Codex much more relevant for AL work than they used to be.
-
-Instead of treating AL development as something that only works properly inside VS Code, we can now use Microsoft's command-line tooling directly from an agent and let it work against a real AL app.
+That is the key piece. An MCP server means Claude Code and Codex can work against a real AL app with Microsoft tooling behind them, instead of treating AL development as something that only works properly inside VS Code.
 
 ## The Microsoft-only setup
 
@@ -29,6 +27,8 @@ Installation is straightforward:
 dotnet tool install Microsoft.Dynamics.BusinessCentral.Development.Tools --interactive --prerelease --global
 ```
 
+Note that you might need to add the NuGet source first if it is not already configured in your environment. Check your NuGet sources with `dotnet nuget list source` and add `https://api.nuget.org/v3/index.json` if it is missing.
+
 Then:
 
 ```bash
@@ -43,23 +43,33 @@ al launchmcpserver <project directory>
 
 ## Where Claude Code and Codex fit
 
-The important point is that the NuGet-delivered `al` tool is doing both jobs here: it gives the agent official Microsoft command-line AL tooling and it also launches the MCP server for the AL project.
-
-So the practical flow becomes:
+The practical flow is:
 
 1. Install the Microsoft AL tools from NuGet
 2. Add the MCP server to Claude Code or Codex by invoking `al`
 3. Open the agent in the AL project folder you want to work on
 
-For Claude Code, the setup can be as simple as:
+For Claude Code:
 
 ```bash
-claude mcp add --transport stdio almcp -- al launchmcp .
+claude mcp add --transport stdio almcp -- al launchmcpserver .
 ```
 
-That is a nice fit for normal project-based work. You open Claude Code inside a given AL project folder, the MCP server starts against that project, and the connection is automatically scoped to the project you are in. If you have multiple AL projects, you just open Claude Code in the one you want to work on, exactly like you normally would.
+For Codex:
 
-Once that is in place, the agent can work directly against the AL project in the current folder with Microsoft tooling behind it.
+```bash
+codex mcp add almcp -- al launchmcpserver .
+```
+
+Or add it directly to your `.codex/config.toml`:
+
+```toml
+[mcp_servers.almcp]
+command = "al"
+args = ["launchmcpserver", "."]
+```
+
+That is a nice fit for normal project-based work. You open the agent inside a given AL project folder, the MCP server starts against that project, and the connection is automatically scoped to the project you are in. If you have multiple AL projects, you just open the agent in the one you want to work on.
 
 ## What this enables
 
@@ -81,9 +91,9 @@ The important point is not that the `al` tool suddenly replaces every part of th
 
 There is still one important limitation: this is **not** full feature parity with the VS Code AL extension.
 
-The NuGet package gives us a focused command-line surface, not the full editor experience. Some VS Code-specific AL settings and workflows do not carry over cleanly. One example is `al.packageCachePath`, which is documented as an AL Language extension setting in VS Code.
+The NuGet package gives us a focused command-line surface, not the full editor experience. Some VS Code-specific AL settings and workflows do not carry over cleanly. One example is `al.packageCachePath`, which is documented as an AL Language extension setting in VS Code. Without it, the MCP server cannot locate the symbol packages for your dependencies, which means compilation fails with missing symbol errors. There is no workaround for this today.
 
-That is the main drawback I see today. The Microsoft tooling is now good enough to enable Claude Code and Codex workflows around AL, but it is still not the same thing as taking the whole VS Code AL experience and moving it into the command line.
+That is the main drawback I see. The Microsoft tooling is now good enough to enable Claude Code and Codex workflows around AL, but it is still not the same thing as taking the whole VS Code AL experience and moving it into the command line.
 
 ## Final thought
 
