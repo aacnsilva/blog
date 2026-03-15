@@ -100,6 +100,16 @@ I see it as a stronger first filter.
 
 If AI can handle the initial pass, human reviewers can spend more time on the parts that actually need judgment: architecture, trade-offs, business intent, and whether the implementation is the right one for the product.
 
+## Wispr Flow for voice-driven development
+
+Another tool that has become part of my daily workflow is **[Wispr Flow](https://wisprflow.ai/r/ANT%C3%93NIO49)**.
+
+It is a voice-to-text tool that lets me dictate instead of type. That might sound minor, but when I am working across five workspaces, switching between agents, and moving between DevOps tasks, being able to speak my thoughts instead of typing them makes a real difference.
+
+I use it for writing commit messages, describing pull requests, drafting work item notes, and even for talking through implementation ideas with the agent. It keeps my hands on the keyboard for code and lets my voice handle the rest.
+
+If you want to try it, **[you can use my referral link to get a free month of the Pro plan](https://wisprflow.ai/r/ANT%C3%93NIO49)**.
+
 ## Why this workflow works for me
 
 What I like about this setup is that it combines a few things that are individually useful into one system:
@@ -110,6 +120,7 @@ What I like about this setup is that it combines a few things that are individua
 - isolated Business Central instances
 - skills that automate Azure DevOps tasks
 - AI-assisted review before the normal PR flow
+- voice-driven input with Wispr Flow
 
 None of these pieces alone is the full answer.
 
