@@ -106,7 +106,7 @@ Another tool that has become part of my daily workflow is **[Wispr Flow](https:/
 
 It is a voice-to-text tool that lets me dictate instead of type. That might sound minor, but when I am working across five workspaces, switching between agents, and moving between DevOps tasks, being able to speak my thoughts instead of typing them makes a real difference.
 
-I use it for writing commit messages, describing pull requests, drafting work item notes, and even for talking through implementation ideas with the agent. It keeps my hands on the keyboard for code and lets my voice handle the rest.
+I use it to talk with the AI agent, discuss alternatives, and think through solutions out loud. It keeps my hands on the keyboard for code and lets my voice handle the conversation with the agent.
 
 If you want to try it, **[you can use my referral link to get a free month of the Pro plan](https://wisprflow.ai/r/ANT%C3%93NIO49)**.
 
