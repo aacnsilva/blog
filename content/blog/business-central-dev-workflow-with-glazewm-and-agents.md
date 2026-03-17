@@ -48,11 +48,11 @@ The other big part of my workflow is the set of **skills** I use with the agents
 
 I do not just want an agent that can suggest code. I want an agent that can participate in the full development process, especially the repetitive steps around Azure DevOps.
 
-Two skills are especially useful for me.
+These skills are powered by the **Azure CLI** with the **Azure DevOps plugin** and **custom PowerShell scripts** that handle the orchestration. Two are especially useful for me.
 
 ### 1. Create branches from work items and gather context
 
-When I start work, I can use a skill that creates a branch from a work item in **Azure DevOps** and gathers the relevant context.
+When I start work, I can use a skill that retrieves the work item from **Azure DevOps**, creates a branch following our naming guidelines, pushes it, and links everything together.
 
 That means the agent is not starting blind. It can pull the work item information, understand what is being asked, and begin from the same operational context I would normally assemble manually.
 
@@ -89,6 +89,8 @@ That is much closer to an actual development assistant than a code autocomplete 
 ## AI review before the human review
 
 I also have skills for **code review**.
+
+These work the same way as the other skills: a custom PowerShell script gathers the PR comments, the diff, and all the relevant context from Azure DevOps so the agent has everything it needs to do a proper review.
 
 This is one of the areas where I think teams will get a lot of value very quickly.
 
