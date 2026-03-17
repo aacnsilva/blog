@@ -32,9 +32,7 @@ Each agent works in its own **git worktree**.
 
 That means I can keep multiple branches from the same repo active at the same time, with each workspace mapped to its own worktree, its own agent session, and its own Business Central instance.
 
-That isolation is important.
-
-Each agent can deploy the app, make a change, and test it in its own environment without stepping on the others. It gives me parallel lanes for experimentation. If I want one agent exploring a bug, another validating a refactor, and another trying a different implementation, I can do that without collapsing everything into one shared instance.
+That isolation matters. Each agent can deploy the app, make a change, and test it in its own environment without stepping on the others. It gives me parallel lanes for experimentation. If I want one agent exploring a bug, another validating a refactor, and another trying a different implementation, I can do that without collapsing everything into one shared instance.
 
 Using `git worktree` is what makes this practical on one repo. I do not need to duplicate the repository five times or constantly stash and switch branches. Each lane stays attached to its own branch and can move independently.
 
@@ -48,7 +46,9 @@ The other big part of my workflow is the set of **skills** I use with the agents
 
 I do not just want an agent that can suggest code. I want an agent that can participate in the full development process, especially the repetitive steps around Azure DevOps.
 
-These skills are powered by the **Azure CLI** with the **Azure DevOps plugin** and **custom PowerShell scripts** that handle the orchestration. Two are especially useful for me.
+These skills are powered by the **Azure CLI** with the **Azure DevOps plugin** and **custom PowerShell scripts** that handle the orchestration. That is a key detail: the more a workflow depends on clickable UI steps, the harder it is to make an agent genuinely useful. But once the workflow has a solid command-line surface, the agent can do real work instead of just acting like a chat companion beside the editor.
+
+Three skills are especially useful for me.
 
 ### 1. Create branches from work items and gather context
 
@@ -68,33 +68,13 @@ Instead of treating source control, project tracking, and coding as separate act
 
 That part matters a lot in team environments. A good workflow is not only about producing code faster. It is also about making the resulting work easier to review, track, and understand.
 
-## Command-line tooling is what makes this real
+### 3. AI review before the human review
 
-Under the hood, these skills take advantage of command-line tooling, especially **Azure CLI** with the **Azure DevOps plugin**.
-
-That is a key detail.
-
-The more a workflow depends on clickable UI steps, the harder it is to make an agent genuinely useful. But once the workflow has a solid command-line surface, the agent can do real work instead of just acting like a chat companion beside the editor.
-
-For me, that means the agent can:
-
-- create branches from work items
-- collect ticket context
-- help with implementation
-- create pull requests
-- link pull requests and work items together
-
-That is much closer to an actual development assistant than a code autocomplete tool.
-
-## AI review before the human review
-
-I also have skills for **code review**.
-
-These work the same way as the other skills: a custom PowerShell script gathers the PR comments, the diff, and all the relevant context from Azure DevOps so the agent has everything it needs to do a proper review.
+The third skill handles **code review**. A custom PowerShell script gathers the PR comments, the diff, and all the relevant context from Azure DevOps so the agent has everything it needs to do a proper review.
 
 This is one of the areas where I think teams will get a lot of value very quickly.
 
-Right now I use those skills in my own workflow, but I can easily imagine this becoming part of the company pipeline soon. When a developer creates a pull request, the first pass could come from AI: checking for obvious issues, reviewing patterns, and catching things that are easy to miss when moving fast.
+Right now I use this skill in my own workflow, but I can easily imagine it becoming part of the company pipeline soon. When a developer creates a pull request, the first pass could come from AI: checking for obvious issues, reviewing patterns, and catching things that are easy to miss when moving fast.
 
 I do not see that as a replacement for human review.
 
@@ -120,8 +100,7 @@ What I like about this setup is that it combines a few things that are individua
 - separate workspaces for separate agents
 - one shared repository split into multiple git worktrees
 - isolated Business Central instances
-- skills that automate Azure DevOps tasks
-- AI-assisted review before the normal PR flow
+- skills that automate Azure DevOps tasks including AI-assisted review
 - voice-driven input with Wispr Flow
 
 None of these pieces alone is the full answer.
