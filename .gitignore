@@ -1,2 +1,5 @@
 public/
+public-hugo/
+public-rust/
 resources/
+target/

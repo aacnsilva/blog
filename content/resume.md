@@ -1,7 +1,6 @@
 +++
 title = "Resume"
-menu = "main"
-weight = 20
+weight = 30
 +++
 
 ** [Website version of the resume - check here](/cv) **
