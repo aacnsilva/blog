@@ -46,7 +46,6 @@ impl Default for SiteConfig {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum PageKind {
-    Home,
     Section,
     Page,
     Post,
@@ -67,7 +66,6 @@ pub struct Page {
 #[derive(Debug, Clone)]
 pub struct Site {
     pub config: SiteConfig,
-    pub home: Page,
     pub pages: Vec<Page>,
     pub blog: Page,
     pub posts: Vec<Page>,
@@ -80,15 +78,10 @@ pub fn generate_site(paths: &BuildPaths) -> Result<()> {
 
 pub fn load_site(paths: &BuildPaths) -> Result<Site> {
     let config = parse_site_config(&fs::read_to_string(&paths.config_path)?)?;
-    let home = read_page(
-        &paths.content_dir.join("_index.md"),
-        PageKind::Home,
-        "/".to_string(),
-    )?;
     let blog = read_page(
         &paths.content_dir.join("blog").join("_index.md"),
         PageKind::Section,
-        "/blog/".to_string(),
+        "/".to_string(),
     )?;
 
     let mut pages = Vec::new();
@@ -133,7 +126,6 @@ pub fn load_site(paths: &BuildPaths) -> Result<Site> {
 
     Ok(Site {
         config,
-        home,
         pages,
         blog,
         posts,
@@ -327,14 +319,10 @@ fn write_site(site: &Site, paths: &BuildPaths) -> Result<()> {
 
     write_page_file(
         &paths.output_dir,
-        &site.home.url_path,
-        &render_page(site, &site.home),
-    )?;
-    write_page_file(
-        &paths.output_dir,
         &site.blog.url_path,
         &render_blog_index(site),
     )?;
+    write_page_file(&paths.output_dir, "/blog/", &render_blog_index(site))?;
     for page in &site.pages {
         write_page_file(&paths.output_dir, &page.url_path, &render_page(site, page))?;
     }
@@ -347,11 +335,11 @@ fn write_site(site: &Site, paths: &BuildPaths) -> Result<()> {
     fs::write(paths.output_dir.join("sitemap.xml"), render_sitemap(site))?;
     fs::write(
         paths.output_dir.join("index.xml"),
-        render_rss(site, FeedScope::Home),
+        render_rss(site, FeedScope::Root),
     )?;
     fs::write(
         paths.output_dir.join("blog").join("index.xml"),
-        render_rss(site, FeedScope::Blog),
+        render_rss(site, FeedScope::Archive),
     )?;
 
     Ok(())
@@ -525,7 +513,7 @@ fn render_document(site: &Site, page: &Page, description: &str, main_content: &s
     document.push_str("<meta name=\"keywords\" content=\"\" />\n\n");
     document.push_str(&render_open_graph(site, page, description));
     document.push_str("<meta name=\"referrer\" content=\"no-referrer-when-downgrade\" />\n");
-    if page.kind == PageKind::Home {
+    if page.kind == PageKind::Section && page.url_path == "/" {
         document.push_str(&format!(
             "  <link rel=\"alternate\" type=\"application/rss+xml\" href=\"{}\" title=\"{}\" />\n",
             attr_escape(&page_url("/index.xml")),
@@ -637,13 +625,12 @@ fn render_open_graph(site: &Site, page: &Page, description: &str) -> String {
 
 fn render_header(site: &Site) -> String {
     let mut pages = Vec::new();
-    pages.push(&site.home);
+    pages.push(&site.blog);
     pages.extend(
         site.pages
             .iter()
             .filter(|page| page.menu.as_deref() == Some("main")),
     );
-    pages.push(&site.blog);
     pages.sort_by_key(|page| (page.weight.unwrap_or(i32::MAX), page.title.clone()));
 
     let mut header = String::new();
@@ -884,18 +871,13 @@ fn render_sitemap(site: &Site) -> String {
     push_sitemap_url(
         &mut sitemap,
         site,
-        &site.home.url_path,
+        &site.blog.url_path,
         newest_post_date(site),
     );
     for page in &site.pages {
         push_sitemap_url(&mut sitemap, site, &page.url_path, page.date.as_deref());
     }
-    push_sitemap_url(
-        &mut sitemap,
-        site,
-        &site.blog.url_path,
-        newest_post_date(site),
-    );
+    push_sitemap_url(&mut sitemap, site, "/blog/", newest_post_date(site));
     for post in &site.posts {
         push_sitemap_url(&mut sitemap, site, &post.url_path, post.date.as_deref());
     }
@@ -917,19 +899,19 @@ fn push_sitemap_url(sitemap: &mut String, site: &Site, path: &str, lastmod: Opti
 
 #[derive(Clone, Copy)]
 enum FeedScope {
-    Home,
-    Blog,
+    Root,
+    Archive,
 }
 
 fn render_rss(site: &Site, scope: FeedScope) -> String {
     let (title, link, description, feed_path) = match scope {
-        FeedScope::Home => (
-            format!("Home on {}", site.config.title),
+        FeedScope::Root => (
+            format!("Blog on {}", site.config.title),
             absolute_url(site, "/"),
-            format!("Recent content in Home on {}", site.config.title),
+            format!("Recent content in Blog on {}", site.config.title),
             "/index.xml",
         ),
-        FeedScope::Blog => (
+        FeedScope::Archive => (
             format!("Blog on {}", site.config.title),
             absolute_url(site, "/blog/"),
             format!("Recent content in Blog on {}", site.config.title),

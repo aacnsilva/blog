@@ -48,7 +48,7 @@ fn rust_generator_satisfies_the_blog_contract() {
         &["--output", output.to_str().unwrap()],
     );
 
-    assert_site_contract(&output);
+    assert_site_contract(&output, true);
     assert_rust_design_contract(&output);
 }
 
@@ -70,13 +70,13 @@ fn current_hugo_site_satisfies_the_same_contract_when_requested() {
         ],
     );
 
-    assert_site_contract(&output);
+    assert_site_contract(&output, false);
 }
 
-fn assert_site_contract(root: &Path) {
+fn assert_site_contract(root: &Path, require_blog_archive_page: bool) {
     assert_required_files_exist(root);
     assert_navigation_and_core_pages(root);
-    assert_blog_index(root);
+    assert_blog_index(root, require_blog_archive_page);
     assert_post_pages(root);
     assert_feeds_and_discovery_files(root);
 }
@@ -84,13 +84,13 @@ fn assert_site_contract(root: &Path) {
 fn assert_required_files_exist(root: &Path) {
     let required = [
         "index.html",
+        "about/index.html",
         "blog/index.html",
         "resume/index.html",
         "404.html",
         "robots.txt",
         "sitemap.xml",
         "index.xml",
-        "blog/index.xml",
         "favicon.ico",
         "images/favicon-16x16.png",
         "images/favicon-32x32.png",
@@ -120,11 +120,19 @@ fn assert_required_files_exist(root: &Path) {
 
 fn assert_navigation_and_core_pages(root: &Path) {
     let home = read(root, "index.html");
-    assert!(home.contains("<a href=\"/\">Home</a>"));
-    assert!(home.contains("<a href=\"/resume/\">Resume</a>"));
-    assert!(home.contains("<a href=\"/blog/\">Blog</a>"));
-    assert!(home.contains("Senior Software Engineer"));
-    assert!(home.contains("mailto:antoniosilva1017@gmail.com"));
+    assert!(home.contains("<a href=\"/\">Blog</a>"));
+    assert!(home.contains("<a href=\"/about/\">About</a>"));
+    assert!(!home.contains("<a href=\"/resume/\">Resume</a>"));
+    assert!(home.contains("<ul class=\"blog-posts\">"));
+
+    let about = read(root, "about/index.html");
+    assert!(about.contains("About me"));
+    assert!(
+        about.contains("Senior Software Engineer building ERP, FinTech, and developer tooling")
+    );
+    assert!(about.contains("Rust learning path"));
+    assert!(about.contains("10+ years"));
+    assert!(about.contains("mailto:antoniosilva1017@gmail.com"));
 
     let resume = read(root, "resume/index.html");
     assert!(resume.contains("Senior Software Engineer"));
@@ -133,8 +141,15 @@ fn assert_navigation_and_core_pages(root: &Path) {
     assert!(resume.contains("LS Retail"));
 }
 
-fn assert_blog_index(root: &Path) {
-    let blog = read(root, "blog/index.html");
+fn assert_blog_index(root: &Path, require_blog_archive_page: bool) {
+    assert_blog_listing(root, "index.html");
+    if require_blog_archive_page {
+        assert_blog_listing(root, "blog/index.html");
+    }
+}
+
+fn assert_blog_listing(root: &Path, relative: &str) {
+    let blog = read(root, relative);
     assert!(blog.contains("<ul class=\"blog-posts\">"));
 
     let mut last_position = 0;
@@ -194,15 +209,25 @@ fn assert_feeds_and_discovery_files(root: &Path) {
         assert!(sitemap.contains(&format!("https://aacnsilva.com{path}")));
     }
 
-    let rss = read(root, "blog/index.xml");
+    let rss_path = if root.join("blog/index.xml").exists() {
+        "blog/index.xml"
+    } else {
+        "index.xml"
+    };
+    let rss = read(root, rss_path);
     assert!(rss.contains("<rss"));
     for (title, path, _) in POSTS {
         assert!(rss.contains(title));
         assert!(rss.contains(&format!("https://aacnsilva.com{path}")));
     }
+
+    let root_rss = read(root, "index.xml");
+    assert!(root_rss.contains("https://aacnsilva.com/agentic-programming-for-business-central-with-al-vs-code-and-copilot/"));
 }
 
 fn assert_rust_design_contract(root: &Path) {
+    assert!(root.join("blog/index.xml").exists());
+
     let home = read(root, "index.html");
     assert!(home.contains("data-theme-toggle"));
     assert!(home.contains("localStorage.getItem(\"theme\")"));
