@@ -412,7 +412,7 @@ fn render_blog_index(site: &Site) -> String {
         content.push_str("</i></span>\n");
         content.push_str(&format!(
             "      <a href=\"{}\">{}</a>\n",
-            attr_escape(&absolute_url(site, &post.url_path)),
+            attr_escape(&page_url(&post.url_path)),
             html_escape(&post.title)
         ));
         content.push_str("    </li>\n");
@@ -457,7 +457,7 @@ fn render_post_navigator(site: &Site, post: &Page) -> String {
         .map(|page| {
             format!(
                 "<a href=\"{}\">&lt;&lt; Previous Post</a>",
-                attr_escape(&absolute_url(site, &page.url_path))
+                attr_escape(&page_url(&page.url_path))
             )
         })
         .unwrap_or_else(|| "<strike>&lt;&lt; Previous Post</strike>".to_string());
@@ -465,13 +465,13 @@ fn render_post_navigator(site: &Site, post: &Page) -> String {
         .map(|page| {
             format!(
                 "<a href=\"{}\">Next Post &gt;&gt;</a>",
-                attr_escape(&absolute_url(site, &page.url_path))
+                attr_escape(&page_url(&page.url_path))
             )
         })
         .unwrap_or_else(|| "<strike>Next Post &gt;&gt;</strike>".to_string());
 
     format!(
-        "\n<div style=\"font-size:0.8em;display:flex;gap:16px;justify-content:center;\">\n  <p>{previous_html}</p>\n  <p>|</p>\n  <p>{next_html}</p>\n</div>\n"
+        "\n<nav class=\"post-nav\" aria-label=\"Post navigation\">\n  <p>{previous_html}</p>\n  <p aria-hidden=\"true\">/</p>\n  <p>{next_html}</p>\n</nav>\n"
     )
 }
 
@@ -506,7 +506,7 @@ fn render_document(site: &Site, page: &Page, description: &str, main_content: &s
     if !site.config.favicon.is_empty() {
         document.push_str(&format!(
             "<link rel=\"shortcut icon\" href=\"{}\" />\n",
-            attr_escape(&absolute_asset_url(site, &site.config.favicon))
+            attr_escape(&asset_url(&site.config.favicon))
         ));
     }
     document.push_str(&format!(
@@ -528,23 +528,28 @@ fn render_document(site: &Site, page: &Page, description: &str, main_content: &s
     if page.kind == PageKind::Home {
         document.push_str(&format!(
             "  <link rel=\"alternate\" type=\"application/rss+xml\" href=\"{}\" title=\"{}\" />\n",
-            attr_escape(&absolute_url(site, "/index.xml")),
+            attr_escape(&page_url("/index.xml")),
             attr_escape(&site.config.title)
         ));
     } else if page.kind == PageKind::Section {
         document.push_str(&format!(
             "  <link rel=\"alternate\" type=\"application/rss+xml\" href=\"{}\" title=\"{}\" />\n",
-            attr_escape(&absolute_url(site, "/blog/index.xml")),
+            attr_escape(&page_url("/blog/index.xml")),
             attr_escape(&site.config.title)
         ));
     }
+    document.push_str("  <script>");
+    document.push_str(THEME_BOOTSTRAP);
+    document.push_str("</script>\n");
     document.push_str("  <style>\n");
     document.push_str(STYLE);
     document.push_str("\n</style>\n\n</head>\n\n<body>\n");
     document.push_str(&render_header(site));
     document.push_str("  <main>\n");
     document.push_str(main_content);
-    document.push_str("\n  </main>\n  <footer>\n</footer>\n</body>\n\n</html>\n");
+    document.push_str("\n  </main>\n  <footer>\n</footer>\n<script>");
+    document.push_str(THEME_SCRIPT);
+    document.push_str("</script>\n</body>\n\n</html>\n");
     document
 }
 
@@ -652,6 +657,9 @@ fn render_header(site: &Site) -> String {
             html_escape(&page.title)
         ));
     }
+    header.push_str(
+        "<button class=\"theme-toggle\" type=\"button\" aria-label=\"Toggle color theme\" data-theme-toggle>\n  <span class=\"theme-toggle__track\" aria-hidden=\"true\"><span class=\"theme-toggle__knob\"></span></span>\n</button>\n",
+    );
     header.push_str("</nav>\n</header>\n");
     header
 }
@@ -1003,8 +1011,28 @@ fn absolute_url(site: &Site, path: &str) -> String {
     format!("{base}/{}", path.trim_start_matches('/'))
 }
 
+fn page_url(path: &str) -> String {
+    if path.starts_with("http://") || path.starts_with("https://") || path.starts_with("mailto:") {
+        return path.to_string();
+    }
+    if path == "/" {
+        return "/".to_string();
+    }
+    format!("/{}", path.trim_start_matches('/'))
+}
+
+fn asset_url(path: &str) -> String {
+    if path.starts_with("http://") || path.starts_with("https://") {
+        return path.to_string();
+    }
+    page_url(path.strip_prefix("static/").unwrap_or(path))
+}
+
 fn absolute_asset_url(site: &Site, path: &str) -> String {
-    absolute_url(site, path)
+    if path.starts_with("http://") || path.starts_with("https://") {
+        return path.to_string();
+    }
+    absolute_url(site, path.strip_prefix("static/").unwrap_or(path))
 }
 
 fn html_escape(input: &str) -> String {
@@ -1023,42 +1051,210 @@ fn xml_escape(input: &str) -> String {
     attr_escape(input)
 }
 
+const THEME_BOOTSTRAP: &str = r#"(function(){try{var theme=localStorage.getItem("theme");if(theme==="light"||theme==="dark"){document.documentElement.dataset.theme=theme;}}catch(_){}})();"#;
+
+const THEME_SCRIPT: &str = r#"(function(){var root=document.documentElement;var toggle=document.querySelector("[data-theme-toggle]");if(!toggle){return;}var media=window.matchMedia("(prefers-color-scheme: dark)");function current(){return root.dataset.theme||(media.matches?"dark":"light");}function sync(){toggle.setAttribute("aria-pressed",current()==="dark"?"true":"false");}toggle.addEventListener("click",function(){var next=current()==="dark"?"light":"dark";root.dataset.theme=next;try{localStorage.setItem("theme",next);}catch(_){}sync();});if(media.addEventListener){media.addEventListener("change",sync);}sync();})();"#;
+
 const STYLE: &str = r#"  :root {
-    --width: 720px;
-    --font-main: Verdana, sans-serif;
-    --font-secondary: Verdana, sans-serif;
-    --font-scale: 1em;
-    --background-color: #fff;
-    --heading-color: #222;
-    --text-color: #444;
-    --link-color: #3273dc;
-    --visited-color: #8b6fcb;
-    --blockquote-color: #222;
+    color-scheme: light;
+    --width: 760px;
+    --font-main: Georgia, "Times New Roman", serif;
+    --font-secondary: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    --background-color: #f7f3ed;
+    --surface-color: #fffaf3;
+    --surface-muted: #eee8de;
+    --heading-color: #25231f;
+    --text-color: #38342f;
+    --muted-color: #6d675f;
+    --border-color: #d9d0c3;
+    --link-color: #315f6d;
+    --visited-color: #735b84;
+    --accent-color: #5c7568;
+    --accent-contrast: #f8fbf7;
+    --code-background: #ebe5da;
+    --code-color: #27231f;
+    --blockquote-background: #f0e8dc;
+    --shadow-color: rgba(68, 55, 40, 0.08);
   }
 
   @media (prefers-color-scheme: dark) {
-    :root {
-      --background-color: #01242e;
-      --heading-color: #eee;
-      --text-color: #ddd;
-      --link-color: #8cc2dd;
-      --visited-color: #8b6fcb;
-      --blockquote-color: #ccc;
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --background-color: #171a1d;
+      --surface-color: #202428;
+      --surface-muted: #2a2e32;
+      --heading-color: #f3eee6;
+      --text-color: #e7dfd3;
+      --muted-color: #b9afa3;
+      --border-color: #3c4144;
+      --link-color: #9bc7d2;
+      --visited-color: #d2adc6;
+      --accent-color: #abc5b5;
+      --accent-contrast: #162019;
+      --code-background: #121518;
+      --code-color: #f3eee6;
+      --blockquote-background: #242b2b;
+      --shadow-color: rgba(0, 0, 0, 0.24);
     }
   }
 
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --background-color: #171a1d;
+    --surface-color: #202428;
+    --surface-muted: #2a2e32;
+    --heading-color: #f3eee6;
+    --text-color: #e7dfd3;
+    --muted-color: #b9afa3;
+    --border-color: #3c4144;
+    --link-color: #9bc7d2;
+    --visited-color: #d2adc6;
+    --accent-color: #abc5b5;
+    --accent-contrast: #162019;
+    --code-background: #121518;
+    --code-color: #f3eee6;
+    --blockquote-background: #242b2b;
+    --shadow-color: rgba(0, 0, 0, 0.24);
+  }
+
+  :root[data-theme="light"] {
+    color-scheme: light;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    background: var(--background-color);
+  }
+
   body {
-    font-family: var(--font-secondary);
-    font-size: var(--font-scale);
-    margin: auto;
-    padding: 20px;
-    max-width: var(--width);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0 22px;
     text-align: left;
-    background-color: var(--background-color);
+    background: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-secondary);
+    font-size: 17px;
+    line-height: 1.72;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    line-height: 1.5;
-    color: var(--text-color);
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  header,
+  main,
+  footer {
+    max-width: var(--width);
+    margin-inline: auto;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 34px 0 22px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .title {
+    color: var(--heading-color);
+  }
+
+  .title:hover {
+    text-decoration: none;
+  }
+
+  .title h2 {
+    margin: 0;
+    font-family: var(--font-main);
+    font-size: 1.42rem;
+    font-weight: 650;
+    line-height: 1.1;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 10px;
+    border-radius: 999px;
+    color: var(--muted-color);
+    font-size: 0.9rem;
+    font-weight: 650;
+  }
+
+  nav a:hover {
+    background: var(--surface-muted);
+    color: var(--heading-color);
+    text-decoration: none;
+  }
+
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 36px;
+    padding: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background: var(--surface-color);
+    color: var(--heading-color);
+    box-shadow: 0 8px 24px var(--shadow-color);
+    cursor: pointer;
+  }
+
+  .theme-toggle:focus-visible,
+  a:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 3px;
+  }
+
+  .theme-toggle__track {
+    position: relative;
+    width: 26px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--surface-muted);
+  }
+
+  .theme-toggle__knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--accent-color);
+    transition: transform 180ms ease;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-toggle__knob {
+      transform: translateX(12px);
+    }
+  }
+
+  :root[data-theme="dark"] .theme-toggle__knob {
+    transform: translateX(12px);
+  }
+
+  :root[data-theme="light"] .theme-toggle__knob {
+    transform: translateX(0);
   }
 
   h1,
@@ -1067,22 +1263,60 @@ const STYLE: &str = r#"  :root {
   h4,
   h5,
   h6 {
-    font-family: var(--font-main);
     color: var(--heading-color);
+    font-family: var(--font-main);
+    line-height: 1.18;
+  }
+
+  h1 {
+    margin: 0 0 22px;
+    font-size: 2.35rem;
+    font-weight: 650;
+  }
+
+  h2 {
+    margin-top: 2.4em;
+    margin-bottom: 0.65em;
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    margin-top: 2em;
+    margin-bottom: 0.55em;
+    font-size: 1.15rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    margin-top: 1.7em;
+    margin-bottom: 0.45em;
+    font-size: 1rem;
+  }
+
+  p,
+  ul,
+  ol,
+  blockquote,
+  table,
+  pre {
+    margin-top: 0;
+    margin-bottom: 1.18rem;
   }
 
   a {
     color: var(--link-color);
     cursor: pointer;
-    text-decoration: none;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.18em;
   }
 
   a:hover {
-    text-decoration: underline;
+    color: var(--accent-color);
   }
 
-  nav a {
-    margin-right: 8px;
+  main a:visited {
+    color: var(--visited-color);
   }
 
   strong,
@@ -1090,96 +1324,168 @@ const STYLE: &str = r#"  :root {
     color: var(--heading-color);
   }
 
-  button {
-    margin: 0;
-    cursor: pointer;
-  }
-
   time {
-    font-family: monospace;
+    color: var(--muted-color);
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
     font-style: normal;
-    font-size: 15px;
   }
 
-  main {
-    line-height: 1.6;
-  }
-
-  table {
-    width: 100%;
+  content {
+    display: block;
   }
 
   hr {
+    height: 1px;
+    margin: 2rem 0;
     border: 0;
-    border-top: 1px dashed;
+    background: var(--border-color);
   }
 
   img {
     max-width: 100%;
+    height: auto;
+    border-radius: 8px;
   }
 
   code {
-    font-family: monospace;
-    padding: 2px;
-    border-radius: 3px;
+    padding: 0.12em 0.34em;
+    border-radius: 5px;
+    background: var(--code-background);
+    color: var(--code-color);
+    font-family: var(--font-mono);
+    font-size: 0.9em;
   }
 
   pre {
     overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--code-background);
   }
 
   pre code {
     display: block;
-    padding: 12px;
+    padding: 16px;
+    background: transparent;
   }
 
   blockquote {
-    border-left: 1px solid #999;
-    color: var(--blockquote-color);
-    padding-left: 20px;
+    padding: 18px 20px;
+    border-left: 4px solid var(--accent-color);
+    border-radius: 0 8px 8px 0;
+    background: var(--blockquote-background);
+    color: var(--text-color);
     font-style: italic;
   }
 
-  footer {
-    padding: 25px 0;
-    text-align: center;
-  }
-
-  .title:hover {
-    text-decoration: none;
-  }
-
-  .title h1 {
-    font-size: 1.5em;
-  }
-
-  .inline {
-    width: auto !important;
-  }
-
-  .highlight,
-  .code {
-    border-radius: 3px;
-    margin-block-start: 1em;
-    margin-block-end: 1em;
+  table {
+    display: block;
+    width: 100%;
+    border-collapse: collapse;
     overflow-x: auto;
+    font-size: 0.95rem;
+  }
+
+  th,
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border-color);
+    vertical-align: top;
+  }
+
+  th {
+    color: var(--heading-color);
+    text-align: left;
+    background: var(--surface-muted);
+  }
+
+  footer {
+    margin-top: 48px;
+    min-height: 36px;
   }
 
   ul.blog-posts {
+    margin: 0;
+    padding: 0;
     list-style-type: none;
-    padding: unset;
   }
 
   ul.blog-posts li {
-    display: flex;
+    display: grid;
+    grid-template-columns: 132px 1fr;
+    gap: 18px;
+    align-items: baseline;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-color);
   }
 
-  ul.blog-posts li span {
-    flex: 0 0 130px;
+  ul.blog-posts li a {
+    color: var(--heading-color);
+    font-family: var(--font-main);
+    font-size: 1.08rem;
+    line-height: 1.35;
+    text-decoration: none;
+  }
+
+  ul.blog-posts li a:hover {
+    color: var(--link-color);
+    text-decoration: underline;
   }
 
   ul.blog-posts li a:visited {
     color: var(--visited-color);
+  }
+
+  .post-nav {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 42px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+    color: var(--muted-color);
+    font-size: 0.9rem;
+  }
+
+  .post-nav p {
+    margin: 0;
+  }
+
+  .post-nav strike {
+    color: var(--muted-color);
+  }
+
+  @media (max-width: 640px) {
+    body {
+      padding-inline: 18px;
+      font-size: 16px;
+    }
+
+    header {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 34px;
+      padding-top: 28px;
+    }
+
+    nav {
+      justify-content: flex-start;
+    }
+
+    h1 {
+      font-size: 2rem;
+    }
+
+    ul.blog-posts li {
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+
+    .post-nav {
+      flex-wrap: wrap;
+    }
   }"#;
 
 #[cfg(test)]
@@ -1287,6 +1593,20 @@ enablePostNavigator = true
         assert_eq!(
             attr_escape("\"quoted\" & more"),
             "&quot;quoted&quot; &amp; more"
+        );
+    }
+
+    #[test]
+    fn builds_root_relative_browser_urls() {
+        assert_eq!(page_url("/blog/"), "/blog/");
+        assert_eq!(page_url("resume/"), "/resume/");
+        assert_eq!(
+            asset_url("static/images/favicon-32x32.png"),
+            "/images/favicon-32x32.png"
+        );
+        assert_eq!(
+            page_url("https://example.com/external"),
+            "https://example.com/external"
         );
     }
 }

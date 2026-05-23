@@ -49,6 +49,7 @@ fn rust_generator_satisfies_the_blog_contract() {
     );
 
     assert_site_contract(&output);
+    assert_rust_design_contract(&output);
 }
 
 #[test]
@@ -199,6 +200,35 @@ fn assert_feeds_and_discovery_files(root: &Path) {
         assert!(rss.contains(title));
         assert!(rss.contains(&format!("https://aacnsilva.com{path}")));
     }
+}
+
+fn assert_rust_design_contract(root: &Path) {
+    let home = read(root, "index.html");
+    assert!(home.contains("data-theme-toggle"));
+    assert!(home.contains("localStorage.getItem(\"theme\")"));
+    assert!(home.contains("color-scheme: light"));
+    assert!(home.contains("prefers-color-scheme: dark"));
+    assert!(home.contains("--surface-color"));
+    assert!(home.contains("--accent-color"));
+    assert!(home.contains("href=\"/images/favicon-32x32.png\""));
+    assert!(!home.contains("href=\"https://aacnsilva.com/"));
+
+    let post = read(
+        root,
+        "agentic-programming-for-business-central-with-al-vs-code-and-copilot/index.html",
+    );
+    assert!(post.contains("class=\"post-nav\""));
+    assert!(!post.contains("style=\"font-size:0.8em"));
+    assert!(
+        post.contains("href=\"/my-business-central-dev-workflow-with-glaze-wm-and-ai-agents/\"")
+    );
+    assert!(!post.contains("<a href=\"https://aacnsilva.com/"));
+
+    let blog = read(root, "blog/index.html");
+    assert!(blog.contains(
+        "href=\"/agentic-programming-for-business-central-with-al-vs-code-and-copilot/\""
+    ));
+    assert!(!blog.contains("<a href=\"https://aacnsilva.com/"));
 }
 
 fn read(root: &Path, relative: &str) -> String {
