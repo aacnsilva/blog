@@ -4,6 +4,11 @@ use std::process::Command;
 
 const POSTS: &[(&str, &str, &str)] = &[
     (
+        "Beyond VS Code: Microsoft’s AL LSP Opens Business Central Development to Agents and New Editors",
+        "/beyond-vs-code-microsofts-al-lsp-opens-business-central-development-to-agents-and-new-editors/",
+        "26 May, 2026",
+    ),
+    (
         "Agentic programming for Business Central with AL, VS Code, and Copilot",
         "/agentic-programming-for-business-central-with-al-vs-code-and-copilot/",
         "20 May, 2026",
@@ -169,9 +174,16 @@ fn assert_post_pages(root: &Path) {
     assert!(search.contains("Full-text search input"));
     assert!(search.contains("<table>"));
 
-    let newest = read(
+    let previous_newest = read(
         root,
         "agentic-programming-for-business-central-with-al-vs-code-and-copilot/index.html",
+    );
+    assert!(previous_newest.contains("Next Post"));
+    assert!(previous_newest.contains("Previous Post"));
+
+    let newest = read(
+        root,
+        "beyond-vs-code-microsofts-al-lsp-opens-business-central-development-to-agents-and-new-editors/index.html",
     );
     assert!(newest.contains("Previous Post"));
     assert!(newest.contains("<strike>Next Post"));
