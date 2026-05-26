@@ -4,6 +4,11 @@ use std::process::Command;
 
 const POSTS: &[(&str, &str, &str)] = &[
     (
+        "Beyond VS Code: Microsoft\u{2019}s AL LSP Opens Business Central Development to Agents and New Editors",
+        "/beyond-vs-code-microsofts-al-lsp-opens-business-central-development-to-agents-and-new-editors/",
+        "26 May, 2026",
+    ),
+    (
         "Agentic programming for Business Central with AL, VS Code, and Copilot",
         "/agentic-programming-for-business-central-with-al-vs-code-and-copilot/",
         "20 May, 2026",
