@@ -1529,7 +1529,7 @@ enablePostNavigator = true
     }
 
     #[test]
-    fn slugifies_titles_like_hugo_bearblog_urls() {
+    fn slugifies_post_titles_into_url_paths() {
         assert_eq!(
             slugify("Agentic programming for Business Central with AL, VS Code, and Copilot"),
             "agentic-programming-for-business-central-with-al-vs-code-and-copilot"

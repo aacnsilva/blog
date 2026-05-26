@@ -13,7 +13,7 @@ fn main() {
 fn run() -> aacnsilva_blog::Result<()> {
     let root = env::current_dir()?;
     let mut paths = BuildPaths {
-        config_path: root.join("hugo.toml"),
+        config_path: root.join("site.toml"),
         content_dir: root.join("content"),
         static_dir: root.join("static"),
         output_dir: root.join("public"),
@@ -49,6 +49,6 @@ fn next_path(
 
 fn print_help() {
     println!(
-        "Usage: aacnsilva-blog [build] [--config hugo.toml] [--content content] [--static static] [--output public]"
+        "Usage: aacnsilva-blog [build] [--config site.toml] [--content content] [--static static] [--output public]"
     );
 }

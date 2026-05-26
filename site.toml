@@ -1,0 +1,12 @@
+baseURL = 'https://aacnsilva.com/'
+title = "António's DevLog"
+author = "António Silva"
+copyright = "Copyright © 2025, Jane Doe."
+languageCode = "en-US"
+
+[params]
+description = "Devs blog"
+favicon = "static/images/favicon-32x32.png"
+images = ["static/images/share.png"]
+title = "António's DevLog"
+enablePostNavigator = true

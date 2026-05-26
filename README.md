@@ -11,10 +11,3 @@ cargo run -- --output public
 ```bash
 cargo test
 ```
-
-To prove the current Hugo output still satisfies the same site contract while the
-migration is in progress:
-
-```bash
-VERIFY_HUGO=1 cargo test
-```
