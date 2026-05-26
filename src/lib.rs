@@ -431,13 +431,11 @@ fn render_post(site: &Site, post: &Page) -> String {
 }
 
 fn render_post_navigator(site: &Site, post: &Page) -> String {
-    let Some(index) = site
+    let index = site
         .posts
         .iter()
         .position(|candidate| candidate.url_path == post.url_path)
-    else {
-        return String::new();
-    };
+        .expect("post should exist in site.posts");
     let previous = site.posts.get(index + 1);
     let next = index.checked_sub(1).and_then(|value| site.posts.get(value));
 
@@ -775,24 +773,12 @@ pub fn display_date(date: &str) -> String {
     let date = date_only(date);
     let mut parts = date.split('-');
     let year = parts.next().unwrap_or_default();
-    let month = parts.next().unwrap_or_default();
+    let month = parts
+        .next()
+        .and_then(|value| value.parse::<u32>().ok())
+        .unwrap_or(0);
     let day = parts.next().unwrap_or_default();
-    let month = match month {
-        "01" => "Jan",
-        "02" => "Feb",
-        "03" => "Mar",
-        "04" => "Apr",
-        "05" => "May",
-        "06" => "Jun",
-        "07" => "Jul",
-        "08" => "Aug",
-        "09" => "Sep",
-        "10" => "Oct",
-        "11" => "Nov",
-        "12" => "Dec",
-        _ => "",
-    };
-    format!("{day} {month}, {year}")
+    format!("{day} {}, {year}", month_name(month))
 }
 
 fn rss_date(date: &str) -> String {
@@ -889,10 +875,10 @@ fn push_sitemap_url(sitemap: &mut String, site: &Site, path: &str, lastmod: Opti
     sitemap.push_str("  <url>\n");
     sitemap.push_str(&format!(
         "    <loc>{}</loc>\n",
-        xml_escape(&absolute_url(site, path))
+        attr_escape(&absolute_url(site, path))
     ));
     if let Some(lastmod) = lastmod {
-        sitemap.push_str(&format!("    <lastmod>{}</lastmod>\n", xml_escape(lastmod)));
+        sitemap.push_str(&format!("    <lastmod>{}</lastmod>\n", attr_escape(lastmod)));
     }
     sitemap.push_str("  </url>\n");
 }
@@ -925,21 +911,21 @@ fn render_rss(site: &Site, scope: FeedScope) -> String {
     let mut rss = String::new();
     rss.push_str("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n");
     rss.push_str("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n  <channel>\n");
-    rss.push_str(&format!("    <title>{}</title>\n", xml_escape(&title)));
-    rss.push_str(&format!("    <link>{}</link>\n", xml_escape(&link)));
+    rss.push_str(&format!("    <title>{}</title>\n", attr_escape(&title)));
+    rss.push_str(&format!("    <link>{}</link>\n", attr_escape(&link)));
     rss.push_str(&format!(
         "    <description>{}</description>\n",
-        xml_escape(&description)
+        attr_escape(&description)
     ));
     rss.push_str("    <generator>aacnsilva-blog</generator>\n");
     rss.push_str(&format!(
         "    <language>{}</language>\n",
-        xml_escape(&site.config.language_code)
+        attr_escape(&site.config.language_code)
     ));
     if !site.config.copyright.is_empty() {
         rss.push_str(&format!(
             "    <copyright>{}</copyright>\n",
-            xml_escape(&site.config.copyright)
+            attr_escape(&site.config.copyright)
         ));
     }
     rss.push_str(&format!(
@@ -954,22 +940,22 @@ fn render_rss(site: &Site, scope: FeedScope) -> String {
         rss.push_str("    <item>\n");
         rss.push_str(&format!(
             "      <title>{}</title>\n",
-            xml_escape(&post.title)
+            attr_escape(&post.title)
         ));
         rss.push_str(&format!(
             "      <link>{}</link>\n",
-            xml_escape(&absolute_url(site, &post.url_path))
+            attr_escape(&absolute_url(site, &post.url_path))
         ));
         if let Some(date) = &post.date {
             rss.push_str(&format!("      <pubDate>{}</pubDate>\n", rss_date(date)));
         }
         rss.push_str(&format!(
             "      <guid>{}</guid>\n",
-            xml_escape(&absolute_url(site, &post.url_path))
+            attr_escape(&absolute_url(site, &post.url_path))
         ));
         rss.push_str(&format!(
             "      <description>{}</description>\n",
-            xml_escape(&render_markdown(&post.body))
+            attr_escape(&render_markdown(&post.body))
         ));
         rss.push_str("    </item>\n");
     }
@@ -1027,10 +1013,6 @@ fn html_escape(input: &str) -> String {
 
 fn attr_escape(input: &str) -> String {
     html_escape(input).replace('"', "&quot;")
-}
-
-fn xml_escape(input: &str) -> String {
-    attr_escape(input)
 }
 
 const THEME_BOOTSTRAP: &str = r#"(function(){try{var theme=localStorage.getItem("theme");if(theme==="light"||theme==="dark"){document.documentElement.dataset.theme=theme;}}catch(_){}})();"#;
@@ -1475,7 +1457,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parses_site_config_values_used_by_the_generator() {
+    fn parses_site_config() {
         let config = parse_site_config(
             r#"
 baseURL = 'https://example.com/'
@@ -1503,7 +1485,7 @@ enablePostNavigator = true
     }
 
     #[test]
-    fn parses_toml_front_matter_without_external_toml_dependency() {
+    fn parses_front_matter() {
         let (front_matter, body) = parse_front_matter(
             "+++\ndate = '2026-05-20T10:30:00+01:00'\ndraft = false\ntitle = 'Hello'\nweight = 10\n+++\n# Body\n",
         )
@@ -1529,7 +1511,7 @@ enablePostNavigator = true
     }
 
     #[test]
-    fn slugifies_post_titles_into_url_paths() {
+    fn slugifies_titles() {
         assert_eq!(
             slugify("Agentic programming for Business Central with AL, VS Code, and Copilot"),
             "agentic-programming-for-business-central-with-al-vs-code-and-copilot"
@@ -1541,7 +1523,7 @@ enablePostNavigator = true
     }
 
     #[test]
-    fn formats_dates_for_lists_and_feeds() {
+    fn formats_dates() {
         assert_eq!(date_only("2026-03-09T10:30:00+00:00"), "2026-03-09");
         assert_eq!(display_date("2026-03-09T10:30:00+00:00"), "09 Mar, 2026");
         assert_eq!(
@@ -1551,7 +1533,7 @@ enablePostNavigator = true
     }
 
     #[test]
-    fn renders_markdown_features_used_by_the_content_directory() {
+    fn renders_markdown() {
         let html = render_markdown(
             "## About {#about}\n\n## What is Business Central?\n\n| A | B |\n| - | - |\n| `x` | **y** |\n\n```al\ncodeunit 1 Foo {}\n```\n",
         );
@@ -1579,7 +1561,7 @@ enablePostNavigator = true
     }
 
     #[test]
-    fn builds_root_relative_browser_urls() {
+    fn root_relative_urls() {
         assert_eq!(page_url("/blog/"), "/blog/");
         assert_eq!(page_url("resume/"), "/resume/");
         assert_eq!(
