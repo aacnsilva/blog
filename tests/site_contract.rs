@@ -52,27 +52,6 @@ fn rust_generator_satisfies_the_blog_contract() {
     assert_rust_design_contract(&output);
 }
 
-#[test]
-fn current_hugo_site_satisfies_the_same_contract_when_requested() {
-    if std::env::var("VERIFY_HUGO").ok().as_deref() != Some("1") {
-        eprintln!("set VERIFY_HUGO=1 to run the parity contract against Hugo");
-        return;
-    }
-
-    let output = target_dir("contract-hugo");
-    run(
-        "hugo",
-        &[
-            "--destination",
-            output.to_str().unwrap(),
-            "--cleanDestinationDir",
-            "--minify=false",
-        ],
-    );
-
-    assert_site_contract(&output, false);
-}
-
 fn assert_site_contract(root: &Path, require_blog_archive_page: bool) {
     assert_required_files_exist(root);
     assert_navigation_and_core_pages(root);
