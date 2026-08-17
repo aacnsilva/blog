@@ -73,6 +73,7 @@ fn assert_required_files_exist(root: &Path) {
         "resume/index.html",
         "404.html",
         "robots.txt",
+        ".nojekyll",
         "sitemap.xml",
         "index.xml",
         "favicon.ico",
@@ -199,6 +200,7 @@ fn assert_feeds_and_discovery_files(root: &Path) {
     for (_, path, _) in POSTS {
         assert!(sitemap.contains(&format!("https://aacnsilva.com{path}")));
     }
+    assert_well_formed_xml(root, "sitemap.xml");
 
     let rss_path = if root.join("blog/index.xml").exists() {
         "blog/index.xml"
@@ -211,9 +213,29 @@ fn assert_feeds_and_discovery_files(root: &Path) {
         assert!(rss.contains(title));
         assert!(rss.contains(&format!("https://aacnsilva.com{path}")));
     }
+    assert_well_formed_xml(root, rss_path);
+    assert_well_formed_xml(root, "index.xml");
 
     let root_rss = read(root, "index.xml");
     assert!(root_rss.contains("https://aacnsilva.com/agentic-programming-for-business-central-with-al-vs-code-and-copilot/"));
+}
+
+fn assert_well_formed_xml(root: &Path, relative: &str) {
+    let path = root.join(relative);
+    let output = Command::new("python3")
+        .args([
+            "-c",
+            "import sys, xml.etree.ElementTree as ET; ET.parse(sys.argv[1])",
+            path.to_str().unwrap(),
+        ])
+        .output()
+        .unwrap_or_else(|error| panic!("python3 is required to parse XML: {error}"));
+    assert!(
+        output.status.success(),
+        "{} is not well-formed XML: {}",
+        path.display(),
+        String::from_utf8_lossy(&output.stderr)
+    );
 }
 
 fn assert_rust_design_contract(root: &Path) {
