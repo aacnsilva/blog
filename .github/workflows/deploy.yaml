@@ -47,7 +47,6 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
-          include-hidden-files: true
   deploy:
     environment:
       name: github-pages
