@@ -41,10 +41,13 @@ jobs:
         run: cargo test --locked
       - name: Build the site
         run: cargo run --locked -- --output public
+      - name: Disable Jekyll
+        run: touch public/.nojekyll
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./public
+          include-hidden-files: true
   deploy:
     environment:
       name: github-pages

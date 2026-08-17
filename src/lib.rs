@@ -332,6 +332,7 @@ fn write_site(site: &Site, paths: &BuildPaths) -> Result<()> {
 
     fs::write(paths.output_dir.join("404.html"), render_404(site))?;
     fs::write(paths.output_dir.join("robots.txt"), render_robots(site))?;
+    fs::write(paths.output_dir.join(".nojekyll"), [])?;
     fs::write(paths.output_dir.join("sitemap.xml"), render_sitemap(site))?;
     fs::write(
         paths.output_dir.join("index.xml"),
@@ -852,7 +853,7 @@ fn render_robots(site: &Site) -> String {
 
 fn render_sitemap(site: &Site) -> String {
     let mut sitemap = String::from(
-        "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"\n  xmlns:xhtml=\"http://www.w3.org/1999/xhtml\">\n",
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n",
     );
     push_sitemap_url(
         &mut sitemap,
@@ -875,10 +876,10 @@ fn push_sitemap_url(sitemap: &mut String, site: &Site, path: &str, lastmod: Opti
     sitemap.push_str("  <url>\n");
     sitemap.push_str(&format!(
         "    <loc>{}</loc>\n",
-        attr_escape(&absolute_url(site, path))
+        xml_escape(&absolute_url(site, path))
     ));
     if let Some(lastmod) = lastmod {
-        sitemap.push_str(&format!("    <lastmod>{}</lastmod>\n", attr_escape(lastmod)));
+        sitemap.push_str(&format!("    <lastmod>{}</lastmod>\n", xml_escape(lastmod)));
     }
     sitemap.push_str("  </url>\n");
 }
@@ -909,53 +910,57 @@ fn render_rss(site: &Site, scope: FeedScope) -> String {
         .unwrap_or_else(|| "Thu, 01 Jan 1970 00:00:00 +0000".to_string());
 
     let mut rss = String::new();
-    rss.push_str("<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n");
+    rss.push_str("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
     rss.push_str("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n  <channel>\n");
-    rss.push_str(&format!("    <title>{}</title>\n", attr_escape(&title)));
-    rss.push_str(&format!("    <link>{}</link>\n", attr_escape(&link)));
+    rss.push_str(&format!("    <title>{}</title>\n", xml_escape(&title)));
+    rss.push_str(&format!("    <link>{}</link>\n", xml_escape(&link)));
     rss.push_str(&format!(
         "    <description>{}</description>\n",
-        attr_escape(&description)
+        xml_escape(&description)
     ));
     rss.push_str("    <generator>aacnsilva-blog</generator>\n");
     rss.push_str(&format!(
         "    <language>{}</language>\n",
-        attr_escape(&site.config.language_code)
+        xml_escape(&site.config.language_code)
     ));
     if !site.config.copyright.is_empty() {
         rss.push_str(&format!(
             "    <copyright>{}</copyright>\n",
-            attr_escape(&site.config.copyright)
+            xml_escape(&site.config.copyright)
         ));
     }
     rss.push_str(&format!(
-        "    <lastBuildDate>{last_build}</lastBuildDate>\n"
+        "    <lastBuildDate>{}</lastBuildDate>\n",
+        xml_escape(&last_build)
     ));
     rss.push_str(&format!(
         "    <atom:link href=\"{}\" rel=\"self\" type=\"application/rss+xml\" />\n",
-        attr_escape(&absolute_url(site, feed_path))
+        xml_escape(&absolute_url(site, feed_path))
     ));
 
     for post in &site.posts {
         rss.push_str("    <item>\n");
         rss.push_str(&format!(
             "      <title>{}</title>\n",
-            attr_escape(&post.title)
+            xml_escape(&post.title)
         ));
         rss.push_str(&format!(
             "      <link>{}</link>\n",
-            attr_escape(&absolute_url(site, &post.url_path))
+            xml_escape(&absolute_url(site, &post.url_path))
         ));
         if let Some(date) = &post.date {
-            rss.push_str(&format!("      <pubDate>{}</pubDate>\n", rss_date(date)));
+            rss.push_str(&format!(
+                "      <pubDate>{}</pubDate>\n",
+                xml_escape(&rss_date(date))
+            ));
         }
         rss.push_str(&format!(
             "      <guid>{}</guid>\n",
-            attr_escape(&absolute_url(site, &post.url_path))
+            xml_escape(&absolute_url(site, &post.url_path))
         ));
         rss.push_str(&format!(
             "      <description>{}</description>\n",
-            attr_escape(&render_markdown(&post.body))
+            xml_escape(&render_markdown(&post.body))
         ));
         rss.push_str("    </item>\n");
     }
@@ -1013,6 +1018,26 @@ fn html_escape(input: &str) -> String {
 
 fn attr_escape(input: &str) -> String {
     html_escape(input).replace('"', "&quot;")
+}
+
+fn xml_escape(input: &str) -> String {
+    let mut escaped = String::with_capacity(input.len());
+    for ch in input.chars() {
+        match ch {
+            '&' => escaped.push_str("&amp;"),
+            '<' => escaped.push_str("&lt;"),
+            '>' => escaped.push_str("&gt;"),
+            '"' => escaped.push_str("&quot;"),
+            '\'' => escaped.push_str("&apos;"),
+            ch if is_illegal_xml_char(ch) => {}
+            ch => escaped.push(ch),
+        }
+    }
+    escaped
+}
+
+fn is_illegal_xml_char(ch: char) -> bool {
+    matches!(ch as u32, 0x00..=0x08 | 0x0B | 0x0C | 0x0E..=0x1F | 0xFFFE | 0xFFFF)
 }
 
 const THEME_BOOTSTRAP: &str = r#"(function(){try{var theme=localStorage.getItem("theme");if(theme==="light"||theme==="dark"){document.documentElement.dataset.theme=theme;}}catch(_){}})();"#;
@@ -1558,6 +1583,56 @@ enablePostNavigator = true
             attr_escape("\"quoted\" & more"),
             "&quot;quoted&quot; &amp; more"
         );
+        assert_eq!(
+            xml_escape("António's <DevLog> & \"quotes\""),
+            "António&apos;s &lt;DevLog&gt; &amp; &quot;quotes&quot;"
+        );
+        assert_eq!(xml_escape("keep\tnew\nlines\rok"), "keep\tnew\nlines\rok");
+        assert_eq!(xml_escape("drop\u{0008}controls\u{000c}"), "dropcontrols");
+    }
+
+    #[test]
+    fn rss_and_sitemap_escape_markup_in_titles() {
+        let site = Site {
+            config: SiteConfig {
+                base_url: "https://example.com/".to_string(),
+                title: "A & B's <blog>".to_string(),
+                copyright: "© \"Jane\" & 'Doe'".to_string(),
+                language_code: "en-US".to_string(),
+                ..SiteConfig::default()
+            },
+            pages: Vec::new(),
+            blog: Page {
+                title: "Blog".to_string(),
+                body: String::new(),
+                date: None,
+                draft: false,
+                menu: None,
+                weight: None,
+                url_path: "/".to_string(),
+                kind: PageKind::Section,
+            },
+            posts: vec![Page {
+                title: "Foo & <bar>\u{0008}".to_string(),
+                body: "Hello.".to_string(),
+                date: Some("2026-01-02T03:04:05+00:00".to_string()),
+                draft: false,
+                menu: None,
+                weight: None,
+                url_path: "/foo-and-bar/".to_string(),
+                kind: PageKind::Post,
+            }],
+        };
+
+        let rss = render_rss(&site, FeedScope::Root);
+        assert!(rss.contains("<title>Foo &amp; &lt;bar&gt;</title>"));
+        assert!(!rss.contains("<bar>"));
+        assert!(!rss.contains('\u{0008}'));
+        assert!(rss.contains("<copyright>© &quot;Jane&quot; &amp; &apos;Doe&apos;</copyright>"));
+
+        let sitemap = render_sitemap(&site);
+        assert!(sitemap.contains("<loc>https://example.com/foo-and-bar/</loc>"));
+        assert!(!sitemap.contains("xmlns:xhtml"));
     }
 
     #[test]
