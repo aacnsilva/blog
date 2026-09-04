@@ -12,8 +12,6 @@ It is not a feature. It is not a new analyzer rule. It is two knowledge articles
 
 Or, more carefully: the docs never give you a short-circuit guarantee for `and`, `or`, or `xor`, so you must not write code as if they did.
 
-A few days later those same articles were [promoted into the Microsoft performance layer](https://github.com/microsoft/BCQuality/pull/153). That part matters more than the ego hit of a green merge button, and I will come back to why.
-
 ## What BCQuality actually is
 
 [BCQuality](https://github.com/microsoft/BCQuality) is Microsoft’s shared quality bar for Business Central development — for humans and for agents.
