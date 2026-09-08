@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex">
+  <link rel="shortcut icon" href="/images/favicon-32x32.png" />
+  <title>Privacy Policy — Justa | António&#39;s DevLog</title>
+  <meta name="title" content="Privacy Policy — Justa" />
+  <meta name="description" content="Privacy policy for the Justa iOS app. Justa does not run a server, does not use analytics, and does not sell data." />
+  <meta name="referrer" content="no-referrer-when-downgrade" />
+  <style>
+    :root {
+      color-scheme: light;
+      --width: 760px;
+      --font-main: Georgia, "Times New Roman", serif;
+      --font-secondary: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --background-color: #f7f3ed;
+      --heading-color: #25231f;
+      --text-color: #38342f;
+      --muted-color: #6d675f;
+      --border-color: #d9d0c3;
+      --link-color: #315f6d;
+      --accent-color: #5c7568;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+        --background-color: #171a1d;
+        --heading-color: #f3eee6;
+        --text-color: #e7dfd3;
+        --muted-color: #b9afa3;
+        --border-color: #3c4144;
+        --link-color: #9bc7d2;
+        --accent-color: #abc5b5;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--background-color);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 0 22px;
+      background: var(--background-color);
+      color: var(--text-color);
+      font-family: var(--font-secondary);
+      font-size: 17px;
+      line-height: 1.72;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    main {
+      max-width: var(--width);
+      margin-inline: auto;
+      padding: 48px 0 64px;
+    }
+
+    h1,
+    h2 {
+      color: var(--heading-color);
+      font-family: var(--font-main);
+      line-height: 1.18;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 2.35rem;
+      font-weight: 650;
+    }
+
+    h2 {
+      margin-top: 2.4em;
+      margin-bottom: 0.65em;
+      font-size: 1.5rem;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 1.18rem;
+    }
+
+    .effective {
+      color: var(--muted-color);
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      margin-bottom: 1.6rem;
+    }
+
+    a {
+      color: var(--link-color);
+      text-decoration-thickness: 0.08em;
+      text-underline-offset: 0.18em;
+    }
+
+    a:hover {
+      color: var(--accent-color);
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--accent-color);
+      outline-offset: 3px;
+    }
+
+    strong {
+      color: var(--heading-color);
+    }
+
+    code {
+      padding: 0.12em 0.34em;
+      border-radius: 5px;
+      background: #ebe5da;
+      color: #27231f;
+      font-family: var(--font-mono);
+      font-size: 0.9em;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      code {
+        background: #121518;
+        color: #f3eee6;
+      }
+    }
+
+    hr {
+      height: 1px;
+      margin: 3rem 0;
+      border: 0;
+      background: var(--border-color);
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding-inline: 18px;
+        font-size: 16px;
+      }
+
+      main {
+        padding-top: 32px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <article lang="en">
+      <h1>Privacy Policy — Justa</h1>
+      <p class="effective"><strong>Effective 7 September 2026</strong></p>
+      <p>Justa is a personal ledger for shared household expenses. It is made by António Silva.</p>
+
+      <h2>What this app does not do</h2>
+      <p>Justa does not run a server, does not use analytics, does not show ads, and does not sell data. The developer does not receive your expenses, names, income, or Face ID information.</p>
+
+      <h2>What stays on your iPhone</h2>
+      <p>People, usual income, monthly costs, expenses, month-income overrides, and extras-paid confirmations are stored on the iPhone with SwiftData. The Face ID lock and which household is open stay on that iPhone. The lock hides the ledger on screen. It does not encrypt the SwiftData store or vault files beyond what iOS already does.</p>
+
+      <h2>Face ID</h2>
+      <p>Face ID is optional. The face check is performed by iOS. Justa only learns whether unlock succeeded. Face data is never written to the ledger or to a vault folder.</p>
+
+      <h2>Vault folder</h2>
+      <p>If you tap <strong>Create vault</strong> or <strong>Open vault</strong>, you pick a folder in Files (iCloud Drive, Dropbox, Google Drive, or On My iPhone). Justa writes <code>vault.json</code> and household <code>ledger.json</code> files into that folder so another iPhone you share the folder with can open the same ledger.</p>
+      <p>Anyone who can open that folder can read the ledger. Face ID is never stored there. Unlinking the vault keeps the local copy and does not delete the folder.</p>
+
+      <h2>Your choices</h2>
+      <p>You can delete a person, an expense, a monthly cost, or a household. You can unlink the vault. You can delete the app, which removes the on-device copy.</p>
+
+      <h2>Children</h2>
+      <p>Justa is not directed at children under 13.</p>
+
+      <h2>Contact</h2>
+      <p>António Silva<br>
+        <a href="mailto:aacnsilva@hotmail.com">aacnsilva@hotmail.com</a>
+      </p>
+      <p>The same policy is in the app under <strong>Household → Settings → Privacy Policy</strong>.</p>
+    </article>
+
+    <hr>
+
+    <article lang="pt-PT">
+      <h1>Política de privacidade — Justa</h1>
+      <p class="effective"><strong>Em vigor a 7 de setembro de 2026</strong></p>
+      <p>A Justa é um livro de contas para despesas partilhadas. É feita por António Silva.</p>
+
+      <h2>O que esta app não faz</h2>
+      <p>A Justa não tem servidor, não usa análise de utilização, não mostra anúncios e não vende dados. O programador não recebe as suas despesas, nomes, rendimentos nem informação de Face ID.</p>
+
+      <h2>O que fica neste iPhone</h2>
+      <p>Pessoas, rendimento habitual, custos mensais, despesas, acertos de rendimento do mês e a confirmação de extras pagas ficam neste iPhone. O bloqueio com Face ID e a casa aberta ficam neste iPhone. O bloqueio esconde o livro no ecrã. Não cifra a base local nem os ficheiros do cofre para além do que o iOS já faz.</p>
+
+      <h2>Face ID</h2>
+      <p>O Face ID é opcional. A verificação é feita pelo iOS. A app só sabe se o desbloqueio teve sucesso. Os dados da face nunca são escritos no livro nem na pasta do cofre.</p>
+
+      <h2>Pasta do cofre</h2>
+      <p>Se tocar em <strong>Criar cofre</strong> ou <strong>Abrir cofre</strong>, escolhe uma pasta na app Ficheiros. A Justa escreve <code>vault.json</code> e os <code>ledger.json</code> nessa pasta para outro iPhone com quem partilhar a pasta abrir o mesmo livro.</p>
+      <p>Quem puder abrir a pasta pode ler o livro. O Face ID nunca fica lá. Desligar o cofre mantém a cópia local e não apaga a pasta.</p>
+
+      <h2>As suas escolhas</h2>
+      <p>Pode eliminar uma pessoa, uma despesa, um custo mensal ou uma casa. Pode desligar o cofre. Pode eliminar a app, o que remove a cópia neste iPhone.</p>
+
+      <h2>Crianças</h2>
+      <p>A Justa não se destina a crianças com menos de 13 anos.</p>
+
+      <h2>Contacto</h2>
+      <p>António Silva<br>
+        <a href="mailto:aacnsilva@hotmail.com">aacnsilva@hotmail.com</a>
+      </p>
+      <p>A mesma política está na app em <strong>Casa → Definições → Política de privacidade</strong>.</p>
+    </article>
+  </main>
+</body>
+
+</html>

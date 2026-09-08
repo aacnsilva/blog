@@ -60,6 +60,7 @@ fn site_contract() {
 
     assert_site_contract(&output, true);
     assert_rust_design_contract(&output);
+    assert_unlisted_privacy_page(&output);
 }
 
 fn assert_site_contract(root: &Path, require_blog_archive_page: bool) {
@@ -89,6 +90,7 @@ fn assert_required_files_exist(root: &Path) {
         "cv/styles.css",
         "cv/script.js",
         "cv/myPhoto.jpeg",
+        "justa/privacy/index.html",
     ];
 
     for file in required {
@@ -113,6 +115,8 @@ fn assert_navigation_and_core_pages(root: &Path) {
     assert!(home.contains("<a href=\"/\">Blog</a>"));
     assert!(home.contains("<a href=\"/about/\">About</a>"));
     assert!(!home.contains("<a href=\"/resume/\">Resume</a>"));
+    assert!(!home.contains("/justa/privacy"));
+    assert!(!home.contains("Justa"));
     assert!(home.contains("<ul class=\"blog-posts\">"));
 
     let about = read(root, "about/index.html");
@@ -199,6 +203,7 @@ fn assert_feeds_and_discovery_files(root: &Path) {
     let robots = read(root, "robots.txt");
     assert!(robots.contains("User-Agent: *"));
     assert!(robots.contains("Sitemap: https://aacnsilva.com/sitemap.xml"));
+    assert!(!robots.contains("Disallow"));
 
     let sitemap = read(root, "sitemap.xml");
     assert!(sitemap.contains("<urlset"));
@@ -266,6 +271,33 @@ fn assert_rust_design_contract(root: &Path) {
         "href=\"/agentic-programming-for-business-central-with-al-vs-code-and-copilot/\""
     ));
     assert!(!blog.contains("<a href=\"https://aacnsilva.com/"));
+}
+
+fn assert_unlisted_privacy_page(root: &Path) {
+    let privacy = read(root, "justa/privacy/index.html");
+    assert!(privacy.contains(r#"<meta name="robots" content="noindex">"#));
+    assert!(privacy.contains("Justa"));
+    assert!(privacy.contains("does not run a server"));
+    assert!(privacy.contains("Política de privacidade"));
+    assert!(privacy.contains("mailto:aacnsilva@hotmail.com"));
+    assert!(!privacy.contains("href=\"/\""));
+    assert!(!privacy.contains("href=\"/about/\""));
+    assert!(!privacy.contains("href=\"/blog/\""));
+
+    let home = read(root, "index.html");
+    assert!(!home.contains("/justa/privacy"));
+    assert!(!home.contains("Justa"));
+
+    let about = read(root, "about/index.html");
+    assert!(!about.contains("/justa/privacy"));
+    assert!(!about.contains("Justa"));
+
+    let sitemap = read(root, "sitemap.xml");
+    assert!(!sitemap.contains("/justa/privacy"));
+
+    let rss = read(root, "index.xml");
+    assert!(!rss.contains("/justa/privacy"));
+    assert!(!rss.contains("Justa"));
 }
 
 fn read(root: &Path, relative: &str) -> String {
