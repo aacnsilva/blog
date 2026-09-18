@@ -107,6 +107,8 @@ fn assert_required_files_exist(root: &Path) {
         );
     }
 
+    assert_well_formed_xml(root, "images/al-interface-evolution-bc29-preview.svg");
+
     for (_, path, _) in POSTS {
         assert!(
             root.join(path.trim_matches('/'))
