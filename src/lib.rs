@@ -1343,43 +1343,43 @@ const STYLE: &str = r#"  :root {
   }
 
   .theme-diagram img {
-    display: block;
     width: 100%;
     height: auto;
     margin: 0;
+    border-radius: 8px;
   }
 
-  .theme-diagram__light {
+  .theme-diagram img.theme-diagram__light {
     display: block;
   }
 
-  .theme-diagram__dark {
+  .theme-diagram img.theme-diagram__dark {
     display: none;
   }
 
   @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .theme-diagram__light {
+    :root:not([data-theme="light"]) .theme-diagram img.theme-diagram__light {
       display: none;
     }
 
-    :root:not([data-theme="light"]) .theme-diagram__dark {
+    :root:not([data-theme="light"]) .theme-diagram img.theme-diagram__dark {
       display: block;
     }
   }
 
-  :root[data-theme="dark"] .theme-diagram__light {
+  :root[data-theme="dark"] .theme-diagram img.theme-diagram__light {
     display: none;
   }
 
-  :root[data-theme="dark"] .theme-diagram__dark {
+  :root[data-theme="dark"] .theme-diagram img.theme-diagram__dark {
     display: block;
   }
 
-  :root[data-theme="light"] .theme-diagram__light {
+  :root[data-theme="light"] .theme-diagram img.theme-diagram__light {
     display: block;
   }
 
-  :root[data-theme="light"] .theme-diagram__dark {
+  :root[data-theme="light"] .theme-diagram img.theme-diagram__dark {
     display: none;
   }
 
@@ -1683,12 +1683,25 @@ enablePostNavigator = true
 
     #[test]
     fn theme_diagram_css_follows_site_toggle() {
-        assert!(STYLE.contains(".theme-diagram__light"));
-        assert!(STYLE.contains(".theme-diagram__dark"));
-        assert!(STYLE.contains(":root:not([data-theme=\"light\"]) .theme-diagram__dark"));
-        assert!(STYLE.contains(":root[data-theme=\"dark\"] .theme-diagram__dark"));
-        assert!(STYLE.contains(":root[data-theme=\"light\"] .theme-diagram__light"));
+        assert!(STYLE.contains(".theme-diagram img.theme-diagram__light"));
+        assert!(STYLE.contains(".theme-diagram img.theme-diagram__dark"));
+        assert!(STYLE.contains(
+            ":root:not([data-theme=\"light\"]) .theme-diagram img.theme-diagram__dark"
+        ));
+        assert!(STYLE.contains(":root[data-theme=\"dark\"] .theme-diagram img.theme-diagram__dark"));
+        assert!(
+            STYLE.contains(":root[data-theme=\"light\"] .theme-diagram img.theme-diagram__light")
+        );
         assert!(STYLE.contains("prefers-color-scheme: dark"));
+        let img_rule = STYLE
+            .split(".theme-diagram img {")
+            .nth(1)
+            .and_then(|rest| rest.split('}').next())
+            .expect("theme-diagram img rule");
+        assert!(
+            !img_rule.contains("display"),
+            "shared img rule must not set display: {img_rule}"
+        );
     }
 
     #[test]
