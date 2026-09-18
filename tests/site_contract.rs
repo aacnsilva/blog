@@ -4,6 +4,11 @@ use std::process::Command;
 
 const POSTS: &[(&str, &str, &str)] = &[
     (
+        "How AL interfaces might finally grow without a version bump",
+        "/how-al-interfaces-might-finally-grow-without-a-version-bump/",
+        "18 Sep, 2026",
+    ),
+    (
         "AL does not short-circuit — and that is why my first Microsoft PR exists",
         "/al-does-not-short-circuit-and-that-is-why-my-first-microsoft-pr-exists/",
         "04 Sep, 2026",
@@ -86,6 +91,7 @@ fn assert_required_files_exist(root: &Path) {
         "images/favicon-16x16.png",
         "images/favicon-32x32.png",
         "images/share.png",
+        "images/al-interface-evolution-bc29-preview.svg",
         "cv/index.html",
         "cv/styles.css",
         "cv/script.js",
@@ -186,17 +192,23 @@ fn assert_post_pages(root: &Path) {
 
     let previous_newest = read(
         root,
-        "beyond-vs-code-microsofts-al-lsp-opens-business-central-development-to-agents-and-new-editors/index.html",
+        "al-does-not-short-circuit-and-that-is-why-my-first-microsoft-pr-exists/index.html",
     );
     assert!(previous_newest.contains("Next Post"));
     assert!(previous_newest.contains("Previous Post"));
+    assert!(previous_newest.contains(
+        "href=\"/how-al-interfaces-might-finally-grow-without-a-version-bump/\""
+    ));
 
     let newest = read(
         root,
-        "al-does-not-short-circuit-and-that-is-why-my-first-microsoft-pr-exists/index.html",
+        "how-al-interfaces-might-finally-grow-without-a-version-bump/index.html",
     );
     assert!(newest.contains("Previous Post"));
     assert!(newest.contains("<strike>Next Post"));
+    assert!(newest.contains("/images/al-interface-evolution-bc29-preview.svg"));
+    assert!(newest.contains("RequiredPending"));
+    assert!(newest.contains("AS0066"));
 }
 
 fn assert_feeds_and_discovery_files(root: &Path) {
