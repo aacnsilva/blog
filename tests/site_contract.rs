@@ -215,8 +215,8 @@ fn assert_post_pages(root: &Path) {
     assert!(newest.contains("class=\"theme-diagram__dark\""));
     assert!(newest.contains("/images/al-interface-evolution-bc29-preview.svg"));
     assert!(newest.contains("/images/al-interface-evolution-bc29-preview-dark.svg"));
-    assert!(newest.contains(":root[data-theme=\"dark\"] .theme-diagram__dark"));
-    assert!(newest.contains(":root[data-theme=\"light\"] .theme-diagram__light"));
+    assert!(newest.contains(":root[data-theme=\"dark\"] .theme-diagram img.theme-diagram__dark"));
+    assert!(newest.contains(":root[data-theme=\"light\"] .theme-diagram img.theme-diagram__light"));
     assert!(newest.contains("RequiredPending"));
     assert!(newest.contains("AS0066"));
     assert!(newest.contains("DefaultImplementation"));
