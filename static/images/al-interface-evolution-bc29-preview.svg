@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 560" role="img" aria-labelledby="title desc">
+  <title id="title">AL interface evolution, from a published contract to the BC 29 preview claim</title>
+  <desc id="desc">Four steps: publish an interface, need a new method, the old pain of breaking dependents or shipping a v2 or extends, and the Business Central 29.0 public preview claim of default method bodies plus RequiredPending and analyzer rules.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1.2 L 8 5 L 0 8.8 z" fill="#5c7568"/>
+    </marker>
+  </defs>
+
+  <rect width="760" height="560" rx="16" fill="#fffaf3" stroke="#d9d0c3" stroke-width="1"/>
+
+  <rect x="48" y="28" width="664" height="96" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <circle cx="88" cy="76" r="18" fill="#5c7568"/>
+  <text x="88" y="82" text-anchor="middle" fill="#f8fbf7" font-family="Georgia, Times New Roman, serif" font-size="18" font-weight="700">1</text>
+  <text x="124" y="68" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="20">Publish the interface</text>
+  <text x="124" y="94" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="14">IPaymentGateway ships with Authorize and Capture. Partners implement it.</text>
+
+  <line x1="380" y1="124" x2="380" y2="156" stroke="#5c7568" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <rect x="48" y="160" width="664" height="96" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <circle cx="88" cy="208" r="18" fill="#5c7568"/>
+  <text x="88" y="214" text-anchor="middle" fill="#f8fbf7" font-family="Georgia, Times New Roman, serif" font-size="18" font-weight="700">2</text>
+  <text x="124" y="200" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="20">Need a new method</text>
+  <text x="124" y="226" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="14">Refund walks in. The contract is already public. Adding a method is a break.</text>
+
+  <line x1="380" y1="256" x2="380" y2="288" stroke="#5c7568" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <rect x="48" y="292" width="664" height="96" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <circle cx="88" cy="340" r="18" fill="#735b84"/>
+  <text x="88" y="346" text-anchor="middle" fill="#f8fbf7" font-family="Georgia, Times New Roman, serif" font-size="18" font-weight="700">3</text>
+  <text x="124" y="332" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="20">The old pain</text>
+  <text x="124" y="358" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="14">Break it anyway, ship a v2, or (since v25) interface ... extends ...</text>
+
+  <line x1="380" y1="388" x2="380" y2="420" stroke="#5c7568" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <rect x="48" y="424" width="664" height="108" rx="12" fill="#eef4f0" stroke="#5c7568" stroke-width="1.75"/>
+  <circle cx="88" cy="478" r="18" fill="#5c7568"/>
+  <text x="88" y="484" text-anchor="middle" fill="#f8fbf7" font-family="Georgia, Times New Roman, serif" font-size="18" font-weight="700">4</text>
+  <text x="124" y="462" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="20">BC 29.0 preview claim</text>
+  <text x="124" y="488" fill="#38342f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="14">Default method bodies so existing implementors keep working, then</text>
+  <text x="124" y="510" fill="#38342f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="14">RequiredPending and analyzer rules to make methods required safely.</text>
+</svg>
