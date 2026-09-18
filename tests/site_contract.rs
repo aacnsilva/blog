@@ -219,6 +219,8 @@ fn assert_post_pages(root: &Path) {
     assert!(newest.contains(":root[data-theme=\"light\"] .theme-diagram__light"));
     assert!(newest.contains("RequiredPending"));
     assert!(newest.contains("AS0066"));
+    assert!(newest.contains("DefaultImplementation"));
+    assert!(!newest.contains("I actually ship"));
 }
 
 fn assert_feeds_and_discovery_files(root: &Path) {

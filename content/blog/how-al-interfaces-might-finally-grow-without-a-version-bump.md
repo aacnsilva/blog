@@ -8,7 +8,7 @@ I have an `IPaymentGateway` with `Authorize` and `Capture`. It is published. Par
 
 **That is the moment a published AL interface stops being a contract and starts being a fossil.**
 
-I am reading this from the [29.0 public preview notes](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/whatsnew/whatsnew-update-29-0), not from a sandbox compile. Here is what Microsoft said, and what that would mean for an ISV interface I actually ship.
+I am reading this from the [29.0 public preview notes](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/whatsnew/whatsnew-update-29-0), not from a sandbox compile. Here is what Microsoft said, and what that would mean for a published ISV-style interface. `IPaymentGateway` below is just an example.
 
 ## The ISV story that never gets less true
 
@@ -76,7 +76,26 @@ This is public preview, not GA. Preview notes can still change — for better or
 
 The [Interfaces in AL](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-interfaces-in-al) page still mostly describes today's signature-only model. It still tells you to avoid adding methods to published interfaces, and it still names AS0066. It still says interfaces can only contain procedure declarations (AL0584, AL0585, AL0612). That is the contract we have been shipping against.
 
-It also has a creation guideline: *consider using default implementations for methods in interfaces to reduce boilerplate code.* A nice hint that the language is heading somewhere friendlier. The 29.0 [what's-new row](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/whatsnew/whatsnew-update-29-0) is where this new capability is announced. I expect Learn to grow as GA approaches — more syntax, more analyzer detail.
+Easy to mix up: that page also says *consider using default implementations for methods in interfaces to reduce boilerplate code.* In AL today, that is not a method body on the interface. It is the [DefaultImplementation](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-defaultimplementation-property) property on an **enum** that implements the interface — a fallback codeunit when a value has no `Implementation`. Same family as `Implementation = IAddressProvider = CompanyAddressProvider` in the Learn sample. AppSourceCop [AS0067](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/analyzers/appsourcecop-as0067) even requires a default when you add an interface to a published extensible enum, so enum extensions keep compiling.
+
+```al
+enum 50135 SomeEnum implements IFoo
+{
+    Extensible = true;
+    DefaultImplementation = IFoo = DefaultFooImpl;
+
+    value(0; Yes)
+    {
+        Implementation = IFoo = YesFooImpl;
+    }
+    value(1; No)
+    {
+        // uses DefaultFooImpl
+    }
+}
+```
+
+Useful. Different story. The 29.0 [what's-new row](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/whatsnew/whatsnew-update-29-0) is about default **method bodies on the interface itself**. I expect Learn to grow as GA approaches — more syntax, more analyzer detail.
 
 The same what's-new article is also clear about the preview window:
 
@@ -109,3 +128,4 @@ Links:
 - [Interfaces in AL](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-interfaces-in-al) — still mostly signature-only, still names AS0066
 - [Extend interfaces in AL](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/devenv-interfaces-in-al-extend) — the v25 `extends` path
 - [AppSourceCop AS0066](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/analyzers/appsourcecop-as0066) — still documented as: do not add methods to a published interface
+- [DefaultImplementation property](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/developer/properties/devenv-defaultimplementation-property) — enum fallback codeunit, not a method body on the interface
