@@ -92,6 +92,7 @@ fn assert_required_files_exist(root: &Path) {
         "images/favicon-32x32.png",
         "images/share.png",
         "images/al-interface-evolution-bc29-preview.svg",
+        "images/al-interface-evolution-bc29-preview-dark.svg",
         "cv/index.html",
         "cv/styles.css",
         "cv/script.js",
@@ -108,6 +109,7 @@ fn assert_required_files_exist(root: &Path) {
     }
 
     assert_well_formed_xml(root, "images/al-interface-evolution-bc29-preview.svg");
+    assert_well_formed_xml(root, "images/al-interface-evolution-bc29-preview-dark.svg");
 
     for (_, path, _) in POSTS {
         assert!(
@@ -208,7 +210,13 @@ fn assert_post_pages(root: &Path) {
     );
     assert!(newest.contains("Previous Post"));
     assert!(newest.contains("<strike>Next Post"));
+    assert!(newest.contains("class=\"theme-diagram\""));
+    assert!(newest.contains("class=\"theme-diagram__light\""));
+    assert!(newest.contains("class=\"theme-diagram__dark\""));
     assert!(newest.contains("/images/al-interface-evolution-bc29-preview.svg"));
+    assert!(newest.contains("/images/al-interface-evolution-bc29-preview-dark.svg"));
+    assert!(newest.contains(":root[data-theme=\"dark\"] .theme-diagram__dark"));
+    assert!(newest.contains(":root[data-theme=\"light\"] .theme-diagram__light"));
     assert!(newest.contains("RequiredPending"));
     assert!(newest.contains("AS0066"));
 }
