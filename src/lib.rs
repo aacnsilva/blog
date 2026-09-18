@@ -1337,6 +1337,52 @@ const STYLE: &str = r#"  :root {
     border-radius: 8px;
   }
 
+  .theme-diagram {
+    margin: 1.18rem 0 1.6rem;
+    max-width: 100%;
+  }
+
+  .theme-diagram img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+
+  .theme-diagram__light {
+    display: block;
+  }
+
+  .theme-diagram__dark {
+    display: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .theme-diagram__light {
+      display: none;
+    }
+
+    :root:not([data-theme="light"]) .theme-diagram__dark {
+      display: block;
+    }
+  }
+
+  :root[data-theme="dark"] .theme-diagram__light {
+    display: none;
+  }
+
+  :root[data-theme="dark"] .theme-diagram__dark {
+    display: block;
+  }
+
+  :root[data-theme="light"] .theme-diagram__light {
+    display: block;
+  }
+
+  :root[data-theme="light"] .theme-diagram__dark {
+    display: none;
+  }
+
   code {
     padding: 0.12em 0.34em;
     border-radius: 5px;
@@ -1633,6 +1679,29 @@ enablePostNavigator = true
         let sitemap = render_sitemap(&site);
         assert!(sitemap.contains("<loc>https://example.com/foo-and-bar/</loc>"));
         assert!(!sitemap.contains("xmlns:xhtml"));
+    }
+
+    #[test]
+    fn theme_diagram_css_follows_site_toggle() {
+        assert!(STYLE.contains(".theme-diagram__light"));
+        assert!(STYLE.contains(".theme-diagram__dark"));
+        assert!(STYLE.contains(":root:not([data-theme=\"light\"]) .theme-diagram__dark"));
+        assert!(STYLE.contains(":root[data-theme=\"dark\"] .theme-diagram__dark"));
+        assert!(STYLE.contains(":root[data-theme=\"light\"] .theme-diagram__light"));
+        assert!(STYLE.contains("prefers-color-scheme: dark"));
+    }
+
+    #[test]
+    fn passes_through_theme_diagram_html() {
+        let html = render_markdown(
+            "<figure class=\"theme-diagram\">\n  <img class=\"theme-diagram__light\" src=\"/images/a.svg\" alt=\"x\">\n  <img class=\"theme-diagram__dark\" src=\"/images/b.svg\" alt=\"x\">\n</figure>\n",
+        );
+
+        assert!(html.contains("<figure class=\"theme-diagram\">"));
+        assert!(html.contains("class=\"theme-diagram__light\""));
+        assert!(html.contains("class=\"theme-diagram__dark\""));
+        assert!(html.contains("src=\"/images/a.svg\""));
+        assert!(html.contains("src=\"/images/b.svg\""));
     }
 
     #[test]
