@@ -97,6 +97,7 @@ fn assert_required_files_exist(root: &Path) {
         "cv/styles.css",
         "cv/script.js",
         "cv/myPhoto.jpeg",
+        "joora/privacy/index.html",
         "justa/privacy/index.html",
     ];
 
@@ -126,7 +127,9 @@ fn assert_navigation_and_core_pages(root: &Path) {
     assert!(home.contains("<a href=\"/about/\">About</a>"));
     assert!(!home.contains("<a href=\"/resume/\">Resume</a>"));
     assert!(!home.contains("/justa/privacy"));
+    assert!(!home.contains("/joora/privacy"));
     assert!(!home.contains("Justa"));
+    assert!(!home.contains("Joora"));
     assert!(home.contains("<ul class=\"blog-posts\">"));
 
     let about = read(root, "about/index.html");
@@ -298,30 +301,50 @@ fn assert_rust_design_contract(root: &Path) {
 }
 
 fn assert_unlisted_privacy_page(root: &Path) {
-    let privacy = read(root, "justa/privacy/index.html");
+    let privacy = read(root, "joora/privacy/index.html");
     assert!(privacy.contains(r#"<meta name="robots" content="noindex">"#));
-    assert!(privacy.contains("Justa"));
+    assert!(privacy.contains("https://aacnsilva.com/joora/privacy/"));
+    assert!(privacy.contains("<title>Privacy Policy — Joora | António&#39;s DevLog</title>"));
+    assert!(privacy.contains("Privacy Policy — Joora"));
+    assert!(privacy.contains("Política de privacidade — Joora"));
+    assert!(privacy.contains("A Joora"));
     assert!(privacy.contains("does not run a server"));
-    assert!(privacy.contains("Política de privacidade"));
+    assert!(privacy.contains("Effective 7 September 2026"));
+    assert!(privacy.contains("7 de setembro de 2026"));
     assert!(privacy.contains("mailto:aacnsilva@hotmail.com"));
+    assert!(privacy.contains("class=\"wordmark\""));
+    assert!(!privacy.contains("Justa"));
     assert!(!privacy.contains("href=\"/\""));
     assert!(!privacy.contains("href=\"/about/\""));
     assert!(!privacy.contains("href=\"/blog/\""));
 
+    let legacy = read(root, "justa/privacy/index.html");
+    assert!(legacy.contains(r#"<meta name="robots" content="noindex">"#));
+    assert!(legacy.contains("/joora/privacy/"));
+    assert!(legacy.contains(r#"http-equiv="refresh""#));
+    assert!(legacy.contains("location.replace(\"/joora/privacy/\")"));
+
     let home = read(root, "index.html");
     assert!(!home.contains("/justa/privacy"));
+    assert!(!home.contains("/joora/privacy"));
     assert!(!home.contains("Justa"));
+    assert!(!home.contains("Joora"));
 
     let about = read(root, "about/index.html");
     assert!(!about.contains("/justa/privacy"));
+    assert!(!about.contains("/joora/privacy"));
     assert!(!about.contains("Justa"));
+    assert!(!about.contains("Joora"));
 
     let sitemap = read(root, "sitemap.xml");
     assert!(!sitemap.contains("/justa/privacy"));
+    assert!(!sitemap.contains("/joora/privacy"));
 
     let rss = read(root, "index.xml");
     assert!(!rss.contains("/justa/privacy"));
+    assert!(!rss.contains("/joora/privacy"));
     assert!(!rss.contains("Justa"));
+    assert!(!rss.contains("Joora"));
 }
 
 fn read(root: &Path, relative: &str) -> String {
