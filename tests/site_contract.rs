@@ -301,28 +301,28 @@ fn assert_rust_design_contract(root: &Path) {
 }
 
 fn assert_unlisted_privacy_page(root: &Path) {
-    let privacy = read(root, "joora/privacy/index.html");
+    let privacy = read(root, "justa/privacy/index.html");
     assert!(privacy.contains(r#"<meta name="robots" content="noindex">"#));
-    assert!(privacy.contains("https://aacnsilva.com/joora/privacy/"));
-    assert!(privacy.contains("<title>Privacy Policy — Joora | António&#39;s DevLog</title>"));
-    assert!(privacy.contains("Privacy Policy — Joora"));
-    assert!(privacy.contains("Política de privacidade — Joora"));
-    assert!(privacy.contains("A Joora"));
+    assert!(privacy.contains("https://aacnsilva.com/justa/privacy/"));
+    assert!(privacy.contains("<title>Privacy Policy — Justa | António&#39;s DevLog</title>"));
+    assert!(privacy.contains("Privacy Policy — Justa"));
+    assert!(privacy.contains("Política de privacidade — Justa"));
+    assert!(privacy.contains("A Justa"));
     assert!(privacy.contains("does not run a server"));
     assert!(privacy.contains("Effective 7 September 2026"));
     assert!(privacy.contains("7 de setembro de 2026"));
     assert!(privacy.contains("mailto:aacnsilva@hotmail.com"));
     assert!(privacy.contains("class=\"wordmark\""));
-    assert!(!privacy.contains("Justa"));
+    assert!(!privacy.contains("Joora"));
     assert!(!privacy.contains("href=\"/\""));
     assert!(!privacy.contains("href=\"/about/\""));
     assert!(!privacy.contains("href=\"/blog/\""));
 
-    let legacy = read(root, "justa/privacy/index.html");
+    let legacy = read(root, "joora/privacy/index.html");
     assert!(legacy.contains(r#"<meta name="robots" content="noindex">"#));
-    assert!(legacy.contains("/joora/privacy/"));
+    assert!(legacy.contains("/justa/privacy/"));
     assert!(legacy.contains(r#"http-equiv="refresh""#));
-    assert!(legacy.contains("location.replace(\"/joora/privacy/\")"));
+    assert!(legacy.contains("location.replace(\"/justa/privacy/\")"));
 
     let home = read(root, "index.html");
     assert!(!home.contains("/justa/privacy"));
