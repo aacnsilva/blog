@@ -1,599 +1,345 @@
 <!DOCTYPE html>
-<html lang="en-US">
-
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex">
-  <link rel="canonical" href="https://aacnsilva.com/justa/privacy/" />
-  <link rel="shortcut icon" href="/images/favicon-32x32.png" />
-  <title>Privacy Policy — Justa | António&#39;s DevLog</title>
-  <meta name="title" content="Privacy Policy — Justa" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — Justa</title>
   <meta name="description" content="Privacy policy for the Justa iOS app. Justa does not run a server, does not use analytics, and does not sell data." />
-  <meta name="referrer" content="no-referrer-when-downgrade" />
-  <script>document.documentElement.classList.add("has-js");</script>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#F5F0E6" />
+  <link rel="icon" href="../appicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="../appicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     :root {
-      color-scheme: light;
-      --page-bg: #f3efe8;
-      --page-glow: rgba(255, 252, 246, 0.72);
-      --sage-wash: rgba(92, 117, 104, 0.07);
-      --ink: #2c2925;
-      --muted: #6e6860;
-      --faint: #8a8379;
-      --sage: #3f564d;
-      --surface: #fffdf9;
-      --surface-soft: #f7f3ec;
-      --sheet: #fbf7f0;
-      --hairline: rgba(44, 41, 37, 0.1);
-      --shadow: rgba(62, 50, 36, 0.14);
-      --inset: rgba(255, 255, 255, 0.72);
-      --focus: #4f6a60;
-      --width: 42rem;
-      --font-display: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino, "Times New Roman", serif;
-      --font-body: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-      --font-mono: "SFMono-Regular", ui-monospace, Menlo, Consolas, monospace;
+      --cream: #F5F0E6;
+      --cream-card: #FFFCF7;
+      --pine: #1A3A32;
+      --pine-soft: #2A4A42;
+      --pine-mute: #5A6B64;
+      --terracotta: #C86A46;
+      --line: rgba(26, 58, 50, 0.12);
+      --max: 720px;
+      --serif: "Playfair Display", "Iowan Old Style", Palatino, Georgia, serif;
+      --sans: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      --mono: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
     }
-
-    @media (prefers-color-scheme: dark) {
-      :root {
-        color-scheme: dark;
-        --page-bg: #141312;
-        --page-glow: rgba(36, 34, 30, 0.55);
-        --sage-wash: rgba(168, 196, 182, 0.06);
-        --ink: #f3eee6;
-        --muted: #b3aaa0;
-        --faint: #8f877d;
-        --sage: #b7d0c4;
-        --surface: #1c1b19;
-        --surface-soft: #23211e;
-        --sheet: #1a1917;
-        --hairline: rgba(243, 238, 230, 0.1);
-        --shadow: rgba(0, 0, 0, 0.38);
-        --inset: rgba(255, 255, 255, 0.04);
-        --focus: #a8c4b6;
-      }
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      background: var(--page-bg);
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
+    * { box-sizing: border-box; }
     body {
-      min-height: 100vh;
       margin: 0;
-      color: var(--ink);
-      font-family: var(--font-body);
-      font-size: 1.0625rem;
-      line-height: 1.8;
-      letter-spacing: -0.011em;
-      background:
-        radial-gradient(ellipse 80% 46% at 50% -8%, var(--page-glow), transparent 58%),
-        radial-gradient(ellipse 50% 36% at 100% 0%, var(--sage-wash), transparent 48%),
-        radial-gradient(ellipse 42% 28% at 0% 100%, rgba(80, 70, 50, 0.05), transparent 50%),
-        var(--page-bg);
+      background: var(--cream);
+      color: var(--pine-soft);
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
     }
+    a { color: var(--terracotta); text-decoration-thickness: 0.08em; text-underline-offset: 0.18em; }
+    a:hover { color: var(--pine); }
+    .wrap { width: min(var(--max), calc(100% - 2.5rem)); margin-inline: auto; }
+    [data-lang="pt"] .en { display: none !important; }
+    [data-lang="en"] .pt { display: none !important; }
 
-    a {
-      color: var(--sage);
-      text-decoration-thickness: 0.08em;
-      text-underline-offset: 0.18em;
-    }
-
-    a:hover {
-      color: var(--ink);
-    }
-
-    a:focus-visible,
-    button:focus-visible {
-      outline: 3px solid var(--focus);
-      outline-offset: 3px;
-    }
-
-    .skip {
-      position: absolute;
-      left: 16px;
-      top: 12px;
-      z-index: 2;
-      padding: 0.45rem 0.75rem;
-      border-radius: 999px;
-      background: var(--surface);
-      color: var(--ink);
-      transform: translateY(-160%);
-    }
-
-    .skip:focus {
-      transform: none;
-    }
-
-    .frame {
-      width: min(var(--width), calc(100% - 2.5rem));
-      margin: 0 auto;
-      padding: 3.25rem 0 4.5rem;
-    }
-
-    .masthead {
+    header.site {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      text-align: center;
-      margin-bottom: 2.1rem;
+      justify-content: space-between;
+      padding: 1.5rem 0 0.5rem;
+      gap: 1rem;
+      max-width: 1120px;
+      width: min(1120px, calc(100% - 2.5rem));
+      margin-inline: auto;
     }
-
-    .mark {
-      display: grid;
-      place-items: center;
-      width: 3.65rem;
-      height: 3.65rem;
-      margin-bottom: 1.2rem;
-      border-radius: 50%;
-      color: var(--sage);
-      font-family: var(--font-display);
-      font-size: 1.85rem;
-      font-weight: 500;
-      line-height: 1;
-      background:
-        linear-gradient(180deg, var(--surface), var(--surface-soft));
-      box-shadow:
-        inset 0 1px 0 var(--inset),
-        0 0 0 1px var(--hairline),
-        0 16px 36px -22px var(--shadow);
-    }
-
-    .wordmark {
-      margin: 0;
-      color: var(--ink);
-      font-family: var(--font-display);
-      font-size: 1.7rem;
-      font-weight: 500;
-      letter-spacing: 0.015em;
-      line-height: 1;
-    }
-
-    .crumb {
+    .brand { display: inline-flex; text-decoration: none; color: var(--pine); }
+    .brand:hover { text-decoration: none; }
+    .brand img.wordmark { height: 30px; width: auto; display: block; }
+    .nav {
       display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+    .nav a.ghost {
+      color: var(--pine);
+      font-size: 0.92rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .nav a.ghost:hover { color: var(--terracotta); }
+    .leaf-nav {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.55rem;
-      margin: 0.7rem 0 0;
-      color: var(--faint);
-      font-size: 0.76rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      width: 32px;
+      height: 32px;
+      border: 1.5px solid rgba(26, 58, 50, 0.28);
+      border-radius: 50%;
+      color: var(--pine);
+      text-decoration: none;
     }
-
-    .crumb-rule {
-      display: block;
-      width: 1.15rem;
-      height: 1px;
-      background: var(--hairline);
-    }
-
+    .leaf-nav:hover { border-color: var(--terracotta); color: var(--terracotta); }
+    .leaf-nav svg { width: 14px; height: 14px; }
     .lang {
       display: inline-flex;
-      margin: 0 auto 1.6rem;
-      padding: 4px;
-      border: 1px solid var(--hairline);
+      border: 1px solid var(--line);
       border-radius: 999px;
-      background: color-mix(in srgb, var(--surface-soft) 86%, transparent);
-      box-shadow: inset 0 1px 0 var(--inset);
+      overflow: hidden;
+      background: var(--cream-card);
     }
-
-    .lang-wrap {
-      display: flex;
-      justify-content: center;
-    }
-
     .lang button {
-      appearance: none;
-      min-width: 7.4rem;
-      min-height: 2.15rem;
-      padding: 0 1rem;
       border: 0;
-      border-radius: 999px;
       background: transparent;
-      color: var(--muted);
+      color: var(--pine-mute);
       font: inherit;
-      font-size: 0.86rem;
+      font-size: 0.72rem;
       font-weight: 600;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.04em;
+      padding: 0.3rem 0.55rem;
       cursor: pointer;
     }
-
-    .lang button[aria-selected="true"] {
-      background: var(--surface);
-      color: var(--sage);
-      box-shadow:
-        0 0 0 1px var(--hairline),
-        0 8px 18px -14px var(--shadow);
+    .lang button[aria-pressed="true"] {
+      background: var(--pine);
+      color: var(--cream);
     }
 
-    .sheet {
-      padding: 2.85rem 2.8rem 3.1rem;
-      border: 1px solid var(--hairline);
-      border-radius: 28px;
-      background: var(--sheet);
-      box-shadow:
-        inset 0 1px 0 var(--inset),
-        0 28px 64px -40px var(--shadow);
+    main {
+      position: relative;
+      padding: 2rem 0 4rem;
     }
-
-    .policy h1 {
-      margin: 0 0 0.55rem;
-      color: var(--ink);
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 4vw, 2.55rem);
-      font-weight: 550;
-      line-height: 1.16;
-      letter-spacing: -0.03em;
+    .leaf-deco {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.2;
+      color: #C4B5A0;
+      z-index: 0;
     }
+    .leaf-tr { right: -20px; top: 40px; width: 100px; height: 120px; }
+    .leaf-bl { left: -30px; bottom: 60px; width: 140px; height: 160px; }
+    article { position: relative; z-index: 1; }
 
-    .effective {
-      margin: 0 0 1.85rem;
-      color: var(--muted);
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      letter-spacing: 0.01em;
-    }
-
-    .effective strong {
-      font-weight: 550;
-    }
-
-    .lead,
-    .policy p {
-      margin: 0 0 1.2rem;
-    }
-
-    .lead {
-      color: var(--ink);
-      font-size: 1.125rem;
-      line-height: 1.7;
-    }
-
-    .policy h2 {
-      margin: 2.15rem 0 0.55rem;
-      color: var(--ink);
-      font-family: var(--font-display);
-      font-size: 1.28rem;
-      font-weight: 550;
+    h1 {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: clamp(1.9rem, 3.5vw, 2.45rem);
+      line-height: 1.18;
+      color: var(--pine);
+      margin: 0 0 0.5rem;
       letter-spacing: -0.02em;
-      line-height: 1.25;
     }
-
-    .policy section + section h2 {
-      padding-top: 0.35rem;
+    h1 .rule {
+      display: block;
+      width: 3.5rem;
+      height: 3px;
+      background: var(--terracotta);
+      margin: 0.85rem 0 0;
+      border-radius: 2px;
     }
-
-    .policy p:last-child {
-      margin-bottom: 0;
+    .effective {
+      color: var(--pine-mute);
+      font-family: var(--mono);
+      font-size: 0.84rem;
+      margin: 0 0 1.6rem;
     }
-
-    strong {
-      color: var(--ink);
-      font-weight: 650;
+    h2 {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 1.35rem;
+      color: var(--pine);
+      margin: 2.2em 0 0.55em;
+      letter-spacing: -0.015em;
     }
-
+    p { margin: 0 0 1.1rem; }
+    strong { color: var(--pine); font-weight: 600; }
     code {
-      padding: 0.12em 0.38em;
-      border-radius: 6px;
-      background: var(--surface-soft);
-      color: var(--ink);
-      font-family: var(--font-mono);
-      font-size: 0.86em;
+      padding: 0.12em 0.34em;
+      border-radius: 5px;
+      background: rgba(26, 58, 50, 0.06);
+      color: var(--pine);
+      font-family: var(--mono);
+      font-size: 0.88em;
     }
-
-    .contact {
-      margin-top: 0.35rem;
-      padding: 1.15rem 1.2rem 1.2rem;
-      border: 1px solid var(--hairline);
-      border-radius: 18px;
-      background: var(--surface-soft);
+    hr {
+      height: 1px;
+      margin: 3rem 0;
+      border: 0;
+      background: var(--line);
     }
-
-    .contact p:last-child {
-      margin-bottom: 0;
+    footer.site {
+      max-width: 1120px;
+      width: min(1120px, calc(100% - 2.5rem));
+      margin: 0 auto;
+      padding: 1.5rem 0 2.5rem;
+      border-top: 1px solid var(--line);
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--pine-mute);
     }
-
-    .note {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .colophon {
+    footer .links {
       display: flex;
-      align-items: center;
+      gap: 1.25rem;
       justify-content: center;
-      gap: 0.65rem;
-      margin-top: 1.8rem;
-      color: var(--faint);
-      font-family: var(--font-display);
-      font-size: 0.95rem;
-      letter-spacing: 0.04em;
+      margin-bottom: 0.65rem;
     }
-
-    .colophon .dot {
-      width: 0.28rem;
-      height: 0.28rem;
-      border-radius: 50%;
-      background: var(--sage);
-      opacity: 0.55;
+    footer .tagline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-bottom: 0.85rem;
+      color: var(--pine-soft);
+      font-size: 0.9rem;
     }
+    footer .tagline .ico { color: var(--terracotta); }
 
-    .has-js .policy[hidden] {
-      display: none;
-    }
-
-    .policy + .policy {
-      margin-top: 2.4rem;
-      padding-top: 2.2rem;
-      border-top: 1px solid var(--hairline);
-    }
-
-    .has-js .policy + .policy {
-      margin-top: 0;
-      padding-top: 0;
-      border-top: 0;
-    }
-
-    @media (max-width: 640px) {
-      body {
-        font-size: 1rem;
-      }
-
-      .frame {
-        width: min(var(--width), calc(100% - 1.7rem));
-        padding-top: 2.2rem;
-      }
-
-      .sheet {
-        padding: 1.7rem 1.25rem 2rem;
-        border-radius: 22px;
-      }
-
-      .lang button {
-        min-width: 6.4rem;
-      }
-
-      .policy h2 {
-        font-size: 1.18rem;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        transition: none !important;
-      }
-    }
-  </style>
-  <noscript>
-    <style>
-      .policy[hidden] {
-        display: block;
-      }
-
-      .lang-wrap {
-        display: none;
-      }
-
-      .policy + .policy {
-        margin-top: 2.4rem;
-        padding-top: 2.2rem;
-        border-top: 1px solid var(--hairline);
-      }
-    </style>
-  </noscript>
-  <style>
-    @media print {
-      body {
-        background: white;
-        color: black;
-      }
-
-      .skip,
-      .lang-wrap,
-      .colophon {
-        display: none;
-      }
-
-      .sheet {
-        padding: 0;
-        border: 0;
-        box-shadow: none;
-        background: transparent;
-      }
-
-      .has-js .policy[hidden] {
-        display: none;
-      }
+    @media (max-width: 520px) {
+      body { font-size: 16px; }
+      .wrap { width: min(var(--max), calc(100% - 1.75rem)); }
+      header.site { width: min(1120px, calc(100% - 1.75rem)); }
+      footer.site { width: min(1120px, calc(100% - 1.75rem)); }
     }
   </style>
 </head>
-
-<body>
-  <a class="skip" href="#policy">Skip to privacy policy</a>
-  <div class="frame">
-    <header class="masthead">
-      <div class="mark" aria-hidden="true">C</div>
-      <p class="wordmark">Justa</p>
-      <p class="crumb">
-        <span>Justa</span>
-        <span class="crumb-rule" aria-hidden="true"></span>
-        <span>Privacy</span>
-      </p>
-    </header>
-
-    <div class="lang-wrap">
-      <div class="lang" role="tablist" aria-label="Language">
-        <button type="button" role="tab" id="tab-en" aria-controls="policy-en" aria-selected="true">English</button>
-        <button type="button" role="tab" id="tab-pt" aria-controls="policy-pt" aria-selected="false">Português</button>
+<body data-lang="en">
+  <header class="site">
+    <a class="brand" href="../" aria-label="justa home">
+      <img class="wordmark" src="../wordmark.png" alt="justa" width="110" height="26" />
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a class="ghost" href="../"><span class="en">Home</span><span class="pt">Início</span></a>
+      <a class="leaf-nav" href="../#trust" aria-label="Private by design">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3c2.5 5 7 7.5 7 12a7 7 0 1 1-14 0c0-4.5 4.5-7 7-12z"/></svg>
+      </a>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-set-lang="pt" aria-pressed="false">PT</button>
       </div>
+    </nav>
+  </header>
+
+  <main>
+    <div class="leaf-deco leaf-tr" aria-hidden="true">
+      <svg viewBox="0 0 100 120" fill="currentColor"><path d="M50 6c7 18 3 32-5 44 15-3 28 5 35 18-23 3-40-5-48-18-2 13-12 23-27 28 10-20 8-40 7-55 12 3 26 2 38-17z"/></svg>
     </div>
+    <div class="wrap">
+      <!-- EN -->
+      <article class="en" lang="en">
+        <h1>Privacy Policy — Justa<span class="rule" aria-hidden="true"></span></h1>
+        <p class="effective"><strong>Effective 16 September 2026</strong></p>
+        <p>Justa is a personal ledger for shared household expenses. It is made by António Silva.</p>
 
-    <main id="policy" class="sheet">
-      <article class="policy" id="policy-en" lang="en" role="tabpanel" aria-labelledby="tab-en">
-        <h1>Privacy Policy — Justa</h1>
-        <p class="effective"><strong>Effective 7 September 2026</strong></p>
-        <p class="lead">Justa is a personal ledger for shared household expenses. It is made by António Silva.</p>
+        <h2>What this app does not do</h2>
+        <p>Justa does not run a server, does not use analytics, does not show ads, and does not sell data. The developer does not receive your expenses, names, income, or Face ID information.</p>
 
-        <section>
-          <h2>What this app does not do</h2>
-          <p>Justa does not run a server, does not use analytics, does not show ads, and does not sell data. The developer does not receive your expenses, names, income, or Face ID information.</p>
-        </section>
+        <h2>What stays on your iPhone</h2>
+        <p>People, usual income, monthly costs, month-only cost changes, expenses, month-income overrides, extras-paid confirmations, savings/investment accounts (opening balances and add/withdraw movements), and optional person photos are stored on the iPhone with SwiftData. The Face ID lock, which household is open, and appearance (light/dark mode and theme) stay on that iPhone. The lock hides the ledger on screen. It does not encrypt the SwiftData store or vault files beyond what iOS already does.</p>
 
-        <section>
-          <h2>What stays on your iPhone</h2>
-          <p>People, usual income, monthly costs, expenses, month-income overrides, and extras-paid confirmations are stored on the iPhone with SwiftData. The Face ID lock and which household is open stay on that iPhone. The lock hides the ledger on screen. It does not encrypt the SwiftData store or vault files beyond what iOS already does.</p>
-        </section>
+        <h2>Face ID</h2>
+        <p>Face ID is optional. The face check is performed by iOS. Justa only learns whether unlock succeeded. Face data is never written to the ledger or to a vault folder.</p>
 
-        <section>
-          <h2>Face ID</h2>
-          <p>Face ID is optional. The face check is performed by iOS. Justa only learns whether unlock succeeded. Face data is never written to the ledger or to a vault folder.</p>
-        </section>
+        <h2>Person photos</h2>
+        <p>A person can keep a color circle or a photo you pick from Photos. The photo is resized on this iPhone and stored with that person. It is not uploaded. If a vault folder is linked, the photo bytes go into that household’s <code>ledger.json</code> so the other iPhone can show the same avatar. Face ID and the chosen appearance theme are never written there.</p>
 
-        <section>
-          <h2>Vault folder</h2>
-          <p>If you tap <strong>Create vault</strong> or <strong>Open vault</strong>, you pick a folder in Files (iCloud Drive, Dropbox, Google Drive, or On My iPhone). Justa writes <code>vault.json</code> and household <code>ledger.json</code> files into that folder so another iPhone you share the folder with can open the same ledger.</p>
-          <p>Anyone who can open that folder can read the ledger. Face ID is never stored there. Unlinking the vault keeps the local copy and does not delete the folder.</p>
-        </section>
+        <h2>Receipt photos</h2>
+        <p>Scan receipt uses the camera, a photo, or a file you pick (PDF or image). Text recognition runs on this iPhone through Apple Vision, or PDFKit when the PDF already has a text layer. The file is not uploaded and is not written to the ledger or to a vault folder. Only the expense fields you save (title, amount, date, category, note) stay in the household ledger.</p>
 
-        <section>
-          <h2>Your choices</h2>
-          <p>You can delete a person, an expense, a monthly cost, or a household. You can unlink the vault. You can delete the app, which removes the on-device copy.</p>
-        </section>
+        <h2>Vault folder</h2>
+        <p>If you tap <strong>Create vault</strong> or <strong>Open vault</strong>, you pick a folder in Files (iCloud Drive, Dropbox, Google Drive, or On My iPhone). Justa writes <code>vault.json</code> and household <code>ledger.json</code> files into that folder so another iPhone you share the folder with can open the same ledger.</p>
+        <p>Anyone who can open that folder can read the ledger. Face ID is never stored there. Unlinking the vault keeps the local copy and does not delete the folder.</p>
+        <p><strong>Create vault</strong> is a one-time App Store purchase. Apple processes the payment. Justa does not receive your payment details, Apple ID, or a receipt beyond what StoreKit keeps on the device. Open vault stays free. The purchase is not written into the vault folder.</p>
 
-        <section>
-          <h2>Children</h2>
-          <p>Justa is not directed at children under 13.</p>
-        </section>
+        <h2>Your choices</h2>
+        <p>You can delete a person, an expense, a monthly cost, or a household. You can unlink the vault. You can delete the app, which removes the on-device copy.</p>
 
-        <section>
-          <h2>Contact</h2>
-          <div class="contact">
-            <p>António Silva<br>
-              <a href="mailto:aacnsilva@hotmail.com">aacnsilva@hotmail.com</a>
-            </p>
-            <p class="note">The same policy is in the app under <strong>Household → Settings → Privacy Policy</strong>.</p>
-          </div>
-        </section>
+        <h2>Children</h2>
+        <p>Justa is not directed at children under 13.</p>
+
+        <h2>Contact</h2>
+        <p>António Silva<br />
+          <a href="mailto:aacnsilva@hotmail.com">aacnsilva@hotmail.com</a>
+        </p>
+        <p>The same policy is in the app under <strong>Household → Settings → Privacy Policy</strong>.</p>
       </article>
 
-      <article class="policy" id="policy-pt" lang="pt-PT" role="tabpanel" aria-labelledby="tab-pt" hidden>
-        <h1>Política de privacidade — Justa</h1>
-        <p class="effective"><strong>Em vigor a 7 de setembro de 2026</strong></p>
-        <p class="lead">A Justa é um livro de contas para despesas partilhadas. É feita por António Silva.</p>
+      <!-- PT -->
+      <article class="pt" lang="pt-PT">
+        <h1>Política de privacidade — Justa<span class="rule" aria-hidden="true"></span></h1>
+        <p class="effective"><strong>Em vigor a 16 de setembro de 2026</strong></p>
+        <p>A Justa é um livro de contas para despesas partilhadas. É feita por António Silva.</p>
 
-        <section>
-          <h2>O que esta app não faz</h2>
-          <p>A Justa não tem servidor, não usa análise de utilização, não mostra anúncios e não vende dados. O programador não recebe as suas despesas, nomes, rendimentos nem informação de Face ID.</p>
-        </section>
+        <h2>O que esta app não faz</h2>
+        <p>A Justa não tem servidor, não usa análise de utilização, não mostra anúncios e não vende dados. O programador não recebe as suas despesas, nomes, rendimentos nem informação de Face ID.</p>
 
-        <section>
-          <h2>O que fica neste iPhone</h2>
-          <p>Pessoas, rendimento habitual, custos mensais, despesas, acertos de rendimento do mês e a confirmação de extras pagas ficam neste iPhone. O bloqueio com Face ID e a casa aberta ficam neste iPhone. O bloqueio esconde o livro no ecrã. Não cifra a base local nem os ficheiros do cofre para além do que o iOS já faz.</p>
-        </section>
+        <h2>O que fica neste iPhone</h2>
+        <p>Pessoas, rendimento habitual, custos mensais, alterações de custos só daquele mês, despesas, acertos de rendimento do mês, a confirmação de extras pagas, as contas de poupança/investimento (saldo inicial e movimentos de entrada/saída) e as fotos opcionais das pessoas ficam neste iPhone. O bloqueio com Face ID, a casa aberta e o aspeto (modo claro/escuro e tema) ficam neste iPhone. O bloqueio esconde o livro no ecrã. Não cifra a base local nem os ficheiros do cofre para além do que o iOS já faz.</p>
 
-        <section>
-          <h2>Face ID</h2>
-          <p>O Face ID é opcional. A verificação é feita pelo iOS. A app só sabe se o desbloqueio teve sucesso. Os dados da face nunca são escritos no livro nem na pasta do cofre.</p>
-        </section>
+        <h2>Face ID</h2>
+        <p>O Face ID é opcional. A verificação é feita pelo iOS. A app só sabe se o desbloqueio teve sucesso. Os dados da face nunca são escritos no livro nem na pasta do cofre.</p>
 
-        <section>
-          <h2>Pasta do cofre</h2>
-          <p>Se tocar em <strong>Criar cofre</strong> ou <strong>Abrir cofre</strong>, escolhe uma pasta na app Ficheiros. A Justa escreve <code>vault.json</code> e os <code>ledger.json</code> nessa pasta para outro iPhone com quem partilhar a pasta abrir o mesmo livro.</p>
-          <p>Quem puder abrir a pasta pode ler o livro. O Face ID nunca fica lá. Desligar o cofre mantém a cópia local e não apaga a pasta.</p>
-        </section>
+        <h2>Fotos das pessoas</h2>
+        <p>Uma pessoa pode ficar com um círculo de cor ou com uma foto escolhida em Fotos. A foto é redimensionada neste iPhone e fica com essa pessoa. Não é enviada. Se houver uma pasta de cofre, os bytes da foto vão no <code>ledger.json</code> dessa casa para o outro iPhone mostrar o mesmo avatar. O Face ID e o tema escolhido nunca são escritos lá.</p>
 
-        <section>
-          <h2>As suas escolhas</h2>
-          <p>Pode eliminar uma pessoa, uma despesa, um custo mensal ou uma casa. Pode desligar o cofre. Pode eliminar a app, o que remove a cópia neste iPhone.</p>
-        </section>
+        <h2>Fotografias de faturas</h2>
+        <p>Fotografar fatura usa a câmara, uma foto ou um ficheiro que escolha (PDF ou imagem). O reconhecimento de texto corre neste iPhone com o Vision da Apple, ou com o PDFKit quando o PDF já tem uma camada de texto. O ficheiro não é enviado nem escrito no livro nem na pasta do cofre. Só os campos da despesa que gravar (título, valor, data, categoria, nota) ficam no livro da casa.</p>
 
-        <section>
-          <h2>Crianças</h2>
-          <p>A Justa não se destina a crianças com menos de 13 anos.</p>
-        </section>
+        <h2>Pasta do cofre</h2>
+        <p>Se tocar em <strong>Criar cofre</strong> ou <strong>Abrir cofre</strong>, escolhe uma pasta na app Ficheiros. A Justa escreve <code>vault.json</code> e os <code>ledger.json</code> nessa pasta para outro iPhone com quem partilhar a pasta abrir o mesmo livro.</p>
+        <p>Quem puder abrir a pasta pode ler o livro. O Face ID nunca fica lá. Desligar o cofre mantém a cópia local e não apaga a pasta.</p>
+        <p><strong>Criar cofre</strong> é uma compra única na App Store. A Apple processa o pagamento. A Justa não recebe dados de pagamento, o Apple ID, nem um recibo para além do que o StoreKit guarda neste iPhone. Abrir cofre continua grátis. A compra não é escrita na pasta do cofre.</p>
 
-        <section>
-          <h2>Contacto</h2>
-          <div class="contact">
-            <p>António Silva<br>
-              <a href="mailto:aacnsilva@hotmail.com">aacnsilva@hotmail.com</a>
-            </p>
-            <p class="note">A mesma política está na app em <strong>Casa → Definições → Política de privacidade</strong>.</p>
-          </div>
-        </section>
+        <h2>As suas escolhas</h2>
+        <p>Pode eliminar uma pessoa, uma despesa, um custo mensal ou uma casa. Pode desligar o cofre. Pode eliminar a app, o que remove a cópia neste iPhone.</p>
+
+        <h2>Crianças</h2>
+        <p>A Justa não se destina a crianças com menos de 13 anos.</p>
+
+        <h2>Contacto</h2>
+        <p>António Silva<br />
+          <a href="mailto:aacnsilva@hotmail.com">aacnsilva@hotmail.com</a>
+        </p>
+        <p>A mesma política está na app em <strong>Casa → Definições → Política de privacidade</strong>.</p>
       </article>
-    </main>
+    </div>
+    <div class="leaf-deco leaf-bl" aria-hidden="true">
+      <svg viewBox="0 0 140 160" fill="currentColor"><path d="M30 140c22-36 20-72 14-100 28 14 64 12 92-8-22 50-58 72-84 86 6 14 4 28 2 38-14-6-20-16-24-32z"/></svg>
+    </div>
+  </main>
 
-    <p class="colophon"><span class="dot" aria-hidden="true"></span>Justa</p>
-  </div>
+  <footer class="site">
+    <div class="tagline">
+      <span class="ico" aria-hidden="true">♥</span>
+      <span class="en">Built for calm, trust, and shared life.</span>
+      <span class="pt">Feita para calma, confiança e vida partilhada.</span>
+    </div>
+    <div class="links">
+      <a href="../"><span class="en">Home</span><span class="pt">Início</span></a>
+      <a href="mailto:aacnsilva@hotmail.com"><span class="en">Support</span><span class="pt">Apoio</span></a>
+    </div>
+    <p>© António Silva · Justa</p>
+  </footer>
 
   <script>
     (function () {
-      const panels = {
-        en: document.getElementById("policy-en"),
-        pt: document.getElementById("policy-pt"),
-      };
-      const tabs = {
-        en: document.getElementById("tab-en"),
-        pt: document.getElementById("tab-pt"),
-      };
-
-      const handleSelect = (lang, persist) => {
-        const next = lang === "pt" ? "pt" : "en";
-        Object.keys(panels).forEach((key) => {
-          const selected = key === next;
-          panels[key].hidden = !selected;
-          tabs[key].setAttribute("aria-selected", selected ? "true" : "false");
-          tabs[key].tabIndex = selected ? 0 : -1;
+      var body = document.body;
+      var buttons = document.querySelectorAll("[data-set-lang]");
+      function setLang(lang) {
+        body.setAttribute("data-lang", lang);
+        document.documentElement.lang = lang === "pt" ? "pt-PT" : "en";
+        buttons.forEach(function (btn) {
+          btn.setAttribute("aria-pressed", btn.getAttribute("data-set-lang") === lang ? "true" : "false");
         });
-        document.documentElement.lang = next === "pt" ? "pt-PT" : "en-US";
-        if (persist) {
-          try {
-            localStorage.setItem("justa-privacy-lang", next);
-          } catch (_) {}
-          if (history.replaceState) {
-            history.replaceState(null, "", next === "pt" ? "#pt" : "#en");
-          }
-        }
-      };
-
-      const handleKeyDown = (event) => {
-        if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
-          return;
-        }
-        event.preventDefault();
-        const current = tabs.pt.getAttribute("aria-selected") === "true" ? "pt" : "en";
-        const next = current === "en" ? "pt" : "en";
-        handleSelect(next, true);
-        tabs[next].focus();
-      };
-
-      Object.keys(tabs).forEach((key) => {
-        tabs[key].addEventListener("click", () => handleSelect(key, true));
-        tabs[key].addEventListener("keydown", handleKeyDown);
-      });
-
-      const fromHash = location.hash.replace("#", "");
-      let initial = fromHash === "pt" || fromHash === "en" ? fromHash : "";
-      if (!initial) {
-        try {
-          initial = localStorage.getItem("justa-privacy-lang") || "";
-        } catch (_) {
-          initial = "";
-        }
+        try { localStorage.setItem("justa-lang", lang); } catch (e) {}
+        document.title = lang === "pt" ? "Política de privacidade — Justa" : "Privacy Policy — Justa";
       }
-      handleSelect(initial || "en", false);
+      buttons.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          setLang(btn.getAttribute("data-set-lang"));
+        });
+      });
+      var saved = null;
+      try { saved = localStorage.getItem("justa-lang"); } catch (e) {}
+      if (saved === "pt" || saved === "en") setLang(saved);
     })();
   </script>
 </body>
-
 </html>
