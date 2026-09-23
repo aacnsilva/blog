@@ -6,7 +6,7 @@
   <title>Justa — Shared bills, split fairly</title>
   <meta name="description" content="A private household ledger for people who share a home. Plan the month by income, log extras, settle who pays whom. On your iPhone. No account. No server." />
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="theme-color" content="#F3EDE3" />
+  <meta name="theme-color" content="#F9F3E5" />
   <meta property="og:title" content="Justa — Shared bills, split fairly" />
   <meta property="og:description" content="Shared bills, split fairly. Private by design." />
   <meta property="og:type" content="website" />
@@ -16,895 +16,143 @@
   <link rel="apple-touch-icon" href="appicon.png" />
   <style>
     :root {
-      --cream: #F3EDE3;
-      --cream-deep: #E8E0D4;
-      --pine: #1C322C;
-      --pine-soft: #2F4A42;
-      --terracotta: #C46A4A;
-      --terracotta-soft: #D9896C;
-      --ink-mute: #5A635F;
-      --card: #FFFCF7;
-      --line: rgba(28, 50, 44, 0.12);
-      --sky: #DCE9EF;
-      --coral-wash: #F3DDD2;
-      --radius: 18px;
-      --max: 1080px;
-      --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-      --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
+      --cream: #F9F3E5;
+      --pine: #1A3A32;
+      --terracotta: #C86A46;
+      --pine-mute: #5A6B64;
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
+    html, body {
       margin: 0;
-      background:
-        radial-gradient(110% 70% at 8% 0%, rgba(196, 106, 74, 0.07), transparent 50%),
-        radial-gradient(90% 55% at 100% 20%, rgba(28, 50, 44, 0.05), transparent 48%),
-        var(--cream);
+      min-height: 100%;
+      background: var(--cream);
       color: var(--pine);
-      font-family: var(--sans);
-      line-height: 1.5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
     }
     a { color: var(--terracotta); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .wrap { width: min(var(--max), calc(100% - 2.5rem)); margin-inline: auto; }
-
-    header.site {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.25rem 0 0.5rem;
-      gap: 1rem;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-    }
-    .brand img.icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 9px;
-      display: block;
-      box-shadow: 0 3px 10px rgba(28, 50, 44, 0.12);
-    }
-    .brand img.wordmark {
-      height: 26px;
-      width: auto;
-      display: block;
-    }
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem 1rem;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-    .nav a.ghost {
-      color: var(--pine-soft);
-      font-size: 0.9rem;
-    }
-    .lang {
-      display: inline-flex;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      overflow: hidden;
-      background: var(--card);
-    }
-    .lang button {
-      border: 0;
-      background: transparent;
-      color: var(--ink-mute);
-      font: inherit;
-      font-size: 0.75rem;
-      letter-spacing: 0.02em;
-      padding: 0.35rem 0.65rem;
-      cursor: pointer;
-    }
-    .lang button[aria-pressed="true"] {
-      background: var(--pine);
-      color: var(--cream);
-    }
-
-    .hero {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 2.5rem;
-      align-items: center;
-      padding: 2.25rem 0 3.25rem;
-    }
-    @media (max-width: 860px) {
-      .hero { grid-template-columns: 1fr; padding-top: 1.35rem; }
-    }
-    .eyebrow {
-      display: inline-block;
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--terracotta);
-      margin-bottom: 0.75rem;
-      font-weight: 600;
-    }
-    h1 {
-      font-family: var(--serif);
-      font-weight: 600;
-      font-size: clamp(2.1rem, 4.2vw, 3.35rem);
-      line-height: 1.12;
-      letter-spacing: -0.02em;
-      margin: 0 0 1rem;
-      color: var(--pine);
-    }
-    h1 .rule {
-      display: block;
-      width: 4.5rem;
-      height: 3px;
-      background: var(--terracotta);
-      margin: 0.85rem 0 0.2rem;
-      border-radius: 2px;
-    }
-    .lede {
-      font-size: 1.08rem;
-      color: var(--pine-soft);
-      max-width: 36rem;
-      margin: 0 0 1.5rem;
-    }
-    .cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-      margin-bottom: 0.65rem;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-      border-radius: 999px;
-      padding: 0.85rem 1.25rem;
-      font-weight: 600;
-      font-size: 0.95rem;
-      border: 1px solid transparent;
-      cursor: pointer;
-      text-decoration: none;
-      font-family: inherit;
-    }
-    .btn:hover { text-decoration: none; }
-    .btn-primary {
-      background: var(--terracotta);
-      color: #fff;
-      box-shadow: 0 10px 24px rgba(196, 106, 74, 0.25);
-    }
-    .btn-primary:hover { filter: brightness(0.97); }
-    .btn-coming {
-      background: var(--terracotta);
-      color: #fff;
-      box-shadow: 0 10px 24px rgba(196, 106, 74, 0.18);
-      opacity: 0.85;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-    .btn-coming .badge {
-      display: inline-block;
-      font-size: 0.68rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      background: rgba(255,255,255,0.22);
-      border-radius: 999px;
-      padding: 0.2rem 0.5rem;
-      margin-left: 0.15rem;
-    }
-    .btn-secondary {
-      background: transparent;
-      color: var(--pine);
-      border-color: var(--line);
-    }
-    .btn-secondary:hover { background: rgba(28, 50, 44, 0.04); }
-    .micro {
-      font-size: 0.82rem;
-      color: var(--ink-mute);
-      margin: 0 0 1.35rem;
-    }
-    .proof {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem 0.55rem;
-    }
-    .proof span {
-      font-size: 0.78rem;
-      color: var(--pine-soft);
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 0.35rem 0.75rem;
-    }
+    a:hover { text-decoration: underline; text-underline-offset: 0.15em; }
 
     .stage {
-      position: relative;
-      min-height: 440px;
-      border-radius: 28px;
-      background:
-        radial-gradient(ellipse at 72% 28%, var(--coral-wash), transparent 55%),
-        radial-gradient(ellipse at 18% 82%, var(--sky), transparent 50%),
-        var(--cream-deep);
-      border: 1px solid var(--line);
-      overflow: hidden;
-      padding: 2rem 1.25rem 1.35rem;
+      min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 0;
     }
-    .stage::before,
-    .stage::after {
-      content: "";
-      position: absolute;
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      pointer-events: none;
-      opacity: 0.35;
-    }
-    .stage::before {
-      left: -40px;
-      bottom: -30px;
-      background: radial-gradient(circle, rgba(95, 138, 110, 0.35), transparent 70%);
-    }
-    .stage::after {
-      right: -20px;
-      top: 30%;
-      width: 48px;
-      height: 48px;
-      background: var(--terracotta);
-      opacity: 0.45;
-    }
-    .phone {
-      width: min(248px, 78%);
+
+    /* Hero composite is the visual — Liberty lock with real phone screen */
+    .hero {
+      position: relative;
+      width: min(100%, 1280px);
       margin: 0 auto;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      box-shadow: 0 24px 50px rgba(28, 50, 44, 0.18);
-      padding: 0.85rem 0.85rem 1rem;
-      position: relative;
-      z-index: 2;
+      line-height: 0;
     }
-    .phone .notch {
-      width: 36%;
-      height: 8px;
-      background: var(--pine);
-      border-radius: 999px;
-      margin: 0.15rem auto 0.75rem;
-      opacity: 0.2;
+    .hero > img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      vertical-align: top;
     }
-    .phone .month {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-bottom: 0.65rem;
-      color: var(--pine);
-    }
-    .phone .month .cal {
-      width: 18px;
-      height: 18px;
-      border: 1.5px solid var(--pine-soft);
-      border-radius: 4px;
-      opacity: 0.55;
-      position: relative;
-    }
-    .phone .month .cal::after {
-      content: "";
+
+    /* Invisible hit areas mapped to Liberty art (% of 1280×720) */
+    .hit {
       position: absolute;
-      left: 3px;
-      right: 3px;
-      top: 7px;
-      height: 1.5px;
-      background: var(--pine-soft);
-    }
-    .phone h3 {
-      margin: 0 0 0.2rem;
-      font-size: 0.95rem;
-      font-family: var(--serif);
-    }
-    .phone .tagline {
-      font-size: 0.72rem;
-      color: var(--ink-mute);
-      margin: 0 0 0.65rem;
-    }
-    .cardish {
-      background: #f4efe6;
-      border-radius: 12px;
-      padding: 0.7rem 0.75rem;
-      margin-bottom: 0.55rem;
-      font-size: 0.78rem;
-    }
-    .cardish .row {
-      display: flex;
-      justify-content: space-between;
-      gap: 0.5rem;
-      margin: 0.15rem 0;
-    }
-    .cardish .muted { color: var(--ink-mute); font-size: 0.72rem; }
-    .split-bar {
-      display: flex;
-      height: 8px;
-      border-radius: 999px;
+      display: block;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      background: transparent;
+      cursor: default;
+      text-indent: -9999px;
       overflow: hidden;
-      margin-top: 0.5rem;
-      background: rgba(28,50,44,0.08);
-    }
-    .split-bar .you { width: 40%; background: var(--cream-deep); }
-    .split-bar .partner { width: 60%; background: var(--pine); }
-    .split-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.68rem;
-      color: var(--ink-mute);
-      margin-top: 0.3rem;
-    }
-    .bills-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ink-mute);
-      margin: 0.55rem 0 0.35rem;
-      font-weight: 600;
-    }
-    .bill-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      font-size: 0.78rem;
-      padding: 0.35rem 0;
-      border-bottom: 1px solid rgba(28,50,44,0.06);
-    }
-    .bill-row:last-child { border-bottom: 0; }
-    .bill-row .sub { display: block; font-size: 0.68rem; color: var(--ink-mute); }
-    .share-foot {
-      margin-top: 0.65rem;
-      padding-top: 0.55rem;
-      border-top: 1px solid var(--line);
-      font-size: 0.8rem;
-    }
-    .share-foot strong { display: block; margin-bottom: 0.15rem; }
-    .share-foot .soft {
-      font-size: 0.7rem;
-      color: var(--ink-mute);
-    }
-    .phone-note {
-      font-size: 0.68rem;
-      color: var(--ink-mute);
-      text-align: center;
-      margin-top: 0.85rem;
-    }
-
-    section.block {
-      padding: 3rem 0;
-      border-top: 1px solid var(--line);
-    }
-    section.block h2 {
-      font-family: var(--serif);
-      font-size: clamp(1.5rem, 2.6vw, 2rem);
-      margin: 0 0 0.75rem;
-      letter-spacing: -0.01em;
-      color: var(--pine);
-    }
-    section.block p.intro {
-      color: var(--pine-soft);
-      max-width: 42rem;
-      margin: 0 0 1.5rem;
-    }
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-    @media (max-width: 760px) {
-      .grid-3 { grid-template-columns: 1fr; }
-    }
-    .tile {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 1.15rem 1.2rem;
-    }
-    .tile .n {
-      font-family: var(--serif);
-      color: var(--terracotta);
-      font-size: 1.35rem;
-      margin-bottom: 0.35rem;
-    }
-    .tile h3 {
-      margin: 0 0 0.4rem;
-      font-size: 1.05rem;
-    }
-    .tile p {
-      margin: 0;
-      color: var(--ink-mute);
-      font-size: 0.92rem;
-    }
-
-    .features {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.85rem;
-    }
-    @media (max-width: 640px) {
-      .features { grid-template-columns: 1fr; }
-    }
-    .feat {
-      display: flex;
-      gap: 0.75rem;
-      padding: 0.95rem 1rem;
-      border-radius: 14px;
-      background: var(--card);
-      border: 1px solid var(--line);
-    }
-    .feat .dot {
-      width: 10px;
-      height: 10px;
-      margin-top: 0.4rem;
-      border-radius: 50%;
-      background: var(--terracotta);
-      flex: none;
-    }
-    .feat.mid .dot { background: #5f8a6e; }
-    .feat h3 { margin: 0 0 0.2rem; font-size: 0.98rem; }
-    .feat p { margin: 0; color: var(--ink-mute); font-size: 0.88rem; }
-
-    .trust {
-      background: var(--pine);
-      color: var(--cream);
-      border-radius: 24px;
-      padding: 1.75rem 1.5rem;
-    }
-    .trust h2 { color: var(--cream); margin-top: 0; }
-    .trust p { color: rgba(243, 237, 227, 0.85); max-width: 42rem; margin: 0 0 1rem; }
-    .trust a { color: var(--terracotta-soft); }
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .chips span {
-      font-size: 0.78rem;
-      color: rgba(243, 237, 227, 0.92);
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 999px;
-      padding: 0.35rem 0.75rem;
-    }
-
-    .plus {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 1rem;
-      align-items: flex-start;
-      padding: 1.25rem 1.35rem;
-      border: 1px dashed var(--line);
-      border-radius: var(--radius);
-      background: rgba(255,252,247,0.65);
-    }
-    .plus h3 { margin: 0 0 0.35rem; font-size: 1.05rem; font-family: var(--serif); }
-    .plus p { margin: 0 0 0.45rem; color: var(--ink-mute); font-size: 0.92rem; max-width: 40rem; }
-    .plus .micro-plus {
-      margin: 0;
-      font-size: 0.8rem;
-      color: var(--ink-mute);
-    }
-    .plus .tag {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--terracotta);
       white-space: nowrap;
-      padding: 0.35rem 0.7rem;
-      border: 1px solid rgba(196, 106, 74, 0.35);
-      border-radius: 999px;
-      background: rgba(196, 106, 74, 0.08);
+    }
+    .hit:focus-visible {
+      outline: 2px solid var(--terracotta);
+      outline-offset: 2px;
+      text-indent: 0;
+      color: transparent;
     }
 
-    .closing {
-      text-align: center;
-      padding: 2.5rem 0 1rem;
-    }
-    .closing > p {
-      color: var(--pine-soft);
-      margin: 0 0 1rem;
-      font-size: 1.05rem;
-    }
-    .closing .cta-row {
-      justify-content: center;
-      margin-bottom: 1rem;
-    }
-    .closing .mail {
-      font-size: 0.9rem;
-      color: var(--ink-mute);
-      margin: 0;
+    /* App Store badge → Coming soon (no live URL) */
+    .hit-cta {
+      left: 7.109%;
+      top: 68.611%;
+      width: 20.547%;
+      height: 15%;
+      border-radius: 0.6em;
+      cursor: not-allowed;
     }
 
-    footer.site {
-      border-top: 1px solid var(--line);
-      padding: 1.5rem 0 2.5rem;
-      font-size: 0.82rem;
-      color: var(--ink-mute);
+    /* How it works → privacy */
+    .hit-nav {
+      left: 76.562%;
+      top: 4.861%;
+      width: 18.828%;
+      height: 8.472%;
+      cursor: pointer;
+    }
+
+    .meta {
+      width: min(100%, 1280px);
+      margin: 0.35rem auto 1rem;
+      padding: 0 1.25rem;
       display: flex;
       flex-wrap: wrap;
-      gap: 0.75rem 1.25rem;
-      justify-content: space-between;
-      align-items: flex-start;
+      gap: 0.35rem 1rem;
+      justify-content: center;
+      align-items: center;
+      font-size: 0.78rem;
+      line-height: 1.4;
+      color: var(--pine-mute);
     }
-    footer.site nav { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
-    footer.site .meta { max-width: 36rem; }
+    .meta a { color: var(--pine-mute); }
+    .meta a:hover { color: var(--terracotta); }
+    .meta .sep { opacity: 0.45; user-select: none; }
 
-    .show-en, .show-pt, .show-en-block, .show-pt-block { display: none !important; }
-    html[lang="en"] .show-en { display: inline !important; }
-    html[lang="pt-PT"] .show-pt { display: inline !important; }
-    html[lang="en"] .show-en-block { display: block !important; }
-    html[lang="pt-PT"] .show-pt-block { display: block !important; }
+    @media (max-width: 640px) {
+      .stage { justify-content: flex-start; padding-top: 0; }
+      .meta { font-size: 0.72rem; margin-top: 0.5rem; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="site">
-      <a class="brand" href="#top" id="top">
-        <img class="icon" src="appicon.png" width="36" height="36" alt="" />
-        <img class="wordmark" src="wordmark.png" alt="justa" width="110" height="26" />
-      </a>
-      <nav class="nav" aria-label="Primary">
-        <a class="ghost" href="#how">
-          <span class="show-en">How it works</span>
-          <span class="show-pt">Como funciona</span>
-        </a>
-        <a class="ghost" href="#features">
-          <span class="show-en">Features</span>
-          <span class="show-pt">Funções</span>
-        </a>
-        <a class="ghost" href="https://aacnsilva.com/justa/privacy/">
-          <span class="show-en">Privacy</span>
-          <span class="show-pt">Privacidade</span>
-        </a>
-        <a class="ghost" href="mailto:aacnsilva@hotmail.com">
-          <span class="show-en">Support</span>
-          <span class="show-pt">Apoio</span>
-        </a>
-        <div class="lang" role="group" aria-label="Language">
-          <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
-          <button type="button" data-set-lang="pt-PT" aria-pressed="false">pt-PT</button>
-        </div>
-      </nav>
-    </header>
+  <main class="stage">
+    <div class="hero" aria-label="Justa — Shared bills, split fairly">
+      <img
+        src="hero-composite.png"
+        width="1280"
+        height="720"
+        alt="Justa: Shared bills, split fairly. An income-share plan for couples. App preview on iPhone. Free on iOS — Coming soon."
+        decoding="async"
+        fetchpriority="high"
+      />
+      <!-- Coming soon over Liberty App Store art (disabled; no store URL) -->
+      <a
+        class="hit hit-cta"
+        href="#"
+        role="link"
+        aria-disabled="true"
+        tabindex="0"
+        title="Coming soon"
+        onclick="return false;"
+      >Coming soon</a>
+      <!-- How it works → privacy -->
+      <a class="hit hit-nav" href="./privacy/" title="How it works">How it works</a>
+    </div>
 
-    <section class="hero" aria-labelledby="hero-title">
-      <div>
-        <p class="eyebrow">
-          <span class="show-en">Justa · Household management</span>
-          <span class="show-pt">Justa · Gestão da casa</span>
-        </p>
-        <h1 id="hero-title">
-          <span class="show-en">Shared bills, split fairly.</span>
-          <span class="show-pt">Contas partilhadas, divisão justa.</span>
-          <span class="rule" aria-hidden="true"></span>
-        </h1>
-        <p class="lede show-en-block">
-          An income-share plan for couples who want peace of mind and fairness at home. Plan the month, log extras, settle who pays whom — on your iPhone. No account. No server.
-        </p>
-        <p class="lede show-pt-block">
-          Um plano por rendimento para casais que querem paz e justiça em casa. Planeie o mês, registe extras, liquide quem paga a quem — no iPhone. Sem conta. Sem servidor.
-        </p>
-        <div class="cta-row">
-          <button type="button" class="btn btn-coming" disabled aria-disabled="true">
-            <span class="show-en">Coming soon</span>
-            <span class="show-pt">Em breve</span>
-            <span class="badge">App Store</span>
-          </button>
-          <a class="btn btn-secondary" href="https://aacnsilva.com/justa/privacy/">
-            <span class="show-en">Privacy</span>
-            <span class="show-pt">Privacidade</span>
-          </a>
-          <a class="btn btn-secondary" href="mailto:aacnsilva@hotmail.com">
-            <span class="show-en">Support</span>
-            <span class="show-pt">Apoio</span>
-          </a>
-        </div>
-        <p class="micro">
-          <span class="show-en">Free on iOS · Justa Plus optional</span>
-          <span class="show-pt">Grátis no iOS · Justa Plus opcional</span>
-        </p>
-        <div class="proof" aria-label="Proof">
-          <span class="show-en">Income-share plan</span><span class="show-pt">Plano por rendimento</span>
-          <span>Extras → Liquidar</span>
-          <span class="show-en">On-device</span><span class="show-pt">Só no aparelho</span>
-          <span class="show-en">No account</span><span class="show-pt">Sem conta</span>
-          <span class="show-en">Optional Face ID</span><span class="show-pt">Face ID opcional</span>
-        </div>
-      </div>
-
-      <div class="stage">
-        <div class="phone" aria-hidden="true">
-          <div class="notch"></div>
-          <div class="month">
-            <span class="show-en">May 2024</span>
-            <span class="show-pt">Maio 2024</span>
-            <span class="cal" aria-hidden="true"></span>
-          </div>
-          <h3>
-            <span class="show-en">Household Month Plan</span>
-            <span class="show-pt">Plano do mês</span>
-          </h3>
-          <p class="tagline">
-            <span class="show-en">One plan. Fair shares. Less stress.</span>
-            <span class="show-pt">Um plano. Partes justas. Menos stress.</span>
-          </p>
-          <div class="cardish">
-            <div class="row">
-              <span class="show-en">Your income</span><span class="show-pt">O seu rendimento</span>
-              <strong>$4,200</strong>
-            </div>
-            <div class="row">
-              <span class="show-en">Partner income</span><span class="show-pt">Rendimento do parceiro</span>
-              <strong>$6,300</strong>
-            </div>
-            <div class="split-bar"><span class="you"></span><span class="partner"></span></div>
-            <div class="split-labels"><span>40%</span><span>60%</span></div>
-          </div>
-          <div class="bills-label">
-            <span class="show-en">Bills this month</span>
-            <span class="show-pt">Contas deste mês</span>
-          </div>
-          <div class="bill-row">
-            <span><strong class="show-en">Rent</strong><strong class="show-pt">Renda</strong><span class="sub show-en">You pay $880</span><span class="sub show-pt">Paga $880</span></span>
-            <strong>$2,200</strong>
-          </div>
-          <div class="bill-row">
-            <span><strong class="show-en">Groceries</strong><strong class="show-pt">Compras</strong><span class="sub show-en">You pay $192</span><span class="sub show-pt">Paga $192</span></span>
-            <strong>$480</strong>
-          </div>
-          <div class="bill-row">
-            <span><strong class="show-en">Utilities</strong><strong class="show-pt">Serviços</strong><span class="sub show-en">You pay $104</span><span class="sub show-pt">Paga $104</span></span>
-            <strong>$260</strong>
-          </div>
-          <div class="share-foot">
-            <strong class="show-en">Your share this month $1,552</strong>
-            <strong class="show-pt">A sua parte este mês $1,552</strong>
-            <span class="soft show-en">Fair. Simple. Together.</span>
-            <span class="soft show-pt">Justo. Simples. Em conjunto.</span>
-          </div>
-          <p class="phone-note show-en">Illustrative — not a product screenshot</p>
-          <p class="phone-note show-pt">Ilustrativo — não é captura do produto</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="block" id="problem" aria-labelledby="problem-title">
-      <h2 id="problem-title">
-        <span class="show-en">The problem</span>
-        <span class="show-pt">O problema</span>
-      </h2>
-      <p class="intro show-en-block">
-        Rent, utilities, groceries — shared. Incomes — not always equal. Spreadsheets drift. Chat threads lose the thread. You need a clear monthly plan and a clean settle-up — without an account in the cloud.
-      </p>
-      <p class="intro show-pt-block">
-        Renda, luz, compras — partilhadas. Rendimentos — nem sempre iguais. Folhas de cálculo desactualizam-se. Conversas no telemóvel perdem o fio. Precisa de um plano mensal claro e de uma liquidação limpa — sem criar conta na nuvem.
-      </p>
-    </section>
-
-    <section class="block" id="how" aria-labelledby="how-title">
-      <h2 id="how-title">
-        <span class="show-en">How it works</span>
-        <span class="show-pt">Como funciona</span>
-      </h2>
-      <div class="grid-3">
-        <article class="tile">
-          <div class="n">1</div>
-          <h3>
-            <span class="show-en">Set the household</span>
-            <span class="show-pt">Defina a casa</span>
-          </h3>
-          <p class="show-en-block">Add each person’s usual income and the costs that repeat (rent, utilities, groceries). Currency lives on the household.</p>
-          <p class="show-pt-block">Acrescente o rendimento habitual de cada pessoa e os custos que se repetem (renda, serviços, compras). A moeda fica na casa.</p>
-        </article>
-        <article class="tile">
-          <div class="n">2</div>
-          <h3>
-            <span class="show-en">Follow the plan</span>
-            <span class="show-pt">Siga o plano</span>
-          </h3>
-          <p class="show-en-block">The monthly plan splits by income share. Earn 60% of the household? Cover 60% of the plan.</p>
-          <p class="show-pt-block">O plano mensal divide por rendimento. Quem ganha 60% da casa cobre 60% do plano.</p>
-        </article>
-        <article class="tile">
-          <div class="n">3</div>
-          <h3>
-            <span class="show-en">Log extras &amp; settle</span>
-            <span class="show-pt">Registe extras e liquide</span>
-          </h3>
-          <p class="show-en-block">Add shared bills as they happen. At month end, open Liquidar and see who pays whom.</p>
-          <p class="show-pt-block">Acrescente despesas partilhadas à medida que aparecem. No fim do mês, abra Liquidar e veja quem paga a quem.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="block" id="features" aria-labelledby="features-title">
-      <h2 id="features-title">
-        <span class="show-en">Features</span>
-        <span class="show-pt">Funções</span>
-      </h2>
-      <div class="features">
-        <div class="feat"><span class="dot"></span><div>
-          <h3>
-            <span class="show-en">Income-share split</span>
-            <span class="show-pt">Divisão por rendimento</span>
-          </h3>
-          <p class="show-en-block">Fair by earnings, not by equal halves by default.</p>
-          <p class="show-pt-block">Justa pelo que cada um ganha, não por metades iguais por omissão.</p>
-        </div></div>
-        <div class="feat"><span class="dot"></span><div>
-          <h3>Extras → Liquidar</h3>
-          <p class="show-en-block">Log from Split or Expenses; clear who pays whom at month end.</p>
-          <p class="show-pt-block">Registe em Dividir ou Despesas; no fim do mês fica claro quem paga a quem.</p>
-        </div></div>
-        <div class="feat mid"><span class="dot"></span><div>
-          <h3>
-            <span class="show-en">Contas pots</span>
-            <span class="show-pt">Potes Contas</span>
-          </h3>
-          <p class="show-en-block">Savings, investment, or other — money set aside without faking a bill. Outside Liquidar.</p>
-          <p class="show-pt-block">Poupança, investimento ou outro — dinheiro de lado sem fingir uma despesa. Fora de Liquidar.</p>
-        </div></div>
-        <div class="feat mid"><span class="dot"></span><div>
-          <h3>Análise</h3>
-          <p class="show-en-block">Plan vs extras, fairness, and month-over-month — when you want the bigger read.</p>
-          <p class="show-pt-block">Plano vs extras, equidade e mês a mês — quando quiser a leitura maior.</p>
-        </div></div>
-        <div class="feat"><span class="dot"></span><div>
-          <h3>
-            <span class="show-en">Themes &amp; people</span>
-            <span class="show-pt">Temas e pessoas</span>
-          </h3>
-          <p class="show-en-block">Coral Day, Sky Pop, and friends — plus person photos so the house feels like yours.</p>
-          <p class="show-pt-block">Coral Day, Sky Pop e outros — mais fotos das pessoas para a casa parecer vossa.</p>
-        </div></div>
-        <div class="feat"><span class="dot"></span><div>
-          <h3>
-            <span class="show-en">Several households</span>
-            <span class="show-pt">Várias casas</span>
-          </h3>
-          <p class="show-en-block">One iPhone, more than one home ledger.</p>
-          <p class="show-pt-block">Um iPhone, vários livros de contas.</p>
-        </div></div>
-        <div class="feat"><span class="dot"></span><div>
-          <h3>
-            <span class="show-en">Optional Face ID</span>
-            <span class="show-pt">Face ID opcional</span>
-          </h3>
-          <p class="show-en-block">Lock stays on that iPhone.</p>
-          <p class="show-pt-block">O bloqueio fica nesse iPhone.</p>
-        </div></div>
-        <div class="feat"><span class="dot"></span><div>
-          <h3>
-            <span class="show-en">Optional vault</span>
-            <span class="show-pt">Cofre opcional</span>
-          </h3>
-          <p class="show-en-block">Put the book in Files so a second iPhone can open the same ledger. Create vault is Justa Plus (€7.99 once). Open vault stays free. Last write wins — this is not sync.</p>
-          <p class="show-pt-block">Guarde o livro na app Ficheiros para um segundo iPhone abrir o mesmo ledger. Criar cofre é Justa Plus (€7,99 uma vez). Abrir cofre continua grátis. Fica a gravação mais recente — isto não é sincronização.</p>
-        </div></div>
-      </div>
-    </section>
-
-    <section class="block" id="privacy" aria-labelledby="trust-title">
-      <div class="trust">
-        <h2 id="trust-title">
-          <span class="show-en">Private by design</span>
-          <span class="show-pt">Privada por desenho</span>
-        </h2>
-        <p class="show-en-block">
-          Justa keeps the household book on your iPhone. There is no account to create and no server to talk to. Face ID, if you turn it on, stays on that device. The developer does not collect household data. Apple handles the Create vault purchase. Read the <a href="https://aacnsilva.com/justa/privacy/">privacy policy</a>.
-        </p>
-        <p class="show-pt-block">
-          A Justa guarda o livro da casa no seu iPhone. Não há conta a criar nem servidor a contactar. O Face ID, se o activar, fica nesse aparelho. O programador não recolhe dados da casa. A Apple processa a compra Criar cofre. Leia a <a href="https://aacnsilva.com/justa/privacy/">política de privacidade</a>.
-        </p>
-        <div class="chips" aria-label="Trust chips">
-          <span class="show-en">On your iPhone</span><span class="show-pt">No iPhone</span>
-          <span class="show-en">No account</span><span class="show-pt">Sem conta</span>
-          <span class="show-en">No server</span><span class="show-pt">Sem servidor</span>
-          <span class="show-en">No ads</span><span class="show-pt">Sem anúncios</span>
-          <span class="show-en">No analytics from us</span><span class="show-pt">Sem análise nossa</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="block" id="plus" aria-labelledby="plus-title">
-      <div class="plus">
-        <div>
-          <h3 id="plus-title">Justa Plus</h3>
-          <p class="show-en-block">
-            Create a shared Files folder so a second iPhone can open the same household ledger — and use estimate invoices when you need them. <strong>€7.99 once.</strong> Open vault, Unlink, Face ID, several households, and the core ledger stay free. Family Sharing where Apple allows.
-          </p>
-          <p class="show-pt-block">
-            Crie uma pasta partilhada na app Ficheiros para um segundo iPhone abrir o mesmo livro da casa — e use facturas estimadas quando precisar. <strong>€7,99 uma vez.</strong> Abrir cofre, Desassociar, Face ID, várias casas e o ledger principal continuam grátis. Partilha familiar onde a Apple permitir.
-          </p>
-          <p class="micro-plus show-en-block">Book on this iPhone · Update from folder. Last write wins.</p>
-          <p class="micro-plus show-pt-block">Livro neste iPhone · Actualizar a partir da pasta. Fica a gravação mais recente.</p>
-        </div>
-        <div class="tag">€7.99</div>
-      </div>
-    </section>
-
-    <section class="closing" id="get" aria-labelledby="closing-title">
-      <p id="closing-title">
-        <span class="show-en">Ready when you are.</span>
-        <span class="show-pt">Quando quiser.</span>
-      </p>
-      <div class="cta-row">
-        <button type="button" class="btn btn-coming" disabled aria-disabled="true">
-          <span class="show-en">Coming soon</span>
-          <span class="show-pt">Em breve</span>
-          <span class="badge show-en">App Store</span>
-          <span class="badge show-pt">App Store</span>
-        </button>
-      </div>
-      <p class="mail">
-        <span class="show-en">Questions?</span>
-        <span class="show-pt">Dúvidas?</span>
-        <a href="mailto:aacnsilva@hotmail.com">aacnsilva@hotmail.com</a>
-      </p>
-    </section>
-
-    <footer class="site">
-      <div class="meta">
-        <span class="show-en">Justa · Shared bills, split fairly · iPhone · Finance · Age 4+ · Portrait</span>
-        <span class="show-pt">Justa · Contas partilhadas, divisão justa · iPhone · Finanças · Idade 4+ · Retrato</span>
-        <br />
-        <span class="show-en">App Store coming soon</span>
-        <span class="show-pt">App Store em breve</span>
-        · © António Silva
-      </div>
-      <nav>
-        <a href="https://aacnsilva.com/justa/privacy/">
-          <span class="show-en">Privacy</span>
-          <span class="show-pt">Privacidade</span>
-        </a>
-        <a href="mailto:aacnsilva@hotmail.com">
-          <span class="show-en">Support</span>
-          <span class="show-pt">Apoio</span>
-        </a>
-      </nav>
-    </footer>
-  </div>
-
-  <script>
-    (function () {
-      var root = document.documentElement;
-      var buttons = document.querySelectorAll("[data-set-lang]");
-      var titles = {
-        en: "Justa — Shared bills, split fairly",
-        "pt-PT": "Justa — Contas partilhadas, divisão justa"
-      };
-      var descriptions = {
-        en: "A private household ledger for people who share a home. Plan the month by income, log extras, settle who pays whom. On your iPhone. No account. No server.",
-        "pt-PT": "Um livro de contas privado para quem partilha casa. Plano mensal por rendimento, extras e liquidação de quem paga a quem. No iPhone. Sem conta. Sem servidor."
-      };
-      function setLang(lang) {
-        root.lang = lang;
-        document.title = titles[lang] || titles.en;
-        var metaDesc = document.querySelector('meta[name="description"]');
-        if (metaDesc) metaDesc.setAttribute("content", descriptions[lang] || descriptions.en);
-        buttons.forEach(function (b) {
-          b.setAttribute("aria-pressed", b.getAttribute("data-set-lang") === lang ? "true" : "false");
-        });
-        try { localStorage.setItem("justa-landing-lang", lang); } catch (e) {}
-      }
-      buttons.forEach(function (b) {
-        b.addEventListener("click", function () { setLang(b.getAttribute("data-set-lang")); });
-      });
-      var saved = null;
-      try { saved = localStorage.getItem("justa-landing-lang"); } catch (e) {}
-      if (saved === "pt-PT" || saved === "pt") setLang("pt-PT");
-      else if (saved === "en") setLang("en");
-      else if ((navigator.language || "").toLowerCase().indexOf("pt") === 0) setLang("pt-PT");
-      else setLang("en");
-    })();
-  </script>
+    <nav class="meta" aria-label="Site">
+      <a href="./privacy/">Privacy</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <a href="mailto:aacnsilva@hotmail.com">Support</a>
+      <span class="sep" aria-hidden="true">·</span>
+      <span>© Justa</span>
+      <span class="sep" aria-hidden="true">·</span>
+      <span>App Store coming soon</span>
+    </nav>
+  </main>
 </body>
 </html>
