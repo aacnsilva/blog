@@ -26,6 +26,14 @@ pub struct SiteConfig {
     pub favicon: String,
     pub images: Vec<String>,
     pub enable_post_navigator: bool,
+    pub menu_links: Vec<MenuLink>,
+}
+
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct MenuLink {
+    pub name: String,
+    pub url: String,
+    pub weight: Option<i32>,
 }
 
 impl Default for SiteConfig {
@@ -40,6 +48,7 @@ impl Default for SiteConfig {
             favicon: String::new(),
             images: Vec::new(),
             enable_post_navigator: false,
+            menu_links: Vec::new(),
         }
     }
 }
@@ -143,6 +152,9 @@ pub fn parse_site_config(raw: &str) -> Result<SiteConfig> {
         }
         if line.starts_with('[') && line.ends_with(']') {
             section = line.trim_matches(&['[', ']'][..]).to_string();
+            if line.starts_with("[[") && section == "menu.main" {
+                config.menu_links.push(MenuLink::default());
+            }
             continue;
         }
         let Some((key, value)) = line.split_once('=') else {
@@ -163,6 +175,21 @@ pub fn parse_site_config(raw: &str) -> Result<SiteConfig> {
             ("params", "title", TomlValue::String(value)) => config.title = value,
             ("params", "enablePostNavigator", TomlValue::Bool(value)) => {
                 config.enable_post_navigator = value;
+            }
+            ("menu.main", "name", TomlValue::String(value)) => {
+                if let Some(link) = config.menu_links.last_mut() {
+                    link.name = value;
+                }
+            }
+            ("menu.main", "url", TomlValue::String(value)) => {
+                if let Some(link) = config.menu_links.last_mut() {
+                    link.url = value;
+                }
+            }
+            ("menu.main", "weight", TomlValue::Integer(value)) => {
+                if let Some(link) = config.menu_links.last_mut() {
+                    link.weight = Some(value);
+                }
             }
             _ => {}
         }
@@ -623,24 +650,38 @@ fn render_open_graph(site: &Site, page: &Page, description: &str) -> String {
 }
 
 fn render_header(site: &Site) -> String {
-    let mut pages = Vec::new();
-    pages.push(&site.blog);
-    pages.extend(
-        site.pages
-            .iter()
-            .filter(|page| page.menu.as_deref() == Some("main")),
-    );
-    pages.sort_by_key(|page| (page.weight.unwrap_or(i32::MAX), page.title.clone()));
+    let mut links: Vec<(i32, &str, &str)> = std::iter::once(&site.blog)
+        .chain(
+            site.pages
+                .iter()
+                .filter(|page| page.menu.as_deref() == Some("main")),
+        )
+        .map(|page| {
+            (
+                page.weight.unwrap_or(i32::MAX),
+                page.title.as_str(),
+                page.url_path.as_str(),
+            )
+        })
+        .chain(site.config.menu_links.iter().map(|link| {
+            (
+                link.weight.unwrap_or(i32::MAX),
+                link.name.as_str(),
+                link.url.as_str(),
+            )
+        }))
+        .collect();
+    links.sort_by(|left, right| left.0.cmp(&right.0).then_with(|| left.1.cmp(right.1)));
 
     let mut header = String::new();
     header.push_str("  <header><a href=\"/\" class=\"title\">\n");
     header.push_str(&format!("  <h2>{}</h2>\n", html_escape(&site.config.title)));
     header.push_str("</a>\n<nav>\n");
-    for page in pages {
+    for (_, title, url) in links {
         header.push_str(&format!(
             "<a href=\"{}\">{}</a>\n\n",
-            attr_escape(&page.url_path),
-            html_escape(&page.title)
+            attr_escape(url),
+            html_escape(title)
         ));
     }
     header.push_str(
@@ -1553,6 +1594,42 @@ enablePostNavigator = true
         assert_eq!(config.description, "A blog");
         assert_eq!(config.images, vec!["static/images/share.png"]);
         assert!(config.enable_post_navigator);
+        assert!(config.menu_links.is_empty());
+    }
+
+    #[test]
+    fn parses_menu_links() {
+        let config = parse_site_config(
+            r#"
+title = "Site"
+
+[[menu.main]]
+name = "Justa"
+url = "/justa/"
+weight = 30
+
+[[menu.main]]
+name = "CV"
+url = "/cv/"
+"#,
+        )
+        .unwrap();
+
+        assert_eq!(
+            config.menu_links,
+            vec![
+                MenuLink {
+                    name: "Justa".to_string(),
+                    url: "/justa/".to_string(),
+                    weight: Some(30),
+                },
+                MenuLink {
+                    name: "CV".to_string(),
+                    url: "/cv/".to_string(),
+                    weight: None,
+                },
+            ]
+        );
     }
 
     #[test]

@@ -10,3 +10,8 @@ favicon = "static/images/favicon-32x32.png"
 images = ["static/images/share.png"]
 title = "António's DevLog"
 enablePostNavigator = true
+
+[[menu.main]]
+name = "Justa"
+url = "/justa/"
+weight = 30

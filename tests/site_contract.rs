@@ -131,9 +131,11 @@ fn assert_navigation_and_core_pages(root: &Path) {
     assert!(home.contains("<a href=\"/\">Blog</a>"));
     assert!(home.contains("<a href=\"/about/\">About</a>"));
     assert!(!home.contains("<a href=\"/resume/\">Resume</a>"));
+    assert!(home.contains(
+        "<a href=\"/about/\">About</a>\n\n<a href=\"/justa/\">Justa</a>"
+    ));
     assert!(!home.contains("/justa/privacy"));
     assert!(!home.contains("/joora/privacy"));
-    assert!(!home.contains("Justa"));
     assert!(!home.contains("Joora"));
     assert!(home.contains("<ul class=\"blog-posts\">"));
 
@@ -335,13 +337,12 @@ fn assert_unlisted_privacy_page(root: &Path) {
     let home = read(root, "index.html");
     assert!(!home.contains("/justa/privacy"));
     assert!(!home.contains("/joora/privacy"));
-    assert!(!home.contains("Justa"));
     assert!(!home.contains("Joora"));
 
     let about = read(root, "about/index.html");
+    assert!(about.contains("<a href=\"/justa/\">Justa</a>"));
     assert!(!about.contains("/justa/privacy"));
     assert!(!about.contains("/joora/privacy"));
-    assert!(!about.contains("Justa"));
     assert!(!about.contains("Joora"));
 
     let sitemap = read(root, "sitemap.xml");
