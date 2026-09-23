@@ -66,6 +66,7 @@ fn site_contract() {
     assert_site_contract(&output, true);
     assert_rust_design_contract(&output);
     assert_unlisted_privacy_page(&output);
+    assert_justa_fair_split_landing(&output);
 }
 
 fn assert_site_contract(root: &Path, require_blog_archive_page: bool) {
@@ -98,6 +99,9 @@ fn assert_required_files_exist(root: &Path) {
         "cv/script.js",
         "cv/myPhoto.jpeg",
         "joora/privacy/index.html",
+        "justa/index.html",
+        "justa/wordmark.png",
+        "justa/appicon.png",
         "justa/privacy/index.html",
     ];
 
@@ -345,6 +349,66 @@ fn assert_unlisted_privacy_page(root: &Path) {
     assert!(!rss.contains("/joora/privacy"));
     assert!(!rss.contains("Justa"));
     assert!(!rss.contains("Joora"));
+}
+
+fn assert_justa_fair_split_landing(root: &Path) {
+    let landing = read(root, "justa/index.html");
+    assert!(
+        landing.contains("<title>Justa — Shared bills, split fairly</title>"),
+        "landing should carry Justa branding"
+    );
+    assert!(landing.contains("wordmark.png"));
+    assert!(landing.contains("appicon.png"));
+    assert!(landing.contains("alt=\"justa\""));
+    assert!(
+        landing.contains("split fairly"),
+        "landing should be the Fair-split page"
+    );
+    assert!(
+        landing.contains("Coming soon") || landing.contains("Em breve"),
+        "landing CTA should say Coming soon or Em breve"
+    );
+    assert!(landing.contains(r#"<meta name="robots" content="noindex, nofollow" />"#));
+    assert!(landing.contains("https://aacnsilva.com/justa/privacy/"));
+    assert!(!landing.contains("Joora"));
+    assert!(
+        !is_strip_only_coming_soon(&landing),
+        "landing should not regress to a strip-only coming-soon page"
+    );
+    assert_png(root, "justa/wordmark.png");
+    assert_png(root, "justa/appicon.png");
+
+    let privacy = read(root, "justa/privacy/index.html");
+    assert!(privacy.contains("Privacy Policy — Justa"));
+    assert!(privacy.contains("Política de privacidade — Justa"));
+    assert!(privacy.contains("A Justa"));
+    assert!(!privacy.contains("Coming soon"));
+    assert!(!privacy.contains("Em breve"));
+    assert!(!privacy.contains("btn-coming"));
+    assert!(!privacy.contains("split fairly"));
+
+    let sitemap = read(root, "sitemap.xml");
+    assert!(!sitemap.contains("https://aacnsilva.com/justa/"));
+    assert!(!sitemap.contains("https://aacnsilva.com/joora/"));
+}
+
+fn is_strip_only_coming_soon(html: &str) -> bool {
+    let mentions_coming_soon = html.contains("Coming soon") || html.contains("Em breve");
+    let fair_split = html.contains("split fairly")
+        && html.contains("Income-share")
+        && html.contains("btn-coming")
+        && html.contains("Household Month Plan");
+    mentions_coming_soon && !fair_split
+}
+
+fn assert_png(root: &Path, relative: &str) {
+    let path = root.join(relative);
+    let bytes = fs::read(&path)
+        .unwrap_or_else(|error| panic!("failed to read {}: {error}", path.display()));
+    assert!(
+        bytes.starts_with(b"\x89PNG\r\n\x1a\n"),
+        "{relative} should be a PNG"
+    );
 }
 
 fn read(root: &Path, relative: &str) -> String {
