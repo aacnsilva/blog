@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Justa — Shared bills, split fairly</title>
-  <meta name="description" content="A private household ledger for people who share a home. Plan the month by income, log extras, settle who pays whom. On your iPhone. No account. No server." />
+  <meta name="description" content="A private household ledger. The monthly plan splits by income, extras get logged as they happen, and month end tells you who pays whom. No account. No server." />
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="theme-color" content="#F9F3E5" />
+  <meta name="theme-color" content="#F6EFE2" />
   <meta property="og:title" content="Justa — Shared bills, split fairly" />
   <meta property="og:description" content="Shared bills, split fairly. Private by design." />
   <meta property="og:type" content="website" />
@@ -14,134 +14,521 @@
   <meta property="og:image" content="https://aacnsilva.com/justa/appicon.png" />
   <link rel="icon" href="appicon.png" type="image/png" />
   <link rel="apple-touch-icon" href="appicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --cream: #F9F3E5;
+      --paper: #FBF4EC;
+      --card: #FFFBF7;
+      --sand: #F6E6DC;
+      --peach: #FFDDD2;
       --pine: #1A3A32;
-      --terracotta: #C86A46;
-      --pine-mute: #5A6B64;
+      --ink: #2C1F1C;
+      --muted: #7A5E58;
+      --coral: #E04B3C;
+      --coral-deep: #C83328;
+      --blue: #2F6FED;
+      --rule: rgba(44, 31, 28, 0.12);
+      --serif: "Fraunces", Georgia, serif;
+      --sans: "Instrument Sans", -apple-system, system-ui, sans-serif;
     }
     * { box-sizing: border-box; }
-    html, body {
+    html { scroll-behavior: smooth; }
+    body {
       margin: 0;
-      min-height: 100%;
-      background: var(--cream);
-      color: var(--pine);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.55;
       -webkit-font-smoothing: antialiased;
     }
-    a { color: var(--terracotta); text-decoration: none; }
-    a:hover { text-decoration: underline; text-underline-offset: 0.15em; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.35;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      z-index: 50;
+    }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; border-radius: 6px; }
+    .wrap { width: min(100% - 2.5rem, 1180px); margin-inline: auto; }
 
-    .stage {
-      min-height: 100vh;
+    /* Nav */
+    .nav {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 0;
+      justify-content: space-between;
+      padding: 1.4rem 0;
     }
+    .nav img { height: 44px; width: auto; display: block; }
+    .nav ul { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; font-size: 0.95rem; }
+    .nav ul a { text-decoration: none; color: var(--pine); }
+    .nav ul a:hover { color: var(--coral); }
 
-    /* Hero composite is the visual — Liberty lock with real phone screen */
+    /* Hero */
     .hero {
-      position: relative;
-      width: min(100%, 1280px);
-      margin: 0 auto;
-      line-height: 0;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 3rem;
+      align-items: center;
+      padding: 3rem 0 5rem;
     }
-    .hero > img {
-      width: 100%;
-      height: auto;
-      display: block;
-      object-fit: contain;
-      vertical-align: top;
+    .eyebrow {
+      font-size: 0.78rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--coral);
+      font-weight: 600;
     }
-
-    /* Invisible hit areas mapped to Liberty art (% of 1280×720) */
-    .hit {
-      position: absolute;
-      display: block;
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; color: var(--pine); margin: 0; }
+    h1 {
+      font-size: clamp(3.2rem, 7vw, 6.1rem);
+      line-height: 0.98;
+      letter-spacing: -0.015em;
+      font-variation-settings: "opsz" 144;
+      margin: 1rem 0 1.5rem;
+    }
+    h1 em { font-style: italic; color: var(--coral); }
+    .lede { font-size: 1.2rem; color: var(--muted); max-width: 33ch; margin: 0 0 2.2rem; }
+    .cta-row { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+    .store {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.8rem 1.4rem 0.8rem 1.1rem;
+      border-radius: 14px;
+      background: var(--pine);
+      color: var(--card);
+      text-decoration: none;
       border: 0;
-      padding: 0;
-      margin: 0;
-      background: transparent;
-      cursor: default;
-      text-indent: -9999px;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .hit:focus-visible {
-      outline: 2px solid var(--terracotta);
-      outline-offset: 2px;
-      text-indent: 0;
-      color: transparent;
-    }
-
-    /* Terracotta badge → Coming soon (disabled; no store URL) */
-    .hit-cta {
-      left: 7.109%;
-      top: 68.611%;
-      width: 20.547%;
-      height: 15%;
-      border-radius: 0.6em;
+      font: inherit;
       cursor: not-allowed;
     }
-
-    .meta {
-      width: min(100%, 1280px);
-      margin: 0.35rem auto 1rem;
-      padding: 0 1.25rem;
+    .store svg { width: 26px; height: 26px; fill: currentColor; }
+    .store small { display: block; font-size: 0.72rem; opacity: 0.75; line-height: 1.1; }
+    .store strong { display: block; font-size: 1.15rem; font-weight: 600; line-height: 1.15; }
+    .cta-note { font-size: 0.92rem; color: var(--muted); }
+    .trust {
       display: flex;
+      gap: 1.5rem;
+      margin-top: 2.6rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.9rem;
+      color: var(--pine);
       flex-wrap: wrap;
-      gap: 0.35rem 1rem;
-      justify-content: center;
-      align-items: center;
-      font-size: 0.78rem;
-      line-height: 1.4;
-      color: var(--pine-mute);
     }
-    .meta a { color: var(--pine-mute); }
-    .meta a:hover { color: var(--terracotta); }
-    .meta .sep { opacity: 0.45; user-select: none; }
+    .trust span::before { content: "✓"; color: var(--coral); margin-right: 0.45rem; }
 
-    @media (max-width: 640px) {
-      .stage { justify-content: flex-start; padding-top: 0; }
-      .meta { font-size: 0.72rem; margin-top: 0.5rem; }
+    .phones { position: relative; height: 640px; }
+    .phone {
+      position: absolute;
+      width: 290px;
+      border-radius: 46px;
+      padding: 9px;
+      background: #1b1d1c;
+      box-shadow: 0 40px 80px -30px rgba(26, 58, 50, 0.45), 0 0 0 1px rgba(0,0,0,0.3);
+    }
+    .phone img { display: block; width: 100%; border-radius: 38px; }
+    .phone.front { right: 8%; top: 0; transform: rotate(3deg); z-index: 2; animation: rise 0.9s cubic-bezier(.2,.8,.2,1) both; }
+    .phone.back { left: 2%; top: 90px; transform: rotate(-6deg); width: 260px; opacity: 0.96; animation: rise 0.9s 0.15s cubic-bezier(.2,.8,.2,1) both; }
+    .stamp {
+      position: absolute;
+      right: 0;
+      bottom: 40px;
+      z-index: 3;
+      background: var(--card);
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      padding: 0.9rem 1.1rem;
+      box-shadow: 0 18px 40px -20px rgba(26,58,50,0.4);
+      font-size: 0.85rem;
+      animation: rise 0.9s 0.35s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .stamp b { display: block; font-family: var(--serif); font-size: 1.35rem; font-weight: 500; color: var(--pine); }
+    @keyframes rise { from { opacity: 0; translate: 0 30px; } to { opacity: 1; translate: 0 0; } }
+
+    /* Section base */
+    section { padding: 6rem 0; }
+    .section-head { max-width: 640px; margin-bottom: 3.5rem; }
+    h2 { font-size: clamp(2.3rem, 4.5vw, 3.6rem); line-height: 1.04; letter-spacing: -0.02em; margin-top: 0.8rem; }
+    .section-head p { color: var(--muted); font-size: 1.1rem; margin: 1rem 0 0; }
+
+    /* Split calculator */
+    .calc {
+      background: var(--card);
+      border-radius: 28px;
+      border: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+    }
+    .calc-inputs { padding: 2.5rem; border-right: 1px dashed var(--rule); display: grid; gap: 1.6rem; align-content: start; }
+    .field label { display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--muted); margin-bottom: 0.45rem; }
+    .field label output { font-family: var(--serif); font-size: 1.25rem; color: var(--pine); }
+    input[type="range"] { width: 100%; accent-color: var(--pine); height: 28px; }
+    #income-a { accent-color: var(--coral); }
+    #income-b { accent-color: var(--blue); }
+    .calc-result { padding: 2.5rem; display: flex; flex-direction: column; gap: 1.4rem; background: linear-gradient(180deg, var(--card), var(--paper)); }
+    .calc-total small { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral); font-weight: 600; }
+    .calc-total div { font-family: var(--serif); font-size: 3.6rem; line-height: 1; color: var(--pine); font-variation-settings: "opsz" 144; }
+    .bar { display: flex; height: 14px; border-radius: 99px; overflow: hidden; background: var(--sand); }
+    .bar span { transition: flex-grow 0.35s ease; }
+    .bar .a { background: var(--coral); }
+    .bar .b { background: var(--blue); }
+    .who { display: grid; gap: 0.9rem; }
+    .who-row { display: grid; grid-template-columns: 40px 1fr auto; align-items: center; gap: 0.8rem; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--card); font-weight: 600; }
+    .avatar.a { background: var(--coral); }
+    .avatar.b { background: var(--blue); }
+    .pct { font-size: 0.78rem; background: var(--peach); color: var(--coral); padding: 0.1rem 0.5rem; border-radius: 99px; margin-left: 0.5rem; font-weight: 600; }
+    .who-row strong { font-size: 1.25rem; font-variant-numeric: tabular-nums; color: var(--ink); }
+    .calc-note { font-size: 0.9rem; color: var(--muted); margin: 0; }
+
+    /* Month flow */
+    .steps { display: grid; gap: 5rem; }
+    .step { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .step:nth-child(even) .step-shot { order: -1; }
+    .step-num { font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--coral); }
+    .step h3 { font-size: 2.3rem; line-height: 1.08; margin: 0.4rem 0 1rem; letter-spacing: -0.015em; }
+    .step p { color: var(--muted); font-size: 1.1rem; max-width: 42ch; margin: 0; }
+    .step-shot { display: flex; justify-content: center; position: relative; }
+    .step-shot::before {
+      content: "";
+      position: absolute;
+      inset: 12% 8%;
+      background: var(--sand);
+      border-radius: 40px;
+      transform: rotate(-3deg);
+    }
+    .step-shot .phone { position: relative; width: 270px; }
+
+    /* Also inside */
+    .more { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .more-card { background: var(--card); border: 1px solid var(--rule); border-radius: 28px; padding: 1.6rem 1.6rem 2rem; }
+    .more-shot { height: 300px; overflow: hidden; border-radius: 20px; background: var(--sand); display: flex; justify-content: center; padding-top: 1.4rem; margin-bottom: 1.4rem; }
+    .more-shot img { width: 72%; align-self: flex-start; border-radius: 26px 26px 0 0; box-shadow: 0 20px 40px -20px rgba(44,31,28,0.35); }
+    .more-card h3 { font-size: 1.7rem; margin-bottom: 0.4rem; }
+    .more-card p { margin: 0; color: var(--muted); }
+
+    /* Privacy band */
+    .privacy { background: var(--pine); color: var(--card); border-radius: 36px; padding: 5rem 4rem; margin: 0 auto; }
+    .privacy h2 { color: var(--card); }
+    .privacy .eyebrow { color: #FF9A8A; }
+    .privacy .section-head p { color: rgba(253, 249, 241, 0.72); }
+    .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(253,249,241,0.14); border-radius: 20px; overflow: hidden; }
+    .fact { background: var(--pine); padding: 1.8rem 1.5rem; }
+    .fact b { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.5rem; margin-bottom: 0.5rem; }
+    .fact p { margin: 0; font-size: 0.95rem; color: rgba(253,249,241,0.72); }
+
+    /* Pricing */
+    .prices { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 900px; }
+    .price { background: var(--card); border: 1px solid var(--rule); border-radius: 24px; padding: 2.2rem; }
+    .price.plus { border-color: var(--coral); box-shadow: 0 0 0 1px var(--coral) inset; }
+    .price h3 { font-size: 1.6rem; }
+    .price .amount { font-family: var(--serif); font-size: 3rem; color: var(--pine); margin: 0.6rem 0 0.2rem; line-height: 1; }
+    .price .amount small { font-family: var(--sans); font-size: 0.95rem; color: var(--muted); margin-left: 0.35rem; }
+    .price ul { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.6rem; }
+    .price li { padding-left: 1.5rem; position: relative; }
+    .price li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 0.7rem; height: 1px; background: var(--coral); }
+
+    /* FAQ */
+    .faq { max-width: 780px; }
+    details { border-top: 1px solid var(--rule); padding: 1.3rem 0; }
+    details:last-child { border-bottom: 1px solid var(--rule); }
+    summary { cursor: pointer; font-family: var(--serif); font-size: 1.35rem; color: var(--pine); list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; color: var(--coral); transition: transform 0.2s; }
+    details[open] summary::after { transform: rotate(45deg); }
+    details p { color: var(--muted); margin: 0.8rem 0 0; max-width: 62ch; }
+
+    footer { padding: 3rem 0 4rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; color: var(--muted); }
+    footer img { height: 30px; }
+    footer nav { display: flex; gap: 1.5rem; }
+    footer a { text-decoration: none; }
+    footer a:hover { color: var(--coral); }
+
+    @media (max-width: 900px) {
+      .nav ul { display: none; }
+      .hero, .calc, .step, .prices, .more { grid-template-columns: 1fr; }
+      .hero { padding-top: 1rem; }
+      .phones { height: 560px; }
+      .phone.front { right: 4%; width: 250px; }
+      .phone.back { width: 220px; }
+      .calc-inputs { border-right: 0; border-bottom: 1px dashed var(--rule); }
+      .step:nth-child(even) .step-shot { order: 0; }
+      .facts { grid-template-columns: 1fr 1fr; }
+      .privacy { padding: 3.5rem 1.6rem; border-radius: 24px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
     }
   </style>
 </head>
 <body>
-  <main class="stage">
-    <div class="hero" aria-label="Justa — Shared bills, split fairly">
-      <img
-        src="hero-composite.png"
-        width="1280"
-        height="720"
-        alt="Justa: Shared bills, split fairly. An income-share plan for couples. App preview on iPhone. Free on iOS — Coming soon."
-        decoding="async"
-        fetchpriority="high"
-      />
-      <!-- Coming soon over Liberty App Store art (disabled; no store URL) -->
-      <a
-        class="hit hit-cta"
-        href="#"
-        role="link"
-        aria-disabled="true"
-        tabindex="0"
-        title="Coming soon"
-        onclick="return false;"
-      >Coming soon</a>
-    </div>
-
-    <nav class="meta" aria-label="Site">
-      <a href="./privacy/">Privacy</a>
-      <span class="sep" aria-hidden="true">·</span>
-      <a href="mailto:aacnsilva@hotmail.com">Support</a>
-      <span class="sep" aria-hidden="true">·</span>
-      <span>© Justa</span>
-      <span class="sep" aria-hidden="true">·</span>
-      <span>App Store coming soon</span>
+  <header class="wrap nav">
+    <a href="./" aria-label="Justa home"><img src="wordmark.png" alt="justa" width="86" height="44" /></a>
+    <nav aria-label="Primary">
+      <ul>
+        <li><a href="#split">The split</a></li>
+        <li><a href="#month">How it works</a></li>
+        <li><a href="#privacy">Privacy</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+      </ul>
     </nav>
+  </header>
+
+  <main>
+    <section class="wrap hero" aria-labelledby="hero-title">
+      <div>
+        <span class="eyebrow">A household ledger for iPhone</span>
+        <h1 id="hero-title">Shared bills,<br /><em>split fairly.</em></h1>
+        <p class="lede">Rent split by income. Extras logged as they happen. One line at month end that says who pays whom.</p>
+        <div class="cta-row">
+          <button class="store" type="button" aria-disabled="true" aria-label="Download on the App Store — coming soon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.64c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.77-3.32-1.8-1.41-.14-2.76.83-3.47.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.76 2.27-1.6 2.78-.41 6.9 1.15 9.16.77 1.1 1.68 2.34 2.87 2.3 1.15-.05 1.59-.75 2.98-.75 1.39 0 1.78.75 3 .72 1.24-.02 2.02-1.12 2.78-2.23.87-1.28 1.23-2.52 1.25-2.58-.03-.01-2.4-.92-2.44-3.67zM14.1 5.9c.63-.77 1.06-1.84.94-2.9-.91.04-2.02.61-2.67 1.37-.58.67-1.1 1.77-.96 2.81 1.02.08 2.06-.52 2.69-1.28z"/></svg>
+            <span><small>Coming soon to the</small><strong>App Store</strong></span>
+          </button>
+          <span class="cta-note">Free · iPhone · iOS 17+</span>
+        </div>
+        <div class="trust">
+          <span>No account</span>
+          <span>No server</span>
+          <span>Data not collected</span>
+        </div>
+      </div>
+      <div class="phones" aria-hidden="true">
+        <div class="phone back"><img src="screens/month-light.png" alt="" /></div>
+        <div class="phone front"><img src="screens/home-light.png" alt="" /></div>
+        <div class="stamp">
+          Month-end settle
+          <b>Inês pays Tiago €7,91</b>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="split" aria-labelledby="split-title">
+      <div class="section-head">
+        <span class="eyebrow">Fair isn’t always half</span>
+        <h2 id="split-title">Try the split.</h2>
+        <p>Justa splits the monthly plan by each person’s usual income. Move the sliders. This is the same math the app runs on your iPhone.</p>
+      </div>
+      <div class="calc">
+        <div class="calc-inputs">
+          <div class="field">
+            <label for="income-a">Inês earns <output id="out-a" for="income-a"></output></label>
+            <input id="income-a" type="range" min="500" max="6000" step="50" value="2200" />
+          </div>
+          <div class="field">
+            <label for="income-b">Tiago earns <output id="out-b" for="income-b"></output></label>
+            <input id="income-b" type="range" min="500" max="6000" step="50" value="1800" />
+          </div>
+          <div class="field plan">
+            <label for="plan">Rent, utilities, groceries <output id="out-plan" for="plan"></output></label>
+            <input id="plan" type="range" min="300" max="3500" step="10" value="1250" />
+          </div>
+        </div>
+        <div class="calc-result" aria-live="polite">
+          <div class="calc-total">
+            <small>Monthly plan</small>
+            <div id="total"></div>
+          </div>
+          <div class="bar" aria-hidden="true"><span class="a" id="bar-a"></span><span class="b" id="bar-b"></span></div>
+          <div class="who">
+            <div class="who-row">
+              <span class="avatar a" aria-hidden="true">I</span>
+              <span>Inês <span class="pct" id="pct-a"></span></span>
+              <strong id="share-a"></strong>
+            </div>
+            <div class="who-row">
+              <span class="avatar b" aria-hidden="true">T</span>
+              <span>Tiago <span class="pct" id="pct-b"></span></span>
+              <strong id="share-b"></strong>
+            </div>
+          </div>
+          <p class="calc-note" id="half-note"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="month" aria-labelledby="month-title">
+      <div class="section-head">
+        <span class="eyebrow">How a month works</span>
+        <h2 id="month-title">Plan it, log it, settle it.</h2>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <div>
+            <span class="step-num">01 — Plan</span>
+            <h3>Set the month once.</h3>
+            <p>Add each person’s usual income and the costs that repeat: rent, internet, electricity. Justa works out who covers what. Change one month without touching the rest.</p>
+          </div>
+          <div class="step-shot"><div class="phone"><img src="screens/household-light.png" alt="Household screen showing Inês at 55% and Tiago at 45% of income, with monthly costs below." loading="lazy" /></div></div>
+        </article>
+        <article class="step">
+          <div>
+            <span class="step-num">02 — Log</span>
+            <h3>Extras, as they happen.</h3>
+            <p>Groceries, Friday dinner, the pharmacy. Add it in a few taps, or photograph the receipt. The text is read on the iPhone, never uploaded.</p>
+          </div>
+          <div class="step-shot"><div class="phone"><img src="screens/new-expense-light.png" alt="New expense sheet with Scan receipt, title, amount, date, category grid and who paid." loading="lazy" /></div></div>
+        </article>
+        <article class="step">
+          <div>
+            <span class="step-num">03 — Settle</span>
+            <h3>One line at month end.</h3>
+            <p>Justa nets every shared extra against each person’s share. No spreadsheets, no “I think I paid last time”. Just who pays whom, and how much.</p>
+          </div>
+          <div class="step-shot"><div class="phone"><img src="screens/settle-light.png" alt="Settle screen: Inês pays Tiago €7,91, above the six open extras and each person's balance." loading="lazy" /></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap" aria-labelledby="more-title">
+      <div class="section-head">
+        <span class="eyebrow">Also inside</span>
+        <h2 id="more-title">The whole household, not just the split.</h2>
+      </div>
+      <div class="more">
+        <article class="more-card">
+          <div class="more-shot"><img src="screens/accounts-light.png" alt="Accounts screen showing €4 200,00 across household savings pots." loading="lazy" /></div>
+          <h3>Accounts</h3>
+          <p>Track the household’s savings pots month by month. Personal pots stay out of the total.</p>
+        </article>
+        <article class="more-card">
+          <div class="more-shot"><img src="screens/analytics-light.png" alt="Analytics screen with accounts and planned versus realized sections." loading="lazy" /></div>
+          <h3>Analytics</h3>
+          <p>Planned versus realized, month against month, and who paid versus their share.</p>
+        </article>
+        <article class="more-card">
+          <div class="more-shot"><img src="screens/split-light.png" alt="Split screen with a bill amount, the people splitting at 55% and 45%, and who paid." loading="lazy" /></div>
+          <h3>Split</h3>
+          <p>Enter a bill, pick who’s in and who paid, then save it as an expense.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="wrap" id="privacy" aria-labelledby="privacy-title">
+      <div class="privacy">
+        <div class="section-head">
+          <span class="eyebrow">Private by design</span>
+          <h2 id="privacy-title">Your money talk stays at home.</h2>
+          <p>Justa has no account and no server. There is nothing to sign up for and nothing for us to see.</p>
+        </div>
+        <div class="facts">
+          <div class="fact"><b>On your iPhone</b><p>The ledger lives on the device. Nothing leaves unless you choose a folder.</p></div>
+          <div class="fact"><b>Your folder</b><p>Optionally share a folder in iCloud Drive, Dropbox or Google Drive so a second iPhone opens the same ledger.</p></div>
+          <div class="fact"><b>Face ID</b><p>Lock the app on this iPhone. The setting never leaves the device.</p></div>
+          <div class="fact"><b>Several homes</b><p>Keep the couple ledger and your parents’ house side by side.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="pricing" aria-labelledby="pricing-title">
+      <div class="section-head">
+        <span class="eyebrow">Pricing</span>
+        <h2 id="pricing-title">Free. One upgrade, once.</h2>
+      </div>
+      <div class="prices">
+        <div class="price">
+          <h3>Justa</h3>
+          <div class="amount">€0</div>
+          <ul>
+            <li>Monthly plan split by income</li>
+            <li>Expenses, accounts, analytics and settle-up</li>
+            <li>Several households, Face ID</li>
+            <li>Open a shared folder someone else created</li>
+          </ul>
+        </div>
+        <div class="price plus">
+          <h3>Justa Plus</h3>
+          <div class="amount">€7,99<small>one time</small></div>
+          <ul>
+            <li>Create a shared folder for a second iPhone</li>
+            <li>Record estimate invoices against the plan</li>
+            <li>Family Sharing included</li>
+            <li>No subscription</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" aria-labelledby="faq-title">
+      <div class="section-head">
+        <span class="eyebrow">Questions</span>
+        <h2 id="faq-title">Good to know.</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Why split by income instead of 50/50?</summary>
+          <p>If one person earns 55% of the household, covering 55% of the shared plan leaves both with the same share of what they earn. You can still set any split you like for a single month.</p>
+        </details>
+        <details>
+          <summary>How do two iPhones share a ledger?</summary>
+          <p>Create a vault in an empty folder on iCloud Drive, Dropbox or Google Drive and share that folder. The second iPhone opens the same folder. If both edit the same bill at the same time, the later save wins.</p>
+        </details>
+        <details>
+          <summary>Is the app in English?</summary>
+          <p>Justa follows your iPhone’s language, in English or European Portuguese. Amounts use the currency of the household.</p>
+        </details>
+        <details>
+          <summary>What do you collect?</summary>
+          <p>Nothing. See the <a href="./privacy/">privacy policy</a>.</p>
+        </details>
+      </div>
+    </section>
+
+    <footer class="wrap">
+      <img src="wordmark.png" alt="justa" width="59" height="30" />
+      <nav aria-label="Footer">
+        <a href="./privacy/">Privacy</a>
+        <a href="mailto:aacnsilva@hotmail.com">Support</a>
+        <span>© Justa</span>
+      </nav>
+    </footer>
   </main>
+
+  <script>
+    const amountFormat = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: "always" });
+    const euro = { format: (value) => `€${amountFormat.format(value)}` };
+    const byId = (id) => document.getElementById(id);
+    const incomeA = byId("income-a");
+    const incomeB = byId("income-b");
+    const plan = byId("plan");
+
+    const renderSplit = () => {
+      const a = Number(incomeA.value);
+      const b = Number(incomeB.value);
+      const total = Number(plan.value);
+      const ratioA = a / (a + b);
+      const shareA = Math.round(total * ratioA * 100) / 100;
+      const shareB = total - shareA;
+      const pctA = Math.round(ratioA * 100);
+
+      byId("out-a").textContent = euro.format(a);
+      byId("out-b").textContent = euro.format(b);
+      byId("out-plan").textContent = euro.format(total);
+      byId("total").textContent = euro.format(total);
+      byId("pct-a").textContent = `${pctA}%`;
+      byId("pct-b").textContent = `${100 - pctA}%`;
+      byId("share-a").textContent = euro.format(shareA);
+      byId("share-b").textContent = euro.format(shareB);
+      byId("bar-a").style.flexGrow = ratioA;
+      byId("bar-b").style.flexGrow = 1 - ratioA;
+
+      const gap = Math.abs(shareA - total / 2);
+      byId("half-note").textContent = gap < 1
+        ? "Same income, same share. Fair and half agree this time."
+        : `Split in half, ${shareA > shareB ? "Tiago" : "Inês"} would pay ${euro.format(gap)} a month over a fair share.`;
+    };
+
+    [incomeA, incomeB, plan].forEach((input) => input.addEventListener("input", renderSplit));
+    renderSplit();
+  </script>
 </body>
 </html>

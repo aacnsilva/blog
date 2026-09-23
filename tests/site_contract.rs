@@ -100,8 +100,7 @@ fn assert_required_files_exist(root: &Path) {
         "cv/myPhoto.jpeg",
         "joora/privacy/index.html",
         "justa/index.html",
-        "justa/hero-composite.png",
-        "justa/hero-composite@2x.png",
+        "justa/screens/home-light.png",
         "justa/wordmark.png",
         "justa/appicon.png",
         "justa/privacy/index.html",
@@ -314,13 +313,14 @@ fn assert_unlisted_privacy_page(root: &Path) {
     assert!(privacy.contains("Política de privacidade — Justa"));
     assert!(privacy.contains("A Justa"));
     assert!(privacy.contains("does not run a server"));
-    assert!(privacy.contains("Effective 16 September 2026"));
-    assert!(privacy.contains("16 de setembro de 2026"));
+    assert!(privacy.contains("Effective 20 September 2026"));
+    assert!(privacy.contains("20 de setembro de 2026"));
+    assert!(privacy.contains("Justa Plus"));
     assert!(privacy.contains("mailto:aacnsilva@hotmail.com"));
     assert!(privacy.contains("class=\"wordmark\""));
-    assert!(privacy.contains("--cream: #F5F0E6"));
+    assert!(privacy.contains("--paper: #FBF4EC"));
     assert!(privacy.contains("--pine: #1A3A32"));
-    assert!(privacy.contains("--terracotta: #C86A46"));
+    assert!(privacy.contains("--coral: #E04B3C"));
     assert!(!privacy.contains("Joora"));
     assert!(!privacy.contains("href=\"/\""));
     assert!(!privacy.contains("href=\"/about/\""));
@@ -361,23 +361,29 @@ fn assert_justa_fair_split_landing(root: &Path) {
         landing.contains("<title>Justa — Shared bills, split fairly</title>"),
         "landing should carry Justa branding"
     );
-    assert!(landing.contains("src=\"hero-composite.png\""));
     assert!(landing.contains("appicon.png"));
     assert!(
-        landing.contains("split fairly"),
+        landing.contains("split fairly."),
         "landing should be the Fair-split page"
     );
-    assert!(landing.contains(">Coming soon</a>"));
+    assert!(landing.contains("Coming soon to the"));
     assert!(landing.contains(r#"aria-disabled="true""#));
-    assert!(landing.contains("href=\"#\""));
     assert!(!landing.contains("apps.apple.com"));
     assert!(landing.contains(r#"<meta name="robots" content="noindex, nofollow" />"#));
     assert!(landing.contains("href=\"./privacy/\""));
+    assert!(landing.contains("id=\"income-a\""));
     assert!(!landing.contains("Joora"));
+    assert!(!landing.contains("hero-composite"));
+    assert!(!landing.contains("mockups/"));
     assert_png(root, "justa/wordmark.png");
     assert_png(root, "justa/appicon.png");
-    assert_png(root, "justa/hero-composite.png");
-    assert_png(root, "justa/hero-composite@2x.png");
+    for screen in [
+        "home", "month", "household", "new-expense", "settle", "accounts", "analytics", "split",
+    ] {
+        let relative = format!("justa/screens/{screen}-light.png");
+        assert!(landing.contains(&format!("src=\"screens/{screen}-light.png\"")));
+        assert_png(root, &relative);
+    }
 
     let privacy = read(root, "justa/privacy/index.html");
     assert!(privacy.contains("Privacy Policy — Justa"));
