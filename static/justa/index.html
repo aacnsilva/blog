@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Justa — Shared bills, split fairly</title>
-  <meta name="description" content="A private household ledger. The monthly plan splits by income, extras get logged as they happen, and month end tells you who pays whom. No account. No server." />
+  <meta name="description" content="Household money, without the dread. Justa plans the month, splits it fairly by income, logs the extras, and tells you who pays whom. Six Portuguese themes, on-device receipt scanning, and confetti when you're all square. No account. No server." />
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="theme-color" content="#F6EFE2" />
+  <meta name="theme-color" content="#F4F7FC" />
   <meta property="og:title" content="Justa — Shared bills, split fairly" />
-  <meta property="og:description" content="Shared bills, split fairly. Private by design." />
+  <meta property="og:description" content="Household money, without the dread. Private by design." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://aacnsilva.com/justa/" />
   <meta property="og:image" content="https://aacnsilva.com/justa/appicon.png" />
@@ -19,250 +19,535 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --paper: #FBF4EC;
-      --card: #FFFBF7;
-      --sand: #F6E6DC;
-      --peach: #FFDDD2;
-      --pine: #1A3A32;
-      --ink: #2C1F1C;
-      --muted: #7A5E58;
-      --coral: #E04B3C;
-      --coral-deep: #C83328;
-      --blue: #2F6FED;
-      --rule: rgba(44, 31, 28, 0.12);
+      --bg: #F4F7FC;
+      --surface: #FFFFFF;
+      --tint: #E3EAF8;
+      --text: #101B33;
+      --soft: #4E5B75;
+      --cobalt: #1F4CC4;
+      --cobalt-deep: #173A99;
+      --brand: #1A3A32;
+      --orange: #D4663A;
+      --moss: #137A4B;
+      --sienna: #B34D00;
+      --line: rgba(16, 27, 51, 0.1);
       --serif: "Fraunces", Georgia, serif;
       --sans: "Instrument Sans", -apple-system, system-ui, sans-serif;
+      --tile: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%23F8FAFE'/%3E%3Cg fill='none' stroke='%231F4CC4' stroke-width='2.2'%3E%3Ccircle cx='0' cy='0' r='18'/%3E%3Ccircle cx='80' cy='0' r='18'/%3E%3Ccircle cx='0' cy='80' r='18'/%3E%3Ccircle cx='80' cy='80' r='18'/%3E%3Cpath d='M40 14C48 26 48 32 40 40C32 32 32 26 40 14ZM40 66C32 54 32 48 40 40C48 48 48 54 40 66ZM14 40C26 32 32 32 40 40C32 48 26 48 14 40ZM66 40C54 48 48 48 40 40C48 32 54 32 66 40Z'/%3E%3C/g%3E%3Cg fill='%231F4CC4'%3E%3Ccircle cx='40' cy='40' r='4'/%3E%3Ccircle cx='0' cy='0' r='7'/%3E%3Ccircle cx='80' cy='0' r='7'/%3E%3Ccircle cx='0' cy='80' r='7'/%3E%3Ccircle cx='80' cy='80' r='7'/%3E%3Cpath d='M40 0l4 6-4 6-4-6zM40 80l4-6-4-6-4 6zM0 40l6-4 6 4-6 4zM80 40l-6-4-6 4 6 4z'/%3E%3C/g%3E%3C/svg%3E");
     }
+
+    /* The six app themes, hex for hex from ThemeCatalog. Anything carrying data-theme paints itself. */
+    [data-theme="azulejo"] { --paper: #EEF3FB; --card: #FFFFFF; --peach: #DCE6FA; --sand: #E3E8F1; --ink: #101B33; --muted: #4E5B75; --pine: #1F4CC4; --fill: #1D46B8; --on-fill: #FFFFFF; --moss: #137A4B; --sienna: #B34D00; --clay: #6F8FD8; --over: #C4283B; }
+    [data-theme="jacaranda"] { --paper: #F6F1FC; --card: #FFFFFF; --peach: #EADFFC; --sand: #ECE5F4; --ink: #231637; --muted: #5E5076; --pine: #6433C4; --fill: #5A2DB5; --on-fill: #FFFFFF; --moss: #15784E; --sienna: #B34D00; --clay: #9C72D8; --over: #C2254F; }
+    [data-theme="algarve"] { --paper: #FBF3E6; --card: #FFFCF5; --peach: #D2EDE8; --sand: #F0E2CB; --ink: #2B2016; --muted: #6A5A47; --pine: #04716F; --fill: #036664; --on-fill: #FFFCF5; --moss: #4A7A12; --sienna: #B04A12; --clay: #B57A3E; --over: #B8283F; }
+    [data-theme="tejo"] { --paper: #0C1221; --card: #141D33; --peach: #1D2A49; --sand: #253253; --ink: #EBF0FF; --muted: #A3AECB; --pine: #8DAEFF; --fill: #86A8FF; --on-fill: #0C1221; --moss: #5ED69A; --sienna: #F5BA55; --clay: #8FA3D6; --over: #FF7A85; }
+    [data-theme="ginja"] { --paper: #190E14; --card: #25151E; --peach: #3A1D2C; --sand: #432838; --ink: #FCEBF2; --muted: #D0ABBC; --pine: #FF8CC0; --fill: #FF85BA; --on-fill: #190E14; --moss: #7AD9A0; --sienna: #F4C15E; --clay: #D98FB5; --over: #FF7166; }
+    [data-theme="fado"] { --paper: #15100C; --card: #211913; --peach: #33271A; --sand: #3C3024; --ink: #F8EEDD; --muted: #C6B49B; --pine: #F4C95E; --fill: #F4C95E; --on-fill: #15100C; --moss: #8FD4A0; --sienna: #FF9459; --clay: #C9A27A; --over: #FF7280; }
+    [data-theme="azulejo"], [data-theme="jacaranda"], [data-theme="algarve"] {
+      --hairline: color-mix(in srgb, var(--ink) 18%, transparent);
+      --stroke: color-mix(in srgb, var(--ink) 6%, transparent);
+      --c-groc: #3D6B54; --c-util: #C9A227; --c-trans: #3D5A80; --c-dine: #C45C26; --c-health: #B84A3A; --c-subs: #4A6FA5; --c-rent: #1F3D32;
+      color-scheme: light;
+    }
+    [data-theme="tejo"], [data-theme="ginja"], [data-theme="fado"] {
+      --hairline: color-mix(in srgb, var(--ink) 22%, transparent);
+      --stroke: color-mix(in srgb, var(--ink) 10%, transparent);
+      --c-groc: #5A9A76; --c-util: #9A7A1C; --c-trans: #6A8AB8; --c-dine: #E39252; --c-health: #D46A5C; --c-subs: #6A8FC4; --c-rent: #5C8A72;
+      color-scheme: dark;
+    }
+
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      background: var(--paper);
-      color: var(--ink);
+      background: var(--bg);
+      color: var(--text);
       font-family: var(--sans);
       font-size: 17px;
       line-height: 1.55;
       -webkit-font-smoothing: antialiased;
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.35;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .25 0 0 0 0 .15 0 0 0 .08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      z-index: 50;
+      overflow-x: hidden;
     }
     a { color: inherit; }
-    :focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; border-radius: 6px; }
+    button { font: inherit; color: inherit; }
+    :focus-visible { outline: 2px solid var(--cobalt); outline-offset: 3px; border-radius: 8px; }
     .wrap { width: min(100% - 2.5rem, 1180px); margin-inline: auto; }
+    .i { width: 1em; height: 1em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
     /* Nav */
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.4rem 0;
-    }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 1.4rem 0; position: relative; z-index: 5; }
     .nav img { height: 44px; width: auto; display: block; }
     .nav ul { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; font-size: 0.95rem; }
-    .nav ul a { text-decoration: none; color: var(--pine); }
-    .nav ul a:hover { color: var(--coral); }
+    .nav ul a { text-decoration: none; color: var(--text); }
+    .nav ul a:hover { color: var(--cobalt); }
+
+    /* Type */
+    .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cobalt); font-weight: 600; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; color: var(--text); margin: 0; }
+    h1 { font-size: clamp(3.1rem, 6.2vw, 5.6rem); line-height: 0.98; letter-spacing: -0.02em; font-variation-settings: "opsz" 72; margin: 1rem 0 1.5rem; }
+    h1 em, h2 em { font-style: italic; color: var(--cobalt); }
+    h2 { font-size: clamp(2.3rem, 4.5vw, 3.6rem); line-height: 1.04; letter-spacing: -0.02em; margin-top: 0.8rem; }
+    .lede { font-size: 1.2rem; color: var(--soft); max-width: 36ch; margin: 0 0 2.2rem; }
 
     /* Hero */
-    .hero {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 3rem;
-      align-items: center;
-      padding: 3rem 0 5rem;
-    }
-    .eyebrow {
-      font-size: 0.78rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--coral);
-      font-weight: 600;
-    }
-    h1, h2, h3 { font-family: var(--serif); font-weight: 400; color: var(--pine); margin: 0; }
-    h1 {
-      font-size: clamp(3.2rem, 7vw, 6.1rem);
-      line-height: 0.98;
-      letter-spacing: -0.015em;
-      font-variation-settings: "opsz" 144;
-      margin: 1rem 0 1.5rem;
-    }
-    h1 em { font-style: italic; color: var(--coral); }
-    .lede { font-size: 1.2rem; color: var(--muted); max-width: 33ch; margin: 0 0 2.2rem; }
+    .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; padding: 2.5rem 0 5rem; }
     .cta-row { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
     .store {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.8rem 1.4rem 0.8rem 1.1rem;
-      border-radius: 14px;
-      background: var(--pine);
-      color: var(--card);
-      text-decoration: none;
-      border: 0;
-      font: inherit;
-      cursor: not-allowed;
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      padding: 0.8rem 1.4rem 0.8rem 1.1rem; border-radius: 14px; border: 0;
+      background: var(--text); color: #fff; text-decoration: none; cursor: not-allowed;
     }
     .store svg { width: 26px; height: 26px; fill: currentColor; }
     .store small { display: block; font-size: 0.72rem; opacity: 0.75; line-height: 1.1; }
     .store strong { display: block; font-size: 1.15rem; font-weight: 600; line-height: 1.15; }
-    .cta-note { font-size: 0.92rem; color: var(--muted); }
-    .trust {
-      display: flex;
-      gap: 1.5rem;
-      margin-top: 2.6rem;
-      padding-top: 1.4rem;
-      border-top: 1px solid var(--rule);
-      font-size: 0.9rem;
-      color: var(--pine);
-      flex-wrap: wrap;
-    }
-    .trust span::before { content: "✓"; color: var(--coral); margin-right: 0.45rem; }
+    .cta-note { font-size: 0.92rem; color: var(--soft); }
+    .trust { display: flex; gap: 1.5rem; margin-top: 2.6rem; padding-top: 1.4rem; border-top: 1px solid var(--line); font-size: 0.9rem; flex-wrap: wrap; }
+    .trust span { display: inline-flex; align-items: center; gap: 0.45rem; }
+    .trust .i { color: var(--moss); stroke-width: 2.6; }
 
-    .phones { position: relative; height: 640px; }
-    .phone {
-      position: absolute;
-      width: 290px;
-      border-radius: 46px;
-      padding: 9px;
-      background: #1b1d1c;
-      box-shadow: 0 40px 80px -30px rgba(26, 58, 50, 0.45), 0 0 0 1px rgba(0,0,0,0.3);
+    .stage-hero { position: relative; min-height: 720px; padding-bottom: 64px; display: flex; align-items: center; }
+    .stage-hero::before {
+      content: ""; position: absolute; inset: 2% 0 12% 8%;
+      background: var(--tile); background-size: 64px; border-radius: 48px; transform: rotate(-4deg);
+      -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+      mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+      opacity: 0.55;
     }
-    .phone img { display: block; width: 100%; border-radius: 38px; }
-    .phone.front { right: 8%; top: 0; transform: rotate(3deg); z-index: 2; animation: rise 0.9s cubic-bezier(.2,.8,.2,1) both; }
-    .phone.back { left: 2%; top: 90px; transform: rotate(-6deg); width: 260px; opacity: 0.96; animation: rise 0.9s 0.15s cubic-bezier(.2,.8,.2,1) both; }
-    .stamp {
-      position: absolute;
-      right: 0;
-      bottom: 40px;
-      z-index: 3;
-      background: var(--card);
-      border: 1px solid var(--rule);
-      border-radius: 16px;
-      padding: 0.9rem 1.1rem;
-      box-shadow: 0 18px 40px -20px rgba(26,58,50,0.4);
-      font-size: 0.85rem;
-      animation: rise 0.9s 0.35s cubic-bezier(.2,.8,.2,1) both;
+    .stage-hero > .device { z-index: 2; margin: 0 3% 0 auto; transform: rotate(2deg); animation: rise 0.9s cubic-bezier(.2,.8,.2,1) both; }
+    .stage-hero .back-slot { position: absolute; left: 2%; top: 150px; z-index: 1; transform: rotate(-7deg); }
+    .stage-hero .back-slot .device { --zoom: 0.6; }
+    .sticker {
+      position: absolute; z-index: 3; display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+      padding: 0.65rem 0.95rem; font-size: 0.9rem; font-weight: 600;
+      box-shadow: 0 18px 40px -22px rgba(16,27,51,0.45);
+      animation: rise 0.9s 0.35s cubic-bezier(.2,.8,.2,1) both, float 6s 1.3s ease-in-out infinite;
     }
-    .stamp b { display: block; font-family: var(--serif); font-size: 1.35rem; font-weight: 500; color: var(--pine); }
+    .sticker .i { font-size: 1.15rem; }
+    .sticker.mood { top: 72px; left: 0; color: var(--moss); }
+    .sticker.lock { bottom: 70px; left: 0; color: var(--text); animation-delay: 0.5s, 2.1s; }
+    .sticker.lock .i { color: var(--cobalt); }
+    .demo-caption { position: absolute; bottom: 0; right: 3%; width: calc(402px * 0.72 + 22px); margin: 0; z-index: 3; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 0.3rem 0.6rem; text-align: center; font-size: 0.92rem; color: var(--soft); }
+    .demo-caption .i { color: var(--orange); font-size: 1.1rem; }
+    .text-button { background: none; border: 0; padding: 0.3rem 0; color: var(--cobalt); font-weight: 600; cursor: pointer; text-decoration: underline; text-underline-offset: 0.2em; }
+    .bubble {
+      position: absolute; z-index: 4; left: 0; bottom: 140px; max-width: 250px;
+      background: #34C759; color: #fff; border-radius: 20px 20px 6px 20px; padding: 0.75rem 1rem;
+      font-size: 0.88rem; line-height: 1.35; box-shadow: 0 20px 40px -20px rgba(16,27,51,0.5);
+      opacity: 0; translate: 0 10px; pointer-events: none; transition: opacity 0.3s, translate 0.3s;
+    }
+    .bubble[data-show="true"] { opacity: 1; translate: 0 0; }
     @keyframes rise { from { opacity: 0; translate: 0 30px; } to { opacity: 1; translate: 0 0; } }
+    @keyframes float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
 
-    /* Section base */
+    /* Ribbon */
+    .ribbon-wrap { overflow: hidden; padding: 1.5rem 0; }
+    .ribbon { background: var(--cobalt); color: #fff; overflow: hidden; padding: 1rem 0; transform: rotate(-1.2deg); margin: 0 -2rem; box-shadow: 0 20px 50px -30px rgba(31,76,196,0.7); }
+    .ribbon-track { display: flex; gap: 2.5rem; width: max-content; animation: marquee 42s linear infinite; font-family: var(--serif); font-size: 1.45rem; font-style: italic; }
+    .ribbon-track span { display: inline-flex; align-items: center; gap: 2.5rem; white-space: nowrap; }
+    .ribbon-track .i { font-size: 1rem; color: #FFC7A8; stroke-width: 0; fill: currentColor; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    /* Sections */
     section { padding: 6rem 0; }
-    .section-head { max-width: 640px; margin-bottom: 3.5rem; }
-    h2 { font-size: clamp(2.3rem, 4.5vw, 3.6rem); line-height: 1.04; letter-spacing: -0.02em; margin-top: 0.8rem; }
-    .section-head p { color: var(--muted); font-size: 1.1rem; margin: 1rem 0 0; }
-
-    /* Split calculator */
-    .calc {
-      background: var(--card);
-      border-radius: 28px;
-      border: 1px solid var(--rule);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      overflow: hidden;
-    }
-    .calc-inputs { padding: 2.5rem; border-right: 1px dashed var(--rule); display: grid; gap: 1.6rem; align-content: start; }
-    .field label { display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--muted); margin-bottom: 0.45rem; }
-    .field label output { font-family: var(--serif); font-size: 1.25rem; color: var(--pine); }
-    input[type="range"] { width: 100%; accent-color: var(--pine); height: 28px; }
-    #income-a { accent-color: var(--coral); }
-    #income-b { accent-color: var(--blue); }
-    .calc-result { padding: 2.5rem; display: flex; flex-direction: column; gap: 1.4rem; background: linear-gradient(180deg, var(--card), var(--paper)); }
-    .calc-total small { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--coral); font-weight: 600; }
-    .calc-total div { font-family: var(--serif); font-size: 3.6rem; line-height: 1; color: var(--pine); font-variation-settings: "opsz" 144; }
-    .bar { display: flex; height: 14px; border-radius: 99px; overflow: hidden; background: var(--sand); }
-    .bar span { transition: flex-grow 0.35s ease; }
-    .bar .a { background: var(--coral); }
-    .bar .b { background: var(--blue); }
-    .who { display: grid; gap: 0.9rem; }
-    .who-row { display: grid; grid-template-columns: 40px 1fr auto; align-items: center; gap: 0.8rem; }
-    .avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: var(--card); font-weight: 600; }
-    .avatar.a { background: var(--coral); }
-    .avatar.b { background: var(--blue); }
-    .pct { font-size: 0.78rem; background: var(--peach); color: var(--coral); padding: 0.1rem 0.5rem; border-radius: 99px; margin-left: 0.5rem; font-weight: 600; }
-    .who-row strong { font-size: 1.25rem; font-variant-numeric: tabular-nums; color: var(--ink); }
-    .calc-note { font-size: 0.9rem; color: var(--muted); margin: 0; }
+    .section-head { max-width: 660px; margin-bottom: 3.5rem; }
+    .section-head p { color: var(--soft); font-size: 1.12rem; margin: 1rem 0 0; }
 
     /* Month flow */
-    .steps { display: grid; gap: 5rem; }
+    .steps { display: grid; gap: 6rem; }
     .step { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
     .step:nth-child(even) .step-shot { order: -1; }
-    .step-num { font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--coral); }
-    .step h3 { font-size: 2.3rem; line-height: 1.08; margin: 0.4rem 0 1rem; letter-spacing: -0.015em; }
-    .step p { color: var(--muted); font-size: 1.1rem; max-width: 42ch; margin: 0; }
-    .step-shot { display: flex; justify-content: center; position: relative; }
-    .step-shot::before {
-      content: "";
-      position: absolute;
-      inset: 12% 8%;
-      background: var(--sand);
-      border-radius: 40px;
-      transform: rotate(-3deg);
-    }
-    .step-shot .phone { position: relative; width: 270px; }
+    .step-num { font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--orange); }
+    .step h3 { font-size: 2.4rem; line-height: 1.06; margin: 0.4rem 0 1rem; letter-spacing: -0.015em; }
+    .step p { color: var(--soft); font-size: 1.1rem; max-width: 44ch; margin: 0; }
+    .joys { list-style: none; padding: 0; margin: 1.6rem 0 0; display: grid; gap: 0.7rem; }
+    .joys li { display: flex; gap: 0.7rem; align-items: flex-start; }
+    .joys .i { margin-top: 0.25em; color: var(--cobalt); flex: none; }
+    .step-shot { display: flex; justify-content: center; position: relative; padding: 1rem 0; }
+    .step-shot::before { content: ""; position: absolute; inset: 8% 10%; background: var(--tint); border-radius: 44px; transform: rotate(-3deg); }
+    .step:nth-child(even) .step-shot::before { transform: rotate(3deg); background: #FDE7DC; }
+    .step-shot .device { transform: none; }
+    .try-hint { position: absolute; z-index: 3; top: 30%; right: 2%; background: var(--orange); color: #fff; font-size: 0.85rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 99px; transform: rotate(6deg); box-shadow: 0 12px 24px -12px rgba(212,102,58,0.8); }
 
-    /* Also inside */
-    .more { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .more-card { background: var(--card); border: 1px solid var(--rule); border-radius: 28px; padding: 1.6rem 1.6rem 2rem; }
-    .more-shot { height: 300px; overflow: hidden; border-radius: 20px; background: var(--sand); display: flex; justify-content: center; padding-top: 1.4rem; margin-bottom: 1.4rem; }
-    .more-shot img { width: 72%; align-self: flex-start; border-radius: 26px 26px 0 0; box-shadow: 0 20px 40px -20px rgba(44,31,28,0.35); }
-    .more-card h3 { font-size: 1.7rem; margin-bottom: 0.4rem; }
-    .more-card p { margin: 0; color: var(--muted); }
+    /* Split calculator */
+    .calc { background: var(--surface); border-radius: 28px; border: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
+    .calc-inputs { padding: 2.5rem; border-right: 1px dashed var(--line); display: grid; gap: 1.6rem; align-content: start; }
+    .field label { display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--soft); margin-bottom: 0.45rem; }
+    .field label output { font-family: var(--serif); font-size: 1.25rem; color: var(--text); }
+    input[type="range"] { width: 100%; accent-color: var(--cobalt); height: 28px; }
+    #income-a { accent-color: #E04B3C; }
+    #income-b { accent-color: #A66F00; }
+    .rule { display: inline-flex; background: var(--tint); border-radius: 99px; padding: 4px; gap: 4px; }
+    .rule button { border: 0; background: transparent; padding: 0.45rem 1rem; border-radius: 99px; font-weight: 600; font-size: 0.9rem; color: var(--soft); cursor: pointer; }
+    .rule button[aria-pressed="true"] { background: var(--surface); color: var(--cobalt); box-shadow: 0 4px 12px -6px rgba(16,27,51,0.35); }
+    .rule-label { font-size: 0.9rem; color: var(--soft); margin-bottom: 0.45rem; display: block; }
+    .calc-result { padding: 2.5rem; display: flex; flex-direction: column; gap: 1.3rem; background: linear-gradient(180deg, var(--surface), var(--bg)); }
+    .calc-total small, .calc-mood small { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cobalt); font-weight: 600; }
+    .calc-total div { font-family: var(--serif); font-size: 3.4rem; line-height: 1; color: var(--text); font-variation-settings: "opsz" 144; }
+    .bar { display: flex; gap: 3px; height: 14px; border-radius: 99px; overflow: hidden; background: var(--tint); }
+    .bar span { transition: flex-grow 0.35s ease; }
+    .bar .a { background: #E04B3C; }
+    .bar .b { background: #C98900; }
+    .who { display: grid; gap: 0.9rem; }
+    .who-row { display: grid; grid-template-columns: 40px 1fr auto; align-items: center; gap: 0.8rem; }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 600; }
+    .avatar.a { background: #E04B3C; }
+    .avatar.b { background: #C98900; }
+    .pct { font-size: 0.78rem; background: var(--tint); color: var(--cobalt); padding: 0.1rem 0.5rem; border-radius: 99px; margin-left: 0.5rem; font-weight: 600; }
+    .who-row strong { font-size: 1.25rem; font-variant-numeric: tabular-nums; }
+    .calc-note { font-size: 0.9rem; color: var(--soft); margin: 0; }
+    .calc-mood { border-top: 1px dashed var(--line); padding-top: 1.2rem; display: grid; gap: 0.6rem; }
+    .calc-mood .figure { font-family: var(--serif); font-size: 2rem; line-height: 1; color: var(--tone); }
+    .calc-mood .figure span { font-family: var(--sans); font-size: 0.95rem; color: var(--soft); margin-left: 0.4rem; }
+    .mood-pill { display: inline-flex; align-items: center; gap: 0.45rem; width: fit-content; padding: 0.35rem 0.8rem; border-radius: 12px; font-weight: 600; font-size: 0.95rem; color: var(--tone); background: color-mix(in srgb, var(--tone) 13%, transparent); }
+    .tone-good { --tone: var(--moss); }
+    .tone-warn { --tone: var(--sienna); }
+
+    /* Month at a glance */
+    .glance { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 3rem; align-items: center; }
+    .glance > *, .hero > *, .step > *, .themes > * { min-width: 0; }
+    .glance-phones { display: flex; justify-content: center; align-items: flex-start; gap: 1.5rem; position: relative; }
+    .glance-phones .device { --zoom: 0.62; }
+    .glance-phones .device:last-child { margin-top: 4rem; }
+    .glance-list { display: grid; gap: 1.4rem; margin-top: 2rem; }
+    .glance-list div { display: grid; grid-template-columns: 44px 1fr; gap: 1rem; }
+    .glance-list .badge { width: 44px; height: 44px; border-radius: 14px; background: var(--tint); color: var(--cobalt); display: grid; place-items: center; font-size: 1.3rem; }
+    .glance-list b { display: block; font-family: var(--serif); font-weight: 500; font-size: 1.3rem; }
+    .glance-list p { margin: 0.2rem 0 0; color: var(--soft); }
+
+    /* Themes stage */
+    .themes { background: var(--paper); color: var(--ink); border-radius: 40px; padding: 4.5rem 4rem; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 3rem; align-items: center; transition: background-color 0.5s ease, color 0.5s ease; position: relative; overflow: hidden; }
+    .themes h2, .themes h3 { color: var(--ink); transition: color 0.5s ease; }
+    .themes h2 em { color: var(--pine); }
+    .themes .eyebrow { color: var(--pine); }
+    .themes .section-head p, .themes .muted { color: var(--muted); }
+    .themes .section-head { margin-bottom: 2rem; }
+    .theme-group { margin-top: 1.6rem; }
+    .theme-group > span { font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; font-weight: 600; color: var(--muted); }
+    .theme-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.9rem; margin-top: 0.7rem; }
+    .theme-card {
+      text-align: left; cursor: pointer; border-radius: 20px; padding: 1rem 1rem 1.1rem;
+      background: var(--paper); color: var(--ink); border: 1px solid var(--hairline);
+      display: grid; gap: 0.35rem; transition: transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s;
+    }
+    .theme-card:hover { transform: translateY(-3px); box-shadow: 0 16px 30px -18px rgba(0,0,0,0.45); }
+    .theme-card[aria-pressed="true"] { box-shadow: 0 0 0 2.5px var(--pine), 0 16px 30px -18px rgba(0,0,0,0.45); }
+    .theme-card .top { display: flex; justify-content: space-between; align-items: center; color: var(--pine); font-size: 1.2rem; }
+    .theme-card .tick { width: 22px; height: 22px; border-radius: 50%; background: var(--pine); color: var(--on-fill); display: grid; place-items: center; font-size: 0.8rem; opacity: 0; transform: scale(0.4); transition: opacity 0.2s, transform 0.3s cubic-bezier(.3,1.6,.5,1); }
+    .theme-card[aria-pressed="true"] .tick { opacity: 1; transform: scale(1); }
+    .theme-card b { font-family: var(--serif); font-weight: 500; font-size: 1.25rem; }
+    .theme-card small { color: var(--muted); font-size: 0.82rem; line-height: 1.3; }
+    .swatches { display: flex; gap: 5px; margin-top: 0.3rem; }
+    .swatches i { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--hairline); }
+    .theme-phone { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .theme-phone .device { --zoom: 0.66; }
+    .theme-phone .device.pop { animation: pop 0.5s cubic-bezier(.3,1.5,.5,1); }
+    .theme-name { text-align: center; }
+    .theme-name b { display: block; font-family: var(--serif); font-weight: 500; font-size: 1.6rem; }
+    @keyframes pop { 0% { transform: scale(0.96) rotate(-1deg); } 100% { transform: scale(1) rotate(0); } }
+
+    /* Little moments */
+    .moments { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+    .moment { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; padding: 1.5rem 1.5rem 1.8rem; display: flex; flex-direction: column; }
+    .moment .vignette { min-height: 190px; border-radius: 20px; margin-bottom: 1.4rem; padding: 1.2rem; display: grid; align-content: center; gap: 0.6rem; background: var(--paper); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", var(--sans); }
+    .moment h3 { font-size: 1.55rem; margin-bottom: 0.4rem; }
+    .moment p { margin: 0; color: var(--soft); }
+    .moment .tag { display: inline-block; margin-left: 0.4rem; font-family: var(--sans); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); vertical-align: middle; }
+    .v-card { background: var(--card); border: 1px solid var(--stroke); border-radius: 16px; padding: 0.9rem 1rem; }
+    .v-row { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; font-size: 0.92rem; }
+    .v-muted { color: var(--muted); font-size: 0.85rem; }
+    .v-serif { font-family: ui-serif, "New York", var(--serif); font-weight: 600; }
+    .v-pill { display: inline-flex; align-items: center; gap: 0.4rem; width: fit-content; padding: 0.3rem 0.7rem; border-radius: 10px; font-size: 0.85rem; font-weight: 600; color: var(--tone); background: color-mix(in srgb, var(--tone) 14%, transparent); }
+    .v-good { --tone: var(--moss); }
+    .v-warn { --tone: var(--sienna); }
+    .v-over { --tone: var(--over); }
+    .v-bar { height: 10px; border-radius: 99px; background: var(--hairline); overflow: hidden; }
+    .v-bar span { display: block; height: 100%; border-radius: 99px; background: var(--c, var(--ink)); }
+    .pop-button { margin-top: 0.3rem; justify-self: start; border: 0; background: var(--fill); color: var(--on-fill); font-weight: 600; font-size: 0.85rem; border-radius: 99px; padding: 0.45rem 1rem; cursor: pointer; }
+    .ring { width: 56px; height: 56px; border-radius: 50%; background: conic-gradient(var(--moss) 0 100%); display: grid; place-items: center; }
+    .ring span { width: 44px; height: 44px; border-radius: 50%; background: var(--card); display: grid; place-items: center; font-weight: 700; font-size: 0.9rem; }
+    .check-list { display: grid; gap: 0.35rem; font-size: 0.88rem; }
+    .check-list span { display: flex; gap: 0.5rem; align-items: center; color: var(--muted); text-decoration: line-through; text-decoration-color: var(--hairline); }
+    .check-list .i { color: var(--moss); }
+    .search { display: flex; align-items: center; gap: 0.5rem; background: var(--sand); border-radius: 12px; padding: 0.55rem 0.8rem; font-size: 0.95rem; }
+    .search .i { color: var(--muted); }
+    .caret { width: 2px; height: 1.1em; background: var(--pine); animation: blink 1s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
 
     /* Privacy band */
-    .privacy { background: var(--pine); color: var(--card); border-radius: 36px; padding: 5rem 4rem; margin: 0 auto; }
-    .privacy h2 { color: var(--card); }
-    .privacy .eyebrow { color: #FF9A8A; }
-    .privacy .section-head p { color: rgba(253, 249, 241, 0.72); }
-    .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(253,249,241,0.14); border-radius: 20px; overflow: hidden; }
-    .fact { background: var(--pine); padding: 1.8rem 1.5rem; }
-    .fact b { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.5rem; margin-bottom: 0.5rem; }
-    .fact p { margin: 0; font-size: 0.95rem; color: rgba(253,249,241,0.72); }
+    .privacy { background: var(--text); color: #fff; border-radius: 40px; padding: 5rem 4rem; position: relative; overflow: hidden; }
+    .privacy::after { content: ""; position: absolute; right: -60px; top: -60px; width: 320px; height: 320px; background: var(--tile); background-size: 80px; opacity: 0.08; border-radius: 50%; }
+    .privacy h2 { color: #fff; }
+    .privacy h2 em { color: #9DB6FF; }
+    .privacy .eyebrow { color: #9DB6FF; }
+    .privacy .section-head p { color: rgba(255,255,255,0.72); }
+    .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.14); border-radius: 22px; overflow: hidden; position: relative; z-index: 1; }
+    .fact { background: var(--text); padding: 1.8rem 1.5rem; }
+    .fact .i { font-size: 1.5rem; color: #9DB6FF; margin-bottom: 0.9rem; }
+    .fact b { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.45rem; margin-bottom: 0.5rem; }
+    .fact p { margin: 0; font-size: 0.95rem; color: rgba(255,255,255,0.72); }
 
     /* Pricing */
-    .prices { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 900px; }
-    .price { background: var(--card); border: 1px solid var(--rule); border-radius: 24px; padding: 2.2rem; }
-    .price.plus { border-color: var(--coral); box-shadow: 0 0 0 1px var(--coral) inset; }
+    .prices { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 960px; }
+    .price { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; padding: 2.2rem; position: relative; }
+    .price.plus { border-color: var(--cobalt); box-shadow: 0 0 0 1px var(--cobalt) inset, 0 30px 60px -40px rgba(31,76,196,0.6); }
+    .price .ribbon-tag { position: absolute; top: -0.8rem; right: 1.6rem; background: var(--cobalt); color: #fff; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.8rem; border-radius: 99px; }
     .price h3 { font-size: 1.6rem; }
-    .price .amount { font-family: var(--serif); font-size: 3rem; color: var(--pine); margin: 0.6rem 0 0.2rem; line-height: 1; }
-    .price .amount small { font-family: var(--sans); font-size: 0.95rem; color: var(--muted); margin-left: 0.35rem; }
-    .price ul { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.6rem; }
-    .price li { padding-left: 1.5rem; position: relative; }
-    .price li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 0.7rem; height: 1px; background: var(--coral); }
+    .price .amount { font-family: var(--serif); font-size: 3rem; margin: 0.6rem 0 0.2rem; line-height: 1; }
+    .price .amount small { font-family: var(--sans); font-size: 0.95rem; color: var(--soft); margin-left: 0.35rem; }
+    .price .pitch { color: var(--soft); margin: 0.6rem 0 0; }
+    .price ul { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.65rem; }
+    .price li { display: flex; gap: 0.6rem; align-items: flex-start; }
+    .price li .i { margin-top: 0.3em; color: var(--cobalt); stroke-width: 2.6; }
 
     /* FAQ */
     .faq { max-width: 780px; }
-    details { border-top: 1px solid var(--rule); padding: 1.3rem 0; }
-    details:last-child { border-bottom: 1px solid var(--rule); }
-    summary { cursor: pointer; font-family: var(--serif); font-size: 1.35rem; color: var(--pine); list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+    details { border-top: 1px solid var(--line); padding: 1.3rem 0; }
+    details:last-child { border-bottom: 1px solid var(--line); }
+    summary { cursor: pointer; font-family: var(--serif); font-size: 1.35rem; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
     summary::-webkit-details-marker { display: none; }
-    summary::after { content: "+"; color: var(--coral); transition: transform 0.2s; }
+    summary::after { content: "+"; color: var(--cobalt); transition: transform 0.2s; }
     details[open] summary::after { transform: rotate(45deg); }
-    details p { color: var(--muted); margin: 0.8rem 0 0; max-width: 62ch; }
+    details p { color: var(--soft); margin: 0.8rem 0 0; max-width: 62ch; }
 
-    footer { padding: 3rem 0 4rem; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; color: var(--muted); }
+    .tiles-strip { height: 56px; background: var(--tile); background-size: 56px; opacity: 0.7; border-radius: 18px; margin-top: 2rem; }
+    footer { padding: 2.5rem 0 4rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; color: var(--soft); }
     footer img { height: 30px; }
     footer nav { display: flex; gap: 1.5rem; }
     footer a { text-decoration: none; }
-    footer a:hover { color: var(--coral); }
+    footer a:hover { color: var(--cobalt); }
 
+    #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 60; }
+
+    /* ---------- The phone ---------- */
+    .device {
+      --zoom: 0.72;
+      position: relative; flex: none;
+      width: calc(402px * var(--zoom) + 22px);
+      padding: 11px;
+      border-radius: calc(62px * var(--zoom) + 11px);
+      background: linear-gradient(150deg, #34373e, #0e0f12 60%);
+      box-shadow: 0 50px 90px -40px rgba(16,27,51,0.6), inset 0 0 0 1.5px rgba(255,255,255,0.08);
+    }
+    .screen {
+      zoom: var(--zoom);
+      width: 402px; height: 874px; border-radius: 62px; overflow: hidden; position: relative;
+      background: var(--paper); color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Instrument Sans", system-ui, sans-serif;
+      font-size: 17px; line-height: 1.25; letter-spacing: -0.01em;
+      display: flex; flex-direction: column; text-align: left;
+      transition: background-color 0.45s ease, color 0.45s ease;
+    }
+    .screen .i { width: 1em; height: 1em; }
+    .island { position: absolute; top: 11px; left: 50%; translate: -50% 0; width: 124px; height: 36px; border-radius: 20px; background: #000; z-index: 9; }
+    .sb { height: 54px; flex: none; display: flex; align-items: center; justify-content: space-between; padding: 12px 32px 0 52px; font-weight: 600; font-size: 17px; }
+    .sb-icons { display: flex; gap: 6px; align-items: center; }
+    .sb-icons svg { height: 13px; width: auto; fill: currentColor; }
+    .nb { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 6px 16px 10px; min-height: 60px; flex: none; }
+    .nb .switch { grid-column: 2; display: flex; align-items: center; gap: 6px; font-family: ui-serif, "New York", "Fraunces", Georgia, serif; font-weight: 600; font-size: 22px; }
+    .nb .switch .i { font-size: 13px; stroke-width: 3; color: var(--muted); }
+    .glass { justify-self: end; width: 44px; height: 44px; border-radius: 50%; background: var(--card); box-shadow: 0 4px 14px -6px rgba(0,0,0,0.25), inset 0 0 0 1px var(--stroke); display: grid; place-items: center; color: var(--pine); font-size: 20px; }
+    .glass.left { justify-self: start; }
+    .glass .i { stroke-width: 2.6; }
+    .pager { margin: 0 16px 14px; height: 44px; border-radius: 22px; background: var(--card); box-shadow: inset 0 0 0 1px var(--stroke); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; flex: none; }
+    .pager b { font-family: ui-serif, "New York", "Fraunces", Georgia, serif; font-weight: 600; font-size: 17px; display: inline-flex; gap: 6px; align-items: center; }
+    .pager .i { color: var(--pine); stroke-width: 2.6; font-size: 18px; }
+    .pager b .i { font-size: 12px; color: var(--muted); stroke-width: 3; }
+    .body { flex: 1; min-height: 0; padding: 0 16px 120px; display: flex; flex-direction: column; gap: 16px; overflow: hidden; }
+    .body > *, .sheet-body > * { flex-shrink: 0; }
+    .card { background: var(--card); border-radius: 22px; border: 1px solid var(--stroke); padding: 20px; position: relative; overflow: hidden; }
+    .stack { display: flex; flex-direction: column; }
+    .gap-4 { gap: 4px; } .gap-8 { gap: 8px; } .gap-10 { gap: 10px; } .gap-12 { gap: 12px; } .gap-14 { gap: 14px; } .gap-18 { gap: 18px; }
+    .between { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .hstack { display: flex; align-items: center; gap: 8px; }
+    .headline { font-size: 17px; font-weight: 600; }
+    .sub { font-size: 15px; }
+    .foot { font-size: 13px; }
+    .cap { font-size: 12px; }
+    .muted { color: var(--muted); }
+    .strong { font-weight: 600; }
+    .tnum { font-variant-numeric: tabular-nums; }
+    .pine { color: var(--pine); }
+    .serif { font-family: ui-serif, "New York", "Fraunces", Georgia, serif; font-weight: 600; letter-spacing: -0.01em; }
+    .hero-44 { font-size: 44px; line-height: 1.05; }
+    .hero-34 { font-size: 34px; line-height: 1.05; }
+    .hero-40 { font-size: 40px; line-height: 1.05; }
+    .section-label { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+    .av { width: var(--s, 40px); height: var(--s, 40px); border-radius: 50%; display: grid; place-items: center; color: #fff; font-weight: 600; font-size: calc(var(--s, 40px) * 0.42); background: var(--mc); flex: none; }
+    .av.ines { --mc: #E04B3C; }
+    .av.tiago { --mc: #C98900; }
+    .av-row { display: flex; align-items: center; gap: 8px; }
+    .av-row .i { color: var(--muted); font-size: 14px; stroke-width: 3; }
+    .btn { height: 50px; border-radius: 14px; border: 0; width: 100%; font-size: 17px; font-weight: 600; display: grid; place-items: center; cursor: pointer; }
+    .btn.fill { background: var(--fill); color: var(--on-fill); }
+    .btn.line { background: transparent; color: var(--pine); box-shadow: inset 0 0 0 1.5px var(--pine); }
+    .btn:active { opacity: 0.85; }
+    .mood { display: inline-flex; align-items: center; gap: 6px; width: fit-content; padding: 6px 12px; border-radius: 14px; font-weight: 600; font-size: 15px; color: var(--tone); background: color-mix(in srgb, var(--tone) 14%, transparent); }
+    .glow::before { content: ""; position: absolute; inset: 0; background: radial-gradient(280px circle at 100% 0, color-mix(in srgb, var(--tone) 18%, transparent), transparent 70%); pointer-events: none; }
+    .seg { display: flex; gap: 2px; height: 12px; border-radius: 99px; overflow: hidden; background: var(--hairline); }
+    .seg span { flex: var(--v) 1 0; background: var(--c); }
+    .legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .legend .k { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); }
+    .legend .k i { width: 10px; height: 10px; border-radius: 3px; background: var(--c); }
+    .legend b { display: block; font-size: 15px; margin-top: 3px; font-variant-numeric: tabular-nums; }
+    .row { display: grid; grid-template-columns: 38px 1fr auto; gap: 12px; align-items: center; padding: 9px 0; }
+    .row + .row { border-top: 1px solid var(--stroke); }
+    .compact .row { padding: 7px 0; }
+    .cat { width: 38px; height: 38px; border-radius: 11px; display: grid; place-items: center; font-size: 18px; color: var(--c); background: color-mix(in srgb, var(--c) 15%, transparent); }
+    .cat.groc { --c: var(--c-groc); } .cat.util { --c: var(--c-util); } .cat.trans { --c: var(--c-trans); } .cat.dine { --c: var(--c-dine); } .cat.health { --c: var(--c-health); } .cat.subs { --c: var(--c-subs); } .cat.rent { --c: var(--c-rent); }
+    .row .t { font-size: 16px; font-weight: 600; }
+    .row .d { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .row .amt { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
+    .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--sienna); flex: none; }
+    .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .chip { display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: 99px; background: var(--card); box-shadow: inset 0 0 0 1px var(--hairline); font-size: 15px; font-weight: 600; white-space: nowrap; }
+    .chip .i { font-size: 13px; color: var(--c, var(--pine)); }
+    .chip em { font-style: normal; font-weight: 400; color: var(--muted); }
+    .chip.on { background: var(--fill); color: var(--on-fill); box-shadow: none; }
+    .chip.on .i, .chip.on em { color: var(--on-fill); }
+    .chip.soft { background: var(--sand); box-shadow: none; }
+    .tabs { position: absolute; left: 20px; right: 20px; bottom: 26px; height: 66px; border-radius: 33px; padding: 5px; display: grid; grid-template-columns: repeat(4, 1fr); background: color-mix(in srgb, var(--card) 80%, transparent); backdrop-filter: blur(18px) saturate(1.5); -webkit-backdrop-filter: blur(18px) saturate(1.5); box-shadow: 0 12px 30px -12px rgba(0,0,0,0.3), inset 0 0 0 1px var(--stroke); z-index: 5; }
+    .tab { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10.5px; font-weight: 600; border-radius: 28px; color: var(--ink); }
+    .tab .i { font-size: 24px; stroke-width: 1.8; }
+    .tab.on { color: var(--pine); background: color-mix(in srgb, var(--ink) 7%, transparent); }
+    .fade-bottom { position: absolute; left: 0; right: 0; bottom: 0; height: 150px; background: linear-gradient(transparent, var(--paper) 70%); z-index: 4; pointer-events: none; }
+
+    /* Sheets */
+    .under { position: absolute; inset: 0; background: color-mix(in srgb, var(--paper) 55%, #000); }
+    .sheet { position: absolute; left: 0; right: 0; top: 62px; bottom: 0; background: var(--paper); border-radius: 38px 38px 0 0; display: flex; flex-direction: column; overflow: hidden; }
+    .grabber { width: 38px; height: 5px; border-radius: 3px; background: var(--hairline); margin: 8px auto 4px; flex: none; }
+    .sheet-bar { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; padding: 8px 20px 12px; flex: none; }
+    .sheet-bar .l { color: var(--pine); font-size: 17px; }
+    .sheet-bar .c { font-weight: 600; font-size: 17px; }
+    .sheet-bar .r { justify-self: end; color: var(--pine); font-weight: 600; font-size: 17px; }
+    .sheet-body { padding: 0 16px 40px; display: flex; flex-direction: column; gap: 16px; overflow: hidden; }
+    .x { justify-self: end; width: 34px; height: 34px; border-radius: 50%; background: var(--sand); display: grid; place-items: center; color: var(--muted); font-size: 14px; }
+    .x .i { stroke-width: 3; }
+    .steps-ind { display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 600; color: var(--muted); }
+    .steps-ind .n { width: 22px; height: 22px; border-radius: 50%; display: inline-grid; place-items: center; font-size: 12px; background: var(--sand); color: var(--muted); margin-right: 6px; }
+    .steps-ind .cur { color: var(--ink); }
+    .steps-ind .cur .n { background: var(--fill); color: var(--on-fill); }
+    .check-o { color: var(--pine); font-size: 24px; stroke-width: 1.8; }
+
+    /* Home balance demo states */
+    [data-state] > .state { display: none; }
+    [data-state="open"] > .state-open, [data-state="awaiting"] > .state-awaiting, [data-state="square"] > .state-square { display: flex; animation: handoff 0.38s ease both; }
+    @keyframes handoff { from { opacity: 0; } to { opacity: 1; } }
+    .square-badge .i { color: var(--moss); font-size: 26px; }
+    [data-state="square"] .square-badge .i { animation: land 0.6s cubic-bezier(.3,1.7,.5,1) both; }
+    @keyframes land { from { transform: scale(0.4); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    /* New expense + receipt demo */
+    .amount-big { text-align: center; padding: 10px 0 2px; }
+    .amount-big .v { font-family: ui-serif, "New York", "Fraunces", Georgia, serif; font-weight: 600; font-size: 52px; font-variant-numeric: tabular-nums; }
+    .amount-big .v small { font-size: 30px; color: var(--muted); margin-right: 6px; font-weight: 500; }
+    .title-line { text-align: center; font-size: 19px; font-weight: 600; margin-top: 4px; }
+    .field-label { font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 8px; }
+    .payer { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 5px; border-radius: 99px; background: var(--sand); font-weight: 600; font-size: 15px; }
+    .payer.on { background: var(--card); box-shadow: inset 0 0 0 2px var(--pine); }
+    .owe-line { font-size: 15px; font-weight: 600; display: flex; gap: 8px; align-items: center; }
+    .owe-line .i { color: var(--pine); }
+    .filled { animation: flash 1.1s ease; }
+    @keyframes flash { 0% { background: color-mix(in srgb, var(--pine) 22%, transparent); } 100% { background: transparent; } }
+    .chip-button { cursor: pointer; border: 0; }
+    .scrim { position: absolute; inset: 0; background: rgba(0,0,0,0.28); opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 6; }
+    .receipt-sheet { position: absolute; left: 8px; right: 8px; bottom: 8px; background: var(--paper); border-radius: 44px; padding: 10px 22px 26px; z-index: 7; translate: 0 105%; transition: translate 0.45s cubic-bezier(.2,.9,.25,1.05); display: flex; flex-direction: column; gap: 14px; box-shadow: 0 -10px 40px -10px rgba(0,0,0,0.3); }
+    [data-receipt="open"] .scrim, [data-receipt="reading"] .scrim { opacity: 1; pointer-events: auto; }
+    [data-receipt="open"] .receipt-sheet, [data-receipt="reading"] .receipt-sheet { translate: 0 0; }
+    .receipt-art { position: relative; height: 150px; display: grid; place-items: center; }
+    .paper-receipt { width: 104px; height: 132px; background: #fff; border-radius: 6px 6px 2px 2px; transform: rotate(-6deg); box-shadow: 0 16px 30px -14px rgba(0,0,0,0.4); padding: 14px 12px; display: grid; gap: 7px; align-content: start; position: relative; overflow: hidden;
+      -webkit-mask: linear-gradient(#000 0 0) top/100% calc(100% - 8px) no-repeat, radial-gradient(circle 5px at 50% 100%, transparent 98%, #000) bottom/12px 9px repeat-x;
+      mask: linear-gradient(#000 0 0) top/100% calc(100% - 8px) no-repeat, radial-gradient(circle 5px at 50% 100%, transparent 98%, #000) bottom/12px 9px repeat-x; }
+    .paper-receipt i { display: block; height: 6px; border-radius: 3px; background: #D9DEE8; }
+    .paper-receipt i:nth-child(1) { width: 60%; background: #9AA6BE; }
+    .paper-receipt i:nth-child(3) { width: 80%; }
+    .paper-receipt i:nth-child(5) { width: 70%; }
+    .paper-receipt i:nth-last-child(2) { width: 45%; margin-left: auto; background: #6B7894; height: 8px; }
+    .beam { position: absolute; left: 0; right: 0; height: 26px; top: 0; background: linear-gradient(transparent, color-mix(in srgb, var(--pine) 45%, transparent), transparent); animation: scan 2.2s ease-in-out infinite; }
+    @keyframes scan { 0%, 100% { top: -10%; } 50% { top: 85%; } }
+    .sparkle { position: absolute; color: var(--pine); font-size: 18px; animation: twinkle 1.8s ease-in-out infinite; }
+    .sparkle.s1 { top: 18px; left: 112px; }
+    .sparkle.s2 { bottom: 20px; right: 108px; font-size: 13px; animation-delay: 0.6s; }
+    .sparkle.s3 { top: 44px; right: 96px; font-size: 11px; animation-delay: 1.1s; }
+    .sparkle .i { fill: currentColor; stroke: none; }
+    @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(0.7); } 50% { opacity: 1; transform: scale(1.1); } }
+    .source-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .source-tile { border: 0; cursor: pointer; background: var(--card); border-radius: 18px; padding: 14px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; font-size: 15px; font-weight: 600; box-shadow: inset 0 0 0 1px var(--stroke); }
+    .source-tile .i { color: var(--pine); font-size: 22px; }
+    .take-photo { border: 0; cursor: pointer; background: var(--fill); color: var(--on-fill); border-radius: 18px; padding: 14px 16px; display: flex; align-items: center; gap: 12px; text-align: left; }
+    .take-photo .i { font-size: 26px; }
+    .take-photo b { display: block; font-size: 17px; }
+    .take-photo small { font-size: 13px; opacity: 0.85; }
+    .reading { display: none; text-align: center; font-weight: 600; font-size: 17px; padding: 6px 0 20px; }
+    [data-receipt="reading"] .reading { display: block; }
+    [data-receipt="reading"] .receipt-choices { display: none; }
+    .receipt-choices { display: flex; flex-direction: column; gap: 14px; }
+
+    /* Insights columns */
+    .cols { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; align-items: end; height: 130px; position: relative; }
+    .cols .col { display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; }
+    .cols .col span { width: 100%; border-radius: 8px; background: color-mix(in srgb, var(--pine) 22%, transparent); height: var(--h); }
+    .cols .col.now span { background: var(--pine); }
+    .cols .col small { font-size: 12px; color: var(--muted); }
+    .cols .col.now small { color: var(--ink); font-weight: 600; }
+    .typical { position: absolute; left: 0; right: 0; bottom: calc(19px + (100% - 19px) * var(--t)); border-top: 2px dashed color-mix(in srgb, var(--ink) 35%, transparent); }
+    .stat-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat { background: var(--paper); border-radius: 14px; padding: 12px; }
+    .stat small { display: block; font-size: 12px; color: var(--muted); }
+    .stat b { display: block; font-size: 17px; margin: 3px 0 6px; font-variant-numeric: tabular-nums; }
+    .tiny-pill { display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 8px; font-size: 12px; font-weight: 600; color: var(--tone); background: color-mix(in srgb, var(--tone) 14%, transparent); }
+    .rank { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; }
+    .rank .cat { width: 30px; height: 30px; border-radius: 9px; font-size: 14px; }
+    .rank .v-bar { height: 7px; margin-top: 5px; }
+
+    /* Household */
+    .crest { width: 58px; height: 58px; border-radius: 18px; background: var(--tile); background-size: 29px; display: grid; place-items: center; position: relative; box-shadow: inset 0 0 0 1px var(--stroke); }
+    .crest .i { width: 30px; height: 30px; color: var(--pine); background: var(--card); border-radius: 10px; padding: 5px; box-sizing: content-box; }
+    .seal { display: inline-flex; gap: 6px; align-items: center; color: var(--moss); font-weight: 600; font-size: 15px; }
+    .seal .i { font-size: 18px; }
+    .overlap { display: flex; }
+    .overlap .av { box-shadow: 0 0 0 3px var(--card); }
+    .overlap .av + .av { margin-left: -10px; }
+    .badge-iphone { font-size: 12px; font-weight: 600; color: var(--pine); background: color-mix(in srgb, var(--pine) 12%, transparent); padding: 2px 8px; border-radius: 8px; margin-left: 6px; }
+
+    @media (max-width: 1080px) {
+      .themes { grid-template-columns: 1fr; padding: 3.5rem 2rem; }
+      .glance { grid-template-columns: 1fr; }
+    }
     @media (max-width: 900px) {
       .nav ul { display: none; }
-      .hero, .calc, .step, .prices, .more { grid-template-columns: 1fr; }
+      .hero, .calc, .step, .prices, .moments { grid-template-columns: 1fr; }
       .hero { padding-top: 1rem; }
-      .phones { height: 560px; }
-      .phone.front { right: 4%; width: 250px; }
-      .phone.back { width: 220px; }
-      .calc-inputs { border-right: 0; border-bottom: 1px dashed var(--rule); }
+      .stage-hero { min-height: 640px; }
+      .stage-hero .back-slot { display: none; }
+      .stage-hero > .device { margin: 0 auto; }
+      .demo-caption { left: 0; right: 0; width: auto; }
+      .sticker.mood { top: 40px; left: 0; }
+      .sticker.lock { left: 0; bottom: 120px; }
+      .bubble { right: 0; }
+      .calc-inputs { border-right: 0; border-bottom: 1px dashed var(--line); }
       .step:nth-child(even) .step-shot { order: 0; }
       .facts { grid-template-columns: 1fr 1fr; }
-      .privacy { padding: 3.5rem 1.6rem; border-radius: 24px; }
+      .privacy { padding: 3.5rem 1.6rem; border-radius: 28px; }
+      .glance-phones .device { --zoom: 0.5; }
+    }
+    @media (max-width: 520px) {
+      .device { --zoom: 0.64; }
+      .glance-phones .device { --zoom: 0.36; }
+      .glance-phones { gap: 0.6rem; }
+      .theme-phone .device { --zoom: 0.6; }
+      .facts { grid-template-columns: 1fr; }
+      .themes { padding: 3rem 1.2rem; border-radius: 28px; gap: 2rem; }
+      .theme-cards { gap: 0.5rem; }
+      .theme-card { padding: 0.75rem 0.7rem 0.8rem; border-radius: 16px; }
+      .theme-card b { font-size: 1.02rem; }
+      .theme-card small { display: none; }
+      .swatches i { width: 12px; height: 12px; }
+      .calc-inputs, .calc-result { padding: 1.6rem; }
+      .sticker { font-size: 0.8rem; }
+      .sticker.mood { display: none; }
+      .stage-hero { min-height: 0; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -271,12 +556,62 @@
   </style>
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+    <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+    <symbol id="i-chev-d" viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+    <symbol id="i-arrow-r" viewBox="0 0 24 24"><path d="M4 12h15M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-arrow-d" viewBox="0 0 24 24"><path d="M12 4v15M6 13l6 6 6-6"/></symbol>
+    <symbol id="i-arrow-u" viewBox="0 0 24 24"><path d="M12 20V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol>
+    <symbol id="i-check-fill" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5" fill="currentColor" stroke="none"/><path d="M7.3 12.4l3.2 3.2 6.2-6.7" style="stroke: var(--card, #fff)" stroke-width="2.4"/></symbol>
+    <symbol id="i-check-o" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M8 12.3l2.7 2.7 5.4-5.8"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none"/><path d="M12 2.3v2.4M12 19.3v2.4M2.3 12h2.4M19.3 12h2.4M5.1 5.1l1.7 1.7M17.2 17.2l1.7 1.7M5.1 18.9l1.7-1.7M17.2 6.8l1.7-1.7"/></symbol>
+    <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20.5 3.5C11 3.6 4.5 8 4.5 15.2c0 1.5.4 2.9 1 4 1.7-5 5-8.4 9.8-10.7-4 3-6.8 6.7-8.3 11.5 1 .4 2.2.6 3.4.6 6.8 0 10.1-6.2 10.1-17.1z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M3.5 17a8.5 8.5 0 1117 0"/><path d="M12 17l4.2-5.2"/><circle cx="12" cy="17" r="1.4" fill="currentColor"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10.5" fill="currentColor" stroke="none"/><path d="M12 6.8v6.4M12 16.8v.4" style="stroke: var(--card, #fff)" stroke-width="2.6"/></symbol>
+    <symbol id="i-cart" viewBox="0 0 24 24"><path d="M2.5 3.5h2.8l2.3 11h10.5l2.2-8H6.3"/><circle cx="9.5" cy="19.3" r="1.5" fill="currentColor"/><circle cx="17" cy="19.3" r="1.5" fill="currentColor"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13.5 2L4.5 13.8h6.7L10.3 22l9.2-12h-6.9z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-car" viewBox="0 0 24 24"><path d="M4.5 16.5v-5l2.3-5.5h10.4l2.3 5.5v5M4.5 16.5h15M4.5 16.5v2.3M19.5 16.5v2.3M4.5 11.5h15"/></symbol>
+    <symbol id="i-fork" viewBox="0 0 24 24"><path d="M7 2.5v19M4.5 2.5v5.3a2.5 2.5 0 005 0V2.5M17 21.5V2.5c-2.5 1.3-3.8 4.4-3.8 8.3h3.8"/></symbol>
+    <symbol id="i-health" viewBox="0 0 24 24"><rect x="2.5" y="6.5" width="19" height="14" rx="3" fill="currentColor" stroke="none"/><path d="M8.5 6.5V4.3h7v2.2"/><path d="M12 10v7M8.5 13.5h7" style="stroke: var(--card, #fff)" stroke-width="2.4"/></symbol>
+    <symbol id="i-repeat" viewBox="0 0 24 24"><path d="M17 2.5l3 3-3 3M4 11V9.5a4 4 0 014-4h12M7 21.5l-3-3 3-3M20 13v1.5a4 4 0 01-4 4H4"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11.2l9-7.2 9 7.2v8.3a1.5 1.5 0 01-1.5 1.5H15v-6H9v6H4.5A1.5 1.5 0 013 19.5z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="16" rx="3.5"/><path d="M3.5 9.5h17M8 2.8v3.4M16 2.8v3.4"/><path d="M7.5 13h1M11.5 13h1M15.5 13h1M7.5 16.5h1M11.5 16.5h1" stroke-width="2.4"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3.5"/><path d="M7 9h10M7 12.5h10M7 16h6"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3.5 20.5h17M7 17v-5M12 17V6.5M17 17V9.5"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 7.5h3.2l1.9-2.7h5.8l1.9 2.7H20a1.5 1.5 0 011.5 1.5v9.5A1.5 1.5 0 0120 20H4a1.5 1.5 0 01-1.5-1.5V9A1.5 1.5 0 014 7.5z"/><circle cx="12" cy="13.5" r="3.6"/></symbol>
+    <symbol id="i-photo" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="9.5" r="1.8"/><path d="M3.5 17.5l5-5 4 4 3-3 5 5"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 2.8h8.2l4.8 4.8v13.6H6z"/><path d="M14 2.8v5h5M9 13h7M9 16.8h5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.8" fill="currentColor" stroke="none"/><path d="M8 10.5V8a4 4 0 018 0v2.5"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20l1-4.5L16 4.5l3.5 3.5L8.5 19z"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v12M8 7l4-4 4 4M7 10.5H5.5v10.5h13V10.5H17"/></symbol>
+    <symbol id="i-sort" viewBox="0 0 24 24"><path d="M7 4v16M3.5 7.5L7 4l3.5 3.5M17 20V4M13.5 16.5L17 20l3.5-3.5"/></symbol>
+    <symbol id="i-dashed" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" stroke-dasharray="3.2 3"/></symbol>
+    <symbol id="i-seal" viewBox="0 0 24 24"><path d="M12 1.8l2.5 2 3.2-.4 1 3.1 2.9 1.5-.9 3.1.9 3.1-2.9 1.5-1 3.1-3.2-.4-2.5 2-2.5-2-3.2.4-1-3.1-2.9-1.5.9-3.1-.9-3.1 2.9-1.5 1-3.1 3.2.4z" fill="currentColor" stroke="none"/><path d="M8 12.2l2.7 2.7L16 9.6" style="stroke: var(--card, #fff)" stroke-width="2.4"/></symbol>
+    <symbol id="i-phones" viewBox="0 0 24 24"><rect x="2.5" y="3.5" width="8.5" height="15.5" rx="2.2"/><rect x="13" y="5" width="8.5" height="15.5" rx="2.2"/></symbol>
+    <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2.5l2.1 6.4 6.4 2.1-6.4 2.1L12 19.5l-2.1-6.4L3.5 11l6.4-2.1z" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M3.5 9.2h17M3.5 14.8h17M9.2 3.5v17M14.8 3.5v17"/></symbol>
+    <symbol id="i-flower" viewBox="0 0 24 24"><g fill="currentColor" stroke="none"><circle cx="12" cy="12" r="2.3"/><path d="M12 9.6C10 6.8 10.6 3.8 12 2.8c1.4 1 2 4 0 6.8zM12 14.4c2 2.8 1.4 5.8 0 6.8-1.4-1-2-4 0-6.8zM9.6 12c-2.8 2-5.8 1.4-6.8 0 1-1.4 4-2 6.8 0zM14.4 12c2.8-2 5.8-1.4 6.8 0-1 1.4-4 2-6.8 0z"/></g></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.6A8.6 8.6 0 019.4 3.5a8.6 8.6 0 1011.1 11.1z" fill="currentColor" stroke="none"/><path d="M17 3.5v3M15.5 5h3" stroke-width="1.6"/></symbol>
+    <symbol id="i-wine" viewBox="0 0 24 24"><path d="M7 2.8h10c0 5.3-2.2 8.4-5 8.4s-5-3.1-5-8.4zM12 11.2v8.3M8 21.2h8"/></symbol>
+    <symbol id="i-music" viewBox="0 0 24 24"><path d="M9 18V5.8l10.5-2.3v12.2"/><circle cx="6.5" cy="18" r="2.6" fill="currentColor"/><circle cx="17" cy="15.7" r="2.6" fill="currentColor"/></symbol>
+    <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 9.5L12 4l9 5.5M5 9.8v8.2M9.7 9.8v8.2M14.3 9.8v8.2M19 9.8v8.2M3 20.5h18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/></symbol>
+    <symbol id="i-face" viewBox="0 0 24 24"><path d="M3.5 8V5.5a2 2 0 012-2H8M16 3.5h2.5a2 2 0 012 2V8M20.5 16v2.5a2 2 0 01-2 2H16M8 20.5H5.5a2 2 0 01-2-2V16M9 9v1.5M15 9v1.5M12 9v4h-1M9 16c1.8 1.3 4.2 1.3 6 0"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 6.5A1.5 1.5 0 014.5 5h4.3l2 2.2h8.7A1.5 1.5 0 0121 8.7v9.8a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 18.5z"/></symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5S3.5 15.3 3.5 9.2A4.7 4.7 0 0112 6.4a4.7 4.7 0 018.5 2.8c0 6.1-8.5 11.3-8.5 11.3z" fill="currentColor" stroke="none"/></symbol>
+  </svg>
+
   <header class="wrap nav">
     <a href="./" aria-label="Justa home"><img src="wordmark.png" alt="justa" width="86" height="44" /></a>
     <nav aria-label="Primary">
       <ul>
-        <li><a href="#split">The split</a></li>
         <li><a href="#month">How it works</a></li>
+        <li><a href="#split">The split</a></li>
+        <li><a href="#themes">Themes</a></li>
         <li><a href="#privacy">Privacy</a></li>
         <li><a href="#pricing">Pricing</a></li>
       </ul>
@@ -286,9 +621,9 @@
   <main>
     <section class="wrap hero" aria-labelledby="hero-title">
       <div>
-        <span class="eyebrow">A household ledger for iPhone</span>
-        <h1 id="hero-title">Shared bills,<br /><em>split fairly.</em></h1>
-        <p class="lede">Rent split by income. Extras logged as they happen. One line at month end that says who pays whom.</p>
+        <span class="eyebrow">A household money app for iPhone</span>
+        <h1 id="hero-title">Household money, <em>without the dread.</em></h1>
+        <p class="lede">Plan the month, log the extras, and settle up in one warm, calm place. Justa splits the plan fairly by income, tells you how the month feels, and throws confetti when you’re all square.</p>
         <div class="cta-row">
           <button class="store" type="button" aria-disabled="true" aria-label="Download on the App Store — coming soon">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.64c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.77-3.32-1.8-1.41-.14-2.76.83-3.47.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.76 2.27-1.6 2.78-.41 6.9 1.15 9.16.77 1.1 1.68 2.34 2.87 2.3 1.15-.05 1.59-.75 2.98-.75 1.39 0 1.78.75 3 .72 1.24-.02 2.02-1.12 2.78-2.23.87-1.28 1.23-2.52 1.25-2.58-.03-.01-2.4-.92-2.44-3.67zM14.1 5.9c.63-.77 1.06-1.84.94-2.9-.91.04-2.02.61-2.67 1.37-.58.67-1.1 1.77-.96 2.81 1.02.08 2.06-.52 2.69-1.28z"/></svg>
@@ -297,26 +632,316 @@
           <span class="cta-note">Free · iPhone · iOS 17+</span>
         </div>
         <div class="trust">
-          <span>No account</span>
-          <span>No server</span>
-          <span>Data not collected</span>
+          <span><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>No account</span>
+          <span><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>No server</span>
+          <span><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Data not collected</span>
         </div>
       </div>
-      <div class="phones" aria-hidden="true">
-        <div class="phone back"><img src="screens/month-light.png" alt="" /></div>
-        <div class="phone front"><img src="screens/home-light.png" alt="" /></div>
-        <div class="stamp">
-          Month-end settle
-          <b>Inês pays Tiago €7,91</b>
+
+      <div class="stage-hero">
+        <div class="back-slot" id="hero-back-slot" aria-hidden="true"></div>
+
+        <div class="device" id="hero-device">
+          <div class="screen" data-theme="azulejo" id="home-screen">
+            <div class="island" aria-hidden="true"></div>
+            <div class="sb" aria-hidden="true"><span>9:41</span><span class="sb-icons"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 16 12"><path d="M8 11.5l2.4-2.9a3.6 3.6 0 00-4.8 0zM3.4 6.2a7 7 0 019.2 0l1.5-1.8a9.4 9.4 0 00-12.2 0zM.3 2.5a11.8 11.8 0 0115.4 0L16 2.1A12.7 12.7 0 000 2.1z"/></svg><svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="2.2"/><rect x="24.6" y="4" width="1.8" height="4" rx=".9" opacity=".4"/></svg></span></div>
+            <div class="nb" aria-hidden="true">
+              <span class="switch">Casa Norte <svg class="i"><use href="#i-chev-d"/></svg></span>
+              <span class="glass"><svg class="i"><use href="#i-plus"/></svg></span>
+            </div>
+            <div class="pager" aria-hidden="true"><svg class="i"><use href="#i-chev-l"/></svg><b>September 2026 <svg class="i"><use href="#i-chev-d"/></svg></b><svg class="i"><use href="#i-chev-r"/></svg></div>
+            <div class="body">
+              <div class="card stack" id="demo-balance" data-state="open" aria-live="polite">
+                <div class="state state-open stack gap-14">
+                  <div class="stack gap-8">
+                    <div class="av-row" aria-hidden="true"><span class="av ines">I</span><svg class="i"><use href="#i-arrow-r"/></svg><span class="av tiago">T</span></div>
+                    <span class="headline">Inês owes Tiago</span>
+                    <span class="serif hero-44 tnum">€7,91</span>
+                  </div>
+                  <span class="sub muted">From 6 open extras this month</span>
+                  <button class="btn fill" type="button" data-demo="settle-up">Settle up</button>
+                </div>
+                <div class="state state-awaiting stack gap-14">
+                  <span class="hstack sub muted"><span class="dot" aria-hidden="true"></span>Extras closed 27 Sep · waiting for the transfer</span>
+                  <div class="stack gap-8">
+                    <div class="av-row" aria-hidden="true"><span class="av ines">I</span><svg class="i"><use href="#i-arrow-r"/></svg><span class="av tiago">T</span></div>
+                    <span class="headline">Inês sends Tiago</span>
+                    <span class="serif hero-44 tnum">€7,91</span>
+                  </div>
+                  <div class="hstack" style="gap:10px">
+                    <button class="btn fill" type="button" data-demo="mark-sent">Inês sent it</button>
+                    <button class="btn line" type="button" data-demo="send-request">Send request</button>
+                  </div>
+                </div>
+                <div class="state state-square stack gap-8">
+                  <div class="between">
+                    <span class="hstack square-badge" style="gap:10px"><svg class="i" id="square-check" aria-hidden="true"><use href="#i-check-fill"/></svg><span class="serif" style="font-size:22px">All square</span></span>
+                    <span class="sub strong pine">Details</span>
+                  </div>
+                  <span class="sub muted">Inês sent Tiago €7,91 on 27 Sep</span>
+                </div>
+              </div>
+
+              <div class="card glow stack gap-18 tone-good" aria-hidden="true" style="--tone: var(--moss)">
+                <div class="stack gap-12">
+                  <div class="between"><span class="headline">September plan</span><svg class="i muted" style="font-size:13px;stroke-width:3"><use href="#i-chev-r"/></svg></div>
+                  <div class="stack" style="gap:2px">
+                    <span class="serif hero-34 tnum" style="color: var(--moss)">€2 749,01</span>
+                    <span class="sub muted">left of the €4 000 coming in</span>
+                  </div>
+                  <span class="mood" style="--tone: var(--moss)"><svg class="i"><use href="#i-sun"/></svg>Plenty of breathing room</span>
+                </div>
+                <div class="stack gap-12">
+                  <div class="seg"><span style="--v:822.99;--c:var(--ink)"></span><span style="--v:428;--c:color-mix(in srgb, var(--ink) 40%, transparent)"></span><span style="--v:2749.01;--c:var(--moss)"></span></div>
+                  <div class="legend">
+                    <div><span class="k"><i style="--c:var(--ink)"></i>Fixed</span><b>€822,99</b></div>
+                    <div><span class="k"><i style="--c:color-mix(in srgb, var(--ink) 40%, transparent)"></i>Estimate</span><b>€428</b></div>
+                    <div><span class="k"><i style="--c:var(--moss)"></i>Left</span><b>€2 749,01</b></div>
+                  </div>
+                </div>
+                <div class="stack gap-10">
+                  <span class="section-label">Who covers it</span>
+                  <div class="seg"><span style="--v:55;--c:#E04B3C"></span><span style="--v:45;--c:#C98900"></span></div>
+                  <div class="between">
+                    <div class="hstack"><span class="av ines" style="--s:30px">I</span><div class="stack"><span class="cap strong">Inês 55%</span><span class="cap muted tnum">€688,04</span></div></div>
+                    <div class="hstack"><div class="stack" style="align-items:flex-end"><span class="cap strong">Tiago 45%</span><span class="cap muted tnum">€562,95</span></div><span class="av tiago" style="--s:30px">T</span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stack" aria-hidden="true">
+                <div class="between"><span class="headline" style="font-size:20px">Extras</span><span class="sub strong pine">See all</span></div>
+                <div class="row"><span class="cat subs"><svg class="i"><use href="#i-repeat"/></svg></span><div><div class="t">Streaming</div><div class="d">Inês · 15 Sep</div></div><span class="amt">€9,99</span></div>
+                <div class="row"><span class="cat health"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t">Pharmacy</div><div class="d">Tiago · 13 Sep</div></div><span class="amt">€12,80</span></div>
+              </div>
+            </div>
+            <div class="fade-bottom" aria-hidden="true"></div>
+            <nav class="tabs" aria-hidden="true">
+              <span class="tab on"><svg class="i"><use href="#i-calendar"/></svg>Month</span>
+              <span class="tab"><svg class="i"><use href="#i-list"/></svg>Extras</span>
+              <span class="tab"><svg class="i"><use href="#i-chart"/></svg>Insights</span>
+              <span class="tab"><svg class="i"><use href="#i-home"/></svg>Household</span>
+            </nav>
+          </div>
         </div>
+
+        <span class="sticker mood" aria-hidden="true"><svg class="i"><use href="#i-sun"/></svg>Plenty of breathing room</span>
+        <span class="sticker lock" aria-hidden="true"><svg class="i"><use href="#i-lock"/></svg>Kept on this iPhone</span>
+        <div class="bubble" id="request-bubble" role="status">Justa: Inês sends Tiago €7,91 for September’s extras.</div>
+        <p class="demo-caption" id="demo-caption"><svg class="i" aria-hidden="true"><use href="#i-heart"/></svg><span id="demo-hint">Tap <b>Settle up</b>. Go on.</span><button class="text-button" type="button" id="demo-reset" hidden>Start the month again</button></p>
+      </div>
+    </section>
+
+    <div class="ribbon-wrap" aria-hidden="true">
+    <div class="ribbon">
+      <div class="ribbon-track">
+        <span>Plenty of breathing room <svg class="i"><use href="#i-flower"/></svg> All square <svg class="i"><use href="#i-flower"/></svg> Read on this iPhone. Nothing is uploaded. <svg class="i"><use href="#i-flower"/></svg> Everything in order <svg class="i"><use href="#i-flower"/></svg> Over €5 000 put aside <svg class="i"><use href="#i-flower"/></svg> Under by €2,90 <svg class="i"><use href="#i-flower"/></svg> Keep the one that makes you smile <svg class="i"><use href="#i-flower"/></svg></span>
+        <span>Plenty of breathing room <svg class="i"><use href="#i-flower"/></svg> All square <svg class="i"><use href="#i-flower"/></svg> Read on this iPhone. Nothing is uploaded. <svg class="i"><use href="#i-flower"/></svg> Everything in order <svg class="i"><use href="#i-flower"/></svg> Over €5 000 put aside <svg class="i"><use href="#i-flower"/></svg> Under by €2,90 <svg class="i"><use href="#i-flower"/></svg> Keep the one that makes you smile <svg class="i"><use href="#i-flower"/></svg></span>
+      </div>
+    </div>
+    </div>
+
+    <section class="wrap" id="month" aria-labelledby="month-title">
+      <div class="section-head">
+        <span class="eyebrow">How a month works</span>
+        <h2 id="month-title">Plan it, log it, <em>settle it.</em></h2>
+        <p>Money talk is easier when the app does the arithmetic and keeps the mood light. Three small habits, one calm month.</p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <div>
+            <span class="step-num">01 — Plan</span>
+            <h3>Put the house in order, once.</h3>
+            <p>Add the people who share costs, their usual income, and the bills that repeat. Justa works out who covers what, and a little checklist cheers you through setup.</p>
+            <ul class="joys">
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Starter chips for rent, electricity, water, internet and groceries. Only the amounts are left.</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Split by income, or give someone a percent or a fixed amount.</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Change one month without touching the rest.</li>
+            </ul>
+          </div>
+          <div class="step-shot">
+            <div class="device" role="img" aria-label="Household screen: Casa Norte, everything in order, a €1 250,99 monthly plan covered 55% by Inês and 45% by Tiago.">
+              <div class="screen" data-theme="azulejo" aria-hidden="true">
+                <div class="island"></div>
+                <div class="sb"><span>9:41</span><span class="sb-icons"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="2.2"/></svg></span></div>
+                <div class="nb"><span class="switch">Household</span><span class="glass"><svg class="i"><use href="#i-plus"/></svg></span></div>
+                <div class="body">
+                  <div class="card stack gap-14">
+                    <div class="hstack" style="gap:14px">
+                      <span class="crest"><svg class="i"><use href="#i-home"/></svg></span>
+                      <div class="stack gap-4">
+                        <span class="hstack serif" style="font-size:28px">Casa Norte <svg class="i pine" style="font-size:16px"><use href="#i-pencil"/></svg></span>
+                        <span class="foot muted">2 people · 5 monthly costs · EUR</span>
+                      </div>
+                    </div>
+                    <div class="between">
+                      <span class="overlap"><span class="av ines" style="--s:34px">I</span><span class="av tiago" style="--s:34px">T</span></span>
+                      <span class="seal"><svg class="i"><use href="#i-seal"/></svg>Everything in order</span>
+                    </div>
+                  </div>
+                  <div class="card stack gap-12">
+                    <span class="section-label">Monthly plan</span>
+                    <span class="serif hero-40 tnum">€1 250,99</span>
+                    <span class="sub strong" style="margin-top:4px">Who covers the plan</span>
+                    <div class="seg"><span style="--v:55;--c:#E04B3C"></span><span style="--v:45;--c:#C98900"></span></div>
+                    <div class="between">
+                      <span class="hstack foot"><span class="av ines" style="--s:22px">I</span><b>Inês</b><span class="muted">55% · €688,04</span></span>
+                      <span class="hstack foot"><span class="av tiago" style="--s:22px">T</span><b>Tiago</b><span class="muted">45% · €562,95</span></span>
+                    </div>
+                  </div>
+                  <div class="card stack" style="padding:10px 20px">
+                    <span class="section-label" style="padding:8px 0 4px">People and income</span>
+                    <div class="row"><span class="av ines" style="--s:38px">I</span><div><div class="t">Inês<span class="badge-iphone">This iPhone</span></div><div class="d">By income · 55%</div></div><span class="amt">€2 200</span></div>
+                    <div class="row"><span class="av tiago" style="--s:38px">T</span><div><div class="t">Tiago</div><div class="d">By income · 45%</div></div><span class="amt">€1 800</span></div>
+                  </div>
+                  <div class="card stack" style="padding:10px 20px">
+                    <span class="section-label" style="padding:8px 0 4px">Monthly costs</span>
+                    <div class="row"><span class="cat rent"><svg class="i"><use href="#i-home"/></svg></span><div><div class="t">Rent</div><div class="d">Fixed</div></div><span class="amt">€790,00</span></div>
+                    <div class="row"><span class="cat groc"><svg class="i"><use href="#i-cart"/></svg></span><div><div class="t">Groceries</div><div class="d">Estimate</div></div><span class="amt">€290,00</span></div>
+                  </div>
+                </div>
+                <div class="fade-bottom"></div>
+                <nav class="tabs">
+                  <span class="tab"><svg class="i"><use href="#i-calendar"/></svg>Month</span>
+                  <span class="tab"><svg class="i"><use href="#i-list"/></svg>Extras</span>
+                  <span class="tab"><svg class="i"><use href="#i-chart"/></svg>Insights</span>
+                  <span class="tab on"><svg class="i"><use href="#i-home"/></svg>Household</span>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="step">
+          <div>
+            <span class="step-num">02 — Log</span>
+            <h3>Extras, the moment they happen.</h3>
+            <p>Amount first, big and friendly. Pick who paid and how to split it, and Justa tells you right away who will owe whom. Or snap the receipt and let it fill itself in.</p>
+            <ul class="joys">
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Receipts are read on your iPhone with Apple Vision. Nothing is uploaded, and the photo isn’t kept.</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>By income, 50/50, only one person, or your own custom shares.</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Several extras in one sheet. The next row keeps the date, the payer and the split.</li>
+            </ul>
+          </div>
+          <div class="step-shot">
+            <span class="try-hint" aria-hidden="true">Try Scan receipt</span>
+            <div class="device">
+              <div class="screen" data-theme="azulejo" id="expense-screen" data-receipt="closed">
+                <div class="island" aria-hidden="true"></div>
+                <div class="under" aria-hidden="true"></div>
+                <div class="sheet">
+                  <div class="grabber" aria-hidden="true"></div>
+                  <div class="sheet-bar" aria-hidden="true"><span class="l">Cancel</span><span class="c">New expense</span><span class="r">Save</span></div>
+                  <div class="sheet-body">
+                    <div class="card stack gap-14">
+                      <div class="amount-big" id="expense-amount-wrap"><span class="v" id="expense-amount"><small>€</small>40,00</span></div>
+                      <div class="title-line" id="expense-title">Saturday market</div>
+                      <div class="chips" style="justify-content:center">
+                        <span class="chip soft" id="expense-date"><svg class="i"><use href="#i-calendar"/></svg>Today</span>
+                        <span class="chip soft" style="--c: var(--c-groc)"><svg class="i"><use href="#i-cart"/></svg>Groceries</span>
+                        <button class="chip soft chip-button" type="button" data-receipt-action="open"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg>Scan receipt</button>
+                      </div>
+                    </div>
+                    <div class="card stack gap-14" aria-hidden="true">
+                      <div>
+                        <div class="field-label">Paid by</div>
+                        <div class="hstack"><span class="payer on"><span class="av ines" style="--s:30px">I</span>Inês</span><span class="payer"><span class="av tiago" style="--s:30px">T</span>Tiago</span></div>
+                      </div>
+                      <div>
+                        <div class="field-label">Split</div>
+                        <div class="chips"><span class="chip on">By income</span><span class="chip">50/50</span><span class="chip">Only Inês</span><span class="chip">Custom</span></div>
+                      </div>
+                      <div class="stack gap-4" id="expense-split">
+                        <span class="foot muted tnum" id="expense-shares">Inês €22,00 · Tiago €18,00</span>
+                        <span class="owe-line"><svg class="i"><use href="#i-arrow-r"/></svg><span id="expense-owe">Tiago will owe Inês €18,00</span></span>
+                      </div>
+                    </div>
+                    <div class="hstack pine strong" style="padding: 4px 6px" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg>Add another expense</div>
+                  </div>
+                </div>
+                <div class="scrim" data-receipt-action="close" aria-hidden="true"></div>
+                <div class="receipt-sheet" id="receipt-sheet" role="dialog" aria-label="Scan receipt" inert>
+                  <div class="grabber" aria-hidden="true"></div>
+                  <div class="receipt-art" aria-hidden="true">
+                    <div class="paper-receipt"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span class="beam"></span></div>
+                    <span class="sparkle s1"><svg class="i"><use href="#i-sparkle"/></svg></span>
+                    <span class="sparkle s2"><svg class="i"><use href="#i-sparkle"/></svg></span>
+                    <span class="sparkle s3"><svg class="i"><use href="#i-sparkle"/></svg></span>
+                  </div>
+                  <div class="reading">Reading your receipt…</div>
+                  <div class="receipt-choices">
+                    <div class="stack gap-8" style="text-align:center">
+                      <span class="serif" style="font-size:24px">Let’s read your receipt</span>
+                      <span class="sub muted">Snap it, pick a photo, or open a PDF. The shop, total, and date fill in for you.</span>
+                    </div>
+                    <button class="take-photo" type="button" data-receipt-action="read"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg><span><b>Take photo</b><small>Best for a paper receipt</small></span></button>
+                    <div class="source-tiles">
+                      <button class="source-tile" type="button" data-receipt-action="read"><svg class="i" aria-hidden="true"><use href="#i-photo"/></svg>Choose photo</button>
+                      <button class="source-tile" type="button" data-receipt-action="read"><svg class="i" aria-hidden="true"><use href="#i-doc"/></svg>Choose file</button>
+                    </div>
+                    <span class="hstack foot muted" style="justify-content:center"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg>Read on this iPhone. Nothing is uploaded.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="step">
+          <div>
+            <span class="step-num">03 — Settle</span>
+            <h3>Square up, and celebrate.</h3>
+            <p>Justa nets every shared extra against each person’s share and shows exactly how it adds up. Close the month’s extras, send the one transfer, and you’re all square. No spreadsheets, no “I think I paid last time”.</p>
+            <ul class="joys">
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Two gentle steps: close the extras, then mark the transfer sent.</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Send request drops a ready-made message into Messages or WhatsApp.</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Confetti bursts from the checkmark, and only when it’s earned.</li>
+            </ul>
+          </div>
+          <div class="step-shot">
+            <div class="device" role="img" aria-label="Settle sheet: Inês pays Tiago €7,91, with six open extras adding up to €251,79.">
+              <div class="screen" data-theme="azulejo" aria-hidden="true">
+                <div class="island"></div>
+                <div class="under"></div>
+                <div class="sheet">
+                  <div class="grabber"></div>
+                  <div class="sheet-bar"><span></span><span class="c">Settle this month</span><span class="x"><svg class="i"><use href="#i-x"/></svg></span></div>
+                  <div class="sheet-body">
+                    <div class="steps-ind"><span class="cur"><span class="n">1</span>Close extras</span><span>·</span><span><span class="n">2</span>Transfer</span></div>
+                    <div class="stack gap-8">
+                      <div class="av-row"><span class="av ines">I</span><svg class="i"><use href="#i-arrow-r"/></svg><span class="av tiago">T</span></div>
+                      <span class="headline">Inês pays Tiago</span>
+                      <span class="serif hero-44 tnum">€7,91</span>
+                    </div>
+                    <div class="card stack compact" style="padding:14px 18px">
+                      <div class="between"><span class="section-label">How it adds up</span><span class="sub strong tnum">€251,79</span></div>
+                      <div class="row"><span class="cat groc"><svg class="i"><use href="#i-cart"/></svg></span><div><div class="t">Weekly shop</div><div class="d">Paid by Tiago</div></div><span class="hstack amt">€87,40<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="row"><span class="cat util"><svg class="i"><use href="#i-bolt"/></svg></span><div><div class="t">Electricity</div><div class="d">Paid by Inês</div></div><span class="hstack amt">€55,10<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="row"><span class="cat dine"><svg class="i"><use href="#i-fork"/></svg></span><div><div class="t">Friday dinner</div><div class="d">Paid by Inês</div></div><span class="hstack amt">€46,50<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="row"><span class="cat trans"><svg class="i"><use href="#i-car"/></svg></span><div><div class="t">Metro cards</div><div class="d">Paid by Tiago</div></div><span class="hstack amt">€40,00<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="row"><span class="cat health"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t">Pharmacy</div><div class="d">Paid by Tiago</div></div><span class="hstack amt">€12,80<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="row"><span class="cat subs"><svg class="i"><use href="#i-repeat"/></svg></span><div><div class="t">Streaming</div><div class="d">Paid by Inês</div></div><span class="hstack amt">€9,99<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="between sub" style="border-top:1px solid var(--hairline); padding-top:10px; margin-top:4px"><span class="hstack"><span class="av ines" style="--s:24px">I</span>Inês’s share</span><span class="strong tnum">€119,50</span></div>
+                      <div class="between sub" style="padding-top:8px"><span class="hstack"><span class="av tiago" style="--s:24px">T</span>Tiago’s share</span><span class="strong tnum">€132,29</span></div>
+                    </div>
+                    <div class="stack gap-8">
+                      <span class="btn fill">Close September’s extras</span>
+                      <span class="cap muted">Locks €7,91. Inês can send it later.</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 
     <section class="wrap" id="split" aria-labelledby="split-title">
       <div class="section-head">
         <span class="eyebrow">Fair isn’t always half</span>
-        <h2 id="split-title">Try the split.</h2>
-        <p>Justa splits the monthly plan by each person’s usual income. Move the sliders. This is the same math the app runs on your iPhone.</p>
+        <h2 id="split-title">Shared bills, <em>split fairly.</em></h2>
+        <p>Justa splits the monthly plan by each person’s usual income, then tells you how much room the month leaves. Move the sliders. It’s the same math the app runs on your iPhone.</p>
       </div>
       <div class="calc">
         <div class="calc-inputs">
@@ -328,9 +953,16 @@
             <label for="income-b">Tiago earns <output id="out-b" for="income-b"></output></label>
             <input id="income-b" type="range" min="500" max="6000" step="50" value="1800" />
           </div>
-          <div class="field plan">
-            <label for="plan">Rent, utilities, groceries <output id="out-plan" for="plan"></output></label>
-            <input id="plan" type="range" min="300" max="3500" step="10" value="1250" />
+          <div class="field">
+            <label for="plan">Rent, bills, groceries <output id="out-plan" for="plan"></output></label>
+            <input id="plan" type="range" min="300" max="6000" step="10" value="1250" />
+          </div>
+          <div>
+            <span class="rule-label" id="rule-label">Split the plan</span>
+            <div class="rule" role="group" aria-labelledby="rule-label">
+              <button type="button" data-rule="income" aria-pressed="true">By income</button>
+              <button type="button" data-rule="half" aria-pressed="false">50/50</button>
+            </div>
           </div>
         </div>
         <div class="calc-result" aria-live="polite">
@@ -352,63 +984,224 @@
             </div>
           </div>
           <p class="calc-note" id="half-note"></p>
+          <div class="calc-mood tone-good" id="calc-mood">
+            <small>How the month feels</small>
+            <div class="figure" id="mood-figure"></div>
+            <span class="mood-pill"><svg class="i" aria-hidden="true"><use href="#i-sun" id="mood-icon"/></svg><span id="mood-title"></span></span>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="wrap" id="month" aria-labelledby="month-title">
-      <div class="section-head">
-        <span class="eyebrow">How a month works</span>
-        <h2 id="month-title">Plan it, log it, settle it.</h2>
-      </div>
-      <div class="steps">
-        <article class="step">
-          <div>
-            <span class="step-num">01 — Plan</span>
-            <h3>Set the month once.</h3>
-            <p>Add each person’s usual income and the costs that repeat: rent, internet, electricity. Justa works out who covers what. Change one month without touching the rest.</p>
+    <section class="wrap" aria-labelledby="glance-title">
+      <div class="glance">
+        <div>
+          <span class="eyebrow">Extras &amp; Insights</span>
+          <h2 id="glance-title">Know where the month <em>went.</em></h2>
+          <div class="glance-list">
+            <div><span class="badge"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg></span><span><b>A pulse on every extra</b><p>The month’s total, who paid it in each person’s colour, and one-tap chips for what’s open or where it went.</p></span></div>
+            <div><span class="badge"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg></span><span><b>Search that gets you</b><p>Every word counts, accents don’t. Type <em>12</em> and it finds €12,00 to €12,99.</p></span></div>
+            <div><span class="badge"><svg class="i" aria-hidden="true"><use href="#i-chart"/></svg></span><span><b>Insights in plain words</b><p>“€31,99 less than in August.” Six months at a glance, fairness in one sentence, and the biggest slice named.</p></span></div>
           </div>
-          <div class="step-shot"><div class="phone"><img src="screens/household-light.png" alt="Household screen showing Inês at 55% and Tiago at 45% of income, with monthly costs below." loading="lazy" /></div></div>
-        </article>
-        <article class="step">
-          <div>
-            <span class="step-num">02 — Log</span>
-            <h3>Extras, as they happen.</h3>
-            <p>Groceries, Friday dinner, the pharmacy. Add it in a few taps, or photograph the receipt. The text is read on the iPhone, never uploaded.</p>
+        </div>
+        <div class="glance-phones">
+          <div class="device" role="img" aria-label="Extras tab: six extras totalling €251,79, Tiago paid €140,20 and Inês €111,59.">
+            <div class="screen" data-theme="azulejo" id="extras-screen" aria-hidden="true">
+              <div class="island"></div>
+              <div class="sb"><span>9:41</span><span class="sb-icons"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="2.2"/></svg></span></div>
+              <div class="nb"><span class="switch">Casa Norte <svg class="i"><use href="#i-chev-d"/></svg></span><span class="glass"><svg class="i"><use href="#i-plus"/></svg></span></div>
+              <div class="body">
+                <div class="card stack gap-12" style="padding:16px">
+                  <div class="between" style="align-items:flex-start">
+                    <div class="stack" style="gap:2px"><span class="sub muted">6 extras</span><span class="serif hero-40 tnum">€251,79</span></div>
+                    <span class="chip on" style="height:36px;padding:0 16px">Settle</span>
+                  </div>
+                  <span class="hstack sub strong"><span class="dot"></span>6 open extras · €251,79</span>
+                  <div class="seg" style="height:10px"><span style="--v:140.2;--c:#C98900"></span><span style="--v:111.59;--c:#E04B3C"></span></div>
+                  <div class="chips">
+                    <span class="chip soft" style="padding-left:4px"><span class="av tiago" style="--s:24px">T</span>Tiago <em>€140,20</em></span>
+                    <span class="chip soft" style="padding-left:4px"><span class="av ines" style="--s:24px">I</span>Inês <em>€111,59</em></span>
+                  </div>
+                </div>
+                <div class="chips">
+                  <span class="chip"><svg class="i"><use href="#i-sort"/></svg>Newest first</span>
+                  <span class="chip" style="--c: var(--sienna)"><svg class="i"><use href="#i-dashed"/></svg>Open <em>6</em></span>
+                  <span class="chip" style="--c: var(--c-groc)"><svg class="i"><use href="#i-cart"/></svg>Groceries <em>€87,40</em></span>
+                  <span class="chip" style="--c: var(--c-util)"><svg class="i"><use href="#i-bolt"/></svg>Utilities <em>€55,10</em></span>
+                </div>
+                <div class="stack">
+                  <div class="between sub" style="padding: 6px 2px"><span class="strong">Tuesday, 15 Sep</span><span class="muted tnum">€9,99</span></div>
+                  <div class="card" style="padding:4px 16px"><div class="row"><span class="cat subs"><svg class="i"><use href="#i-repeat"/></svg></span><div><div class="t">Streaming</div><div class="d">Inês · Subscriptions</div></div><span class="hstack amt"><span class="dot"></span>€9,99</span></div></div>
+                  <div class="between sub" style="padding: 12px 2px 6px"><span class="strong">Sunday, 13 Sep</span><span class="muted tnum">€12,80</span></div>
+                  <div class="card" style="padding:4px 16px"><div class="row"><span class="cat health"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t">Pharmacy</div><div class="d">Tiago · Only Tiago</div></div><span class="hstack amt"><span class="dot"></span>€12,80</span></div></div>
+                  <div class="between sub" style="padding: 12px 2px 6px"><span class="strong">Friday, 11 Sep</span><span class="muted tnum">€46,50</span></div>
+                  <div class="card" style="padding:4px 16px"><div class="row"><span class="cat dine"><svg class="i"><use href="#i-fork"/></svg></span><div><div class="t">Friday dinner</div><div class="d">Inês · Dining</div></div><span class="hstack amt"><span class="dot"></span>€46,50</span></div></div>
+                </div>
+              </div>
+              <div class="fade-bottom"></div>
+              <nav class="tabs">
+                <span class="tab"><svg class="i"><use href="#i-calendar"/></svg>Month</span>
+                <span class="tab on"><svg class="i"><use href="#i-list"/></svg>Extras</span>
+                <span class="tab"><svg class="i"><use href="#i-chart"/></svg>Insights</span>
+                <span class="tab"><svg class="i"><use href="#i-home"/></svg>Household</span>
+              </nav>
+            </div>
           </div>
-          <div class="step-shot"><div class="phone"><img src="screens/new-expense-light.png" alt="New expense sheet with Scan receipt, title, amount, date, category grid and who paid." loading="lazy" /></div></div>
-        </article>
-        <article class="step">
-          <div>
-            <span class="step-num">03 — Settle</span>
-            <h3>One line at month end.</h3>
-            <p>Justa nets every shared extra against each person’s share. No spreadsheets, no “I think I paid last time”. Just who pays whom, and how much.</p>
+          <div class="device" role="img" aria-label="Insights tab: €251,79 of extras in September, €31,99 less than in August, with six months of columns.">
+            <div class="screen" data-theme="azulejo" aria-hidden="true">
+              <div class="island"></div>
+              <div class="sb"><span>9:41</span><span class="sb-icons"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="2.2"/></svg></span></div>
+              <div class="nb"><span class="switch">Casa Norte <svg class="i"><use href="#i-chev-d"/></svg></span><span class="glass"><svg class="i"><use href="#i-plus"/></svg></span></div>
+              <div class="pager"><svg class="i"><use href="#i-chev-l"/></svg><b>September 2026 <svg class="i"><use href="#i-chev-d"/></svg></b><svg class="i"><use href="#i-chev-r"/></svg></div>
+              <div class="body">
+                <div class="card stack gap-12">
+                  <span class="sub muted">Extras in September</span>
+                  <span class="serif hero-44 tnum">€251,79</span>
+                  <span class="mood" style="--tone: var(--moss)"><svg class="i"><use href="#i-arrow-d"/></svg>€31,99 less than in August</span>
+                  <div class="cols" style="--t:0.85">
+                    <div class="col"><span style="--h:75%"></span><small>Apr</small></div>
+                    <div class="col"><span style="--h:93%"></span><small>May</small></div>
+                    <div class="col"><span style="--h:69%"></span><small>Jun</small></div>
+                    <div class="col"><span style="--h:100%"></span><small>Jul</small></div>
+                    <div class="col"><span style="--h:89%"></span><small>Aug</small></div>
+                    <div class="col now"><span style="--h:79%"></span><small>Sep</small></div>
+                    <i class="typical"></i>
+                  </div>
+                  <div class="stat-row">
+                    <div class="stat"><small>Typical month</small><b>€271,76</b><span class="tiny-pill" style="--tone: var(--moss)">↓ 7%</span></div>
+                    <div class="stat"><small>Same month last year</small><b>€205,30</b><span class="tiny-pill" style="--tone: var(--sienna)">↑ 23%</span></div>
+                  </div>
+                </div>
+                <div class="card stack gap-12">
+                  <div class="between"><span class="headline">Extras by category</span></div>
+                  <span class="foot muted">The biggest slice went to Groceries · 35%</span>
+                  <div class="rank"><span class="cat groc"><svg class="i"><use href="#i-cart"/></svg></span><div><div class="between sub"><b>Groceries</b><span class="tnum">€87,40</span></div><div class="v-bar"><span style="width:100%;--c:var(--c-groc)"></span></div></div></div>
+                  <div class="rank"><span class="cat util"><svg class="i"><use href="#i-bolt"/></svg></span><div><div class="between sub"><b>Utilities</b><span class="tnum">€55,10</span></div><div class="v-bar"><span style="width:63%;--c:var(--c-util)"></span></div></div></div>
+                </div>
+              </div>
+              <div class="fade-bottom"></div>
+              <nav class="tabs">
+                <span class="tab"><svg class="i"><use href="#i-calendar"/></svg>Month</span>
+                <span class="tab"><svg class="i"><use href="#i-list"/></svg>Extras</span>
+                <span class="tab on"><svg class="i"><use href="#i-chart"/></svg>Insights</span>
+                <span class="tab"><svg class="i"><use href="#i-home"/></svg>Household</span>
+              </nav>
+            </div>
           </div>
-          <div class="step-shot"><div class="phone"><img src="screens/settle-light.png" alt="Settle screen: Inês pays Tiago €7,91, above the six open extras and each person's balance." loading="lazy" /></div></div>
-        </article>
+        </div>
       </div>
     </section>
 
-    <section class="wrap" aria-labelledby="more-title">
-      <div class="section-head">
-        <span class="eyebrow">Also inside</span>
-        <h2 id="more-title">The whole household, not just the split.</h2>
+    <section class="wrap" id="themes" aria-labelledby="themes-title">
+      <div class="themes" data-theme="azulejo" id="theme-stage">
+        <div>
+          <div class="section-head">
+            <span class="eyebrow">Six Portuguese themes</span>
+            <h2 id="themes-title">Try them all. <em>Keep the one that makes you smile.</em></h2>
+            <p>Three for bright days, three for late nights, each with a soul of its own. Themes stay on each iPhone, so everyone picks their own.</p>
+          </div>
+          <div class="theme-group">
+            <span>For bright days</span>
+            <div class="theme-cards">
+              <button class="theme-card" type="button" data-theme="azulejo" data-pick="azulejo" aria-pressed="true"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-grid"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Azulejo</b><small>Porcelain white, cobalt tiles</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+              <button class="theme-card" type="button" data-theme="jacaranda" data-pick="jacaranda" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-flower"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Jacarandá</b><small>Lisbon in May, all lilac</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+              <button class="theme-card" type="button" data-theme="algarve" data-pick="algarve" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-sun"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Algarve</b><small>Warm sand, turquoise sea</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+            </div>
+          </div>
+          <div class="theme-group">
+            <span>For late nights</span>
+            <div class="theme-cards">
+              <button class="theme-card" type="button" data-theme="tejo" data-pick="tejo" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-moon"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Tejo</b><small>The river at night, city lights</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+              <button class="theme-card" type="button" data-theme="ginja" data-pick="ginja" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-wine"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Ginja</b><small>Dark cherry, rosy glow</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+              <button class="theme-card" type="button" data-theme="fado" data-pick="fado" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-music"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Fado</b><small>Candlelight and a golden guitar</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+            </div>
+          </div>
+        </div>
+        <div class="theme-phone">
+          <div id="theme-phone-slot" aria-hidden="true"></div>
+          <p class="theme-name" aria-live="polite"><b id="theme-name">Azulejo</b><span class="muted" id="theme-tagline">Porcelain white, cobalt tiles</span></p>
+        </div>
       </div>
-      <div class="more">
-        <article class="more-card">
-          <div class="more-shot"><img src="screens/accounts-light.png" alt="Accounts screen showing €4 200,00 across household savings pots." loading="lazy" /></div>
-          <h3>Accounts</h3>
-          <p>Track the household’s savings pots month by month. Personal pots stay out of the total.</p>
+    </section>
+
+    <section class="wrap" aria-labelledby="moments-title">
+      <div class="section-head">
+        <span class="eyebrow">Little moments</span>
+        <h2 id="moments-title">Care in the <em>small things.</em></h2>
+        <p>Budgeting is rarely anyone’s favourite chore. So Justa rewards the good bits, and keeps the hard bits gentle.</p>
+      </div>
+      <div class="moments">
+        <article class="moment">
+          <div class="vignette" data-theme="azulejo">
+            <div class="v-card stack gap-8">
+              <div class="v-row"><span class="hstack v-serif" style="font-size:1.25rem"><svg class="i" id="pop-check" style="color:var(--moss);font-size:1.5rem" aria-hidden="true"><use href="#i-check-fill"/></svg>All square</span></div>
+              <span class="v-muted">Inês sent Tiago €7,91 on 27 Sep</span>
+            </div>
+            <button class="pop-button" type="button" id="pop-button">Pop it</button>
+          </div>
+          <h3>Confetti, when it’s earned</h3>
+          <p>Close the extras, mark the transfer sent, and the month lands with a burst from the checkmark.</p>
         </article>
-        <article class="more-card">
-          <div class="more-shot"><img src="screens/analytics-light.png" alt="Analytics screen with accounts and planned versus realized sections." loading="lazy" /></div>
-          <h3>Analytics</h3>
-          <p>Planned versus realized, month against month, and who paid versus their share.</p>
+        <article class="moment">
+          <div class="vignette" data-theme="azulejo" aria-hidden="true">
+            <span class="v-pill v-good"><svg class="i"><use href="#i-sun"/></svg>Plenty of breathing room</span>
+            <span class="v-pill v-good"><svg class="i"><use href="#i-leaf"/></svg>On plan, with room to spare</span>
+            <span class="v-pill v-warn"><svg class="i"><use href="#i-gauge"/></svg>Snug, but it fits</span>
+            <span class="v-pill v-warn"><svg class="i"><use href="#i-alert"/></svg>The plan runs past what comes in</span>
+          </div>
+          <h3>A plan with a mood</h3>
+          <p>The plan card grades how much room the month leaves, in words you’d use yourself.</p>
         </article>
-        <article class="more-card">
-          <div class="more-shot"><img src="screens/split-light.png" alt="Split screen with a bill amount, the people splitting at 55% and 45%, and who paid." loading="lazy" /></div>
-          <h3>Split</h3>
-          <p>Enter a bill, pick who’s in and who paid, then save it as an expense.</p>
+        <article class="moment">
+          <div class="vignette" data-theme="azulejo" aria-hidden="true">
+            <div class="hstack" style="gap:1rem">
+              <span class="ring"><span>4/4</span></span>
+              <div class="check-list">
+                <span><svg class="i"><use href="#i-check"/></svg>Add everyone who shares costs</span>
+                <span><svg class="i"><use href="#i-check"/></svg>Set each usual income</span>
+                <span><svg class="i"><use href="#i-check"/></svg>Choose who uses this iPhone</span>
+                <span><svg class="i"><use href="#i-check"/></svg>Add the repeating costs</span>
+              </div>
+            </div>
+            <span class="seal" style="font-size:0.95rem"><svg class="i"><use href="#i-seal"/></svg>Everything in order</span>
+          </div>
+          <h3>Setup that cheers you on</h3>
+          <p>Four small steps, a progress ring, and a seal on the house when it’s done. Then the plan splits itself.</p>
+        </article>
+        <article class="moment">
+          <div class="vignette" data-theme="algarve" aria-hidden="true">
+            <div class="v-card stack gap-8">
+              <div class="v-row"><span class="hstack strong"><svg class="i" style="color:var(--pine)"><use href="#i-bank"/></svg>Emergency</span><span class="v-pill v-good">Add</span></div>
+              <span class="v-serif" style="font-size:1.8rem">€250</span>
+              <div class="v-row v-muted"><span>€4 950 now</span><svg class="i"><use href="#i-arrow-r"/></svg><span class="strong" style="color:var(--moss)">€5 200 after</span></div>
+            </div>
+            <span class="v-pill v-good"><svg class="i"><use href="#i-sparkle"/></svg>Over €5 000 put aside</span>
+          </div>
+          <h3>Savings that cheer</h3>
+          <p>Add to a pot in two taps. Pass a round milestone and Justa notices, with a little burst to match.</p>
+        </article>
+        <article class="moment">
+          <div class="vignette" data-theme="jacaranda" aria-hidden="true">
+            <div class="v-card stack gap-8">
+              <div class="v-row"><span class="hstack strong"><svg class="i" style="color:var(--c-util)"><use href="#i-bolt"/></svg>Electricity</span><span class="v-pill v-good"><svg class="i"><use href="#i-leaf"/></svg>Under by €2,90</span></div>
+              <div class="v-row v-muted"><span>Planned</span><span class="tnum">€58,00</span></div>
+              <div class="v-bar"><span style="width:100%;--c:color-mix(in srgb, var(--ink) 40%, transparent)"></span></div>
+              <div class="v-row v-muted"><span>Invoiced</span><span class="tnum">€55,10</span></div>
+              <div class="v-bar"><span style="width:95%;--c:var(--moss)"></span></div>
+            </div>
+          </div>
+          <h3>Invoices against the plan <span class="tag">Justa Plus</span></h3>
+          <p>Estimated the electricity? Record the real bill and see how the estimate did, month after month.</p>
+        </article>
+        <article class="moment">
+          <div class="vignette" data-theme="tejo" aria-hidden="true">
+            <div class="search"><svg class="i"><use href="#i-search"/></svg><span>12</span><span class="caret"></span></div>
+            <div class="v-card" style="padding:0.3rem 1rem">
+              <div class="row" style="grid-template-columns:32px 1fr auto"><span class="cat health" style="width:32px;height:32px;font-size:15px"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t" style="font-size:0.92rem">Pharmacy</div><div class="d" style="font-size:0.78rem">Tiago · 13 Sep</div></div><span class="amt" style="font-size:0.92rem">€12,80</span></div>
+            </div>
+          </div>
+          <h3>Found in a flash</h3>
+          <p>Search by title, note, category, payer or amount. Every word must match, accents never matter.</p>
         </article>
       </div>
     </section>
@@ -417,14 +1210,14 @@
       <div class="privacy">
         <div class="section-head">
           <span class="eyebrow">Private by design</span>
-          <h2 id="privacy-title">Your money talk stays at home.</h2>
+          <h2 id="privacy-title">Your money talk <em>stays at home.</em></h2>
           <p>Justa has no account and no server. There is nothing to sign up for and nothing for us to see.</p>
         </div>
         <div class="facts">
-          <div class="fact"><b>On your iPhone</b><p>The ledger lives on the device. Nothing leaves unless you choose a folder.</p></div>
-          <div class="fact"><b>Your folder</b><p>Optionally share a folder in iCloud Drive, Dropbox or Google Drive so a second iPhone opens the same ledger.</p></div>
-          <div class="fact"><b>Face ID</b><p>Lock the app on this iPhone. The setting never leaves the device.</p></div>
-          <div class="fact"><b>Several homes</b><p>Keep the couple ledger and your parents’ house side by side.</p></div>
+          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg><b>On your iPhone</b><p>The household book lives on the device. Nothing leaves unless you choose a folder.</p></div>
+          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-folder"/></svg><b>Your own folder</b><p>Share across iPhones through a Files folder in iCloud Drive, Dropbox or Google Drive.</p></div>
+          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg><b>Receipts stay put</b><p>Text is read on this iPhone. The photo or PDF is never uploaded or kept.</p></div>
+          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-face"/></svg><b>Face ID</b><p>Lock the app on this iPhone. The setting never leaves the device.</p></div>
         </div>
       </div>
     </section>
@@ -432,27 +1225,31 @@
     <section class="wrap" id="pricing" aria-labelledby="pricing-title">
       <div class="section-head">
         <span class="eyebrow">Pricing</span>
-        <h2 id="pricing-title">Free. One upgrade, once.</h2>
+        <h2 id="pricing-title">Free. One upgrade, <em>once.</em></h2>
       </div>
       <div class="prices">
         <div class="price">
           <h3>Justa</h3>
           <div class="amount">€0</div>
+          <p class="pitch">Everything a household needs on one iPhone.</p>
           <ul>
-            <li>Monthly plan split by income</li>
-            <li>Expenses, accounts, analytics and settle-up</li>
-            <li>Several households, Face ID</li>
-            <li>Open a shared folder someone else created</li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Monthly plan split by income, a percent, or a fixed amount</li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Extras, settle-up, accounts and insights</li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Receipt scanning on this iPhone</li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Six themes, several households, Face ID</li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Join a shared household someone else started</li>
           </ul>
         </div>
         <div class="price plus">
+          <span class="ribbon-tag">Justa on both iPhones</span>
           <h3>Justa Plus</h3>
           <div class="amount">€7,99<small>one time</small></div>
+          <p class="pitch">Your partner adds their own extras from their iPhone, into the same household.</p>
           <ul>
-            <li>Create a shared folder for a second iPhone</li>
-            <li>Record estimate invoices against the plan</li>
-            <li>Family Sharing included</li>
-            <li>No subscription</li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Start sharing a household across two iPhones</li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Record real invoices against the plan’s estimates</li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Family Sharing included</li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>No subscription, ever</li>
           </ul>
         </div>
       </div>
@@ -466,11 +1263,19 @@
       <div class="faq">
         <details>
           <summary>Why split by income instead of 50/50?</summary>
-          <p>If one person earns 55% of the household, covering 55% of the shared plan leaves both with the same share of what they earn. You can still set any split you like for a single month.</p>
+          <p>If one person earns 55% of the household, covering 55% of the shared plan leaves both with the same share of what they earn. You can still give someone a percent or a fixed amount, split any extra 50/50, or set custom shares.</p>
         </details>
         <details>
-          <summary>How do two iPhones share a ledger?</summary>
-          <p>Create a vault in an empty folder on iCloud Drive, Dropbox or Google Drive and share that folder. The second iPhone opens the same folder. If both edit the same bill at the same time, the later save wins.</p>
+          <summary>How do two iPhones share a household?</summary>
+          <p>With Justa Plus, tap Start sharing and choose an empty folder in iCloud Drive, Dropbox or Google Drive, then share that folder. On the second iPhone, tap Join a shared household (free) and pick the same folder. If you both edit the same bill at once, the latest save is kept.</p>
+        </details>
+        <details>
+          <summary>Does a receipt photo leave my iPhone?</summary>
+          <p>No. Justa reads the text on this iPhone with Apple Vision, or straight from a PDF’s text layer. The file is never uploaded or saved. Only the fields you keep — title, amount, date, category, note — go into the household book.</p>
+        </details>
+        <details>
+          <summary>Can we each have our own theme?</summary>
+          <p>Yes. Themes stay on each iPhone, so one of you can live in Azulejo while the other falls asleep to Fado.</p>
         </details>
         <details>
           <summary>Is the app in English?</summary>
@@ -481,6 +1286,7 @@
           <p>Nothing. See the <a href="./privacy/">privacy policy</a>.</p>
         </details>
       </div>
+      <div class="tiles-strip" aria-hidden="true"></div>
     </section>
 
     <footer class="wrap">
@@ -488,46 +1294,334 @@
       <nav aria-label="Footer">
         <a href="./privacy/">Privacy</a>
         <a href="mailto:aacnsilva@hotmail.com">Support</a>
-        <span>© Justa</span>
+        <span>Made with care in Lisbon · © Justa</span>
       </nav>
     </footer>
   </main>
 
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
   <script>
-    const amountFormat = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: "always" });
-    const euro = { format: (value) => `€${amountFormat.format(value)}` };
     const byId = (id) => document.getElementById(id);
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const amountFormat = new Intl.NumberFormat("pt-PT", { minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: "always" });
+    const wholeFormat = new Intl.NumberFormat("pt-PT", { maximumFractionDigits: 0, useGrouping: "always" });
+    const euro = (value) => `€${amountFormat.format(value)}`;
+    const euroHero = (value) => (Math.round(value * 100) % 100 === 0 ? `€${wholeFormat.format(value)}` : euro(value));
+
+    /* Confetti: a short ballistic burst from an element, like the app's settle burst. */
+    const confetti = (() => {
+      const canvas = byId("confetti");
+      const context = canvas.getContext("2d");
+      const gravity = 1500;
+      let particles = [];
+      let frame = null;
+      let last = 0;
+
+      const resize = () => {
+        const ratio = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * ratio;
+        canvas.height = window.innerHeight * ratio;
+        context.setTransform(ratio, 0, 0, ratio, 0, 0);
+      };
+
+      const step = (now) => {
+        const dt = Math.min(0.034, (now - last) / 1000);
+        last = now;
+        context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+        particles = particles.filter((particle) => now - particle.born < particle.life);
+        particles.forEach((particle) => {
+          particle.vy += gravity * dt;
+          particle.vx *= 0.992;
+          particle.x += particle.vx * dt;
+          particle.y += particle.vy * dt;
+          particle.spin += particle.turn * dt;
+          const age = (now - particle.born) / particle.life;
+          context.globalAlpha = age > 0.65 ? Math.max(0, 1 - (age - 0.65) / 0.35) : 1;
+          context.fillStyle = particle.color;
+          context.save();
+          context.translate(particle.x, particle.y);
+          context.rotate(particle.spin);
+          if (particle.round) {
+            context.beginPath();
+            context.arc(0, 0, particle.size / 2, 0, Math.PI * 2);
+            context.fill();
+          } else {
+            context.fillRect(-particle.size / 2, -particle.size / 4, particle.size, particle.size / 2);
+          }
+          context.restore();
+        });
+        context.globalAlpha = 1;
+        if (particles.length === 0) {
+          frame = null;
+          return;
+        }
+        frame = requestAnimationFrame(step);
+      };
+
+      const burstFrom = (element) => {
+        if (reducedMotion.matches || !element) return;
+        const rect = element.getBoundingClientRect();
+        const themed = element.closest("[data-theme]") || document.body;
+        const style = getComputedStyle(themed);
+        const colors = ["--pine", "--moss", "--sienna", "--clay", "--over"]
+          .map((name) => style.getPropertyValue(name).trim())
+          .filter(Boolean)
+          .concat(["#E04B3C", "#C98900", "#FFC7A8"]);
+        const now = performance.now();
+        for (let index = 0; index < 64; index += 1) {
+          const angle = (-90 + (Math.random() - 0.5) * 120) * (Math.PI / 180);
+          const speed = 420 + Math.random() * 560;
+          particles.push({
+            x: rect.left + rect.width / 2,
+            y: rect.top + rect.height / 2,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            spin: Math.random() * Math.PI,
+            turn: (Math.random() - 0.5) * 14,
+            size: 6 + Math.random() * 6,
+            round: Math.random() < 0.35,
+            color: colors[index % colors.length],
+            born: now,
+            life: 1300 + Math.random() * 400
+          });
+        }
+        if (frame === null) {
+          last = now;
+          frame = requestAnimationFrame(step);
+        }
+      };
+
+      resize();
+      window.addEventListener("resize", resize);
+      return { burstFrom };
+    })();
+
+    /* Hero: settle the month on the phone. */
+    const balanceCard = byId("demo-balance");
+    const demoHint = byId("demo-hint");
+    const demoReset = byId("demo-reset");
+    const requestBubble = byId("request-bubble");
+    const hints = {
+      open: "Tap <b>Settle up</b>. Go on.",
+      awaiting: "Now tap <b>Inês sent it</b>.",
+      square: "All square. That’s the feeling."
+    };
+
+    const showState = (state) => {
+      balanceCard.dataset.state = state;
+      demoHint.innerHTML = hints[state];
+      demoReset.hidden = state !== "square";
+      requestBubble.dataset.show = "false";
+    };
+
+    const handleDemoClick = (event) => {
+      const button = event.target.closest("[data-demo]");
+      if (!button) return;
+      const action = button.dataset.demo;
+      if (action === "settle-up") {
+        showState("awaiting");
+        balanceCard.querySelector('[data-demo="mark-sent"]').focus({ preventScroll: true });
+        return;
+      }
+      if (action === "send-request") {
+        requestBubble.dataset.show = "true";
+        return;
+      }
+      if (action === "mark-sent") {
+        showState("square");
+        requestAnimationFrame(() => confetti.burstFrom(byId("square-check")));
+      }
+    };
+
+    const handleDemoReset = () => {
+      showState("open");
+      balanceCard.querySelector('[data-demo="settle-up"]').focus({ preventScroll: true });
+    };
+
+    balanceCard.addEventListener("click", handleDemoClick);
+    demoReset.addEventListener("click", handleDemoReset);
+
+    /* Clones reuse the real screens in other places, painted in another theme. */
+    const cloneScreen = (screenId, theme) => {
+      const source = byId(screenId).closest(".device");
+      const copy = source.cloneNode(true);
+      copy.removeAttribute("id");
+      copy.removeAttribute("role");
+      copy.removeAttribute("aria-label");
+      copy.querySelectorAll("[id]").forEach((node) => node.removeAttribute("id"));
+      copy.querySelectorAll("[aria-live]").forEach((node) => node.removeAttribute("aria-live"));
+      copy.setAttribute("inert", "");
+      copy.querySelector(".screen").dataset.theme = theme;
+      return copy;
+    };
+
+    byId("hero-back-slot").append(cloneScreen("extras-screen", "tejo"));
+    const themePhone = cloneScreen("home-screen", "azulejo");
+    byId("theme-phone-slot").append(themePhone);
+
+    /* Themes. */
+    const themeStage = byId("theme-stage");
+    const themeCards = document.querySelectorAll("[data-pick]");
+
+    const handleThemePick = (event) => {
+      const card = event.currentTarget;
+      const theme = card.dataset.pick;
+      themeStage.dataset.theme = theme;
+      themePhone.querySelector(".screen").dataset.theme = theme;
+      themeCards.forEach((other) => other.setAttribute("aria-pressed", String(other === card)));
+      byId("theme-name").textContent = card.querySelector("b").textContent;
+      byId("theme-tagline").textContent = card.querySelector("small").textContent;
+      themePhone.classList.remove("pop");
+      void themePhone.offsetWidth;
+      themePhone.classList.add("pop");
+    };
+
+    themeCards.forEach((card) => card.addEventListener("click", handleThemePick));
+
+    /* Receipt scan: the Continente fixture the app's UI tests read. */
+    const expenseScreen = byId("expense-screen");
+    const receiptSheet = byId("receipt-sheet");
+    const receiptFill = { amount: 14.25, title: "Continente", date: "13 Sep", payerShare: 0.55 };
+    let readingTimer = null;
+
+    const fillFromReceipt = () => {
+      const inesShare = Math.round(receiptFill.amount * receiptFill.payerShare * 100) / 100;
+      const tiagoShare = Math.round((receiptFill.amount - inesShare) * 100) / 100;
+      byId("expense-amount").innerHTML = `<small>€</small>${amountFormat.format(receiptFill.amount)}`;
+      byId("expense-title").textContent = receiptFill.title;
+      byId("expense-date").lastChild.textContent = receiptFill.date;
+      byId("expense-shares").textContent = `Inês ${euro(inesShare)} · Tiago ${euro(tiagoShare)}`;
+      byId("expense-owe").textContent = `Tiago will owe Inês ${euro(tiagoShare)}`;
+      ["expense-amount-wrap", "expense-title", "expense-date", "expense-split"].forEach((id) => {
+        const node = byId(id);
+        node.classList.remove("filled");
+        void node.offsetWidth;
+        node.classList.add("filled");
+      });
+    };
+
+    const setReceipt = (state) => {
+      expenseScreen.dataset.receipt = state;
+      receiptSheet.inert = state === "closed";
+    };
+
+    const handleReceiptAction = (event) => {
+      const trigger = event.target.closest("[data-receipt-action]");
+      if (!trigger) return;
+      const action = trigger.dataset.receiptAction;
+      if (action === "open") {
+        setReceipt("open");
+        receiptSheet.querySelector(".take-photo").focus({ preventScroll: true });
+        return;
+      }
+      if (action === "close") {
+        setReceipt("closed");
+        return;
+      }
+      if (action === "read") {
+        setReceipt("reading");
+        clearTimeout(readingTimer);
+        readingTimer = setTimeout(() => {
+          setReceipt("closed");
+          fillFromReceipt();
+          expenseScreen.querySelector('[data-receipt-action="open"]').focus({ preventScroll: true });
+        }, reducedMotion.matches ? 0 : 1400);
+      }
+    };
+
+    const handleReceiptKeydown = (event) => {
+      if (event.key === "Escape" && expenseScreen.dataset.receipt === "open") {
+        setReceipt("closed");
+      }
+    };
+
+    expenseScreen.addEventListener("click", handleReceiptAction);
+    expenseScreen.addEventListener("keydown", handleReceiptKeydown);
+
+    /* Little moments. */
+    const handlePop = () => confetti.burstFrom(byId("pop-check"));
+    byId("pop-button").addEventListener("click", handlePop);
+
+    /* The split, and how the month feels (PlanRoom: 30% roomy, 10% comfortable). */
     const incomeA = byId("income-a");
     const incomeB = byId("income-b");
     const plan = byId("plan");
+    const ruleButtons = document.querySelectorAll("[data-rule]");
+    let splitRule = "income";
+
+    const rooms = {
+      roomy: { title: "Plenty of breathing room", icon: "#i-sun", tone: "tone-good" },
+      comfortable: { title: "On plan, with room to spare", icon: "#i-leaf", tone: "tone-good" },
+      snug: { title: "Snug, but it fits", icon: "#i-gauge", tone: "tone-warn" },
+      over: { title: "The plan runs past what comes in", icon: "#i-alert", tone: "tone-warn" }
+    };
+
+    const gradeRoom = (leftover, income) => {
+      if (leftover < 0) return "over";
+      if (leftover * 100 >= income * 30) return "roomy";
+      if (leftover * 100 >= income * 10) return "comfortable";
+      return "snug";
+    };
+
+    const renderMood = (income, total) => {
+      const leftover = income - total;
+      const roomKey = gradeRoom(leftover, income);
+      const room = rooms[roomKey];
+      const caption = roomKey === "over"
+        ? `more than the ${euroHero(income)} coming in`
+        : `left of the ${euroHero(income)} coming in`;
+      const mood = byId("calc-mood");
+      mood.classList.remove("tone-good", "tone-warn");
+      mood.classList.add(room.tone);
+      byId("mood-figure").innerHTML = `${euroHero(Math.abs(leftover))}<span>${caption}</span>`;
+      byId("mood-icon").setAttribute("href", room.icon);
+      byId("mood-title").textContent = room.title;
+    };
 
     const renderSplit = () => {
       const a = Number(incomeA.value);
       const b = Number(incomeB.value);
       const total = Number(plan.value);
-      const ratioA = a / (a + b);
+      const ratioA = splitRule === "income" ? a / (a + b) : 0.5;
       const shareA = Math.round(total * ratioA * 100) / 100;
-      const shareB = total - shareA;
+      const shareB = Math.round((total - shareA) * 100) / 100;
       const pctA = Math.round(ratioA * 100);
 
-      byId("out-a").textContent = euro.format(a);
-      byId("out-b").textContent = euro.format(b);
-      byId("out-plan").textContent = euro.format(total);
-      byId("total").textContent = euro.format(total);
+      byId("out-a").textContent = euro(a);
+      byId("out-b").textContent = euro(b);
+      byId("out-plan").textContent = euro(total);
+      byId("total").textContent = euro(total);
       byId("pct-a").textContent = `${pctA}%`;
       byId("pct-b").textContent = `${100 - pctA}%`;
-      byId("share-a").textContent = euro.format(shareA);
-      byId("share-b").textContent = euro.format(shareB);
+      byId("share-a").textContent = euro(shareA);
+      byId("share-b").textContent = euro(shareB);
       byId("bar-a").style.flexGrow = ratioA;
       byId("bar-b").style.flexGrow = 1 - ratioA;
 
-      const gap = Math.abs(shareA - total / 2);
-      byId("half-note").textContent = gap < 1
-        ? "Same income, same share. Fair and half agree this time."
-        : `Split in half, ${shareA > shareB ? "Tiago" : "Inês"} would pay ${euro.format(gap)} a month over a fair share.`;
+      const fairA = Math.round(total * (a / (a + b)) * 100) / 100;
+      const gap = Math.abs(fairA - total / 2);
+      const heavier = fairA > total / 2 ? "Tiago" : "Inês";
+      if (splitRule === "half") {
+        byId("half-note").textContent = gap < 1
+          ? "Same income, so half and fair agree."
+          : `Half each. By income, ${heavier} would pay ${euro(gap)} a month less.`;
+      } else {
+        byId("half-note").textContent = gap < 1
+          ? "Same income, same share. Fair and half agree this time."
+          : `Split in half, ${heavier} would pay ${euro(gap)} a month over a fair share.`;
+      }
+      renderMood(a + b, total);
+    };
+
+    const handleRuleClick = (event) => {
+      splitRule = event.currentTarget.dataset.rule;
+      ruleButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.rule === splitRule)));
+      renderSplit();
     };
 
     [incomeA, incomeB, plan].forEach((input) => input.addEventListener("input", renderSplit));
+    ruleButtons.forEach((button) => button.addEventListener("click", handleRuleClick));
     renderSplit();
   </script>
 </body>

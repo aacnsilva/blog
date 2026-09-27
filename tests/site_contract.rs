@@ -100,7 +100,6 @@ fn assert_required_files_exist(root: &Path) {
         "cv/myPhoto.jpeg",
         "joora/privacy/index.html",
         "justa/index.html",
-        "justa/screens/home-light.png",
         "justa/wordmark.png",
         "justa/appicon.png",
         "justa/privacy/index.html",
@@ -320,9 +319,15 @@ fn assert_unlisted_privacy_page(root: &Path) {
     assert!(privacy.contains("Justa Plus"));
     assert!(privacy.contains("mailto:aacnsilva@hotmail.com"));
     assert!(privacy.contains("class=\"wordmark\""));
-    assert!(privacy.contains("--paper: #FBF4EC"));
-    assert!(privacy.contains("--pine: #1A3A32"));
-    assert!(privacy.contains("--coral: #E04B3C"));
+    assert!(privacy.contains("--bg: #F4F7FC"));
+    assert!(privacy.contains("--text: #101B33"));
+    assert!(privacy.contains("--cobalt: #1F4CC4"));
+    assert!(privacy.contains("Start sharing"));
+    assert!(privacy.contains("Join a shared household"));
+    assert!(privacy.contains("Stop sharing on this iPhone"));
+    assert!(privacy.contains("Começar a partilhar"));
+    assert!(!privacy.contains("Create vault"));
+    assert!(!privacy.contains("Open vault"));
     assert!(!privacy.contains("Joora"));
     assert!(!privacy.contains("href=\"/\""));
     assert!(!privacy.contains("href=\"/about/\""));
@@ -376,15 +381,31 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(!landing.contains("Joora"));
     assert!(!landing.contains("hero-composite"));
     assert!(!landing.contains("mockups/"));
+    assert!(
+        !landing.contains("screens/"),
+        "landing should draw its phones in HTML, not screenshots"
+    );
+    assert!(!root.join("justa/screens").exists());
     assert_png(root, "justa/wordmark.png");
     assert_png(root, "justa/appicon.png");
-    for screen in [
-        "home", "month", "household", "new-expense", "settle", "accounts", "analytics", "split",
+    for (theme, paper, action) in [
+        ("azulejo", "#EEF3FB", "#1D46B8"),
+        ("jacaranda", "#F6F1FC", "#5A2DB5"),
+        ("algarve", "#FBF3E6", "#036664"),
+        ("tejo", "#0C1221", "#86A8FF"),
+        ("ginja", "#190E14", "#FF85BA"),
+        ("fado", "#15100C", "#F4C95E"),
     ] {
-        let relative = format!("justa/screens/{screen}-light.png");
-        assert!(landing.contains(&format!("src=\"screens/{screen}-light.png\"")));
-        assert_png(root, &relative);
+        let palette = format!("[data-theme=\"{theme}\"] {{ --paper: {paper};");
+        assert!(landing.contains(&palette), "{theme} should match the app palette");
+        assert!(landing.contains(&format!("--fill: {action};")), "{theme} action colour");
+        assert!(landing.contains(&format!("data-pick=\"{theme}\"")), "{theme} should be pickable");
     }
+    assert!(landing.contains("id=\"home-screen\""));
+    assert!(landing.contains("data-demo=\"settle-up\""));
+    assert!(landing.contains("data-receipt-action=\"read\""));
+    assert!(landing.contains("Read on this iPhone. Nothing is uploaded."));
+    assert!(landing.contains("Justa on both iPhones"));
 
     let privacy = read(root, "justa/privacy/index.html");
     assert!(privacy.contains("Privacy Policy — Justa"));
