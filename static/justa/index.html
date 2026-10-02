@@ -182,7 +182,7 @@
     .step-shot::before { content: ""; position: absolute; inset: 8% 10%; background: var(--tint); border-radius: 44px; transform: rotate(-3deg); }
     .step:nth-child(even) .step-shot::before { transform: rotate(3deg); background: #FDE7DC; }
     .step-shot .device { transform: none; }
-    .try-hint { position: absolute; z-index: 3; top: 30%; right: 2%; background: var(--orange); color: #fff; font-size: 0.85rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 99px; transform: rotate(6deg); box-shadow: 0 12px 24px -12px rgba(212,102,58,0.8); }
+    .try-hint { position: absolute; z-index: 3; top: 30%; right: 2%; background: var(--orange); color: #fff; font: inherit; font-size: 0.85rem; font-weight: 600; padding: 0.4rem 0.8rem; border: 0; border-radius: 99px; transform: rotate(6deg); box-shadow: 0 12px 24px -12px rgba(212,102,58,0.8); cursor: pointer; }
 
     /* Split calculator */
     .calc { background: var(--surface); border-radius: 28px; border: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
@@ -876,7 +876,7 @@
             </ul>
           </div>
           <div class="step-shot">
-            <span class="try-hint" aria-hidden="true"><span class="en">Try Scan receipt</span><span class="pt" lang="pt-PT">Experimente Ler fatura</span></span>
+            <button class="try-hint" type="button" data-receipt-action="open" aria-controls="receipt-sheet" aria-haspopup="dialog"><span class="en">Try Scan receipt</span><span class="pt" lang="pt-PT">Experimente Ler fatura</span></button>
             <div class="device">
               <div class="screen" data-theme="azulejo" id="expense-screen" data-receipt="closed">
                 <div class="island" aria-hidden="true"></div>
@@ -1668,7 +1668,7 @@
       }
     };
 
-    expenseScreen.addEventListener("click", handleReceiptAction);
+    expenseScreen.closest(".step-shot").addEventListener("click", handleReceiptAction);
     expenseScreen.addEventListener("keydown", handleReceiptKeydown);
 
     /* Little moments. */
