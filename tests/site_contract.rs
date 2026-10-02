@@ -411,6 +411,11 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(landing.contains("id=\"home-screen\""));
     assert!(landing.contains("data-demo=\"settle-up\""));
     assert!(landing.contains("data-receipt-action=\"read\""));
+    assert!(landing.contains(
+        "<button class=\"try-hint\" type=\"button\" data-receipt-action=\"open\""
+    ));
+    assert!(landing.contains("Experimente Ler fatura"));
+    assert!(!landing.contains("class=\"try-hint\" aria-hidden=\"true\""));
     assert!(landing.contains("Read on this iPhone. Nothing is uploaded."));
     assert!(landing.contains("Justa on both iPhones"));
     assert!(landing.contains("data-set-lang=\"pt\""));
