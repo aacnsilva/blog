@@ -318,29 +318,67 @@
     footer a { text-decoration: none; }
     footer a:hover { color: var(--cobalt); }
 
-    .ask-card {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 2rem;
-      text-decoration: none;
+    #ask[data-lang="pt"] .en { display: none !important; }
+    #ask[data-lang="en"] .pt { display: none !important; }
+    .ask-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 2.5rem;
+      align-items: center;
       background: var(--surface);
-      color: var(--text);
       border: 1px solid var(--line);
       border-radius: 40px;
       padding: 3.2rem 3.6rem;
     }
-    .ask-card:hover { border-color: var(--cobalt); }
-    .ask-card p { color: var(--soft); font-size: 1.12rem; max-width: 48ch; margin: 1rem 0 0; }
-    .ask-go {
-      flex: none;
+    .ask-kicker { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .ask-panel h2 { font-size: clamp(2.2rem, 4vw, 3.2rem); max-width: 16ch; }
+    .ask-panel .lede, .ask-panel .scope { margin: 1rem 0 0; color: var(--soft); }
+    .ask-panel .scope { font-size: 1rem; max-width: 48ch; }
+    .ask-examples { list-style: none; padding: 0; margin: 1.1rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .ask-examples li {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.92rem;
+    }
+    #ask .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 99px; overflow: hidden; background: var(--bg); }
+    #ask .lang button {
+      border: 0;
+      background: transparent;
+      color: var(--soft);
+      font: 600 0.75rem var(--sans);
+      letter-spacing: 0.06em;
+      padding: 0.4rem 0.75rem;
+      cursor: pointer;
+    }
+    #ask .lang button[aria-pressed="true"] { background: var(--text); color: var(--surface); }
+    .ask-box { background: var(--bg); border-radius: 24px; padding: 1.3rem; display: grid; gap: 0.85rem; }
+    .ask-box fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 0.7rem; }
+    .ask-box label { font-weight: 600; font-size: 0.95rem; }
+    .ask-box textarea {
+      width: 100%;
+      min-height: 8.5rem;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem 1.05rem;
+      font: inherit;
+      color: var(--text);
+      background: var(--surface);
+    }
+    .ask-box button {
+      justify-self: start;
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1.25rem;
       background: var(--text);
       color: #fff;
-      border-radius: 999px;
-      padding: 0.8rem 1.25rem;
-      font-weight: 600;
+      font: 600 1rem var(--sans);
     }
-    .ask-card:hover .ask-go { background: var(--cobalt); }
+    .ask-box fieldset:disabled textarea,
+    .ask-box fieldset:disabled button { opacity: 0.55; cursor: not-allowed; }
+    .ask-note { margin: 0; color: var(--soft); font-size: 0.92rem; }
 
     #confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 60; }
 
@@ -554,7 +592,7 @@
       .step:nth-child(even) .step-shot { order: 0; }
       .facts { grid-template-columns: 1fr 1fr; }
       .privacy { padding: 3.5rem 1.6rem; border-radius: 28px; }
-      .ask-card { flex-direction: column; align-items: flex-start; padding: 2.2rem 1.6rem; border-radius: 28px; }
+      .ask-panel { grid-template-columns: 1fr; padding: 2.2rem 1.6rem; border-radius: 28px; }
       .glance-phones .device { --zoom: 0.5; }
     }
     @media (max-width: 520px) {
@@ -637,7 +675,7 @@
         <li><a href="#month">How it works</a></li>
         <li><a href="#split">The split</a></li>
         <li><a href="#themes">Themes</a></li>
-        <li><a href="./ask/">Ask</a></li>
+        <li><a href="#ask">Ask</a></li>
         <li><a href="#privacy">Privacy</a></li>
         <li><a href="#pricing">Pricing</a></li>
       </ul>
@@ -1232,15 +1270,43 @@
       </div>
     </section>
 
-    <section class="wrap" id="ask" aria-labelledby="ask-title">
-      <a class="ask-card" href="./ask/">
+    <section class="wrap" id="ask" data-lang="en" aria-labelledby="ask-title">
+      <div class="ask-panel">
         <div>
-          <span class="eyebrow">Coming soon</span>
-          <h2 id="ask-title">Questions about Justa, <em>answered plainly.</em></h2>
-          <p>Justa Ask is on the way. Plain answers on plans, what is free, the Justa Plus vault, how data is stored, privacy, and sharing a household, so you can decide to try it or buy. Not for support tickets, code, or your household book. Nothing is sent today.</p>
+          <div class="ask-kicker">
+            <span class="eyebrow"><span class="en">Coming soon</span><span class="pt">Em breve</span></span>
+            <div class="lang" role="group" aria-label="Language">
+              <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+              <button type="button" data-set-lang="pt" aria-pressed="false">PT</button>
+            </div>
+          </div>
+          <h2 id="ask-title"><span class="en">Questions about Justa, <em>answered plainly.</em></span><span class="pt" lang="pt-PT">Perguntas sobre a Justa, <em>em palavras simples.</em></span></h2>
+          <p class="lede en">Justa Ask is not open yet. When it arrives, it answers in plain words about the app, so you can decide to try it or buy.</p>
+          <p class="lede pt" lang="pt-PT">O Ask da Justa ainda não está aberto. Quando chegar, responde em palavras simples sobre a app, para decidir se quer experimentar ou comprar.</p>
+          <p class="scope en">Plans, what is free, what the Justa Plus vault adds, how data is stored, privacy, and sharing a household. Not for support tickets, code, or the numbers in your household book.</p>
+          <p class="scope pt" lang="pt-PT">Planos, o que é grátis, o que a pasta do cofre da Justa Plus acrescenta, como os dados ficam guardados, privacidade e partilhar uma casa. Não é para pedidos de apoio, nem para programação, nem para os valores do livro da casa.</p>
+          <p class="ask-note en">Questions it will answer</p>
+          <p class="ask-note pt" lang="pt-PT">Perguntas a que vai responder</p>
+          <ul class="ask-examples">
+            <li><span class="en">What is free, and what does Justa Plus add?</span><span class="pt" lang="pt-PT">O que é grátis e o que acrescenta a Justa Plus?</span></li>
+            <li><span class="en">Is the Justa Plus vault a subscription?</span><span class="pt" lang="pt-PT">A pasta do cofre da Justa Plus é uma subscrição?</span></li>
+            <li><span class="en">Where is the household stored?</span><span class="pt" lang="pt-PT">Onde fica guardada a casa?</span></li>
+            <li><span class="en">How do two iPhones share a household?</span><span class="pt" lang="pt-PT">Como é que dois iPhones partilham uma casa?</span></li>
+            <li><span class="en">What stays on my iPhone?</span><span class="pt" lang="pt-PT">O que fica no meu iPhone?</span></li>
+          </ul>
         </div>
-        <span class="ask-go">See Ask</span>
-      </a>
+        <div class="ask-box">
+          <fieldset disabled>
+            <legend class="sr-only"><span class="en">Coming soon. Questions are not sent.</span><span class="pt">Em breve. As perguntas não são enviadas.</span></legend>
+            <label for="ask-question"><span class="en">Your question</span><span class="pt">A sua pergunta</span></label>
+            <textarea id="ask-question" name="question" rows="4" placeholder="Is the Justa Plus vault a subscription?"></textarea>
+            <button type="button"><span class="en">Ask</span><span class="pt">Perguntar</span></button>
+          </fieldset>
+          <p class="ask-note en">The box is closed on purpose. Nothing you would type is sent, and there is no account to create.</p>
+          <p class="ask-note pt" lang="pt-PT">A caixa está fechada de propósito. Nada do que escreveria é enviado, e não há conta para criar.</p>
+          <p class="ask-note"><span class="en">About the app · Not your book · Nothing sent today</span><span class="pt" lang="pt-PT">Sobre a app · Não o seu livro · Nada enviado hoje</span></p>
+        </div>
+      </div>
     </section>
 
     <section class="wrap" id="privacy" aria-labelledby="privacy-title">
@@ -1329,7 +1395,7 @@
     <footer class="wrap">
       <img src="wordmark.png" alt="justa" width="59" height="30" />
       <nav aria-label="Footer">
-        <a href="./ask/">Ask</a>
+        <a href="#ask">Ask</a>
         <a href="./privacy/">Privacy</a>
         <a href="mailto:aacnsilva@hotmail.com">Support</a>
         <span>Made with care in Lisbon · © Justa</span>
@@ -1661,6 +1727,30 @@
     [incomeA, incomeB, plan].forEach((input) => input.addEventListener("input", renderSplit));
     ruleButtons.forEach((button) => button.addEventListener("click", handleRuleClick));
     renderSplit();
+
+    const askSection = byId("ask");
+    const askQuestion = byId("ask-question");
+    const askLangButtons = askSection.querySelectorAll("[data-set-lang]");
+    const askPlaceholders = {
+      en: "Is the Justa Plus vault a subscription?",
+      pt: "A pasta do cofre da Justa Plus é uma subscrição?"
+    };
+
+    const setAskLang = (lang) => {
+      askSection.setAttribute("data-lang", lang);
+      askQuestion.placeholder = askPlaceholders[lang];
+      askLangButtons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.setLang === lang));
+      });
+      try { localStorage.setItem("justa-lang", lang); } catch (error) { /* private mode */ }
+    };
+
+    const handleAskLangClick = (event) => setAskLang(event.currentTarget.dataset.setLang);
+    askLangButtons.forEach((button) => button.addEventListener("click", handleAskLangClick));
+
+    let savedAskLang = null;
+    try { savedAskLang = localStorage.getItem("justa-lang"); } catch (error) { /* private mode */ }
+    if (savedAskLang === "pt" || savedAskLang === "en") setAskLang(savedAskLang);
   </script>
 </body>
 </html>
