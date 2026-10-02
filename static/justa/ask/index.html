@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ask — Justa</title>
-  <meta name="description" content="Justa Ask is coming soon. A plain-words question about the household, still on your iPhone. Nothing is sent today." />
+  <meta name="description" content="Justa Ask is coming soon. Plain answers about plans, what is free, the Justa Plus vault, privacy, and sharing a household. Nothing is sent today." />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="theme-color" content="#F4F7FC" />
   <meta property="og:title" content="Ask — Justa" />
-  <meta property="og:description" content="Justa Ask is coming soon. Nothing is sent today." />
+  <meta property="og:description" content="Justa Ask is coming soon. Plain answers about the app, so you can decide to try it or buy. Nothing is sent today." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://aacnsilva.com/justa/ask/" />
   <link rel="icon" href="../appicon.png" type="image/png" />
@@ -66,7 +66,19 @@
     .eyebrow { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cobalt); font-weight: 600; }
     h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(3rem, 6vw, 5rem); line-height: 0.98; letter-spacing: -0.02em; margin: 0.8rem 0 0; }
     h1 em { font-style: italic; color: var(--cobalt); }
-    .lede { font-size: 1.2rem; color: var(--soft); max-width: 42ch; margin: 1.4rem 0 0; }
+    .lede { font-size: 1.2rem; color: var(--soft); max-width: 46ch; margin: 1.4rem 0 0; }
+    .scope { color: var(--soft); max-width: 58ch; margin: 1.15rem 0 0; }
+    .examples-kicker { margin: 1.6rem 0 0; font-weight: 600; font-size: 0.95rem; }
+    .examples { list-style: none; padding: 0; margin: 0.7rem 0 0; display: grid; gap: 0.5rem; }
+    .examples li {
+      width: fit-content;
+      max-width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.4rem 0.95rem;
+      font-size: 0.95rem;
+    }
 
     .panel {
       background: var(--surface);
@@ -136,10 +148,21 @@
   <main class="wrap">
     <div class="head">
       <span class="eyebrow"><span class="en">Coming soon</span><span class="pt">Em breve</span></span>
-      <h1 class="en" lang="en">Ask the month <em>a question.</em></h1>
-      <h1 class="pt" lang="pt-PT">Pergunte ao mês <em>uma coisa.</em></h1>
-      <p class="lede en">Justa Ask is not in the app yet. When it arrives, you will ask in plain words about this household, and the book stays on your iPhone.</p>
-      <p class="lede pt" lang="pt-PT">O Ask da Justa ainda não está na app. Quando chegar, pergunta em palavras simples sobre esta casa, e o livro fica no iPhone.</p>
+      <h1 class="en" lang="en">Questions about Justa, <em>answered plainly.</em></h1>
+      <h1 class="pt" lang="pt-PT">Perguntas sobre a Justa, <em>em palavras simples.</em></h1>
+      <p class="lede en">Justa Ask is not open yet. When it arrives, it answers in plain words about the app, so you can decide to try it or buy.</p>
+      <p class="lede pt" lang="pt-PT">O Ask da Justa ainda não está aberto. Quando chegar, responde em palavras simples sobre a app, para decidir se quer experimentar ou comprar.</p>
+      <p class="scope en">Plans, what is free, what the Justa Plus vault adds, how data is stored, privacy, and sharing a household. Not for support tickets, code, or the numbers in your household book.</p>
+      <p class="scope pt" lang="pt-PT">Planos, o que é grátis, o que a pasta do cofre da Justa Plus acrescenta, como os dados ficam guardados, privacidade e partilhar uma casa. Não é para pedidos de apoio, nem para programação, nem para os valores do livro da casa.</p>
+      <p class="examples-kicker en">Questions it will answer</p>
+      <p class="examples-kicker pt" lang="pt-PT">Perguntas a que vai responder</p>
+      <ul class="examples">
+        <li><span class="en">What is free, and what does Justa Plus add?</span><span class="pt" lang="pt-PT">O que é grátis e o que acrescenta a Justa Plus?</span></li>
+        <li><span class="en">Is the Justa Plus vault a subscription?</span><span class="pt" lang="pt-PT">A pasta do cofre da Justa Plus é uma subscrição?</span></li>
+        <li><span class="en">Where is the household stored?</span><span class="pt" lang="pt-PT">Onde fica guardada a casa?</span></li>
+        <li><span class="en">How do two iPhones share a household?</span><span class="pt" lang="pt-PT">Como é que dois iPhones partilham uma casa?</span></li>
+        <li><span class="en">What stays on my iPhone?</span><span class="pt" lang="pt-PT">O que fica no meu iPhone?</span></li>
+      </ul>
     </div>
 
     <section class="panel" aria-labelledby="ask-panel-title">
@@ -147,15 +170,15 @@
       <fieldset disabled>
         <legend class="sr-only"><span class="en">Coming soon. Questions are not sent.</span><span class="pt">Em breve. As perguntas não são enviadas.</span></legend>
         <label for="ask-question"><span class="en">Your question</span><span class="pt">A sua pergunta</span></label>
-        <textarea id="ask-question" name="question" rows="4" placeholder="How much did we spend on groceries?"></textarea>
+        <textarea id="ask-question" name="question" rows="4" placeholder="Is the Justa Plus vault a subscription?"></textarea>
         <button class="ask" type="button"><span class="en">Ask</span><span class="pt">Perguntar</span></button>
       </fieldset>
       <p class="note en">Coming soon. The box is closed on purpose. Nothing you would type is sent, and there is no account to create.</p>
       <p class="note pt" lang="pt-PT">Em breve. A caixa está fechada de propósito. Nada do que escreveria é enviado, e não há conta para criar.</p>
       <div class="facts">
-        <span><span class="en">No account</span><span class="pt">Sem conta</span></span>
-        <span><span class="en">No server</span><span class="pt">Sem servidor</span></span>
-        <span><span class="en">Not available yet</span><span class="pt">Ainda não disponível</span></span>
+        <span><span class="en">About the app</span><span class="pt">Sobre a app</span></span>
+        <span><span class="en">Not your book</span><span class="pt">Não o seu livro</span></span>
+        <span><span class="en">Nothing sent today</span><span class="pt">Nada enviado hoje</span></span>
       </div>
     </section>
   </main>
@@ -175,8 +198,8 @@
     const question = document.getElementById("ask-question");
     const titles = { en: "Ask — Justa", pt: "Ask — Justa" };
     const placeholders = {
-      en: "How much did we spend on groceries?",
-      pt: "Quanto gastámos em mercearia?"
+      en: "Is the Justa Plus vault a subscription?",
+      pt: "A pasta do cofre da Justa Plus é uma subscrição?"
     };
 
     const setLang = (lang) => {

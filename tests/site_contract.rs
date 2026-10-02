@@ -380,7 +380,10 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(landing.contains("href=\"./privacy/\""));
     assert!(landing.contains("href=\"./ask/\">Ask</a>"));
     assert!(landing.contains("class=\"ask-card\" href=\"./ask/\""));
-    assert!(landing.contains("Ask the month"));
+    assert!(landing.contains("Questions about Justa"));
+    assert!(landing.contains("Justa Plus vault"));
+    assert!(landing.contains("Not for support tickets, code, or your household book."));
+    assert!(!landing.contains("Ask the month"));
     assert!(landing.contains("id=\"income-a\""));
     assert!(!landing.contains("Joora"));
     assert!(!landing.contains("hero-composite"));
@@ -427,8 +430,13 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(ask.contains("<title>Ask — Justa</title>"));
     assert!(ask.contains("Coming soon"));
     assert!(ask.contains("Em breve"));
-    assert!(ask.contains("Pergunte ao mês"));
+    assert!(ask.contains("Perguntas sobre a Justa"));
+    assert!(ask.contains("pasta do cofre da Justa Plus"));
+    assert!(ask.contains("Não é para pedidos de apoio, nem para programação, nem para os valores do livro da casa."));
     assert!(ask.contains("<fieldset disabled>"));
+    assert!(!ask.contains("Pergunte ao mês"));
+    assert!(!ask.contains("groceries"));
+    assert!(!ask.contains("mercearia"));
     assert!(!ask.contains("anthropic"));
     assert!(!ask.contains("claude"));
     assert!(!ask.contains("haiku"));
