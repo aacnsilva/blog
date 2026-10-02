@@ -76,11 +76,25 @@
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
     /* Nav */
-    .nav { display: flex; align-items: center; justify-content: space-between; padding: 1.4rem 0; position: relative; z-index: 5; }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.4rem 0; position: relative; z-index: 5; }
     .nav img { height: 44px; width: auto; display: block; }
-    .nav ul { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; font-size: 0.95rem; }
+    .nav nav { display: flex; align-items: center; gap: 1.15rem; }
+    .nav ul { display: flex; gap: 1.35rem; list-style: none; margin: 0; padding: 0; font-size: 0.95rem; }
     .nav ul a { text-decoration: none; color: var(--text); }
     .nav ul a:hover { color: var(--cobalt); }
+    [data-lang="pt"] .en { display: none !important; }
+    [data-lang="en"] .pt { display: none !important; }
+    .lang { display: inline-flex; border: 1px solid var(--line); border-radius: 99px; overflow: hidden; background: var(--surface); flex: none; }
+    .lang button {
+      border: 0;
+      background: transparent;
+      color: var(--soft);
+      font: 600 0.75rem var(--sans);
+      letter-spacing: 0.06em;
+      padding: 0.4rem 0.75rem;
+      cursor: pointer;
+    }
+    .lang button[aria-pressed="true"] { background: var(--text); color: var(--surface); }
 
     /* Type */
     .eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cobalt); font-weight: 600; }
@@ -404,6 +418,7 @@
     .av-row { display: flex; align-items: center; gap: 8px; }
     .av-row .i { color: var(--muted); font-size: 14px; stroke-width: 3; }
     .btn { height: 50px; border-radius: 14px; border: 0; width: 100%; font-size: 17px; font-weight: 600; display: grid; place-items: center; cursor: pointer; }
+    .hstack > .btn { min-width: 0; height: auto; min-height: 50px; padding: 8px 10px; font-size: 15px; line-height: 1.15; text-align: center; }
     .btn.fill { background: var(--fill); color: var(--on-fill); }
     .btn.line { background: transparent; color: var(--pine); box-shadow: inset 0 0 0 1.5px var(--pine); }
     .btn:active { opacity: 0.85; }
@@ -580,7 +595,7 @@
     }
   </style>
 </head>
-<body>
+<body data-lang="en">
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
     <symbol id="i-chev-l" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
@@ -634,33 +649,38 @@
     <a href="./" aria-label="Justa home"><img src="wordmark.png" alt="justa" width="86" height="44" /></a>
     <nav aria-label="Primary">
       <ul>
-        <li><a href="#month">How it works</a></li>
-        <li><a href="#split">The split</a></li>
-        <li><a href="#themes">Themes</a></li>
+        <li><a href="#month"><span class="en">How it works</span><span class="pt" lang="pt-PT">Como funciona</span></a></li>
+        <li><a href="#split"><span class="en">The split</span><span class="pt" lang="pt-PT">A divisão</span></a></li>
+        <li><a href="#themes"><span class="en">Themes</span><span class="pt" lang="pt-PT">Temas</span></a></li>
         <li><a href="./ask/">Ask</a></li>
-        <li><a href="#privacy">Privacy</a></li>
-        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#privacy"><span class="en">Privacy</span><span class="pt" lang="pt-PT">Privacidade</span></a></li>
+        <li><a href="#pricing"><span class="en">Pricing</span><span class="pt" lang="pt-PT">Preço</span></a></li>
       </ul>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-set-lang="pt" aria-pressed="false">PT</button>
+      </div>
     </nav>
   </header>
 
   <main>
     <section class="wrap hero" aria-labelledby="hero-title">
       <div>
-        <span class="eyebrow">A household money app for iPhone</span>
-        <h1 id="hero-title">Household money, <em>without the dread.</em></h1>
-        <p class="lede">Plan the month, log the extras, and settle up in one warm, calm place. Justa splits the plan fairly by income, tells you how the month feels, and throws confetti when you’re all square.</p>
+        <span class="eyebrow"><span class="en">A household money app for iPhone</span><span class="pt" lang="pt-PT">Uma app de dinheiro da casa para iPhone</span></span>
+        <h1 id="hero-title"><span class="en">Household money, <em>without the dread.</em></span><span class="pt" lang="pt-PT">O dinheiro da casa, <em>sem o aperto.</em></span></h1>
+        <p class="lede en">Plan the month, log the extras, and settle up in one warm, calm place. Justa splits the plan fairly by income, tells you how the month feels, and throws confetti when you’re all square.</p>
+        <p class="lede pt" lang="pt-PT">Planeie o mês, registe as extras e ajuste contas num sítio calmo e acolhedor. A Justa divide o plano de forma justa pelo rendimento, diz como o mês se sente e solta confetes quando ficam quites.</p>
         <div class="cta-row">
           <button class="store" type="button" aria-disabled="true" aria-label="Download on the App Store — coming soon">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.64c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.77-3.32-1.8-1.41-.14-2.76.83-3.47.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.76 2.27-1.6 2.78-.41 6.9 1.15 9.16.77 1.1 1.68 2.34 2.87 2.3 1.15-.05 1.59-.75 2.98-.75 1.39 0 1.78.75 3 .72 1.24-.02 2.02-1.12 2.78-2.23.87-1.28 1.23-2.52 1.25-2.58-.03-.01-2.4-.92-2.44-3.67zM14.1 5.9c.63-.77 1.06-1.84.94-2.9-.91.04-2.02.61-2.67 1.37-.58.67-1.1 1.77-.96 2.81 1.02.08 2.06-.52 2.69-1.28z"/></svg>
-            <span><small>Coming soon to the</small><strong>App Store</strong></span>
+            <span><small><span class="en">Coming soon to the</span><span class="pt" lang="pt-PT">Em breve na</span></small><strong>App Store</strong></span>
           </button>
-          <span class="cta-note">Free · iPhone · iOS 17+</span>
+          <span class="cta-note"><span class="en">Free · iPhone · iOS 17+</span><span class="pt" lang="pt-PT">Grátis · iPhone · iOS 17+</span></span>
         </div>
         <div class="trust">
-          <span><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>No account</span>
-          <span><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>No server</span>
-          <span><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Data not collected</span>
+          <span><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">No account</span><span class="pt" lang="pt-PT">Sem conta</span></span>
+          <span><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">No server</span><span class="pt" lang="pt-PT">Sem servidor</span></span>
+          <span><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Data not collected</span><span class="pt" lang="pt-PT">Dados não recolhidos</span></span>
         </div>
       </div>
 
@@ -675,58 +695,58 @@
               <span class="switch">Casa Norte <svg class="i"><use href="#i-chev-d"/></svg></span>
               <span class="glass"><svg class="i"><use href="#i-plus"/></svg></span>
             </div>
-            <div class="pager" aria-hidden="true"><svg class="i"><use href="#i-chev-l"/></svg><b>September 2026 <svg class="i"><use href="#i-chev-d"/></svg></b><svg class="i"><use href="#i-chev-r"/></svg></div>
+            <div class="pager" aria-hidden="true"><svg class="i"><use href="#i-chev-l"/></svg><b><span class="en">September 2026</span><span class="pt" lang="pt-PT">Setembro 2026</span> <svg class="i"><use href="#i-chev-d"/></svg></b><svg class="i"><use href="#i-chev-r"/></svg></div>
             <div class="body">
               <div class="card stack" id="demo-balance" data-state="open" aria-live="polite">
                 <div class="state state-open stack gap-14">
                   <div class="stack gap-8">
                     <div class="av-row" aria-hidden="true"><span class="av ines">I</span><svg class="i"><use href="#i-arrow-r"/></svg><span class="av tiago">T</span></div>
-                    <span class="headline">Inês owes Tiago</span>
+                    <span class="headline"><span class="en">Inês owes Tiago</span><span class="pt" lang="pt-PT">A Inês deve ao Tiago</span></span>
                     <span class="serif hero-44 tnum">€7,91</span>
                   </div>
-                  <span class="sub muted">From 6 open extras this month</span>
-                  <button class="btn fill" type="button" data-demo="settle-up">Settle up</button>
+                  <span class="sub muted"><span class="en">From 6 open extras this month</span><span class="pt" lang="pt-PT">De 6 extras em aberto este mês</span></span>
+                  <button class="btn fill" type="button" data-demo="settle-up"><span class="en">Settle up</span><span class="pt" lang="pt-PT">Ajustar</span></button>
                 </div>
                 <div class="state state-awaiting stack gap-14">
-                  <span class="hstack sub muted"><span class="dot" aria-hidden="true"></span>Extras closed 27 Sep · waiting for the transfer</span>
+                  <span class="hstack sub muted"><span class="dot" aria-hidden="true"></span><span class="en">Extras closed 27 Sep · waiting for the transfer</span><span class="pt" lang="pt-PT">Extras fechadas a 27 set · à espera da transferência</span></span>
                   <div class="stack gap-8">
                     <div class="av-row" aria-hidden="true"><span class="av ines">I</span><svg class="i"><use href="#i-arrow-r"/></svg><span class="av tiago">T</span></div>
-                    <span class="headline">Inês sends Tiago</span>
+                    <span class="headline"><span class="en">Inês sends Tiago</span><span class="pt" lang="pt-PT">A Inês envia ao Tiago</span></span>
                     <span class="serif hero-44 tnum">€7,91</span>
                   </div>
                   <div class="hstack" style="gap:10px">
-                    <button class="btn fill" type="button" data-demo="mark-sent">Inês sent it</button>
-                    <button class="btn line" type="button" data-demo="send-request">Send request</button>
+                    <button class="btn fill" type="button" data-demo="mark-sent"><span class="en">Inês sent it</span><span class="pt" lang="pt-PT">A Inês enviou</span></button>
+                    <button class="btn line" type="button" data-demo="send-request"><span class="en">Send request</span><span class="pt" lang="pt-PT">Enviar pedido</span></button>
                   </div>
                 </div>
                 <div class="state state-square stack gap-8">
                   <div class="between">
-                    <span class="hstack square-badge" style="gap:10px"><svg class="i" id="square-check" aria-hidden="true"><use href="#i-check-fill"/></svg><span class="serif" style="font-size:22px">All square</span></span>
-                    <span class="sub strong pine">Details</span>
+                    <span class="hstack square-badge" style="gap:10px"><svg class="i" id="square-check" aria-hidden="true"><use href="#i-check-fill"/></svg><span class="serif" style="font-size:22px"><span class="en">All square</span><span class="pt" lang="pt-PT">Quites</span></span></span>
+                    <span class="sub strong pine"><span class="en">Details</span><span class="pt" lang="pt-PT">Detalhe</span></span>
                   </div>
-                  <span class="sub muted">Inês sent Tiago €7,91 on 27 Sep</span>
+                  <span class="sub muted"><span class="en">Inês sent Tiago €7,91 on 27 Sep</span><span class="pt" lang="pt-PT">A Inês enviou €7,91 ao Tiago a 27 set</span></span>
                 </div>
               </div>
 
               <div class="card glow stack gap-18 tone-good" aria-hidden="true" style="--tone: var(--moss)">
                 <div class="stack gap-12">
-                  <div class="between"><span class="headline">September plan</span><svg class="i muted" style="font-size:13px;stroke-width:3"><use href="#i-chev-r"/></svg></div>
+                  <div class="between"><span class="headline"><span class="en">September plan</span><span class="pt" lang="pt-PT">Plano de setembro</span></span><svg class="i muted" style="font-size:13px;stroke-width:3"><use href="#i-chev-r"/></svg></div>
                   <div class="stack" style="gap:2px">
                     <span class="serif hero-34 tnum" style="color: var(--moss)">€2 749,01</span>
-                    <span class="sub muted">left of the €4 000 coming in</span>
+                    <span class="sub muted"><span class="en">left of the €4 000 coming in</span><span class="pt" lang="pt-PT">que sobram dos €4 000 que entram</span></span>
                   </div>
-                  <span class="mood" style="--tone: var(--moss)"><svg class="i"><use href="#i-sun"/></svg>Plenty of breathing room</span>
+                  <span class="mood" style="--tone: var(--moss)"><svg class="i"><use href="#i-sun"/></svg><span class="en">Plenty of breathing room</span><span class="pt" lang="pt-PT">Margem de sobra</span></span>
                 </div>
                 <div class="stack gap-12">
                   <div class="seg"><span style="--v:822.99;--c:var(--ink)"></span><span style="--v:428;--c:color-mix(in srgb, var(--ink) 40%, transparent)"></span><span style="--v:2749.01;--c:var(--moss)"></span></div>
                   <div class="legend">
-                    <div><span class="k"><i style="--c:var(--ink)"></i>Fixed</span><b>€822,99</b></div>
-                    <div><span class="k"><i style="--c:color-mix(in srgb, var(--ink) 40%, transparent)"></i>Estimate</span><b>€428</b></div>
-                    <div><span class="k"><i style="--c:var(--moss)"></i>Left</span><b>€2 749,01</b></div>
+                    <div><span class="k"><i style="--c:var(--ink)"></i><span class="en">Fixed</span><span class="pt" lang="pt-PT">Fixo</span></span><b>€822,99</b></div>
+                    <div><span class="k"><i style="--c:color-mix(in srgb, var(--ink) 40%, transparent)"></i><span class="en">Estimate</span><span class="pt" lang="pt-PT">Estimativa</span></span><b>€428</b></div>
+                    <div><span class="k"><i style="--c:var(--moss)"></i><span class="en">Left</span><span class="pt" lang="pt-PT">Sobra</span></span><b>€2 749,01</b></div>
                   </div>
                 </div>
                 <div class="stack gap-10">
-                  <span class="section-label">Who covers it</span>
+                  <span class="section-label"><span class="en">Who covers it</span><span class="pt" lang="pt-PT">Quem cobre</span></span>
                   <div class="seg"><span style="--v:55;--c:#E04B3C"></span><span style="--v:45;--c:#C98900"></span></div>
                   <div class="between">
                     <div class="hstack"><span class="av ines" style="--s:30px">I</span><div class="stack"><span class="cap strong">Inês 55%</span><span class="cap muted tnum">€688,04</span></div></div>
@@ -736,79 +756,84 @@
               </div>
 
               <div class="stack" aria-hidden="true">
-                <div class="between"><span class="headline" style="font-size:20px">Extras</span><span class="sub strong pine">See all</span></div>
-                <div class="row"><span class="cat subs"><svg class="i"><use href="#i-repeat"/></svg></span><div><div class="t">Streaming</div><div class="d">Inês · 15 Sep</div></div><span class="amt">€9,99</span></div>
-                <div class="row"><span class="cat health"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t">Pharmacy</div><div class="d">Tiago · 13 Sep</div></div><span class="amt">€12,80</span></div>
+                <div class="between"><span class="headline" style="font-size:20px">Extras</span><span class="sub strong pine"><span class="en">See all</span><span class="pt" lang="pt-PT">Ver tudo</span></span></div>
+                <div class="row"><span class="cat subs"><svg class="i"><use href="#i-repeat"/></svg></span><div><div class="t">Streaming</div><div class="d"><span class="en">Inês · 15 Sep</span><span class="pt" lang="pt-PT">Inês · 15 set</span></div></div><span class="amt">€9,99</span></div>
+                <div class="row"><span class="cat health"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t"><span class="en">Pharmacy</span><span class="pt" lang="pt-PT">Farmácia</span></div><div class="d"><span class="en">Tiago · 13 Sep</span><span class="pt" lang="pt-PT">Tiago · 13 set</span></div></div><span class="amt">€12,80</span></div>
               </div>
             </div>
             <div class="fade-bottom" aria-hidden="true"></div>
             <nav class="tabs" aria-hidden="true">
-              <span class="tab on"><svg class="i"><use href="#i-calendar"/></svg>Month</span>
-              <span class="tab"><svg class="i"><use href="#i-list"/></svg>Extras</span>
-              <span class="tab"><svg class="i"><use href="#i-chart"/></svg>Insights</span>
-              <span class="tab"><svg class="i"><use href="#i-home"/></svg>Household</span>
+              <span class="tab on"><svg class="i"><use href="#i-calendar"/></svg><span class="en">Month</span><span class="pt" lang="pt-PT">Mês</span></span>
+              <span class="tab"><svg class="i"><use href="#i-list"/></svg><span class="en">Extras</span><span class="pt" lang="pt-PT">Extras</span></span>
+              <span class="tab"><svg class="i"><use href="#i-chart"/></svg><span class="en">Insights</span><span class="pt" lang="pt-PT">Resumo</span></span>
+              <span class="tab"><svg class="i"><use href="#i-home"/></svg><span class="en">Household</span><span class="pt" lang="pt-PT">Casa</span></span>
             </nav>
           </div>
         </div>
 
-        <span class="sticker mood" aria-hidden="true"><svg class="i"><use href="#i-sun"/></svg>Plenty of breathing room</span>
-        <span class="sticker lock" aria-hidden="true"><svg class="i"><use href="#i-lock"/></svg>Kept on this iPhone</span>
-        <div class="bubble" id="request-bubble" role="status">Justa: Inês sends Tiago €7,91 for September’s extras.</div>
-        <p class="demo-caption" id="demo-caption"><svg class="i" aria-hidden="true"><use href="#i-heart"/></svg><span id="demo-hint">Tap <b>Settle up</b>. Go on.</span><button class="text-button" type="button" id="demo-reset" hidden>Start the month again</button></p>
+        <span class="sticker mood" aria-hidden="true"><svg class="i"><use href="#i-sun"/></svg><span class="en">Plenty of breathing room</span><span class="pt" lang="pt-PT">Margem de sobra</span></span>
+        <span class="sticker lock" aria-hidden="true"><svg class="i"><use href="#i-lock"/></svg><span class="en">Kept on this iPhone</span><span class="pt" lang="pt-PT">Fica neste iPhone</span></span>
+        <div class="bubble" id="request-bubble" role="status"><span class="en">Justa: Inês sends Tiago €7,91 for September’s extras.</span><span class="pt" lang="pt-PT">Justa: a Inês envia €7,91 ao Tiago pelas extras de setembro.</span></div>
+        <p class="demo-caption" id="demo-caption"><svg class="i" aria-hidden="true"><use href="#i-heart"/></svg><span id="demo-hint">Tap <b>Settle up</b>. Go on.</span><button class="text-button" type="button" id="demo-reset" hidden><span class="en">Start the month again</span><span class="pt" lang="pt-PT">Recomeçar o mês</span></button></p>
       </div>
     </section>
 
     <div class="ribbon-wrap" aria-hidden="true">
     <div class="ribbon">
       <div class="ribbon-track">
-        <span>Plenty of breathing room <svg class="i"><use href="#i-flower"/></svg> All square <svg class="i"><use href="#i-flower"/></svg> Read on this iPhone. Nothing is uploaded. <svg class="i"><use href="#i-flower"/></svg> Everything in order <svg class="i"><use href="#i-flower"/></svg> Over €5 000 put aside <svg class="i"><use href="#i-flower"/></svg> Under by €2,90 <svg class="i"><use href="#i-flower"/></svg> Keep the one that makes you smile <svg class="i"><use href="#i-flower"/></svg></span>
-        <span>Plenty of breathing room <svg class="i"><use href="#i-flower"/></svg> All square <svg class="i"><use href="#i-flower"/></svg> Read on this iPhone. Nothing is uploaded. <svg class="i"><use href="#i-flower"/></svg> Everything in order <svg class="i"><use href="#i-flower"/></svg> Over €5 000 put aside <svg class="i"><use href="#i-flower"/></svg> Under by €2,90 <svg class="i"><use href="#i-flower"/></svg> Keep the one that makes you smile <svg class="i"><use href="#i-flower"/></svg></span>
+        <span class="en">Plenty of breathing room <svg class="i"><use href="#i-flower"/></svg> All square <svg class="i"><use href="#i-flower"/></svg> Read on this iPhone. Nothing is uploaded. <svg class="i"><use href="#i-flower"/></svg> Everything in order <svg class="i"><use href="#i-flower"/></svg> Over €5 000 put aside <svg class="i"><use href="#i-flower"/></svg> Under by €2,90 <svg class="i"><use href="#i-flower"/></svg> Keep the one that makes you smile <svg class="i"><use href="#i-flower"/></svg></span>
+        <span class="en">Plenty of breathing room <svg class="i"><use href="#i-flower"/></svg> All square <svg class="i"><use href="#i-flower"/></svg> Read on this iPhone. Nothing is uploaded. <svg class="i"><use href="#i-flower"/></svg> Everything in order <svg class="i"><use href="#i-flower"/></svg> Over €5 000 put aside <svg class="i"><use href="#i-flower"/></svg> Under by €2,90 <svg class="i"><use href="#i-flower"/></svg> Keep the one that makes you smile <svg class="i"><use href="#i-flower"/></svg></span>
+        <span class="pt" lang="pt-PT">Margem de sobra <svg class="i"><use href="#i-flower"/></svg> Quites <svg class="i"><use href="#i-flower"/></svg> Lida neste iPhone. Nada é enviado. <svg class="i"><use href="#i-flower"/></svg> Tudo em ordem <svg class="i"><use href="#i-flower"/></svg> Mais de €5 000 de lado <svg class="i"><use href="#i-flower"/></svg> €2,90 abaixo <svg class="i"><use href="#i-flower"/></svg> Fique com o que lhe fizer sorrir <svg class="i"><use href="#i-flower"/></svg></span>
+        <span class="pt" lang="pt-PT">Margem de sobra <svg class="i"><use href="#i-flower"/></svg> Quites <svg class="i"><use href="#i-flower"/></svg> Lida neste iPhone. Nada é enviado. <svg class="i"><use href="#i-flower"/></svg> Tudo em ordem <svg class="i"><use href="#i-flower"/></svg> Mais de €5 000 de lado <svg class="i"><use href="#i-flower"/></svg> €2,90 abaixo <svg class="i"><use href="#i-flower"/></svg> Fique com o que lhe fizer sorrir <svg class="i"><use href="#i-flower"/></svg></span>
       </div>
     </div>
     </div>
 
     <section class="wrap" id="month" aria-labelledby="month-title">
       <div class="section-head">
-        <span class="eyebrow">How a month works</span>
-        <h2 id="month-title">Plan it, log it, <em>settle it.</em></h2>
-        <p>Money talk is easier when the app does the arithmetic and keeps the mood light. Three small habits, one calm month.</p>
+        <span class="eyebrow"><span class="en">How a month works</span><span class="pt" lang="pt-PT">Como corre um mês</span></span>
+        <h2 id="month-title"><span class="en">Plan it, log it, <em>settle it.</em></span><span class="pt" lang="pt-PT">Planeie, registe, <em>ajuste.</em></span></h2>
+        <p class="en">Money talk is easier when the app does the arithmetic and keeps the mood light. Three small habits, one calm month.</p>
+        <p class="pt" lang="pt-PT">Falar de dinheiro é mais fácil quando a app faz as contas e mantém o tom leve. Três hábitos pequenos, um mês calmo.</p>
       </div>
       <div class="steps">
         <article class="step">
           <div>
-            <span class="step-num">01 — Plan</span>
-            <h3>Put the house in order, once.</h3>
-            <p>Add the people who share costs, their usual income, and the bills that repeat. Justa works out who covers what, and a little checklist cheers you through setup.</p>
+            <span class="step-num"><span class="en">01 — Plan</span><span class="pt" lang="pt-PT">01 — Plano</span></span>
+            <h3><span class="en">Put the house in order, once.</span><span class="pt" lang="pt-PT">Pôr a casa em ordem, uma vez.</span></h3>
+            <p class="en">Add the people who share costs, their usual income, and the bills that repeat. Justa works out who covers what, and a little checklist cheers you through setup.</p>
+            <p class="pt" lang="pt-PT">Junte as pessoas que partilham custos, o rendimento habitual e as contas que se repetem. A Justa calcula quem cobre o quê, e uma pequena lista acompanha a preparação.</p>
             <ul class="joys">
-              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Starter chips for rent, electricity, water, internet and groceries. Only the amounts are left.</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Split by income, or give someone a percent or a fixed amount.</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Change one month without touching the rest.</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">Starter chips for rent, electricity, water, internet and groceries. Only the amounts are left.</span><span class="pt" lang="pt-PT">Atalhos para renda, eletricidade, água, internet e mercearia. Só faltam os valores.</span></li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">Split by income, or give someone a percent or a fixed amount.</span><span class="pt" lang="pt-PT">Divida pelo rendimento, ou dê a alguém uma percentagem ou um valor fixo.</span></li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">Change one month without touching the rest.</span><span class="pt" lang="pt-PT">Mude um mês sem tocar nos outros.</span></li>
             </ul>
           </div>
           <div class="step-shot">
-            <div class="device" role="img" aria-label="Household screen: Casa Norte, everything in order, a €1 250,99 monthly plan covered 55% by Inês and 45% by Tiago.">
+            <div class="device" role="img" aria-labelledby="shot-household">
+              <span id="shot-household" class="sr-only"><span class="en">Household screen: Casa Norte, everything in order, a €1 250,99 monthly plan covered 55% by Inês and 45% by Tiago.</span><span class="pt" lang="pt-PT">Ecrã da casa: Casa Norte, tudo em ordem, um plano mensal de €1 250,99 coberto 55% pela Inês e 45% pelo Tiago.</span></span>
               <div class="screen" data-theme="azulejo" aria-hidden="true">
                 <div class="island"></div>
                 <div class="sb"><span>9:41</span><span class="sb-icons"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="2.2"/></svg></span></div>
-                <div class="nb"><span class="switch">Household</span><span class="glass"><svg class="i"><use href="#i-plus"/></svg></span></div>
+                <div class="nb"><span class="switch"><span class="en">Household</span><span class="pt" lang="pt-PT">Casa</span></span><span class="glass"><svg class="i"><use href="#i-plus"/></svg></span></div>
                 <div class="body">
                   <div class="card stack gap-14">
                     <div class="hstack" style="gap:14px">
                       <span class="crest"><svg class="i"><use href="#i-home"/></svg></span>
                       <div class="stack gap-4">
                         <span class="hstack serif" style="font-size:28px">Casa Norte <svg class="i pine" style="font-size:16px"><use href="#i-pencil"/></svg></span>
-                        <span class="foot muted">2 people · 5 monthly costs · EUR</span>
+                        <span class="foot muted"><span class="en">2 people · 5 monthly costs · EUR</span><span class="pt" lang="pt-PT">2 pessoas · 5 custos mensais · EUR</span></span>
                       </div>
                     </div>
                     <div class="between">
                       <span class="overlap"><span class="av ines" style="--s:34px">I</span><span class="av tiago" style="--s:34px">T</span></span>
-                      <span class="seal"><svg class="i"><use href="#i-seal"/></svg>Everything in order</span>
+                      <span class="seal"><svg class="i"><use href="#i-seal"/></svg><span class="en">Everything in order</span><span class="pt" lang="pt-PT">Tudo em ordem</span></span>
                     </div>
                   </div>
                   <div class="card stack gap-12">
-                    <span class="section-label">Monthly plan</span>
+                    <span class="section-label"><span class="en">Monthly plan</span><span class="pt" lang="pt-PT">Plano mensal</span></span>
                     <span class="serif hero-40 tnum">€1 250,99</span>
-                    <span class="sub strong" style="margin-top:4px">Who covers the plan</span>
+                    <span class="sub strong" style="margin-top:4px"><span class="en">Who covers the plan</span><span class="pt" lang="pt-PT">Quem cobre o plano</span></span>
                     <div class="seg"><span style="--v:55;--c:#E04B3C"></span><span style="--v:45;--c:#C98900"></span></div>
                     <div class="between">
                       <span class="hstack foot"><span class="av ines" style="--s:22px">I</span><b>Inês</b><span class="muted">55% · €688,04</span></span>
@@ -816,22 +841,22 @@
                     </div>
                   </div>
                   <div class="card stack" style="padding:10px 20px">
-                    <span class="section-label" style="padding:8px 0 4px">People and income</span>
-                    <div class="row"><span class="av ines" style="--s:38px">I</span><div><div class="t">Inês<span class="badge-iphone">This iPhone</span></div><div class="d">By income · 55%</div></div><span class="amt">€2 200</span></div>
-                    <div class="row"><span class="av tiago" style="--s:38px">T</span><div><div class="t">Tiago</div><div class="d">By income · 45%</div></div><span class="amt">€1 800</span></div>
+                    <span class="section-label" style="padding:8px 0 4px"><span class="en">People and income</span><span class="pt" lang="pt-PT">Pessoas e rendimento</span></span>
+                    <div class="row"><span class="av ines" style="--s:38px">I</span><div><div class="t">Inês<span class="badge-iphone"><span class="en">This iPhone</span><span class="pt" lang="pt-PT">Este iPhone</span></span></div><div class="d"><span class="en">By income · 55%</span><span class="pt" lang="pt-PT">Pelo rendimento · 55%</span></div></div><span class="amt">€2 200</span></div>
+                    <div class="row"><span class="av tiago" style="--s:38px">T</span><div><div class="t">Tiago</div><div class="d"><span class="en">By income · 45%</span><span class="pt" lang="pt-PT">Pelo rendimento · 45%</span></div></div><span class="amt">€1 800</span></div>
                   </div>
                   <div class="card stack" style="padding:10px 20px">
-                    <span class="section-label" style="padding:8px 0 4px">Monthly costs</span>
-                    <div class="row"><span class="cat rent"><svg class="i"><use href="#i-home"/></svg></span><div><div class="t">Rent</div><div class="d">Fixed</div></div><span class="amt">€790,00</span></div>
-                    <div class="row"><span class="cat groc"><svg class="i"><use href="#i-cart"/></svg></span><div><div class="t">Groceries</div><div class="d">Estimate</div></div><span class="amt">€290,00</span></div>
+                    <span class="section-label" style="padding:8px 0 4px"><span class="en">Monthly costs</span><span class="pt" lang="pt-PT">Custos mensais</span></span>
+                    <div class="row"><span class="cat rent"><svg class="i"><use href="#i-home"/></svg></span><div><div class="t"><span class="en">Rent</span><span class="pt" lang="pt-PT">Renda</span></div><div class="d"><span class="en">Fixed</span><span class="pt" lang="pt-PT">Fixo</span></div></div><span class="amt">€790,00</span></div>
+                    <div class="row"><span class="cat groc"><svg class="i"><use href="#i-cart"/></svg></span><div><div class="t"><span class="en">Groceries</span><span class="pt" lang="pt-PT">Mercearia</span></div><div class="d"><span class="en">Estimate</span><span class="pt" lang="pt-PT">Estimativa</span></div></div><span class="amt">€290,00</span></div>
                   </div>
                 </div>
                 <div class="fade-bottom"></div>
                 <nav class="tabs">
-                  <span class="tab"><svg class="i"><use href="#i-calendar"/></svg>Month</span>
-                  <span class="tab"><svg class="i"><use href="#i-list"/></svg>Extras</span>
-                  <span class="tab"><svg class="i"><use href="#i-chart"/></svg>Insights</span>
-                  <span class="tab on"><svg class="i"><use href="#i-home"/></svg>Household</span>
+                  <span class="tab"><svg class="i"><use href="#i-calendar"/></svg><span class="en">Month</span><span class="pt" lang="pt-PT">Mês</span></span>
+                  <span class="tab"><svg class="i"><use href="#i-list"/></svg><span class="en">Extras</span><span class="pt" lang="pt-PT">Extras</span></span>
+                  <span class="tab"><svg class="i"><use href="#i-chart"/></svg><span class="en">Insights</span><span class="pt" lang="pt-PT">Resumo</span></span>
+                  <span class="tab on"><svg class="i"><use href="#i-home"/></svg><span class="en">Household</span><span class="pt" lang="pt-PT">Casa</span></span>
                 </nav>
               </div>
             </div>
@@ -840,53 +865,54 @@
 
         <article class="step">
           <div>
-            <span class="step-num">02 — Log</span>
-            <h3>Extras, the moment they happen.</h3>
-            <p>Amount first, big and friendly. Pick who paid and how to split it, and Justa tells you right away who will owe whom. Or snap the receipt and let it fill itself in.</p>
+            <span class="step-num"><span class="en">02 — Log</span><span class="pt" lang="pt-PT">02 — Registo</span></span>
+            <h3><span class="en">Extras, the moment they happen.</span><span class="pt" lang="pt-PT">Extras, no momento em que acontecem.</span></h3>
+            <p class="en">Amount first, big and friendly. Pick who paid and how to split it, and Justa tells you right away who will owe whom. Or snap the receipt and let it fill itself in.</p>
+            <p class="pt" lang="pt-PT">O valor primeiro, grande e simpático. Escolha quem pagou e como dividir, e a Justa diz logo quem vai dever a quem. Ou fotografe a fatura e deixe que se preencha.</p>
             <ul class="joys">
-              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Receipts are read on your iPhone with Apple Vision. Nothing is uploaded, and the photo isn’t kept.</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>By income, 50/50, only one person, or your own custom shares.</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Several extras in one sheet. The next row keeps the date, the payer and the split.</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">Receipts are read on your iPhone with Apple Vision. Nothing is uploaded, and the photo isn’t kept.</span><span class="pt" lang="pt-PT">As faturas são lidas no iPhone com o Vision da Apple. Nada é enviado, e a foto não fica guardada.</span></li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">By income, 50/50, only one person, or your own custom shares.</span><span class="pt" lang="pt-PT">Pelo rendimento, 50/50, só uma pessoa, ou partes à sua medida.</span></li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">Several extras in one sheet. The next row keeps the date, the payer and the split.</span><span class="pt" lang="pt-PT">Várias extras na mesma folha. A linha seguinte guarda a data, quem pagou e a divisão.</span></li>
             </ul>
           </div>
           <div class="step-shot">
-            <span class="try-hint" aria-hidden="true">Try Scan receipt</span>
+            <span class="try-hint" aria-hidden="true"><span class="en">Try Scan receipt</span><span class="pt" lang="pt-PT">Experimente Ler fatura</span></span>
             <div class="device">
               <div class="screen" data-theme="azulejo" id="expense-screen" data-receipt="closed">
                 <div class="island" aria-hidden="true"></div>
                 <div class="under" aria-hidden="true"></div>
                 <div class="sheet">
                   <div class="grabber" aria-hidden="true"></div>
-                  <div class="sheet-bar" aria-hidden="true"><span class="l">Cancel</span><span class="c">New expense</span><span class="r">Save</span></div>
+                  <div class="sheet-bar" aria-hidden="true"><span class="l"><span class="en">Cancel</span><span class="pt" lang="pt-PT">Cancelar</span></span><span class="c"><span class="en">New expense</span><span class="pt" lang="pt-PT">Nova despesa</span></span><span class="r"><span class="en">Save</span><span class="pt" lang="pt-PT">Guardar</span></span></div>
                   <div class="sheet-body">
                     <div class="card stack gap-14">
                       <div class="amount-big" id="expense-amount-wrap"><span class="v" id="expense-amount"><small>€</small>40,00</span></div>
-                      <div class="title-line" id="expense-title">Saturday market</div>
+                      <div class="title-line" id="expense-title"><span class="en">Saturday market</span><span class="pt" lang="pt-PT">Mercado de sábado</span></div>
                       <div class="chips" style="justify-content:center">
-                        <span class="chip soft" id="expense-date"><svg class="i"><use href="#i-calendar"/></svg>Today</span>
-                        <span class="chip soft" style="--c: var(--c-groc)"><svg class="i"><use href="#i-cart"/></svg>Groceries</span>
-                        <button class="chip soft chip-button" type="button" data-receipt-action="open"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg>Scan receipt</button>
+                        <span class="chip soft" id="expense-date"><svg class="i"><use href="#i-calendar"/></svg><span class="date-label"><span class="en">Today</span><span class="pt" lang="pt-PT">Hoje</span></span></span>
+                        <span class="chip soft" style="--c: var(--c-groc)"><svg class="i"><use href="#i-cart"/></svg><span class="en">Groceries</span><span class="pt" lang="pt-PT">Mercearia</span></span>
+                        <button class="chip soft chip-button" type="button" data-receipt-action="open"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg><span class="en">Scan receipt</span><span class="pt" lang="pt-PT">Ler fatura</span></button>
                       </div>
                     </div>
                     <div class="card stack gap-14" aria-hidden="true">
                       <div>
-                        <div class="field-label">Paid by</div>
+                        <div class="field-label"><span class="en">Paid by</span><span class="pt" lang="pt-PT">Pago por</span></div>
                         <div class="hstack"><span class="payer on"><span class="av ines" style="--s:30px">I</span>Inês</span><span class="payer"><span class="av tiago" style="--s:30px">T</span>Tiago</span></div>
                       </div>
                       <div>
-                        <div class="field-label">Split</div>
-                        <div class="chips"><span class="chip on">By income</span><span class="chip">50/50</span><span class="chip">Only Inês</span><span class="chip">Custom</span></div>
+                        <div class="field-label"><span class="en">Split</span><span class="pt" lang="pt-PT">Divisão</span></div>
+                        <div class="chips"><span class="chip on"><span class="en">By income</span><span class="pt" lang="pt-PT">Pelo rendimento</span></span><span class="chip">50/50</span><span class="chip"><span class="en">Only Inês</span><span class="pt" lang="pt-PT">Só a Inês</span></span><span class="chip"><span class="en">Custom</span><span class="pt" lang="pt-PT">À medida</span></span></div>
                       </div>
                       <div class="stack gap-4" id="expense-split">
-                        <span class="foot muted tnum" id="expense-shares">Inês €22,00 · Tiago €18,00</span>
-                        <span class="owe-line"><svg class="i"><use href="#i-arrow-r"/></svg><span id="expense-owe">Tiago will owe Inês €18,00</span></span>
+                        <span class="foot muted tnum" id="expense-shares"><span class="en">Inês €22,00 · Tiago €18,00</span><span class="pt" lang="pt-PT">Inês €22,00 · Tiago €18,00</span></span>
+                        <span class="owe-line"><svg class="i"><use href="#i-arrow-r"/></svg><span id="expense-owe"><span class="en">Tiago will owe Inês €18,00</span><span class="pt" lang="pt-PT">O Tiago vai dever €18,00 à Inês</span></span></span>
                       </div>
                     </div>
-                    <div class="hstack pine strong" style="padding: 4px 6px" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg>Add another expense</div>
+                    <div class="hstack pine strong" style="padding: 4px 6px" aria-hidden="true"><svg class="i"><use href="#i-plus"/></svg><span class="en">Add another expense</span><span class="pt" lang="pt-PT">Outra despesa</span></div>
                   </div>
                 </div>
                 <div class="scrim" data-receipt-action="close" aria-hidden="true"></div>
-                <div class="receipt-sheet" id="receipt-sheet" role="dialog" aria-label="Scan receipt" inert>
+                <div class="receipt-sheet" id="receipt-sheet" role="dialog" aria-labelledby="receipt-title" inert>
                   <div class="grabber" aria-hidden="true"></div>
                   <div class="receipt-art" aria-hidden="true">
                     <div class="paper-receipt"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><span class="beam"></span></div>
@@ -894,18 +920,18 @@
                     <span class="sparkle s2"><svg class="i"><use href="#i-sparkle"/></svg></span>
                     <span class="sparkle s3"><svg class="i"><use href="#i-sparkle"/></svg></span>
                   </div>
-                  <div class="reading">Reading your receipt…</div>
+                  <div class="reading"><span class="en">Reading your receipt…</span><span class="pt" lang="pt-PT">A ler a fatura…</span></div>
                   <div class="receipt-choices">
                     <div class="stack gap-8" style="text-align:center">
-                      <span class="serif" style="font-size:24px">Let’s read your receipt</span>
-                      <span class="sub muted">Snap it, pick a photo, or open a PDF. The shop, total, and date fill in for you.</span>
+                      <span class="serif" id="receipt-title" style="font-size:24px"><span class="en">Let’s read your receipt</span><span class="pt" lang="pt-PT">Vamos ler a fatura</span></span>
+                      <span class="sub muted"><span class="en">Snap it, pick a photo, or open a PDF. The shop, total, and date fill in for you.</span><span class="pt" lang="pt-PT">Fotografe, escolha uma foto ou abra um PDF. A loja, o total e a data preenchem-se.</span></span>
                     </div>
-                    <button class="take-photo" type="button" data-receipt-action="read"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg><span><b>Take photo</b><small>Best for a paper receipt</small></span></button>
+                    <button class="take-photo" type="button" data-receipt-action="read"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg><span><b><span class="en">Take photo</span><span class="pt" lang="pt-PT">Tirar foto</span></b><small><span class="en">Best for a paper receipt</span><span class="pt" lang="pt-PT">O melhor para uma fatura em papel</span></small></span></button>
                     <div class="source-tiles">
-                      <button class="source-tile" type="button" data-receipt-action="read"><svg class="i" aria-hidden="true"><use href="#i-photo"/></svg>Choose photo</button>
-                      <button class="source-tile" type="button" data-receipt-action="read"><svg class="i" aria-hidden="true"><use href="#i-doc"/></svg>Choose file</button>
+                      <button class="source-tile" type="button" data-receipt-action="read"><svg class="i" aria-hidden="true"><use href="#i-photo"/></svg><span class="en">Choose photo</span><span class="pt" lang="pt-PT">Escolher foto</span></button>
+                      <button class="source-tile" type="button" data-receipt-action="read"><svg class="i" aria-hidden="true"><use href="#i-doc"/></svg><span class="en">Choose file</span><span class="pt" lang="pt-PT">Escolher ficheiro</span></button>
                     </div>
-                    <span class="hstack foot muted" style="justify-content:center"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg>Read on this iPhone. Nothing is uploaded.</span>
+                    <span class="hstack foot muted" style="justify-content:center"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg><span class="en">Read on this iPhone. Nothing is uploaded.</span><span class="pt" lang="pt-PT">Lida neste iPhone. Nada é enviado.</span></span>
                   </div>
                 </div>
               </div>
@@ -915,44 +941,46 @@
 
         <article class="step">
           <div>
-            <span class="step-num">03 — Settle</span>
-            <h3>Square up, and celebrate.</h3>
-            <p>Justa nets every shared extra against each person’s share and shows exactly how it adds up. Close the month’s extras, send the one transfer, and you’re all square. No spreadsheets, no “I think I paid last time”.</p>
+            <span class="step-num"><span class="en">03 — Settle</span><span class="pt" lang="pt-PT">03 — Ajuste</span></span>
+            <h3><span class="en">Square up, and celebrate.</span><span class="pt" lang="pt-PT">Fiquem quites, e celebrem.</span></h3>
+            <p class="en">Justa nets every shared extra against each person’s share and shows exactly how it adds up. Close the month’s extras, send the one transfer, and you’re all square. No spreadsheets, no “I think I paid last time”.</p>
+            <p class="pt" lang="pt-PT">A Justa liquida cada extra partilhada contra a parte de cada pessoa e mostra exactamente como soma. Feche as extras do mês, envie a única transferência, e ficam quites. Sem folhas de cálculo, sem “acho que paguei da última vez”.</p>
             <ul class="joys">
-              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Two gentle steps: close the extras, then mark the transfer sent.</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Send request drops a ready-made message into Messages or WhatsApp.</li>
-              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg>Confetti bursts from the checkmark, and only when it’s earned.</li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">Two gentle steps: close the extras, then mark the transfer sent.</span><span class="pt" lang="pt-PT">Dois passos suaves: fechar as extras e marcar a transferência como enviada.</span></li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">Send request drops a ready-made message into Messages or WhatsApp.</span><span class="pt" lang="pt-PT">Enviar pedido deixa uma mensagem pronta nas Mensagens ou no WhatsApp.</span></li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">Confetti bursts from the checkmark, and only when it’s earned.</span><span class="pt" lang="pt-PT">Os confetes saem do visto, e só quando é merecido.</span></li>
             </ul>
           </div>
           <div class="step-shot">
-            <div class="device" role="img" aria-label="Settle sheet: Inês pays Tiago €7,91, with six open extras adding up to €251,79.">
+            <div class="device" role="img" aria-labelledby="shot-settle">
+              <span id="shot-settle" class="sr-only"><span class="en">Settle sheet: Inês pays Tiago €7,91, with six open extras adding up to €251,79.</span><span class="pt" lang="pt-PT">Folha de ajuste: a Inês paga €7,91 ao Tiago, com seis extras em aberto que somam €251,79.</span></span>
               <div class="screen" data-theme="azulejo" aria-hidden="true">
                 <div class="island"></div>
                 <div class="under"></div>
                 <div class="sheet">
                   <div class="grabber"></div>
-                  <div class="sheet-bar"><span></span><span class="c">Settle this month</span><span class="x"><svg class="i"><use href="#i-x"/></svg></span></div>
+                  <div class="sheet-bar"><span></span><span class="c"><span class="en">Settle this month</span><span class="pt" lang="pt-PT">Ajustar este mês</span></span><span class="x"><svg class="i"><use href="#i-x"/></svg></span></div>
                   <div class="sheet-body">
-                    <div class="steps-ind"><span class="cur"><span class="n">1</span>Close extras</span><span>·</span><span><span class="n">2</span>Transfer</span></div>
+                    <div class="steps-ind"><span class="cur"><span class="n">1</span><span class="en">Close extras</span><span class="pt" lang="pt-PT">Fechar extras</span></span><span>·</span><span><span class="n">2</span><span class="en">Transfer</span><span class="pt" lang="pt-PT">Transferência</span></span></div>
                     <div class="stack gap-8">
                       <div class="av-row"><span class="av ines">I</span><svg class="i"><use href="#i-arrow-r"/></svg><span class="av tiago">T</span></div>
-                      <span class="headline">Inês pays Tiago</span>
+                      <span class="headline"><span class="en">Inês pays Tiago</span><span class="pt" lang="pt-PT">A Inês paga ao Tiago</span></span>
                       <span class="serif hero-44 tnum">€7,91</span>
                     </div>
                     <div class="card stack compact" style="padding:14px 18px">
-                      <div class="between"><span class="section-label">How it adds up</span><span class="sub strong tnum">€251,79</span></div>
-                      <div class="row"><span class="cat groc"><svg class="i"><use href="#i-cart"/></svg></span><div><div class="t">Weekly shop</div><div class="d">Paid by Tiago</div></div><span class="hstack amt">€87,40<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
-                      <div class="row"><span class="cat util"><svg class="i"><use href="#i-bolt"/></svg></span><div><div class="t">Electricity</div><div class="d">Paid by Inês</div></div><span class="hstack amt">€55,10<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
-                      <div class="row"><span class="cat dine"><svg class="i"><use href="#i-fork"/></svg></span><div><div class="t">Friday dinner</div><div class="d">Paid by Inês</div></div><span class="hstack amt">€46,50<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
-                      <div class="row"><span class="cat trans"><svg class="i"><use href="#i-car"/></svg></span><div><div class="t">Metro cards</div><div class="d">Paid by Tiago</div></div><span class="hstack amt">€40,00<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
-                      <div class="row"><span class="cat health"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t">Pharmacy</div><div class="d">Paid by Tiago</div></div><span class="hstack amt">€12,80<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
-                      <div class="row"><span class="cat subs"><svg class="i"><use href="#i-repeat"/></svg></span><div><div class="t">Streaming</div><div class="d">Paid by Inês</div></div><span class="hstack amt">€9,99<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
-                      <div class="between sub" style="border-top:1px solid var(--hairline); padding-top:10px; margin-top:4px"><span class="hstack"><span class="av ines" style="--s:24px">I</span>Inês’s share</span><span class="strong tnum">€119,50</span></div>
-                      <div class="between sub" style="padding-top:8px"><span class="hstack"><span class="av tiago" style="--s:24px">T</span>Tiago’s share</span><span class="strong tnum">€132,29</span></div>
+                      <div class="between"><span class="section-label"><span class="en">How it adds up</span><span class="pt" lang="pt-PT">Como soma</span></span><span class="sub strong tnum">€251,79</span></div>
+                      <div class="row"><span class="cat groc"><svg class="i"><use href="#i-cart"/></svg></span><div><div class="t"><span class="en">Weekly shop</span><span class="pt" lang="pt-PT">Compras da semana</span></div><div class="d"><span class="en">Paid by Tiago</span><span class="pt" lang="pt-PT">Pago pelo Tiago</span></div></div><span class="hstack amt">€87,40<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="row"><span class="cat util"><svg class="i"><use href="#i-bolt"/></svg></span><div><div class="t"><span class="en">Electricity</span><span class="pt" lang="pt-PT">Eletricidade</span></div><div class="d"><span class="en">Paid by Inês</span><span class="pt" lang="pt-PT">Pago pela Inês</span></div></div><span class="hstack amt">€55,10<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="row"><span class="cat dine"><svg class="i"><use href="#i-fork"/></svg></span><div><div class="t"><span class="en">Friday dinner</span><span class="pt" lang="pt-PT">Jantar de sexta</span></div><div class="d"><span class="en">Paid by Inês</span><span class="pt" lang="pt-PT">Pago pela Inês</span></div></div><span class="hstack amt">€46,50<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="row"><span class="cat trans"><svg class="i"><use href="#i-car"/></svg></span><div><div class="t"><span class="en">Metro cards</span><span class="pt" lang="pt-PT">Passes do metro</span></div><div class="d"><span class="en">Paid by Tiago</span><span class="pt" lang="pt-PT">Pago pelo Tiago</span></div></div><span class="hstack amt">€40,00<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="row"><span class="cat health"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t"><span class="en">Pharmacy</span><span class="pt" lang="pt-PT">Farmácia</span></div><div class="d"><span class="en">Paid by Tiago</span><span class="pt" lang="pt-PT">Pago pelo Tiago</span></div></div><span class="hstack amt">€12,80<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="row"><span class="cat subs"><svg class="i"><use href="#i-repeat"/></svg></span><div><div class="t">Streaming</div><div class="d"><span class="en">Paid by Inês</span><span class="pt" lang="pt-PT">Pago pela Inês</span></div></div><span class="hstack amt">€9,99<svg class="i check-o"><use href="#i-check-o"/></svg></span></div>
+                      <div class="between sub" style="border-top:1px solid var(--hairline); padding-top:10px; margin-top:4px"><span class="hstack"><span class="av ines" style="--s:24px">I</span><span class="en">Inês’s share</span><span class="pt" lang="pt-PT">Parte da Inês</span></span><span class="strong tnum">€119,50</span></div>
+                      <div class="between sub" style="padding-top:8px"><span class="hstack"><span class="av tiago" style="--s:24px">T</span><span class="en">Tiago’s share</span><span class="pt" lang="pt-PT">Parte do Tiago</span></span><span class="strong tnum">€132,29</span></div>
                     </div>
                     <div class="stack gap-8">
-                      <span class="btn fill">Close September’s extras</span>
-                      <span class="cap muted">Locks €7,91. Inês can send it later.</span>
+                      <span class="btn fill"><span class="en">Close September’s extras</span><span class="pt" lang="pt-PT">Fechar as extras de setembro</span></span>
+                      <span class="cap muted"><span class="en">Locks €7,91. Inês can send it later.</span><span class="pt" lang="pt-PT">Fixa €7,91. A Inês pode enviar depois.</span></span>
                     </div>
                   </div>
                 </div>
@@ -965,35 +993,36 @@
 
     <section class="wrap" id="split" aria-labelledby="split-title">
       <div class="section-head">
-        <span class="eyebrow">Fair isn’t always half</span>
-        <h2 id="split-title">Shared bills, <em>split fairly.</em></h2>
-        <p>Justa splits the monthly plan by each person’s usual income, then tells you how much room the month leaves. Move the sliders. It’s the same math the app runs on your iPhone.</p>
+        <span class="eyebrow"><span class="en">Fair isn’t always half</span><span class="pt" lang="pt-PT">Justo nem sempre é metade</span></span>
+        <h2 id="split-title"><span class="en">Shared bills, <em>split fairly.</em></span><span class="pt" lang="pt-PT">Contas partilhadas, <em>divididas com justiça.</em></span></h2>
+        <p class="en">Justa splits the monthly plan by each person’s usual income, then tells you how much room the month leaves. Move the sliders. It’s the same math the app runs on your iPhone.</p>
+        <p class="pt" lang="pt-PT">A Justa divide o plano mensal pelo rendimento habitual de cada pessoa e diz quanta folga o mês deixa. Mexa nos cursores. É a mesma conta que a app faz no iPhone.</p>
       </div>
       <div class="calc">
         <div class="calc-inputs">
           <div class="field">
-            <label for="income-a">Inês earns <output id="out-a" for="income-a"></output></label>
+            <label for="income-a"><span class="en">Inês earns</span><span class="pt" lang="pt-PT">A Inês ganha</span> <output id="out-a" for="income-a"></output></label>
             <input id="income-a" type="range" min="500" max="6000" step="50" value="2200" />
           </div>
           <div class="field">
-            <label for="income-b">Tiago earns <output id="out-b" for="income-b"></output></label>
+            <label for="income-b"><span class="en">Tiago earns</span><span class="pt" lang="pt-PT">O Tiago ganha</span> <output id="out-b" for="income-b"></output></label>
             <input id="income-b" type="range" min="500" max="6000" step="50" value="1800" />
           </div>
           <div class="field">
-            <label for="plan">Rent, bills, groceries <output id="out-plan" for="plan"></output></label>
+            <label for="plan"><span class="en">Rent, bills, groceries</span><span class="pt" lang="pt-PT">Renda, contas, mercearia</span> <output id="out-plan" for="plan"></output></label>
             <input id="plan" type="range" min="300" max="6000" step="10" value="1250" />
           </div>
           <div>
-            <span class="rule-label" id="rule-label">Split the plan</span>
+            <span class="rule-label" id="rule-label"><span class="en">Split the plan</span><span class="pt" lang="pt-PT">Dividir o plano</span></span>
             <div class="rule" role="group" aria-labelledby="rule-label">
-              <button type="button" data-rule="income" aria-pressed="true">By income</button>
+              <button type="button" data-rule="income" aria-pressed="true"><span class="en">By income</span><span class="pt" lang="pt-PT">Pelo rendimento</span></button>
               <button type="button" data-rule="half" aria-pressed="false">50/50</button>
             </div>
           </div>
         </div>
         <div class="calc-result" aria-live="polite">
           <div class="calc-total">
-            <small>Monthly plan</small>
+            <small><span class="en">Monthly plan</span><span class="pt" lang="pt-PT">Plano mensal</span></small>
             <div id="total"></div>
           </div>
           <div class="bar" aria-hidden="true"><span class="a" id="bar-a"></span><span class="b" id="bar-b"></span></div>
@@ -1011,7 +1040,7 @@
           </div>
           <p class="calc-note" id="half-note"></p>
           <div class="calc-mood tone-good" id="calc-mood">
-            <small>How the month feels</small>
+            <small><span class="en">How the month feels</span><span class="pt" lang="pt-PT">Como o mês se sente</span></small>
             <div class="figure" id="mood-figure"></div>
             <span class="mood-pill"><svg class="i" aria-hidden="true"><use href="#i-sun" id="mood-icon"/></svg><span id="mood-title"></span></span>
           </div>
@@ -1022,16 +1051,17 @@
     <section class="wrap" aria-labelledby="glance-title">
       <div class="glance">
         <div>
-          <span class="eyebrow">Extras &amp; Insights</span>
-          <h2 id="glance-title">Know where the month <em>went.</em></h2>
+          <span class="eyebrow"><span class="en">Extras &amp; Insights</span><span class="pt" lang="pt-PT">Extras e resumo</span></span>
+          <h2 id="glance-title"><span class="en">Know where the month <em>went.</em></span><span class="pt" lang="pt-PT">Saiba para onde foi <em>o mês.</em></span></h2>
           <div class="glance-list">
-            <div><span class="badge"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg></span><span><b>A pulse on every extra</b><p>The month’s total, who paid it in each person’s colour, and one-tap chips for what’s open or where it went.</p></span></div>
-            <div><span class="badge"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg></span><span><b>Search that gets you</b><p>Every word counts, accents don’t. Type <em>12</em> and it finds €12,00 to €12,99.</p></span></div>
-            <div><span class="badge"><svg class="i" aria-hidden="true"><use href="#i-chart"/></svg></span><span><b>Insights in plain words</b><p>“€31,99 less than in August.” Six months at a glance, fairness in one sentence, and the biggest slice named.</p></span></div>
+            <div><span class="badge"><svg class="i" aria-hidden="true"><use href="#i-list"/></svg></span><span><b><span class="en">A pulse on every extra</span><span class="pt" lang="pt-PT">O pulso de cada extra</span></b><p class="en">The month’s total, who paid it in each person’s colour, and one-tap chips for what’s open or where it went.</p><p class="pt" lang="pt-PT">O total do mês, quem pagou na cor de cada pessoa, e atalhos de um toque para o que está em aberto ou para onde foi.</p></span></div>
+            <div><span class="badge"><svg class="i" aria-hidden="true"><use href="#i-search"/></svg></span><span><b><span class="en">Search that gets you</span><span class="pt" lang="pt-PT">Uma pesquisa que percebe</span></b><p class="en">Every word counts, accents don’t. Type <em>12</em> and it finds €12,00 to €12,99.</p><p class="pt" lang="pt-PT">Cada palavra conta, os acentos não. Escreva <em>12</em> e encontra de €12,00 a €12,99.</p></span></div>
+            <div><span class="badge"><svg class="i" aria-hidden="true"><use href="#i-chart"/></svg></span><span><b><span class="en">Insights in plain words</span><span class="pt" lang="pt-PT">O resumo em palavras simples</span></b><p class="en">“€31,99 less than in August.” Six months at a glance, fairness in one sentence, and the biggest slice named.</p><p class="pt" lang="pt-PT">“€31,99 a menos do que em agosto.” Seis meses de relance, a justiça numa frase, e a maior fatia nomeada.</p></span></div>
           </div>
         </div>
         <div class="glance-phones">
-          <div class="device" role="img" aria-label="Extras tab: six extras totalling €251,79, Tiago paid €140,20 and Inês €111,59.">
+          <div class="device" role="img" aria-labelledby="shot-extras">
+            <span id="shot-extras" class="sr-only"><span class="en">Extras tab: six extras totalling €251,79, Tiago paid €140,20 and Inês €111,59.</span><span class="pt" lang="pt-PT">Separador Extras: seis extras no total de €251,79, o Tiago pagou €140,20 e a Inês €111,59.</span></span>
             <div class="screen" data-theme="azulejo" id="extras-screen" aria-hidden="true">
               <div class="island"></div>
               <div class="sb"><span>9:41</span><span class="sb-icons"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="2.2"/></svg></span></div>
@@ -1040,9 +1070,9 @@
                 <div class="card stack gap-12" style="padding:16px">
                   <div class="between" style="align-items:flex-start">
                     <div class="stack" style="gap:2px"><span class="sub muted">6 extras</span><span class="serif hero-40 tnum">€251,79</span></div>
-                    <span class="chip on" style="height:36px;padding:0 16px">Settle</span>
+                    <span class="chip on" style="height:36px;padding:0 16px"><span class="en">Settle</span><span class="pt" lang="pt-PT">Ajustar</span></span>
                   </div>
-                  <span class="hstack sub strong"><span class="dot"></span>6 open extras · €251,79</span>
+                  <span class="hstack sub strong"><span class="dot"></span><span class="en">6 open extras · €251,79</span><span class="pt" lang="pt-PT">6 extras em aberto · €251,79</span></span>
                   <div class="seg" style="height:10px"><span style="--v:140.2;--c:#C98900"></span><span style="--v:111.59;--c:#E04B3C"></span></div>
                   <div class="chips">
                     <span class="chip soft" style="padding-left:4px"><span class="av tiago" style="--s:24px">T</span>Tiago <em>€140,20</em></span>
@@ -1050,67 +1080,68 @@
                   </div>
                 </div>
                 <div class="chips">
-                  <span class="chip"><svg class="i"><use href="#i-sort"/></svg>Newest first</span>
-                  <span class="chip" style="--c: var(--sienna)"><svg class="i"><use href="#i-dashed"/></svg>Open <em>6</em></span>
-                  <span class="chip" style="--c: var(--c-groc)"><svg class="i"><use href="#i-cart"/></svg>Groceries <em>€87,40</em></span>
-                  <span class="chip" style="--c: var(--c-util)"><svg class="i"><use href="#i-bolt"/></svg>Utilities <em>€55,10</em></span>
+                  <span class="chip"><svg class="i"><use href="#i-sort"/></svg><span class="en">Newest first</span><span class="pt" lang="pt-PT">Mais recentes</span></span>
+                  <span class="chip" style="--c: var(--sienna)"><svg class="i"><use href="#i-dashed"/></svg><span class="en">Open</span><span class="pt" lang="pt-PT">Em aberto</span> <em>6</em></span>
+                  <span class="chip" style="--c: var(--c-groc)"><svg class="i"><use href="#i-cart"/></svg><span class="en">Groceries</span><span class="pt" lang="pt-PT">Mercearia</span> <em>€87,40</em></span>
+                  <span class="chip" style="--c: var(--c-util)"><svg class="i"><use href="#i-bolt"/></svg><span class="en">Utilities</span><span class="pt" lang="pt-PT">Serviços</span> <em>€55,10</em></span>
                 </div>
                 <div class="stack">
-                  <div class="between sub" style="padding: 6px 2px"><span class="strong">Tuesday, 15 Sep</span><span class="muted tnum">€9,99</span></div>
-                  <div class="card" style="padding:4px 16px"><div class="row"><span class="cat subs"><svg class="i"><use href="#i-repeat"/></svg></span><div><div class="t">Streaming</div><div class="d">Inês · Subscriptions</div></div><span class="hstack amt"><span class="dot"></span>€9,99</span></div></div>
-                  <div class="between sub" style="padding: 12px 2px 6px"><span class="strong">Sunday, 13 Sep</span><span class="muted tnum">€12,80</span></div>
-                  <div class="card" style="padding:4px 16px"><div class="row"><span class="cat health"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t">Pharmacy</div><div class="d">Tiago · Only Tiago</div></div><span class="hstack amt"><span class="dot"></span>€12,80</span></div></div>
-                  <div class="between sub" style="padding: 12px 2px 6px"><span class="strong">Friday, 11 Sep</span><span class="muted tnum">€46,50</span></div>
-                  <div class="card" style="padding:4px 16px"><div class="row"><span class="cat dine"><svg class="i"><use href="#i-fork"/></svg></span><div><div class="t">Friday dinner</div><div class="d">Inês · Dining</div></div><span class="hstack amt"><span class="dot"></span>€46,50</span></div></div>
+                  <div class="between sub" style="padding: 6px 2px"><span class="strong"><span class="en">Tuesday, 15 Sep</span><span class="pt" lang="pt-PT">Terça, 15 set</span></span><span class="muted tnum">€9,99</span></div>
+                  <div class="card" style="padding:4px 16px"><div class="row"><span class="cat subs"><svg class="i"><use href="#i-repeat"/></svg></span><div><div class="t">Streaming</div><div class="d"><span class="en">Inês · Subscriptions</span><span class="pt" lang="pt-PT">Inês · Subscrições</span></div></div><span class="hstack amt"><span class="dot"></span>€9,99</span></div></div>
+                  <div class="between sub" style="padding: 12px 2px 6px"><span class="strong"><span class="en">Sunday, 13 Sep</span><span class="pt" lang="pt-PT">Domingo, 13 set</span></span><span class="muted tnum">€12,80</span></div>
+                  <div class="card" style="padding:4px 16px"><div class="row"><span class="cat health"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t"><span class="en">Pharmacy</span><span class="pt" lang="pt-PT">Farmácia</span></div><div class="d"><span class="en">Tiago · Only Tiago</span><span class="pt" lang="pt-PT">Tiago · Só o Tiago</span></div></div><span class="hstack amt"><span class="dot"></span>€12,80</span></div></div>
+                  <div class="between sub" style="padding: 12px 2px 6px"><span class="strong"><span class="en">Friday, 11 Sep</span><span class="pt" lang="pt-PT">Sexta, 11 set</span></span><span class="muted tnum">€46,50</span></div>
+                  <div class="card" style="padding:4px 16px"><div class="row"><span class="cat dine"><svg class="i"><use href="#i-fork"/></svg></span><div><div class="t"><span class="en">Friday dinner</span><span class="pt" lang="pt-PT">Jantar de sexta</span></div><div class="d"><span class="en">Inês · Dining</span><span class="pt" lang="pt-PT">Inês · Refeições</span></div></div><span class="hstack amt"><span class="dot"></span>€46,50</span></div></div>
                 </div>
               </div>
               <div class="fade-bottom"></div>
               <nav class="tabs">
-                <span class="tab"><svg class="i"><use href="#i-calendar"/></svg>Month</span>
-                <span class="tab on"><svg class="i"><use href="#i-list"/></svg>Extras</span>
-                <span class="tab"><svg class="i"><use href="#i-chart"/></svg>Insights</span>
-                <span class="tab"><svg class="i"><use href="#i-home"/></svg>Household</span>
+                <span class="tab"><svg class="i"><use href="#i-calendar"/></svg><span class="en">Month</span><span class="pt" lang="pt-PT">Mês</span></span>
+                <span class="tab on"><svg class="i"><use href="#i-list"/></svg><span class="en">Extras</span><span class="pt" lang="pt-PT">Extras</span></span>
+                <span class="tab"><svg class="i"><use href="#i-chart"/></svg><span class="en">Insights</span><span class="pt" lang="pt-PT">Resumo</span></span>
+                <span class="tab"><svg class="i"><use href="#i-home"/></svg><span class="en">Household</span><span class="pt" lang="pt-PT">Casa</span></span>
               </nav>
             </div>
           </div>
-          <div class="device" role="img" aria-label="Insights tab: €251,79 of extras in September, €31,99 less than in August, with six months of columns.">
+          <div class="device" role="img" aria-labelledby="shot-insights">
+            <span id="shot-insights" class="sr-only"><span class="en">Insights tab: €251,79 of extras in September, €31,99 less than in August, with six months of columns.</span><span class="pt" lang="pt-PT">Separador Resumo: €251,79 de extras em setembro, €31,99 a menos do que em agosto, com seis meses em colunas.</span></span>
             <div class="screen" data-theme="azulejo" aria-hidden="true">
               <div class="island"></div>
               <div class="sb"><span>9:41</span><span class="sb-icons"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg><svg viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="2.2"/></svg></span></div>
               <div class="nb"><span class="switch">Casa Norte <svg class="i"><use href="#i-chev-d"/></svg></span><span class="glass"><svg class="i"><use href="#i-plus"/></svg></span></div>
-              <div class="pager"><svg class="i"><use href="#i-chev-l"/></svg><b>September 2026 <svg class="i"><use href="#i-chev-d"/></svg></b><svg class="i"><use href="#i-chev-r"/></svg></div>
+              <div class="pager"><svg class="i"><use href="#i-chev-l"/></svg><b><span class="en">September 2026</span><span class="pt" lang="pt-PT">Setembro 2026</span> <svg class="i"><use href="#i-chev-d"/></svg></b><svg class="i"><use href="#i-chev-r"/></svg></div>
               <div class="body">
                 <div class="card stack gap-12">
-                  <span class="sub muted">Extras in September</span>
+                  <span class="sub muted"><span class="en">Extras in September</span><span class="pt" lang="pt-PT">Extras em setembro</span></span>
                   <span class="serif hero-44 tnum">€251,79</span>
-                  <span class="mood" style="--tone: var(--moss)"><svg class="i"><use href="#i-arrow-d"/></svg>€31,99 less than in August</span>
+                  <span class="mood" style="--tone: var(--moss)"><svg class="i"><use href="#i-arrow-d"/></svg><span class="en">€31,99 less than in August</span><span class="pt" lang="pt-PT">€31,99 a menos do que em agosto</span></span>
                   <div class="cols" style="--t:0.85">
-                    <div class="col"><span style="--h:75%"></span><small>Apr</small></div>
-                    <div class="col"><span style="--h:93%"></span><small>May</small></div>
+                    <div class="col"><span style="--h:75%"></span><small><span class="en">Apr</span><span class="pt" lang="pt-PT">Abr</span></small></div>
+                    <div class="col"><span style="--h:93%"></span><small><span class="en">May</span><span class="pt" lang="pt-PT">Mai</span></small></div>
                     <div class="col"><span style="--h:69%"></span><small>Jun</small></div>
                     <div class="col"><span style="--h:100%"></span><small>Jul</small></div>
-                    <div class="col"><span style="--h:89%"></span><small>Aug</small></div>
-                    <div class="col now"><span style="--h:79%"></span><small>Sep</small></div>
+                    <div class="col"><span style="--h:89%"></span><small><span class="en">Aug</span><span class="pt" lang="pt-PT">Ago</span></small></div>
+                    <div class="col now"><span style="--h:79%"></span><small><span class="en">Sep</span><span class="pt" lang="pt-PT">Set</span></small></div>
                     <i class="typical"></i>
                   </div>
                   <div class="stat-row">
-                    <div class="stat"><small>Typical month</small><b>€271,76</b><span class="tiny-pill" style="--tone: var(--moss)">↓ 7%</span></div>
-                    <div class="stat"><small>Same month last year</small><b>€205,30</b><span class="tiny-pill" style="--tone: var(--sienna)">↑ 23%</span></div>
+                    <div class="stat"><small><span class="en">Typical month</span><span class="pt" lang="pt-PT">Mês habitual</span></small><b>€271,76</b><span class="tiny-pill" style="--tone: var(--moss)">↓ 7%</span></div>
+                    <div class="stat"><small><span class="en">Same month last year</span><span class="pt" lang="pt-PT">Este mês, há um ano</span></small><b>€205,30</b><span class="tiny-pill" style="--tone: var(--sienna)">↑ 23%</span></div>
                   </div>
                 </div>
                 <div class="card stack gap-12">
-                  <div class="between"><span class="headline">Extras by category</span></div>
-                  <span class="foot muted">The biggest slice went to Groceries · 35%</span>
-                  <div class="rank"><span class="cat groc"><svg class="i"><use href="#i-cart"/></svg></span><div><div class="between sub"><b>Groceries</b><span class="tnum">€87,40</span></div><div class="v-bar"><span style="width:100%;--c:var(--c-groc)"></span></div></div></div>
-                  <div class="rank"><span class="cat util"><svg class="i"><use href="#i-bolt"/></svg></span><div><div class="between sub"><b>Utilities</b><span class="tnum">€55,10</span></div><div class="v-bar"><span style="width:63%;--c:var(--c-util)"></span></div></div></div>
+                  <div class="between"><span class="headline"><span class="en">Extras by category</span><span class="pt" lang="pt-PT">Extras por categoria</span></span></div>
+                  <span class="foot muted"><span class="en">The biggest slice went to Groceries · 35%</span><span class="pt" lang="pt-PT">A maior fatia foi para Mercearia · 35%</span></span>
+                  <div class="rank"><span class="cat groc"><svg class="i"><use href="#i-cart"/></svg></span><div><div class="between sub"><b><span class="en">Groceries</span><span class="pt" lang="pt-PT">Mercearia</span></b><span class="tnum">€87,40</span></div><div class="v-bar"><span style="width:100%;--c:var(--c-groc)"></span></div></div></div>
+                  <div class="rank"><span class="cat util"><svg class="i"><use href="#i-bolt"/></svg></span><div><div class="between sub"><b><span class="en">Utilities</span><span class="pt" lang="pt-PT">Serviços</span></b><span class="tnum">€55,10</span></div><div class="v-bar"><span style="width:63%;--c:var(--c-util)"></span></div></div></div>
                 </div>
               </div>
               <div class="fade-bottom"></div>
               <nav class="tabs">
-                <span class="tab"><svg class="i"><use href="#i-calendar"/></svg>Month</span>
-                <span class="tab"><svg class="i"><use href="#i-list"/></svg>Extras</span>
-                <span class="tab on"><svg class="i"><use href="#i-chart"/></svg>Insights</span>
-                <span class="tab"><svg class="i"><use href="#i-home"/></svg>Household</span>
+                <span class="tab"><svg class="i"><use href="#i-calendar"/></svg><span class="en">Month</span><span class="pt" lang="pt-PT">Mês</span></span>
+                <span class="tab"><svg class="i"><use href="#i-list"/></svg><span class="en">Extras</span><span class="pt" lang="pt-PT">Extras</span></span>
+                <span class="tab on"><svg class="i"><use href="#i-chart"/></svg><span class="en">Insights</span><span class="pt" lang="pt-PT">Resumo</span></span>
+                <span class="tab"><svg class="i"><use href="#i-home"/></svg><span class="en">Household</span><span class="pt" lang="pt-PT">Casa</span></span>
               </nav>
             </div>
           </div>
@@ -1122,112 +1153,120 @@
       <div class="themes" data-theme="azulejo" id="theme-stage">
         <div>
           <div class="section-head">
-            <span class="eyebrow">Six Portuguese themes</span>
-            <h2 id="themes-title">Try them all. <em>Keep the one that makes you smile.</em></h2>
-            <p>Three for bright days, three for late nights, each with a soul of its own. Themes stay on each iPhone, so everyone picks their own.</p>
+            <span class="eyebrow"><span class="en">Six Portuguese themes</span><span class="pt" lang="pt-PT">Seis temas portugueses</span></span>
+            <h2 id="themes-title"><span class="en">Try them all. <em>Keep the one that makes you smile.</em></span><span class="pt" lang="pt-PT">Experimente todos. <em>Fique com o que lhe fizer sorrir.</em></span></h2>
+            <p class="en">Three for bright days, three for late nights, each with a soul of its own. Themes stay on each iPhone, so everyone picks their own.</p>
+            <p class="pt" lang="pt-PT">Três para dias claros, três para noites tardias, cada um com alma própria. Os temas ficam em cada iPhone, por isso cada pessoa escolhe o seu.</p>
           </div>
           <div class="theme-group">
-            <span>For bright days</span>
+            <span><span class="en">For bright days</span><span class="pt" lang="pt-PT">Para dias claros</span></span>
             <div class="theme-cards">
-              <button class="theme-card" type="button" data-theme="azulejo" data-pick="azulejo" aria-pressed="true"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-grid"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Azulejo</b><small>Porcelain white, cobalt tiles</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
-              <button class="theme-card" type="button" data-theme="jacaranda" data-pick="jacaranda" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-flower"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Jacarandá</b><small>Lisbon in May, all lilac</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
-              <button class="theme-card" type="button" data-theme="algarve" data-pick="algarve" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-sun"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Algarve</b><small>Warm sand, turquoise sea</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+              <button class="theme-card" type="button" data-theme="azulejo" data-pick="azulejo" aria-pressed="true"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-grid"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Azulejo</b><small><span class="en">Porcelain white, cobalt tiles</span><span class="pt" lang="pt-PT">Branco de porcelana, azulejo de cobalto</span></small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+              <button class="theme-card" type="button" data-theme="jacaranda" data-pick="jacaranda" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-flower"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Jacarandá</b><small><span class="en">Lisbon in May, all lilac</span><span class="pt" lang="pt-PT">Lisboa em maio, tudo lilás</span></small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+              <button class="theme-card" type="button" data-theme="algarve" data-pick="algarve" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-sun"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Algarve</b><small><span class="en">Warm sand, turquoise sea</span><span class="pt" lang="pt-PT">Areia quente, mar turquesa</span></small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
             </div>
           </div>
           <div class="theme-group">
-            <span>For late nights</span>
+            <span><span class="en">For late nights</span><span class="pt" lang="pt-PT">Para noites tardias</span></span>
             <div class="theme-cards">
-              <button class="theme-card" type="button" data-theme="tejo" data-pick="tejo" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-moon"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Tejo</b><small>The river at night, city lights</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
-              <button class="theme-card" type="button" data-theme="ginja" data-pick="ginja" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-wine"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Ginja</b><small>Dark cherry, rosy glow</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
-              <button class="theme-card" type="button" data-theme="fado" data-pick="fado" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-music"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Fado</b><small>Candlelight and a golden guitar</small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+              <button class="theme-card" type="button" data-theme="tejo" data-pick="tejo" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-moon"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Tejo</b><small><span class="en">The river at night, city lights</span><span class="pt" lang="pt-PT">O rio à noite, luzes da cidade</span></small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+              <button class="theme-card" type="button" data-theme="ginja" data-pick="ginja" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-wine"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Ginja</b><small><span class="en">Dark cherry, rosy glow</span><span class="pt" lang="pt-PT">Cereja escura, brilho rosado</span></small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
+              <button class="theme-card" type="button" data-theme="fado" data-pick="fado" aria-pressed="false"><span class="top"><svg class="i" aria-hidden="true"><use href="#i-music"/></svg><span class="tick" aria-hidden="true"><svg class="i"><use href="#i-check"/></svg></span></span><b>Fado</b><small><span class="en">Candlelight and a golden guitar</span><span class="pt" lang="pt-PT">Luz de vela e uma guitarra dourada</span></small><span class="swatches" aria-hidden="true"><i style="background:var(--fill)"></i><i style="background:var(--moss)"></i><i style="background:var(--sienna)"></i><i style="background:var(--card)"></i></span></button>
             </div>
           </div>
         </div>
         <div class="theme-phone">
           <div id="theme-phone-slot" aria-hidden="true"></div>
-          <p class="theme-name" aria-live="polite"><b id="theme-name">Azulejo</b><span class="muted" id="theme-tagline">Porcelain white, cobalt tiles</span></p>
+          <p class="theme-name" aria-live="polite"><b id="theme-name">Azulejo</b><span class="muted" id="theme-tagline"><span class="en">Porcelain white, cobalt tiles</span><span class="pt" lang="pt-PT">Branco de porcelana, azulejo de cobalto</span></span></p>
         </div>
       </div>
     </section>
 
     <section class="wrap" aria-labelledby="moments-title">
       <div class="section-head">
-        <span class="eyebrow">Little moments</span>
-        <h2 id="moments-title">Care in the <em>small things.</em></h2>
-        <p>Budgeting is rarely anyone’s favourite chore. So Justa rewards the good bits, and keeps the hard bits gentle.</p>
+        <span class="eyebrow"><span class="en">Little moments</span><span class="pt" lang="pt-PT">Pequenos momentos</span></span>
+        <h2 id="moments-title"><span class="en">Care in the <em>small things.</em></span><span class="pt" lang="pt-PT">Cuidado nas <em>coisas pequenas.</em></span></h2>
+        <p class="en">Budgeting is rarely anyone’s favourite chore. So Justa rewards the good bits, and keeps the hard bits gentle.</p>
+        <p class="pt" lang="pt-PT">Fazer o orçamento raramente é a tarefa preferida de alguém. Por isso a Justa celebra o que corre bem e trata o resto com gentileza.</p>
       </div>
       <div class="moments">
         <article class="moment">
           <div class="vignette" data-theme="azulejo">
             <div class="v-card stack gap-8">
-              <div class="v-row"><span class="hstack v-serif" style="font-size:1.25rem"><svg class="i" id="pop-check" style="color:var(--moss);font-size:1.5rem" aria-hidden="true"><use href="#i-check-fill"/></svg>All square</span></div>
-              <span class="v-muted">Inês sent Tiago €7,91 on 27 Sep</span>
+              <div class="v-row"><span class="hstack v-serif" style="font-size:1.25rem"><svg class="i" id="pop-check" style="color:var(--moss);font-size:1.5rem" aria-hidden="true"><use href="#i-check-fill"/></svg><span class="en">All square</span><span class="pt" lang="pt-PT">Quites</span></span></div>
+              <span class="v-muted"><span class="en">Inês sent Tiago €7,91 on 27 Sep</span><span class="pt" lang="pt-PT">A Inês enviou €7,91 ao Tiago a 27 set</span></span>
             </div>
-            <button class="pop-button" type="button" id="pop-button">Pop it</button>
+            <button class="pop-button" type="button" id="pop-button"><span class="en">Pop it</span><span class="pt" lang="pt-PT">Faça saltar</span></button>
           </div>
-          <h3>Confetti, when it’s earned</h3>
-          <p>Close the extras, mark the transfer sent, and the month lands with a burst from the checkmark.</p>
+          <h3><span class="en">Confetti, when it’s earned</span><span class="pt" lang="pt-PT">Confetes, quando é merecido</span></h3>
+          <p class="en">Close the extras, mark the transfer sent, and the month lands with a burst from the checkmark.</p>
+          <p class="pt" lang="pt-PT">Feche as extras, marque a transferência como enviada, e o mês chega com uma explosão a partir do visto.</p>
         </article>
         <article class="moment">
           <div class="vignette" data-theme="azulejo" aria-hidden="true">
-            <span class="v-pill v-good"><svg class="i"><use href="#i-sun"/></svg>Plenty of breathing room</span>
-            <span class="v-pill v-good"><svg class="i"><use href="#i-leaf"/></svg>On plan, with room to spare</span>
-            <span class="v-pill v-warn"><svg class="i"><use href="#i-gauge"/></svg>Snug, but it fits</span>
-            <span class="v-pill v-warn"><svg class="i"><use href="#i-alert"/></svg>The plan runs past what comes in</span>
+            <span class="v-pill v-good"><svg class="i"><use href="#i-sun"/></svg><span class="en">Plenty of breathing room</span><span class="pt" lang="pt-PT">Margem de sobra</span></span>
+            <span class="v-pill v-good"><svg class="i"><use href="#i-leaf"/></svg><span class="en">On plan, with room to spare</span><span class="pt" lang="pt-PT">No plano, com folga</span></span>
+            <span class="v-pill v-warn"><svg class="i"><use href="#i-gauge"/></svg><span class="en">Snug, but it fits</span><span class="pt" lang="pt-PT">Apertado, mas cabe</span></span>
+            <span class="v-pill v-warn"><svg class="i"><use href="#i-alert"/></svg><span class="en">The plan runs past what comes in</span><span class="pt" lang="pt-PT">O plano passa do que entra</span></span>
           </div>
-          <h3>A plan with a mood</h3>
-          <p>The plan card grades how much room the month leaves, in words you’d use yourself.</p>
+          <h3><span class="en">A plan with a mood</span><span class="pt" lang="pt-PT">Um plano com estado de espírito</span></h3>
+          <p class="en">The plan card grades how much room the month leaves, in words you’d use yourself.</p>
+          <p class="pt" lang="pt-PT">O cartão do plano avalia a folga que o mês deixa, nas palavras que usaria.</p>
         </article>
         <article class="moment">
           <div class="vignette" data-theme="azulejo" aria-hidden="true">
             <div class="hstack" style="gap:1rem">
               <span class="ring"><span>4/4</span></span>
               <div class="check-list">
-                <span><svg class="i"><use href="#i-check"/></svg>Add everyone who shares costs</span>
-                <span><svg class="i"><use href="#i-check"/></svg>Set each usual income</span>
-                <span><svg class="i"><use href="#i-check"/></svg>Choose who uses this iPhone</span>
-                <span><svg class="i"><use href="#i-check"/></svg>Add the repeating costs</span>
+                <span><svg class="i"><use href="#i-check"/></svg><span class="en">Add everyone who shares costs</span><span class="pt" lang="pt-PT">Juntar quem partilha custos</span></span>
+                <span><svg class="i"><use href="#i-check"/></svg><span class="en">Set each usual income</span><span class="pt" lang="pt-PT">Definir cada rendimento habitual</span></span>
+                <span><svg class="i"><use href="#i-check"/></svg><span class="en">Choose who uses this iPhone</span><span class="pt" lang="pt-PT">Escolher quem usa este iPhone</span></span>
+                <span><svg class="i"><use href="#i-check"/></svg><span class="en">Add the repeating costs</span><span class="pt" lang="pt-PT">Juntar os custos que se repetem</span></span>
               </div>
             </div>
-            <span class="seal" style="font-size:0.95rem"><svg class="i"><use href="#i-seal"/></svg>Everything in order</span>
+            <span class="seal" style="font-size:0.95rem"><svg class="i"><use href="#i-seal"/></svg><span class="en">Everything in order</span><span class="pt" lang="pt-PT">Tudo em ordem</span></span>
           </div>
-          <h3>Setup that cheers you on</h3>
-          <p>Four small steps, a progress ring, and a seal on the house when it’s done. Then the plan splits itself.</p>
+          <h3><span class="en">Setup that cheers you on</span><span class="pt" lang="pt-PT">Uma preparação que anima</span></h3>
+          <p class="en">Four small steps, a progress ring, and a seal on the house when it’s done. Then the plan splits itself.</p>
+          <p class="pt" lang="pt-PT">Quatro passos pequenos, um anel de progresso, e um selo na casa quando acaba. Depois o plano divide-se sozinho.</p>
         </article>
         <article class="moment">
           <div class="vignette" data-theme="algarve" aria-hidden="true">
             <div class="v-card stack gap-8">
-              <div class="v-row"><span class="hstack strong"><svg class="i" style="color:var(--pine)"><use href="#i-bank"/></svg>Emergency</span><span class="v-pill v-good">Add</span></div>
+              <div class="v-row"><span class="hstack strong"><svg class="i" style="color:var(--pine)"><use href="#i-bank"/></svg><span class="en">Emergency</span><span class="pt" lang="pt-PT">Emergência</span></span><span class="v-pill v-good"><span class="en">Add</span><span class="pt" lang="pt-PT">Juntar</span></span></div>
               <span class="v-serif" style="font-size:1.8rem">€250</span>
-              <div class="v-row v-muted"><span>€4 950 now</span><svg class="i"><use href="#i-arrow-r"/></svg><span class="strong" style="color:var(--moss)">€5 200 after</span></div>
+              <div class="v-row v-muted"><span><span class="en">€4 950 now</span><span class="pt" lang="pt-PT">€4 950 agora</span></span><svg class="i"><use href="#i-arrow-r"/></svg><span class="strong" style="color:var(--moss)"><span class="en">€5 200 after</span><span class="pt" lang="pt-PT">€5 200 depois</span></span></div>
             </div>
-            <span class="v-pill v-good"><svg class="i"><use href="#i-sparkle"/></svg>Over €5 000 put aside</span>
+            <span class="v-pill v-good"><svg class="i"><use href="#i-sparkle"/></svg><span class="en">Over €5 000 put aside</span><span class="pt" lang="pt-PT">Mais de €5 000 de lado</span></span>
           </div>
-          <h3>Savings that cheer</h3>
-          <p>Add to a pot in two taps. Pass a round milestone and Justa notices, with a little burst to match.</p>
+          <h3><span class="en">Savings that cheer</span><span class="pt" lang="pt-PT">Poupanças que animam</span></h3>
+          <p class="en">Add to a pot in two taps. Pass a round milestone and Justa notices, with a little burst to match.</p>
+          <p class="pt" lang="pt-PT">Junte a um pote em dois toques. Passe um marco redondo e a Justa repara, com uma pequena explosão a condizer.</p>
         </article>
         <article class="moment">
           <div class="vignette" data-theme="jacaranda" aria-hidden="true">
             <div class="v-card stack gap-8">
-              <div class="v-row"><span class="hstack strong"><svg class="i" style="color:var(--c-util)"><use href="#i-bolt"/></svg>Electricity</span><span class="v-pill v-good"><svg class="i"><use href="#i-leaf"/></svg>Under by €2,90</span></div>
-              <div class="v-row v-muted"><span>Planned</span><span class="tnum">€58,00</span></div>
+              <div class="v-row"><span class="hstack strong"><svg class="i" style="color:var(--c-util)"><use href="#i-bolt"/></svg><span class="en">Electricity</span><span class="pt" lang="pt-PT">Eletricidade</span></span><span class="v-pill v-good"><svg class="i"><use href="#i-leaf"/></svg><span class="en">Under by €2,90</span><span class="pt" lang="pt-PT">€2,90 abaixo</span></span></div>
+              <div class="v-row v-muted"><span><span class="en">Planned</span><span class="pt" lang="pt-PT">Planeado</span></span><span class="tnum">€58,00</span></div>
               <div class="v-bar"><span style="width:100%;--c:color-mix(in srgb, var(--ink) 40%, transparent)"></span></div>
-              <div class="v-row v-muted"><span>Invoiced</span><span class="tnum">€55,10</span></div>
+              <div class="v-row v-muted"><span><span class="en">Invoiced</span><span class="pt" lang="pt-PT">Faturado</span></span><span class="tnum">€55,10</span></div>
               <div class="v-bar"><span style="width:95%;--c:var(--moss)"></span></div>
             </div>
           </div>
-          <h3>Invoices against the plan <span class="tag">Justa Plus</span></h3>
-          <p>Estimated the electricity? Record the real bill and see how the estimate did, month after month.</p>
+          <h3><span class="en">Invoices against the plan</span><span class="pt" lang="pt-PT">Faturas contra o plano</span> <span class="tag">Justa Plus</span></h3>
+          <p class="en">Estimated the electricity? Record the real bill and see how the estimate did, month after month.</p>
+          <p class="pt" lang="pt-PT">Estimou a eletricidade? Registe a fatura real e veja como a estimativa correu, mês após mês.</p>
         </article>
         <article class="moment">
           <div class="vignette" data-theme="tejo" aria-hidden="true">
             <div class="search"><svg class="i"><use href="#i-search"/></svg><span>12</span><span class="caret"></span></div>
             <div class="v-card" style="padding:0.3rem 1rem">
-              <div class="row" style="grid-template-columns:32px 1fr auto"><span class="cat health" style="width:32px;height:32px;font-size:15px"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t" style="font-size:0.92rem">Pharmacy</div><div class="d" style="font-size:0.78rem">Tiago · 13 Sep</div></div><span class="amt" style="font-size:0.92rem">€12,80</span></div>
+              <div class="row" style="grid-template-columns:32px 1fr auto"><span class="cat health" style="width:32px;height:32px;font-size:15px"><svg class="i"><use href="#i-health"/></svg></span><div><div class="t" style="font-size:0.92rem"><span class="en">Pharmacy</span><span class="pt" lang="pt-PT">Farmácia</span></div><div class="d" style="font-size:0.78rem"><span class="en">Tiago · 13 Sep</span><span class="pt" lang="pt-PT">Tiago · 13 set</span></div></div><span class="amt" style="font-size:0.92rem">€12,80</span></div>
             </div>
           </div>
-          <h3>Found in a flash</h3>
-          <p>Search by title, note, category, payer or amount. Every word must match, accents never matter.</p>
+          <h3><span class="en">Found in a flash</span><span class="pt" lang="pt-PT">Encontrado num instante</span></h3>
+          <p class="en">Search by title, note, category, payer or amount. Every word must match, accents never matter.</p>
+          <p class="pt" lang="pt-PT">Pesquise por título, nota, categoria, quem pagou ou valor. Cada palavra tem de coincidir, os acentos nunca importam.</p>
         </article>
       </div>
     </section>
@@ -1235,58 +1274,62 @@
     <section class="wrap" id="ask" aria-labelledby="ask-title">
       <a class="ask-card" href="./ask/">
         <div>
-          <span class="eyebrow">Coming soon</span>
-          <h2 id="ask-title">Questions about Justa, <em>answered plainly.</em></h2>
-          <p>Justa Ask is on the way. Plain answers on plans, what is free, the Justa Plus vault, how data is stored, privacy, and sharing a household, so you can decide to try it or buy. Not for support tickets, code, or your household book. Nothing is sent today.</p>
+          <span class="eyebrow"><span class="en">Coming soon</span><span class="pt" lang="pt-PT">Em breve</span></span>
+          <h2 id="ask-title"><span class="en">Questions about Justa, <em>answered plainly.</em></span><span class="pt" lang="pt-PT">Perguntas sobre a Justa, <em>em palavras simples.</em></span></h2>
+          <p class="en">Justa Ask is on the way. Plain answers on plans, what is free, the Justa Plus vault, how data is stored, privacy, and sharing a household, so you can decide to try it or buy. Not for support tickets, code, or your household book. Nothing is sent today.</p>
+          <p class="pt" lang="pt-PT">O Ask da Justa está a caminho. Respostas simples sobre planos, o que é grátis, a pasta do cofre da Justa Plus, como os dados ficam guardados, privacidade e partilhar uma casa, para decidir se quer experimentar ou comprar. Não é para pedidos de apoio, nem para programação, nem para o livro da casa. Nada é enviado hoje.</p>
         </div>
-        <span class="ask-go">See Ask</span>
+        <span class="ask-go"><span class="en">See Ask</span><span class="pt" lang="pt-PT">Ver o Ask</span></span>
       </a>
     </section>
 
     <section class="wrap" id="privacy" aria-labelledby="privacy-title">
       <div class="privacy">
         <div class="section-head">
-          <span class="eyebrow">Private by design</span>
-          <h2 id="privacy-title">Your money talk <em>stays at home.</em></h2>
-          <p>Justa has no account and no server. There is nothing to sign up for and nothing for us to see.</p>
+          <span class="eyebrow"><span class="en">Private by design</span><span class="pt" lang="pt-PT">Privada de raiz</span></span>
+          <h2 id="privacy-title"><span class="en">Your money talk <em>stays at home.</em></span><span class="pt" lang="pt-PT">A conversa do dinheiro <em>fica em casa.</em></span></h2>
+          <p class="en">Justa has no account and no server. There is nothing to sign up for and nothing for us to see.</p>
+          <p class="pt" lang="pt-PT">A Justa não tem conta nem servidor. Não há nada para criar e nada para vermos.</p>
         </div>
         <div class="facts">
-          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg><b>On your iPhone</b><p>The household book lives on the device. Nothing leaves unless you choose a folder.</p></div>
-          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-folder"/></svg><b>Your own folder</b><p>Share across iPhones through a Files folder in iCloud Drive, Dropbox or Google Drive.</p></div>
-          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg><b>Receipts stay put</b><p>Text is read on this iPhone. The photo or PDF is never uploaded or kept.</p></div>
-          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-face"/></svg><b>Face ID</b><p>Lock the app on this iPhone. The setting never leaves the device.</p></div>
+          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg><b><span class="en">On your iPhone</span><span class="pt" lang="pt-PT">No seu iPhone</span></b><p class="en">The household book lives on the device. Nothing leaves unless you choose a folder.</p><p class="pt" lang="pt-PT">O livro da casa fica no aparelho. Nada sai, a menos que escolha uma pasta.</p></div>
+          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-folder"/></svg><b><span class="en">Your own folder</span><span class="pt" lang="pt-PT">A sua pasta</span></b><p class="en">Share across iPhones through a Files folder in iCloud Drive, Dropbox or Google Drive.</p><p class="pt" lang="pt-PT">Partilhe entre iPhones por uma pasta da app Ficheiros no iCloud Drive, Dropbox ou Google Drive.</p></div>
+          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg><b><span class="en">Receipts stay put</span><span class="pt" lang="pt-PT">As faturas ficam</span></b><p class="en">Text is read on this iPhone. The photo or PDF is never uploaded or kept.</p><p class="pt" lang="pt-PT">O texto é lido neste iPhone. A foto ou o PDF nunca são enviados nem guardados.</p></div>
+          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-face"/></svg><b>Face ID</b><p class="en">Lock the app on this iPhone. The setting never leaves the device.</p><p class="pt" lang="pt-PT">Bloqueie a app neste iPhone. A definição nunca sai do aparelho.</p></div>
         </div>
       </div>
     </section>
 
     <section class="wrap" id="pricing" aria-labelledby="pricing-title">
       <div class="section-head">
-        <span class="eyebrow">Pricing</span>
-        <h2 id="pricing-title">Free. One upgrade, <em>once.</em></h2>
+        <span class="eyebrow"><span class="en">Pricing</span><span class="pt" lang="pt-PT">Preço</span></span>
+        <h2 id="pricing-title"><span class="en">Free. One upgrade, <em>once.</em></span><span class="pt" lang="pt-PT">Grátis. Uma melhoria, <em>uma vez.</em></span></h2>
       </div>
       <div class="prices">
         <div class="price">
           <h3>Justa</h3>
           <div class="amount">€0</div>
-          <p class="pitch">Everything a household needs on one iPhone.</p>
+          <p class="pitch en">Everything a household needs on one iPhone.</p>
+          <p class="pitch pt" lang="pt-PT">Tudo o que uma casa precisa num iPhone.</p>
           <ul>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Monthly plan split by income, a percent, or a fixed amount</li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Extras, settle-up, accounts and insights</li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Receipt scanning on this iPhone</li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Six themes, several households, Face ID</li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Join a shared household someone else started</li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Monthly plan split by income, a percent, or a fixed amount</span><span class="pt" lang="pt-PT">Plano mensal dividido pelo rendimento, uma percentagem ou um valor fixo</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Extras, settle-up, accounts and insights</span><span class="pt" lang="pt-PT">Extras, ajuste, contas e resumo</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Receipt scanning on this iPhone</span><span class="pt" lang="pt-PT">Leitura de faturas neste iPhone</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Six themes, several households, Face ID</span><span class="pt" lang="pt-PT">Seis temas, várias casas, Face ID</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Join a shared household someone else started</span><span class="pt" lang="pt-PT">Entrar numa casa partilhada que outra pessoa começou</span></li>
           </ul>
         </div>
         <div class="price plus">
-          <span class="ribbon-tag">Justa on both iPhones</span>
+          <span class="ribbon-tag"><span class="en">Justa on both iPhones</span><span class="pt" lang="pt-PT">A Justa nos dois iPhones</span></span>
           <h3>Justa Plus</h3>
-          <div class="amount">€7,99<small>one time</small></div>
-          <p class="pitch">Your partner adds their own extras from their iPhone, into the same household.</p>
+          <div class="amount">€7,99<small><span class="en">one time</span><span class="pt" lang="pt-PT">uma vez</span></small></div>
+          <p class="pitch en">Your partner adds their own extras from their iPhone, into the same household.</p>
+          <p class="pitch pt" lang="pt-PT">A outra pessoa junta as suas extras a partir do próprio iPhone, na mesma casa.</p>
           <ul>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Start sharing a household across two iPhones</li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Record real invoices against the plan’s estimates</li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>Family Sharing included</li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>No subscription, ever</li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Start sharing a household across two iPhones</span><span class="pt" lang="pt-PT">Começar a partilhar uma casa entre dois iPhones</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Record real invoices against the plan’s estimates</span><span class="pt" lang="pt-PT">Registar faturas reais contra as estimativas do plano</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Family Sharing included</span><span class="pt" lang="pt-PT">Partilha em família incluída</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">No subscription, ever</span><span class="pt" lang="pt-PT">Sem subscrição, nunca</span></li>
           </ul>
         </div>
       </div>
@@ -1294,33 +1337,39 @@
 
     <section class="wrap" aria-labelledby="faq-title">
       <div class="section-head">
-        <span class="eyebrow">Questions</span>
-        <h2 id="faq-title">Good to know.</h2>
+        <span class="eyebrow"><span class="en">Questions</span><span class="pt" lang="pt-PT">Perguntas</span></span>
+        <h2 id="faq-title"><span class="en">Good to know.</span><span class="pt" lang="pt-PT">Bom saber.</span></h2>
       </div>
       <div class="faq">
         <details>
-          <summary>Why split by income instead of 50/50?</summary>
-          <p>If one person earns 55% of the household, covering 55% of the shared plan leaves both with the same share of what they earn. You can still give someone a percent or a fixed amount, split any extra 50/50, or set custom shares.</p>
+          <summary><span class="en">Why split by income instead of 50/50?</span><span class="pt" lang="pt-PT">Porque dividir pelo rendimento em vez de 50/50?</span></summary>
+          <p class="en">If one person earns 55% of the household, covering 55% of the shared plan leaves both with the same share of what they earn. You can still give someone a percent or a fixed amount, split any extra 50/50, or set custom shares.</p>
+          <p class="pt" lang="pt-PT">Se uma pessoa ganha 55% da casa, cobrir 55% do plano partilhado deixa as duas com a mesma parte do que ganham. Ainda pode dar a alguém uma percentagem ou um valor fixo, dividir qualquer extra 50/50, ou definir partes à medida.</p>
         </details>
         <details>
-          <summary>How do two iPhones share a household?</summary>
-          <p>With Justa Plus, tap Start sharing and choose an empty folder in iCloud Drive, Dropbox or Google Drive, then share that folder. On the second iPhone, tap Join a shared household (free) and pick the same folder. If you both edit the same bill at once, the latest save is kept.</p>
+          <summary><span class="en">How do two iPhones share a household?</span><span class="pt" lang="pt-PT">Como é que dois iPhones partilham uma casa?</span></summary>
+          <p class="en">With Justa Plus, tap Start sharing and choose an empty folder in iCloud Drive, Dropbox or Google Drive, then share that folder. On the second iPhone, tap Join a shared household (free) and pick the same folder. If you both edit the same bill at once, the latest save is kept.</p>
+          <p class="pt" lang="pt-PT">Com a Justa Plus, toque em Começar a partilhar e escolha uma pasta vazia no iCloud Drive, Dropbox ou Google Drive, e depois partilhe essa pasta. No segundo iPhone, toque em Entrar numa casa partilhada (grátis) e escolha a mesma pasta. Se os dois editarem a mesma conta ao mesmo tempo, fica a gravação mais recente.</p>
         </details>
         <details>
-          <summary>Does a receipt photo leave my iPhone?</summary>
-          <p>No. Justa reads the text on this iPhone with Apple Vision, or straight from a PDF’s text layer. The file is never uploaded or saved. Only the fields you keep — title, amount, date, category, note — go into the household book.</p>
+          <summary><span class="en">Does a receipt photo leave my iPhone?</span><span class="pt" lang="pt-PT">Uma fotografia de fatura sai do meu iPhone?</span></summary>
+          <p class="en">No. Justa reads the text on this iPhone with Apple Vision, or straight from a PDF’s text layer. The file is never uploaded or saved. Only the fields you keep — title, amount, date, category, note — go into the household book.</p>
+          <p class="pt" lang="pt-PT">Não. A Justa lê o texto neste iPhone com o Vision da Apple, ou directamente da camada de texto de um PDF. O ficheiro nunca é enviado nem guardado. Só os campos que ficar — título, valor, data, categoria, nota — entram no livro da casa.</p>
         </details>
         <details>
-          <summary>Can we each have our own theme?</summary>
-          <p>Yes. Themes stay on each iPhone, so one of you can live in Azulejo while the other falls asleep to Fado.</p>
+          <summary><span class="en">Can we each have our own theme?</span><span class="pt" lang="pt-PT">Podemos ter cada um o seu tema?</span></summary>
+          <p class="en">Yes. Themes stay on each iPhone, so one of you can live in Azulejo while the other falls asleep to Fado.</p>
+          <p class="pt" lang="pt-PT">Sim. Os temas ficam em cada iPhone, por isso uma pessoa pode viver no Azulejo enquanto a outra adormece com o Fado.</p>
         </details>
         <details>
-          <summary>Is the app in English?</summary>
-          <p>Justa follows your iPhone’s language, in English or European Portuguese. Amounts use the currency of the household.</p>
+          <summary><span class="en">Is the app in English?</span><span class="pt" lang="pt-PT">A app está em inglês?</span></summary>
+          <p class="en">Justa follows your iPhone’s language, in English or European Portuguese. Amounts use the currency of the household.</p>
+          <p class="pt" lang="pt-PT">A Justa segue a língua do iPhone, em inglês ou em português europeu. Os valores usam a moeda da casa.</p>
         </details>
         <details>
-          <summary>What do you collect?</summary>
-          <p>Nothing. See the <a href="./privacy/">privacy policy</a>.</p>
+          <summary><span class="en">What do you collect?</span><span class="pt" lang="pt-PT">O que recolhem?</span></summary>
+          <p class="en">Nothing. See the <a href="./privacy/">privacy policy</a>.</p>
+          <p class="pt" lang="pt-PT">Nada. Veja a <a href="./privacy/">política de privacidade</a>.</p>
         </details>
       </div>
       <div class="tiles-strip" aria-hidden="true"></div>
@@ -1330,9 +1379,9 @@
       <img src="wordmark.png" alt="justa" width="59" height="30" />
       <nav aria-label="Footer">
         <a href="./ask/">Ask</a>
-        <a href="./privacy/">Privacy</a>
-        <a href="mailto:aacnsilva@hotmail.com">Support</a>
-        <span>Made with care in Lisbon · © Justa</span>
+        <a href="./privacy/"><span class="en">Privacy</span><span class="pt" lang="pt-PT">Privacidade</span></a>
+        <a href="mailto:aacnsilva@hotmail.com"><span class="en">Support</span><span class="pt" lang="pt-PT">Apoio</span></a>
+        <span><span class="en">Made with care in Lisbon · © Justa</span><span class="pt" lang="pt-PT">Feito com cuidado em Lisboa · © Justa</span></span>
       </nav>
     </footer>
   </main>
@@ -1435,20 +1484,45 @@
       return { burstFrom };
     })();
 
+    /* Language, shared with /justa/ask/ and /justa/privacy/ through justa-lang. */
+    const langButtons = document.querySelectorAll("[data-set-lang]");
+    const storeButton = document.querySelector(".store");
+    const pageDescription = document.querySelector('meta[name="description"]');
+    const currentLang = () => (document.body.dataset.lang === "pt" ? "pt" : "en");
+    const titles = {
+      en: "Justa — Shared bills, split fairly",
+      pt: "Justa — Contas partilhadas, divididas com justiça"
+    };
+    const descriptions = {
+      en: "Household money, without the dread. Justa plans the month, splits it fairly by income, logs the extras, and tells you who pays whom. Six Portuguese themes, on-device receipt scanning, and confetti when you're all square. No account. No server.",
+      pt: "O dinheiro da casa, sem o aperto. A Justa planeia o mês, divide-o de forma justa pelo rendimento, regista as extras e diz quem paga a quem. Seis temas portugueses, leitura de faturas no aparelho, e confetes quando ficam quites. Sem conta. Sem servidor."
+    };
+    const storeLabels = {
+      en: "Download on the App Store — coming soon",
+      pt: "Descarregar na App Store — em breve"
+    };
+
     /* Hero: settle the month on the phone. */
     const balanceCard = byId("demo-balance");
     const demoHint = byId("demo-hint");
     const demoReset = byId("demo-reset");
     const requestBubble = byId("request-bubble");
     const hints = {
-      open: "Tap <b>Settle up</b>. Go on.",
-      awaiting: "Now tap <b>Inês sent it</b>.",
-      square: "All square. That’s the feeling."
+      en: {
+        open: "Tap <b>Settle up</b>. Go on.",
+        awaiting: "Now tap <b>Inês sent it</b>.",
+        square: "All square. That’s the feeling."
+      },
+      pt: {
+        open: "Toque em <b>Ajustar</b>. Vá.",
+        awaiting: "Agora toque em <b>A Inês enviou</b>.",
+        square: "Quites. É esta a sensação."
+      }
     };
 
     const showState = (state) => {
       balanceCard.dataset.state = state;
-      demoHint.innerHTML = hints[state];
+      demoHint.innerHTML = hints[currentLang()][state];
       demoReset.hidden = state !== "square";
       requestBubble.dataset.show = "false";
     };
@@ -1508,11 +1582,17 @@
       themeStage.dataset.theme = theme;
       themePhone.querySelector(".screen").dataset.theme = theme;
       themeCards.forEach((other) => other.setAttribute("aria-pressed", String(other === card)));
-      byId("theme-name").textContent = card.querySelector("b").textContent;
-      byId("theme-tagline").textContent = card.querySelector("small").textContent;
+      refreshThemeCaption();
       themePhone.classList.remove("pop");
       void themePhone.offsetWidth;
       themePhone.classList.add("pop");
+    };
+
+    const refreshThemeCaption = () => {
+      const card = document.querySelector('[data-pick][aria-pressed="true"]');
+      if (!card) return;
+      byId("theme-name").textContent = card.querySelector("b").textContent.trim();
+      byId("theme-tagline").textContent = card.querySelector(`small .${currentLang()}`).textContent.trim();
     };
 
     themeCards.forEach((card) => card.addEventListener("click", handleThemePick));
@@ -1523,14 +1603,28 @@
     const receiptFill = { amount: 14.25, title: "Continente", date: "13 Sep", payerShare: 0.55 };
     let readingTimer = null;
 
-    const fillFromReceipt = () => {
-      const inesShare = Math.round(receiptFill.amount * receiptFill.payerShare * 100) / 100;
-      const tiagoShare = Math.round((receiptFill.amount - inesShare) * 100) / 100;
-      byId("expense-amount").innerHTML = `<small>€</small>${amountFormat.format(receiptFill.amount)}`;
-      byId("expense-title").textContent = receiptFill.title;
-      byId("expense-date").lastChild.textContent = receiptFill.date;
+    let receiptRead = false;
+
+    const renderExpenseCopy = () => {
+      const lang = currentLang();
+      const amount = receiptRead ? receiptFill.amount : 40;
+      const payerShare = receiptRead ? receiptFill.payerShare : 0.55;
+      const inesShare = Math.round(amount * payerShare * 100) / 100;
+      const tiagoShare = Math.round((amount - inesShare) * 100) / 100;
       byId("expense-shares").textContent = `Inês ${euro(inesShare)} · Tiago ${euro(tiagoShare)}`;
-      byId("expense-owe").textContent = `Tiago will owe Inês ${euro(tiagoShare)}`;
+      byId("expense-owe").textContent = lang === "pt"
+        ? `O Tiago vai dever ${euro(tiagoShare)} à Inês`
+        : `Tiago will owe Inês ${euro(tiagoShare)}`;
+      byId("expense-date").querySelector(".date-label").textContent = receiptRead
+        ? (lang === "pt" ? "13 set" : "13 Sep")
+        : (lang === "pt" ? "Hoje" : "Today");
+      if (receiptRead) byId("expense-title").textContent = receiptFill.title;
+    };
+
+    const fillFromReceipt = () => {
+      receiptRead = true;
+      byId("expense-amount").innerHTML = `<small>€</small>${amountFormat.format(receiptFill.amount)}`;
+      renderExpenseCopy();
       ["expense-amount-wrap", "expense-title", "expense-date", "expense-split"].forEach((id) => {
         const node = byId(id);
         node.classList.remove("filled");
@@ -1589,10 +1683,18 @@
     let splitRule = "income";
 
     const rooms = {
-      roomy: { title: "Plenty of breathing room", icon: "#i-sun", tone: "tone-good" },
-      comfortable: { title: "On plan, with room to spare", icon: "#i-leaf", tone: "tone-good" },
-      snug: { title: "Snug, but it fits", icon: "#i-gauge", tone: "tone-warn" },
-      over: { title: "The plan runs past what comes in", icon: "#i-alert", tone: "tone-warn" }
+      en: {
+        roomy: { title: "Plenty of breathing room", icon: "#i-sun", tone: "tone-good" },
+        comfortable: { title: "On plan, with room to spare", icon: "#i-leaf", tone: "tone-good" },
+        snug: { title: "Snug, but it fits", icon: "#i-gauge", tone: "tone-warn" },
+        over: { title: "The plan runs past what comes in", icon: "#i-alert", tone: "tone-warn" }
+      },
+      pt: {
+        roomy: { title: "Margem de sobra", icon: "#i-sun", tone: "tone-good" },
+        comfortable: { title: "No plano, com folga", icon: "#i-leaf", tone: "tone-good" },
+        snug: { title: "Apertado, mas cabe", icon: "#i-gauge", tone: "tone-warn" },
+        over: { title: "O plano passa do que entra", icon: "#i-alert", tone: "tone-warn" }
+      }
     };
 
     const gradeRoom = (leftover, income) => {
@@ -1605,10 +1707,14 @@
     const renderMood = (income, total) => {
       const leftover = income - total;
       const roomKey = gradeRoom(leftover, income);
-      const room = rooms[roomKey];
-      const caption = roomKey === "over"
-        ? `more than the ${euroHero(income)} coming in`
-        : `left of the ${euroHero(income)} coming in`;
+      const room = rooms[currentLang()][roomKey];
+      const caption = currentLang() === "pt"
+        ? (roomKey === "over"
+          ? `acima dos ${euroHero(income)} que entram`
+          : `que sobram dos ${euroHero(income)} que entram`)
+        : (roomKey === "over"
+          ? `more than the ${euroHero(income)} coming in`
+          : `left of the ${euroHero(income)} coming in`);
       const mood = byId("calc-mood");
       mood.classList.remove("tone-good", "tone-warn");
       mood.classList.add(room.tone);
@@ -1640,7 +1746,17 @@
       const fairA = Math.round(total * (a / (a + b)) * 100) / 100;
       const gap = Math.abs(fairA - total / 2);
       const heavier = fairA > total / 2 ? "Tiago" : "Inês";
-      if (splitRule === "half") {
+      if (currentLang() === "pt") {
+        if (splitRule === "half") {
+          byId("half-note").textContent = gap < 1
+            ? "O mesmo rendimento, por isso metade e justo coincidem."
+            : `Metade para cada um. Pelo rendimento, ${heavier} pagaria ${euro(gap)} a menos por mês.`;
+        } else {
+          byId("half-note").textContent = gap < 1
+            ? "O mesmo rendimento, a mesma parte. Justo e metade coincidem desta vez."
+            : `A meias, ${heavier} pagaria ${euro(gap)} a mais por mês do que a parte justa.`;
+        }
+      } else if (splitRule === "half") {
         byId("half-note").textContent = gap < 1
           ? "Same income, so half and fair agree."
           : `Half each. By income, ${heavier} would pay ${euro(gap)} a month less.`;
@@ -1658,9 +1774,32 @@
       renderSplit();
     };
 
+    const setLang = (lang) => {
+      document.body.setAttribute("data-lang", lang);
+      document.documentElement.lang = lang === "pt" ? "pt-PT" : "en";
+      document.title = titles[lang];
+      pageDescription.setAttribute("content", descriptions[lang]);
+      storeButton.setAttribute("aria-label", storeLabels[lang]);
+      langButtons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.setLang === lang));
+      });
+      try { localStorage.setItem("justa-lang", lang); } catch (error) { /* private mode */ }
+      demoHint.innerHTML = hints[lang][balanceCard.dataset.state];
+      refreshThemeCaption();
+      renderExpenseCopy();
+      renderSplit();
+    };
+
+    const handleLangClick = (event) => setLang(event.currentTarget.dataset.setLang);
+    langButtons.forEach((button) => button.addEventListener("click", handleLangClick));
+
     [incomeA, incomeB, plan].forEach((input) => input.addEventListener("input", renderSplit));
     ruleButtons.forEach((button) => button.addEventListener("click", handleRuleClick));
-    renderSplit();
+
+    let savedLang = null;
+    try { savedLang = localStorage.getItem("justa-lang"); } catch (error) { /* private mode */ }
+    if (savedLang === "pt" || savedLang === "en") setLang(savedLang);
+    else renderSplit();
   </script>
 </body>
 </html>
