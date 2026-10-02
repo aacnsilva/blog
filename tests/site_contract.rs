@@ -413,6 +413,19 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(landing.contains("data-receipt-action=\"read\""));
     assert!(landing.contains("Read on this iPhone. Nothing is uploaded."));
     assert!(landing.contains("Justa on both iPhones"));
+    assert!(landing.contains("data-set-lang=\"pt\""));
+    assert!(landing.contains("justa-lang"));
+    assert!(landing.contains("lang=\"pt-PT\""));
+    assert!(landing.contains("O dinheiro da casa"));
+    assert!(landing.contains("sem o aperto"));
+    assert!(landing.contains("Contas partilhadas"));
+    assert!(landing.contains("Em breve na"));
+    assert!(landing.contains("pasta do cofre da Justa Plus"));
+    assert!(landing.contains("política de privacidade"));
+    assert!(landing.contains("Começar a partilhar"));
+    assert!(landing.contains("Entrar numa casa partilhada"));
+    assert!(!landing.contains("você"));
+    assert!(!landing.contains("arquivo"));
 
     let privacy = read(root, "justa/privacy/index.html");
     assert!(privacy.contains("Privacy Policy — Justa"));
