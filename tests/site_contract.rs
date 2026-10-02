@@ -103,6 +103,7 @@ fn assert_required_files_exist(root: &Path) {
         "justa/wordmark.png",
         "justa/appicon.png",
         "justa/privacy/index.html",
+        "justa/ask/index.html",
     ];
 
     for file in required {
@@ -377,6 +378,9 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(!landing.contains("apps.apple.com"));
     assert!(landing.contains(r#"<meta name="robots" content="noindex, nofollow" />"#));
     assert!(landing.contains("href=\"./privacy/\""));
+    assert!(landing.contains("href=\"./ask/\">Ask</a>"));
+    assert!(landing.contains("class=\"ask-card\" href=\"./ask/\""));
+    assert!(landing.contains("Ask the month"));
     assert!(landing.contains("id=\"income-a\""));
     assert!(!landing.contains("Joora"));
     assert!(!landing.contains("hero-composite"));
@@ -418,9 +422,23 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(!privacy.contains("btn-coming"));
     assert!(!privacy.contains("split fairly"));
 
+    let ask = read(root, "justa/ask/index.html");
+    assert!(ask.contains(r#"<meta name="robots" content="noindex, nofollow" />"#));
+    assert!(ask.contains("<title>Ask — Justa</title>"));
+    assert!(ask.contains("Coming soon"));
+    assert!(ask.contains("Em breve"));
+    assert!(ask.contains("Pergunte ao mês"));
+    assert!(ask.contains("<fieldset disabled>"));
+    assert!(!ask.contains("anthropic"));
+    assert!(!ask.contains("claude"));
+    assert!(!ask.contains("haiku"));
+    assert!(!ask.contains("fetch("));
+    assert!(!ask.contains("workers.dev"));
+
     let sitemap = read(root, "sitemap.xml");
     assert!(!sitemap.contains("https://aacnsilva.com/justa/"));
     assert!(!sitemap.contains("https://aacnsilva.com/joora/"));
+    assert!(!sitemap.contains("https://aacnsilva.com/justa/ask/"));
 }
 
 fn assert_png(root: &Path, relative: &str) {
