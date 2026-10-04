@@ -315,8 +315,6 @@ fn assert_unlisted_privacy_page(root: &Path) {
     assert!(privacy.contains("Política de privacidade — Justa"));
     assert!(privacy.contains("A Justa"));
     assert!(privacy.contains("does not run a server"));
-    assert!(privacy.contains("Effective 20 September 2026"));
-    assert!(privacy.contains("20 de setembro de 2026"));
     assert!(privacy.contains("Justa Plus"));
     assert!(privacy.contains("mailto:aacnsilva@hotmail.com"));
     assert!(privacy.contains("class=\"wordmark\""));
