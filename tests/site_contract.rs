@@ -426,6 +426,7 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(landing.contains("Entrar numa casa partilhada"));
     assert!(!landing.contains("você"));
     assert!(!landing.contains("arquivo"));
+    assert_justa_footer(&landing);
 
     let privacy = read(root, "justa/privacy/index.html");
     assert!(privacy.contains("Privacy Policy — Justa"));
@@ -437,6 +438,8 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(!privacy.contains("Em breve"));
     assert!(!privacy.contains("btn-coming"));
     assert!(!privacy.contains("split fairly"));
+    assert_justa_footer(&privacy);
+    assert!(privacy.contains("href=\"../ask/\">Ask</a>"));
 
     let ask = read(root, "justa/ask/index.html");
     assert!(ask.contains(r#"<meta name="robots" content="noindex, nofollow" />"#));
@@ -455,11 +458,19 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(!ask.contains("haiku"));
     assert!(!ask.contains("fetch("));
     assert!(!ask.contains("workers.dev"));
+    assert_justa_footer(&ask);
 
     let sitemap = read(root, "sitemap.xml");
     assert!(!sitemap.contains("https://aacnsilva.com/justa/"));
     assert!(!sitemap.contains("https://aacnsilva.com/joora/"));
     assert!(!sitemap.contains("https://aacnsilva.com/justa/ask/"));
+}
+
+fn assert_justa_footer(page: &str) {
+    assert!(page.contains("Made with care in Porto · © Justa"));
+    assert!(page.contains("Feito com cuidado no Porto · © Justa"));
+    assert!(!page.contains("Made with care in Lisbon"));
+    assert!(!page.contains("Feito com cuidado em Lisboa"));
 }
 
 fn assert_png(root: &Path, relative: &str) {
