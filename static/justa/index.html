@@ -303,17 +303,22 @@
     .fact p { margin: 0; font-size: 0.95rem; color: rgba(255,255,255,0.72); }
 
     /* Pricing */
-    .prices { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 960px; }
-    .price { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; padding: 2.2rem; position: relative; }
+    .prices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .price { background: var(--surface); border: 1px solid var(--line); border-radius: 26px; padding: 2rem 1.6rem; position: relative; }
     .price.plus { border-color: var(--cobalt); box-shadow: 0 0 0 1px var(--cobalt) inset, 0 30px 60px -40px rgba(31,76,196,0.6); }
+    .price.pro { border-color: var(--moss); box-shadow: 0 0 0 1px var(--moss) inset, 0 30px 60px -40px rgba(19,122,75,0.45); }
     .price .ribbon-tag { position: absolute; top: -0.8rem; right: 1.6rem; background: var(--cobalt); color: #fff; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.8rem; border-radius: 99px; }
+    .price.pro .ribbon-tag { background: var(--moss); }
     .price h3 { font-size: 1.6rem; }
-    .price .amount { font-family: var(--serif); font-size: 3rem; margin: 0.6rem 0 0.2rem; line-height: 1; }
+    .price .amount { font-family: var(--serif); font-size: clamp(2.2rem, 3vw, 2.8rem); margin: 0.6rem 0 0.2rem; line-height: 1; }
     .price .amount small { font-family: var(--sans); font-size: 0.95rem; color: var(--soft); margin-left: 0.35rem; }
     .price .pitch { color: var(--soft); margin: 0.6rem 0 0; }
     .price ul { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0.65rem; }
     .price li { display: flex; gap: 0.6rem; align-items: flex-start; }
     .price li .i { margin-top: 0.3em; color: var(--cobalt); stroke-width: 2.6; }
+    .price.pro li .i { color: var(--moss); }
+    .price-note { max-width: 68ch; color: var(--soft); font-size: 0.95rem; margin: 1.6rem 0 0; }
+    .price-links { white-space: nowrap; }
 
     /* FAQ */
     .faq { max-width: 780px; }
@@ -553,6 +558,9 @@
     @media (max-width: 1080px) {
       .themes { grid-template-columns: 1fr; padding: 3.5rem 2rem; }
       .glance { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 1100px) {
+      .prices { grid-template-columns: 1fr; }
     }
     @media (max-width: 900px) {
       .nav ul { display: none; }
@@ -870,7 +878,7 @@
             <p class="en">Amount first, big and friendly. Pick who paid and how to split it, and Justa tells you right away who will owe whom. Or snap the receipt and let it fill itself in.</p>
             <p class="pt" lang="pt-PT">O valor primeiro, grande e simpático. Escolha quem pagou e como dividir, e a Justa diz logo quem vai dever a quem. Ou fotografe a fatura e deixe que se preencha.</p>
             <ul class="joys">
-              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">Receipts are read on your iPhone with Apple Vision. Nothing is uploaded, and the photo isn’t kept.</span><span class="pt" lang="pt-PT">As faturas são lidas no iPhone com o Vision da Apple. Nada é enviado, e a foto não fica guardada.</span></li>
+              <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">Receipts are read on your iPhone with Apple Vision. Nothing is uploaded, and the photo isn’t kept. Five scans a month are free.</span><span class="pt" lang="pt-PT">As faturas são lidas no iPhone com o Vision da Apple. Nada é enviado, e a foto não fica guardada. Cinco leituras por mês são grátis.</span></li>
               <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">By income, 50/50, only one person, or your own custom shares.</span><span class="pt" lang="pt-PT">Pelo rendimento, 50/50, só uma pessoa, ou partes à sua medida.</span></li>
               <li><svg class="i" aria-hidden="true"><use href="#i-sparkle"/></svg><span class="en">Several extras in one sheet. The next row keeps the date, the payer and the split.</span><span class="pt" lang="pt-PT">Várias extras na mesma folha. A linha seguinte guarda a data, quem pagou e a divisão.</span></li>
             </ul>
@@ -1253,7 +1261,7 @@
               <div class="v-bar"><span style="width:95%;--c:var(--moss)"></span></div>
             </div>
           </div>
-          <h3><span class="en">Invoices against the plan</span><span class="pt" lang="pt-PT">Faturas contra o plano</span> <span class="tag">Justa Plus</span></h3>
+          <h3><span class="en">Invoices against the plan</span><span class="pt" lang="pt-PT">Faturas contra o plano</span></h3>
           <p class="en">Estimated the electricity? Record the real bill and see how the estimate did, month after month.</p>
           <p class="pt" lang="pt-PT">Estimou a eletricidade? Registe a fatura real e veja como a estimativa correu, mês após mês.</p>
         </article>
@@ -1293,7 +1301,7 @@
         </div>
         <div class="facts">
           <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg><b><span class="en">On your iPhone</span><span class="pt" lang="pt-PT">No seu iPhone</span></b><p class="en">The household book lives on the device. Nothing leaves unless you choose a folder.</p><p class="pt" lang="pt-PT">O livro da casa fica no aparelho. Nada sai, a menos que escolha uma pasta.</p></div>
-          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-folder"/></svg><b><span class="en">Your own folder</span><span class="pt" lang="pt-PT">A sua pasta</span></b><p class="en">Share across iPhones through a Files folder in iCloud Drive, Dropbox or Google Drive.</p><p class="pt" lang="pt-PT">Partilhe entre iPhones por uma pasta da app Ficheiros no iCloud Drive, Dropbox ou Google Drive.</p></div>
+          <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-folder"/></svg><b><span class="en">Your own folder</span><span class="pt" lang="pt-PT">A sua pasta</span></b><p class="en">Share across iPhones through a Files folder in iCloud Drive, Dropbox, Google Drive, or On My iPhone.</p><p class="pt" lang="pt-PT">Partilhe entre iPhones por uma pasta da app Ficheiros no iCloud Drive, Dropbox, Google Drive ou Neste iPhone.</p></div>
           <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg><b><span class="en">Receipts stay put</span><span class="pt" lang="pt-PT">As faturas ficam</span></b><p class="en">Text is read on this iPhone. The photo or PDF is never uploaded or kept.</p><p class="pt" lang="pt-PT">O texto é lido neste iPhone. A foto ou o PDF nunca são enviados nem guardados.</p></div>
           <div class="fact"><svg class="i" aria-hidden="true"><use href="#i-face"/></svg><b>Face ID</b><p class="en">Lock the app on this iPhone. The setting never leaves the device.</p><p class="pt" lang="pt-PT">Bloqueie a app neste iPhone. A definição nunca sai do aparelho.</p></div>
         </div>
@@ -1303,7 +1311,9 @@
     <section class="wrap" id="pricing" aria-labelledby="pricing-title">
       <div class="section-head">
         <span class="eyebrow"><span class="en">Pricing</span><span class="pt" lang="pt-PT">Preço</span></span>
-        <h2 id="pricing-title"><span class="en">Free. One upgrade, <em>once.</em></span><span class="pt" lang="pt-PT">Grátis. Uma melhoria, <em>uma vez.</em></span></h2>
+        <h2 id="pricing-title"><span class="en">The household book <em>stays free.</em></span><span class="pt" lang="pt-PT">O livro da casa <em>continua grátis.</em></span></h2>
+        <p class="en">Justa Plus is once. Justa Pro is the subscription. Either one unlocks sharing across two iPhones.</p>
+        <p class="pt" lang="pt-PT">A Justa Plus é uma vez. O Justa Pro é a subscrição. Qualquer um desbloqueia a partilha entre dois iPhones.</p>
       </div>
       <div class="prices">
         <div class="price">
@@ -1313,26 +1323,41 @@
           <p class="pitch pt" lang="pt-PT">Tudo o que uma casa precisa num iPhone.</p>
           <ul>
             <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Monthly plan split by income, a percent, or a fixed amount</span><span class="pt" lang="pt-PT">Plano mensal dividido pelo rendimento, uma percentagem ou um valor fixo</span></li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Extras, settle-up, accounts and insights</span><span class="pt" lang="pt-PT">Extras, ajuste, contas e resumo</span></li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Receipt scanning on this iPhone</span><span class="pt" lang="pt-PT">Leitura de faturas neste iPhone</span></li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Six themes, several households, Face ID</span><span class="pt" lang="pt-PT">Seis temas, várias casas, Face ID</span></li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Join a shared household someone else started</span><span class="pt" lang="pt-PT">Entrar numa casa partilhada que outra pessoa começou</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Extras, settle-up, accounts, insights, and invoices against the plan</span><span class="pt" lang="pt-PT">Extras, ajuste, contas, resumo e faturas contra o plano</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Five receipt scans a month on this iPhone</span><span class="pt" lang="pt-PT">Cinco leituras de faturas por mês neste iPhone</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Six themes, several households, Face&nbsp;ID</span><span class="pt" lang="pt-PT">Seis temas, várias casas, Face&nbsp;ID</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Stop sharing stays free</span><span class="pt" lang="pt-PT">Parar de partilhar continua grátis</span></li>
           </ul>
         </div>
         <div class="price plus">
           <span class="ribbon-tag"><span class="en">Justa on both iPhones</span><span class="pt" lang="pt-PT">A Justa nos dois iPhones</span></span>
           <h3>Justa Plus</h3>
-          <div class="amount">€7,99<small><span class="en">one time</span><span class="pt" lang="pt-PT">uma vez</span></small></div>
+          <div class="amount">€7,99<small><span class="en">once</span><span class="pt" lang="pt-PT">uma vez</span></small></div>
           <p class="pitch en">Your partner adds their own extras from their iPhone, into the same household.</p>
           <p class="pitch pt" lang="pt-PT">A outra pessoa junta as suas extras a partir do próprio iPhone, na mesma casa.</p>
           <ul>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Start sharing a household across two iPhones</span><span class="pt" lang="pt-PT">Começar a partilhar uma casa entre dois iPhones</span></li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Record real invoices against the plan’s estimates</span><span class="pt" lang="pt-PT">Registar faturas reais contra as estimativas do plano</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Start sharing, or join a household someone else started</span><span class="pt" lang="pt-PT">Começar a partilhar, ou entrar numa casa que outra pessoa começou</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">A Files folder you both open. The latest save is kept.</span><span class="pt" lang="pt-PT">Uma pasta da app Ficheiros que os dois abrem. Fica a gravação mais recente.</span></li>
             <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Family Sharing included</span><span class="pt" lang="pt-PT">Partilha em família incluída</span></li>
-            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">No subscription, ever</span><span class="pt" lang="pt-PT">Sem subscrição, nunca</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">One purchase. It does not renew.</span><span class="pt" lang="pt-PT">Uma compra. Não se renova.</span></li>
+          </ul>
+        </div>
+        <div class="price pro">
+          <span class="ribbon-tag"><span class="en">Save 44% yearly</span><span class="pt" lang="pt-PT">Poupe 44% no anual</span></span>
+          <h3>Justa Pro</h3>
+          <div class="amount">€2,99<small><span class="en">a month</span><span class="pt" lang="pt-PT">por mês</span></small></div>
+          <p class="pitch en">or €19,99 a year, about €1,67 a month. Every receipt, read on this iPhone.</p>
+          <p class="pitch pt" lang="pt-PT">ou €19,99 por ano, cerca de €1,67 por mês. Todas as faturas, lidas neste iPhone.</p>
+          <ul>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Unlimited receipt scans, from the camera, photos, and PDFs</span><span class="pt" lang="pt-PT">Leituras de faturas sem limite, da câmara, das fotos e de PDFs</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Start sharing and Join, while the subscription lasts</span><span class="pt" lang="pt-PT">Começar a partilhar e Entrar, enquanto a subscrição durar</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Each new Pro feature, as it lands</span><span class="pt" lang="pt-PT">Cada novidade Pro, assim que chega</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Family Sharing included. Renews until you cancel.</span><span class="pt" lang="pt-PT">Partilha em família incluída. Renova-se até cancelar.</span></li>
           </ul>
         </div>
       </div>
+      <p class="price-note en">Prices are for Portugal. Justa Pro renews unless you cancel at least 24 hours before the period ends. Manage or cancel it in Settings › Apple Account › Subscriptions. If Plus or Pro ends, new changes stay on that iPhone until one of them is unlocked again. Apple processes the payment. <span class="price-links"><a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Terms of Use</a> · <a href="./privacy/">Privacy Policy</a></span></p>
+      <p class="price-note pt" lang="pt-PT">Os preços são para Portugal. O Justa Pro renova-se, a menos que cancele pelo menos 24 horas antes do fim do período. Gira ou cancele em Definições › Conta Apple › Subscrições. Se a Plus ou a Pro acabar, as alterações novas ficam nesse iPhone até uma delas voltar a ser desbloqueada. A Apple processa o pagamento. <span class="price-links"><a href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/">Termos de utilização</a> · <a href="./privacy/">Política de privacidade</a></span></p>
     </section>
 
     <section class="wrap" aria-labelledby="faq-title">
@@ -1348,13 +1373,13 @@
         </details>
         <details>
           <summary><span class="en">How do two iPhones share a household?</span><span class="pt" lang="pt-PT">Como é que dois iPhones partilham uma casa?</span></summary>
-          <p class="en">With Justa Plus, tap Start sharing and choose an empty folder in iCloud Drive, Dropbox or Google Drive, then share that folder. On the second iPhone, tap Join a shared household (free) and pick the same folder. If you both edit the same bill at once, the latest save is kept.</p>
-          <p class="pt" lang="pt-PT">Com a Justa Plus, toque em Começar a partilhar e escolha uma pasta vazia no iCloud Drive, Dropbox ou Google Drive, e depois partilhe essa pasta. No segundo iPhone, toque em Entrar numa casa partilhada (grátis) e escolha a mesma pasta. Se os dois editarem a mesma conta ao mesmo tempo, fica a gravação mais recente.</p>
+          <p class="en">With Justa Plus, or with Justa Pro while the subscription lasts, tap Start sharing and choose an empty folder in iCloud Drive, Dropbox, Google Drive, or On My iPhone, then share that folder. The second iPhone needs Justa Plus or Justa Pro too: tap Join a shared household and pick the same folder. If you both edit the same bill at once, the latest save is kept. Stop sharing stays free. If the unlock ends, new changes stay on that iPhone until Justa Plus or Justa Pro is unlocked again.</p>
+          <p class="pt" lang="pt-PT">Com a Justa Plus, ou com o Justa Pro enquanto a subscrição durar, toque em Começar a partilhar e escolha uma pasta vazia no iCloud Drive, Dropbox, Google Drive ou Neste iPhone, e depois partilhe essa pasta. O segundo iPhone também precisa de Justa Plus ou Justa Pro: toque em Entrar numa casa partilhada e escolha a mesma pasta. Se os dois editarem a mesma conta ao mesmo tempo, fica a gravação mais recente. Parar de partilhar continua grátis. Se o desbloqueio acabar, as alterações novas ficam nesse iPhone até a Justa Plus ou o Justa Pro voltar a ser desbloqueado.</p>
         </details>
         <details>
           <summary><span class="en">Does a receipt photo leave my iPhone?</span><span class="pt" lang="pt-PT">Uma fotografia de fatura sai do meu iPhone?</span></summary>
-          <p class="en">No. Justa reads the text on this iPhone with Apple Vision, or straight from a PDF’s text layer. The file is never uploaded or saved. Only the fields you keep — title, amount, date, category, note — go into the household book.</p>
-          <p class="pt" lang="pt-PT">Não. A Justa lê o texto neste iPhone com o Vision da Apple, ou directamente da camada de texto de um PDF. O ficheiro nunca é enviado nem guardado. Só os campos que ficar — título, valor, data, categoria, nota — entram no livro da casa.</p>
+          <p class="en">No. Justa reads the text on this iPhone with Apple Vision, or straight from a PDF’s text layer. The file is never uploaded or saved. Only the fields you keep — title, amount, date, category, note — go into the household book. Five scans a month are free on each iPhone, and they come back on the 1st. Justa Pro scans without a limit.</p>
+          <p class="pt" lang="pt-PT">Não. A Justa lê o texto neste iPhone com o Vision da Apple, ou directamente da camada de texto de um PDF. O ficheiro nunca é enviado nem guardado. Só os campos que ficar — título, valor, data, categoria, nota — entram no livro da casa. Cinco leituras por mês são grátis em cada iPhone, e voltam no dia 1. O Justa Pro lê sem limite.</p>
         </details>
         <details>
           <summary><span class="en">Can we each have our own theme?</span><span class="pt" lang="pt-PT">Podemos ter cada um o seu tema?</span></summary>
