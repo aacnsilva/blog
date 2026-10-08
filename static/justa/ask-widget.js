@@ -26,8 +26,8 @@
       label: "Your question",
       placeholder: "Ask about Justa…",
       send: "Send",
-      note: "Your household book stays on your iPhone. A question typed here is sent to Claude Haiku, by Anthropic, so this page can answer from Justa’s public notes. It is not saved, and there is no account to create. Each network can ask a few times an hour, and answers pause for the rest of the month once the service reaches its limit.",
-      noteShort: "Sent to Claude Haiku. Not saved.",
+      note: "Your household book stays on your iPhone. A question typed here is answered from Justa’s public notes. It is not saved, and there is no account to create. Each network can ask a few times an hour, and answers pause for the rest of the month once the service reaches its limit.",
+      noteShort: "Questions are not saved.",
       noteMore: "How questions are handled"
     },
     pt: {
@@ -47,8 +47,8 @@
       label: "A sua pergunta",
       placeholder: "Pergunte sobre a Justa…",
       send: "Enviar",
-      note: "O livro da casa fica no seu iPhone. Uma pergunta escrita aqui é enviada ao Claude Haiku, da Anthropic, para que esta página responda a partir das notas públicas da Justa. Não é guardada, e não há conta para criar. Cada rede pode perguntar algumas vezes por hora, e as respostas param até ao fim do mês quando o serviço chega ao limite.",
-      noteShort: "Enviada ao Claude Haiku. Não é guardada.",
+      note: "O livro da casa fica no seu iPhone. Uma pergunta escrita aqui é respondida a partir das notas públicas da Justa. Não é guardada, e não há conta para criar. Cada rede pode perguntar algumas vezes por hora, e as respostas param até ao fim do mês quando o serviço chega ao limite.",
+      noteShort: "As perguntas não são guardadas.",
       noteMore: "Como as perguntas são tratadas"
     }
   };

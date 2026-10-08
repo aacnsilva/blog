@@ -456,8 +456,10 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(privacy.contains(r#"<script src="../ask-widget.js" defer></script>"#));
     let widget = read(root, "justa/ask-widget.js");
     assert!(widget.contains(r#"const ENDPOINT = "https://justa-ask.aacnsilva.workers.dev";"#));
-    assert!(widget.contains("is sent to Claude Haiku, by Anthropic"));
-    assert!(widget.contains("é enviada ao Claude Haiku, da Anthropic"));
+    assert!(widget.contains("is answered from Justa’s public notes"));
+    assert!(widget.contains("é respondida a partir das notas públicas da Justa"));
+    assert!(!widget.contains("Haiku"));
+    assert!(!widget.contains("Anthropic"));
     assert!(widget.contains("pasta do cofre da Justa Plus"));
     assert!(widget.contains(r#"launcher.className = "ja-launcher";"#));
     assert!(!widget.contains("sk-ant-"));
