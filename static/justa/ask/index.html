@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ask — Justa</title>
-  <meta name="description" content="Justa Ask is coming soon. Plain answers about plans, what is free, the Justa Plus vault, privacy, and sharing a household. Nothing is sent today." />
+  <meta name="description" content="Ask Justa. Plain answers about plans, what is free, the Justa Plus vault, privacy, and sharing a household." />
   <meta name="robots" content="noindex, nofollow" />
   <meta name="theme-color" content="#F4F7FC" />
   <meta property="og:title" content="Ask — Justa" />
-  <meta property="og:description" content="Justa Ask is coming soon. Plain answers about the app, so you can decide to try it or buy. Nothing is sent today." />
+  <meta property="og:description" content="Plain answers about the Justa app, so you can decide to try it or buy." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://aacnsilva.com/justa/ask/" />
   <link rel="icon" href="../appicon.png" type="image/png" />
@@ -68,17 +68,6 @@
     h1 em { font-style: italic; color: var(--cobalt); }
     .lede { font-size: 1.2rem; color: var(--soft); max-width: 46ch; margin: 1.4rem 0 0; }
     .scope { color: var(--soft); max-width: 58ch; margin: 1.15rem 0 0; }
-    .examples-kicker { margin: 1.6rem 0 0; font-weight: 600; font-size: 0.95rem; }
-    .examples { list-style: none; padding: 0; margin: 0.7rem 0 0; display: grid; gap: 0.5rem; }
-    .examples li {
-      width: fit-content;
-      max-width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 0.4rem 0.95rem;
-      font-size: 0.95rem;
-    }
 
     .panel {
       background: var(--surface);
@@ -88,11 +77,34 @@
       max-width: 720px;
       margin-bottom: 4rem;
     }
-    fieldset { border: 0; margin: 0; padding: 0; display: grid; gap: 0.8rem; }
+    .examples-kicker { margin: 0; font-weight: 600; font-size: 0.95rem; }
+    .examples { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.7rem 0 0; }
+    .examples button {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.4rem 0.95rem;
+      font: inherit;
+      font-size: 0.95rem;
+      color: var(--text);
+      cursor: pointer;
+      text-align: left;
+    }
+    .examples button:hover { border-color: var(--cobalt); }
+
+    .log { display: grid; gap: 0.8rem; margin: 1.6rem 0 0; }
+    .log:empty { display: none; }
+    .bubble { max-width: 88%; padding: 0.8rem 1.1rem; border-radius: 20px; white-space: pre-line; }
+    .bubble p { margin: 0; }
+    .bubble.user { justify-self: end; background: var(--text); color: #fff; border-bottom-right-radius: 6px; }
+    .bubble.assistant { justify-self: start; background: var(--tint); border-bottom-left-radius: 6px; }
+    .bubble.pending { color: var(--soft); }
+
+    form { display: grid; gap: 0.8rem; margin: 1.6rem 0 0; }
     label { font-weight: 600; }
     textarea {
       width: 100%;
-      min-height: 7.5rem;
+      min-height: 6rem;
       resize: vertical;
       border: 1px solid var(--line);
       border-radius: 16px;
@@ -101,20 +113,20 @@
       color: var(--text);
       background: var(--bg);
     }
+    .row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
     button.ask {
-      justify-self: start;
       border: 0;
       border-radius: 999px;
       padding: 0.75rem 1.3rem;
       background: var(--text);
       color: #fff;
       font: 600 1rem var(--sans);
+      cursor: pointer;
     }
-    fieldset:disabled textarea,
-    fieldset:disabled button.ask { opacity: 0.55; cursor: not-allowed; }
-    .note { margin: 1rem 0 0; color: var(--soft); font-size: 0.95rem; }
-    .facts { display: flex; gap: 1.4rem; flex-wrap: wrap; margin-top: 1.6rem; font-size: 0.92rem; color: var(--soft); }
-    .facts span { display: inline-flex; align-items: center; gap: 0.4rem; }
+    button.ask:hover { background: var(--cobalt); }
+    button:disabled, textarea:disabled { opacity: 0.55; cursor: not-allowed; }
+    .hint { color: var(--soft); font-size: 0.88rem; }
+    .note { margin: 1.4rem 0 0; color: var(--soft); font-size: 0.92rem; }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
     footer { padding: 2.5rem 0 4rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; font-size: 0.9rem; color: var(--soft); }
@@ -126,6 +138,7 @@
     @media (max-width: 900px) {
       .nav-links a { display: none; }
       .panel { padding: 1.4rem; border-radius: 24px; }
+      .bubble { max-width: 100%; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -147,39 +160,41 @@
 
   <main class="wrap">
     <div class="head">
-      <span class="eyebrow"><span class="en">Coming soon</span><span class="pt">Em breve</span></span>
+      <span class="eyebrow">Ask Justa</span>
       <h1 class="en" lang="en">Questions about Justa, <em>answered plainly.</em></h1>
       <h1 class="pt" lang="pt-PT">Perguntas sobre a Justa, <em>em palavras simples.</em></h1>
-      <p class="lede en">Justa Ask is not open yet. When it arrives, it answers in plain words about the app, so you can decide to try it or buy.</p>
-      <p class="lede pt" lang="pt-PT">O Ask da Justa ainda não está aberto. Quando chegar, responde em palavras simples sobre a app, para decidir se quer experimentar ou comprar.</p>
+      <p class="lede en">Plain answers about the app, so you can decide to try it or buy. English or português.</p>
+      <p class="lede pt" lang="pt-PT">Respostas simples sobre a app, para decidir se quer experimentar ou comprar. Em português ou inglês.</p>
       <p class="scope en">Plans, what is free, what the Justa Plus vault adds, how data is stored, privacy, and sharing a household. Not for support tickets, code, or the numbers in your household book.</p>
       <p class="scope pt" lang="pt-PT">Planos, o que é grátis, o que a pasta do cofre da Justa Plus acrescenta, como os dados ficam guardados, privacidade e partilhar uma casa. Não é para pedidos de apoio, nem para programação, nem para os valores do livro da casa.</p>
-      <p class="examples-kicker en">Questions it will answer</p>
-      <p class="examples-kicker pt" lang="pt-PT">Perguntas a que vai responder</p>
-      <ul class="examples">
-        <li><span class="en">What is free, and what does Justa Plus add?</span><span class="pt" lang="pt-PT">O que é grátis e o que acrescenta a Justa Plus?</span></li>
-        <li><span class="en">Is the Justa Plus vault a subscription?</span><span class="pt" lang="pt-PT">A pasta do cofre da Justa Plus é uma subscrição?</span></li>
-        <li><span class="en">Where is the household stored?</span><span class="pt" lang="pt-PT">Onde fica guardada a casa?</span></li>
-        <li><span class="en">How do two iPhones share a household?</span><span class="pt" lang="pt-PT">Como é que dois iPhones partilham uma casa?</span></li>
-        <li><span class="en">What stays on my iPhone?</span><span class="pt" lang="pt-PT">O que fica no meu iPhone?</span></li>
-      </ul>
     </div>
 
     <section class="panel" aria-labelledby="ask-panel-title">
-      <h2 id="ask-panel-title" class="sr-only"><span class="en">Question</span><span class="pt">Pergunta</span></h2>
-      <fieldset disabled>
-        <legend class="sr-only"><span class="en">Coming soon. Questions are not sent.</span><span class="pt">Em breve. As perguntas não são enviadas.</span></legend>
-        <label for="ask-question"><span class="en">Your question</span><span class="pt">A sua pergunta</span></label>
-        <textarea id="ask-question" name="question" rows="4" placeholder="Is the Justa Plus vault a subscription?"></textarea>
-        <button class="ask" type="button"><span class="en">Ask</span><span class="pt">Perguntar</span></button>
-      </fieldset>
-      <p class="note en">Coming soon. The box is closed on purpose. Nothing you would type is sent, and there is no account to create.</p>
-      <p class="note pt" lang="pt-PT">Em breve. A caixa está fechada de propósito. Nada do que escreveria é enviado, e não há conta para criar.</p>
-      <div class="facts">
-        <span><span class="en">About the app</span><span class="pt">Sobre a app</span></span>
-        <span><span class="en">Not your book</span><span class="pt">Não o seu livro</span></span>
-        <span><span class="en">Nothing sent today</span><span class="pt">Nada enviado hoje</span></span>
+      <h2 id="ask-panel-title" class="sr-only"><span class="en">Ask a question</span><span class="pt">Fazer uma pergunta</span></h2>
+      <p class="examples-kicker en">Try one</p>
+      <p class="examples-kicker pt" lang="pt-PT">Experimente uma</p>
+      <div class="examples" role="group" aria-label="Example questions">
+        <button type="button" data-en="What is free, and what does Justa Plus add?" data-pt="O que é grátis e o que acrescenta a Justa Plus?"></button>
+        <button type="button" data-en="Is the Justa Plus vault a subscription?" data-pt="A pasta do cofre da Justa Plus é uma subscrição?"></button>
+        <button type="button" data-en="How do two iPhones share a household?" data-pt="Como é que dois iPhones partilham uma casa?"></button>
+        <button type="button" data-en="What stays on my iPhone?" data-pt="O que fica no meu iPhone?"></button>
       </div>
+
+      <div id="ask-log" class="log" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+      <form id="ask-form">
+        <label for="ask-question"><span class="en">Your question</span><span class="pt">A sua pergunta</span></label>
+        <textarea id="ask-question" name="question" rows="3" maxlength="800" required placeholder="Is the Justa Plus vault a subscription?"></textarea>
+        <div class="row">
+          <button id="ask-send" class="ask" type="submit"><span class="en">Ask</span><span class="pt">Perguntar</span></button>
+          <span class="hint en">Enter to send. Shift + Enter for a new line.</span>
+          <span class="hint pt" lang="pt-PT">Enter para enviar. Shift + Enter para mudar de linha.</span>
+        </div>
+      </form>
+      <noscript><p class="note">This page needs JavaScript to send a question. · Esta página precisa de JavaScript para enviar uma pergunta.</p></noscript>
+
+      <p class="note en">Your household book stays on your iPhone. A question typed here is sent to Claude Haiku, by Anthropic, so this page can answer from Justa’s public notes. It is not saved, and there is no account to create. Each network can ask a few times an hour, and answers pause for the rest of the month once the service reaches its limit.</p>
+      <p class="note pt" lang="pt-PT">O livro da casa fica no seu iPhone. Uma pergunta escrita aqui é enviada ao Claude Haiku, da Anthropic, para que esta página responda a partir das notas públicas da Justa. Não é guardada, e não há conta para criar. Cada rede pode perguntar algumas vezes por hora, e as respostas param até ao fim do mês quando o serviço chega ao limite.</p>
     </section>
   </main>
 
@@ -194,31 +209,172 @@
   </footer>
 
   <script>
+    // The Cloudflare Worker that answers. The worker only accepts this site's origin.
+    const ENDPOINT = "https://justa-ask.aacnsilva.workers.dev";
+
     const langButtons = document.querySelectorAll("[data-set-lang]");
+    const exampleButtons = [...document.querySelectorAll(".examples button")];
+    const form = document.getElementById("ask-form");
     const question = document.getElementById("ask-question");
+    const send = document.getElementById("ask-send");
+    const log = document.getElementById("ask-log");
     const titles = { en: "Ask — Justa", pt: "Ask — Justa" };
     const placeholders = {
       en: "Is the Justa Plus vault a subscription?",
       pt: "A pasta do cofre da Justa Plus é uma subscrição?"
     };
+    const messages = {
+      ip_hour: {
+        en: "This network has asked enough for the moment. Try again later.",
+        pt: "Esta rede já perguntou o suficiente por agora. Tente mais tarde."
+      },
+      ip_day: {
+        en: "This network has reached today’s limit.",
+        pt: "Esta rede chegou ao limite de hoje."
+      },
+      budget: {
+        en: "Answers are paused until next month.",
+        pt: "As respostas ficam em pausa até ao mês que vem."
+      },
+      unconfigured: {
+        en: "The answer service is not connected yet.",
+        pt: "O serviço de respostas ainda não está ligado."
+      },
+      upstream: {
+        en: "The answer service did not reply. Try again in a moment.",
+        pt: "O serviço de respostas não respondeu. Tente outra vez daqui a pouco."
+      },
+      network: {
+        en: "The question did not go through. Check the connection and try again.",
+        pt: "A pergunta não chegou. Verifique a ligação e tente outra vez."
+      },
+      too_long: {
+        en: "A question can be up to 800 characters.",
+        pt: "A pergunta pode ter até 800 caracteres."
+      }
+    };
+
+    const history = [];
+    let sending = false;
+    let closed = false;
+
+    const currentLang = () => (document.body.getAttribute("data-lang") === "pt" ? "pt" : "en");
+    const say = (code) => (messages[code] || messages.network)[currentLang()];
 
     const setLang = (lang) => {
       document.body.setAttribute("data-lang", lang);
       document.documentElement.lang = lang === "pt" ? "pt-PT" : "en";
       document.title = titles[lang];
       question.placeholder = placeholders[lang];
+      exampleButtons.forEach((button) => {
+        button.textContent = button.dataset[lang];
+      });
       langButtons.forEach((button) => {
         button.setAttribute("aria-pressed", String(button.dataset.setLang === lang));
       });
       try { localStorage.setItem("justa-lang", lang); } catch (error) { /* private mode */ }
     };
 
+    const addBubble = (role, text) => {
+      const bubble = document.createElement("article");
+      bubble.className = `bubble ${role}`;
+      const paragraph = document.createElement("p");
+      paragraph.textContent = text;
+      bubble.appendChild(paragraph);
+      log.appendChild(bubble);
+      bubble.scrollIntoView({ block: "nearest" });
+      return bubble;
+    };
+
+    const lock = (busy) => {
+      sending = busy;
+      const locked = busy || closed;
+      send.disabled = locked;
+      question.disabled = locked;
+      exampleButtons.forEach((button) => { button.disabled = locked; });
+    };
+
+    const ask = async (text) => {
+      const asked = text.trim();
+      if (!asked || sending || closed) return;
+      if (asked.length > 800) {
+        addBubble("assistant", say("too_long"));
+        return;
+      }
+
+      addBubble("user", asked);
+      question.value = "";
+      history.push({ role: "user", content: asked });
+      const pending = addBubble("assistant", "…");
+      pending.classList.add("pending");
+      pending.setAttribute("aria-busy", "true");
+      lock(true);
+
+      try {
+        const response = await fetch(`${ENDPOINT}/ask`, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ messages: history.slice(-6) })
+        });
+        const payload = await response.json().catch(() => ({}));
+        pending.remove();
+        if (!response.ok) {
+          history.pop();
+          if (payload.error === "budget") closed = true;
+          addBubble("assistant", messages[payload.error] ? say(payload.error) : say("upstream"));
+          return;
+        }
+        const answer = typeof payload.answer === "string" && payload.answer.trim()
+          ? payload.answer.trim()
+          : say("upstream");
+        addBubble("assistant", answer);
+        history.push({ role: "assistant", content: answer.slice(0, 1500) });
+      } catch (error) {
+        pending.remove();
+        history.pop();
+        addBubble("assistant", say("network"));
+      } finally {
+        lock(false);
+        if (!closed) question.focus();
+      }
+    };
+
     const handleLangClick = (event) => setLang(event.currentTarget.dataset.setLang);
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      ask(question.value);
+    };
+    const handleKeyDown = (event) => {
+      if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+      event.preventDefault();
+      form.requestSubmit();
+    };
+    const handleExample = (event) => ask(event.currentTarget.textContent);
+
     langButtons.forEach((button) => button.addEventListener("click", handleLangClick));
+    exampleButtons.forEach((button) => button.addEventListener("click", handleExample));
+    form.addEventListener("submit", handleSubmit);
+    question.addEventListener("keydown", handleKeyDown);
 
     let savedLang = null;
     try { savedLang = localStorage.getItem("justa-lang"); } catch (error) { /* private mode */ }
-    if (savedLang === "pt" || savedLang === "en") setLang(savedLang);
+    setLang(savedLang === "pt" ? "pt" : "en");
+
+    const checkStatus = async () => {
+      try {
+        const response = await fetch(`${ENDPOINT}/status`);
+        if (!response.ok) return;
+        const payload = await response.json();
+        if (payload.accepting === false) {
+          closed = true;
+          addBubble("assistant", say("budget"));
+          lock(false);
+        }
+      } catch (error) {
+        // A failed status check is not a reason to hide the box. Asking still works or explains itself.
+      }
+    };
+    checkStatus();
   </script>
 </body>
 </html>

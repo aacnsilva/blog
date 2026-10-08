@@ -454,20 +454,20 @@ fn assert_justa_fair_split_landing(root: &Path) {
     let ask = read(root, "justa/ask/index.html");
     assert!(ask.contains(r#"<meta name="robots" content="noindex, nofollow" />"#));
     assert!(ask.contains("<title>Ask — Justa</title>"));
-    assert!(ask.contains("Coming soon"));
-    assert!(ask.contains("Em breve"));
+    assert!(!ask.contains("Coming soon"));
+    assert!(!ask.contains("Em breve"));
     assert!(ask.contains("Perguntas sobre a Justa"));
     assert!(ask.contains("pasta do cofre da Justa Plus"));
     assert!(ask.contains("Não é para pedidos de apoio, nem para programação, nem para os valores do livro da casa."));
-    assert!(ask.contains("<fieldset disabled>"));
+    assert!(!ask.contains("<fieldset disabled>"));
     assert!(!ask.contains("Pergunte ao mês"));
     assert!(!ask.contains("groceries"));
     assert!(!ask.contains("mercearia"));
-    assert!(!ask.contains("anthropic"));
-    assert!(!ask.contains("claude"));
-    assert!(!ask.contains("haiku"));
-    assert!(!ask.contains("fetch("));
-    assert!(!ask.contains("workers.dev"));
+    // The live box calls the Cloudflare worker and says where a question goes.
+    assert!(ask.contains(r#"const ENDPOINT = "https://justa-ask.aacnsilva.workers.dev";"#));
+    assert!(ask.contains("is sent to Claude Haiku, by Anthropic"));
+    assert!(ask.contains("é enviada ao Claude Haiku, da Anthropic"));
+    assert!(!ask.contains("sk-ant-"));
     assert_justa_footer(&ask);
 
     let sitemap = read(root, "sitemap.xml");
