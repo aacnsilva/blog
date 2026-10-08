@@ -137,7 +137,7 @@
     .ja-close:hover { background: var(--tint, #E3EAF8); color: var(--text, #101B33); }
     .ja-close svg { width: 20px; height: 20px; }
 
-    .ja-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; padding: 1.1rem 1.1rem 0.6rem; display: flex; flex-direction: column; gap: 0.75rem; }
+    .ja-body { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding: 1.1rem 1.1rem 0.6rem; display: flex; flex-direction: column; gap: 0.75rem; }
     .ja-bubble { max-width: 88%; padding: 0.7rem 1rem; border-radius: 18px; white-space: pre-line; overflow-wrap: anywhere; }
     .ja-bubble p { margin: 0; color: inherit; }
     .ja-bubble.user { align-self: flex-end; background: var(--text, #101B33); color: #fff; border-bottom-right-radius: 6px; }
@@ -187,12 +187,15 @@
     @media (max-width: 600px) {
       .ja-launcher { height: 52px; padding: 0 1.1rem 0 0.9rem; }
       .ja-launcher[aria-expanded="true"] { display: none; }
-      .ja-panel { inset: 0; width: 100%; height: 100%; border: 0; border-radius: 0; transform: translateY(24px); transform-origin: bottom center; }
+      /* The script sets top and height to the visible viewport, so the keyboard never uncovers the page. */
+      .ja-panel { top: 0; right: 0; bottom: auto; left: 0; width: 100%; height: 100%; border: 0; border-radius: 0; transform: translateY(24px); transform-origin: bottom center; }
       .ja-head { padding-top: max(0.95rem, env(safe-area-inset-top)); }
       .ja-foot { padding-bottom: max(0.8rem, env(safe-area-inset-bottom)); }
       .ja-bubble { max-width: 92%; }
-      html.ja-locked, html.ja-locked body { overflow: hidden; }
     }
+    /* iOS ignores overflow: hidden on the page, so the page is pinned in place while the panel is open. */
+    html.ja-locked, html.ja-locked body { overflow: hidden; overscroll-behavior: none; }
+    html.ja-locked body { position: fixed; left: 0; right: 0; width: 100%; }
     @media (prefers-reduced-motion: reduce) {
       .ja-launcher, .ja-panel, .ja-panel[data-open="true"] { transition: none; }
       .ja-bubble.pending span { animation: none; opacity: 0.6; }
@@ -404,7 +407,7 @@
     panel.dataset.open = "true";
     panel.setAttribute("aria-hidden", "false");
     launcher.setAttribute("aria-expanded", "true");
-    if (isNarrow()) document.documentElement.classList.add("ja-locked");
+    fitToViewport();
     render();
     checkStatus();
     scrollToEnd();
@@ -417,10 +420,44 @@
     panel.dataset.open = "false";
     panel.setAttribute("aria-hidden", "true");
     launcher.setAttribute("aria-expanded", "false");
-    document.documentElement.classList.remove("ja-locked");
+    fitToViewport();
     render();
     const target = returnFocus && document.contains(returnFocus) ? returnFocus : launcher;
     target.focus({ preventScroll: true });
+  };
+
+  // On a phone the panel covers the screen. The page behind is pinned, and the panel follows
+  // the visible viewport, which shrinks and moves when the keyboard opens.
+  const viewport = window.visualViewport;
+  let pinnedScroll = 0;
+
+  const pinPage = () => {
+    if (document.documentElement.classList.contains("ja-locked")) return;
+    pinnedScroll = window.scrollY;
+    document.body.style.top = `-${pinnedScroll}px`;
+    document.documentElement.classList.add("ja-locked");
+  };
+
+  const unpinPage = () => {
+    if (!document.documentElement.classList.contains("ja-locked")) return;
+    document.documentElement.classList.remove("ja-locked");
+    document.body.style.top = "";
+    window.scrollTo({ top: pinnedScroll, behavior: "instant" });
+  };
+
+  const fitToViewport = () => {
+    if (!isOpen() || !isNarrow()) {
+      unpinPage();
+      panel.style.top = "";
+      panel.style.height = "";
+      return;
+    }
+    pinPage();
+    if (!viewport) return;
+    const atEnd = body.scrollHeight - body.scrollTop - body.clientHeight < 24;
+    panel.style.top = `${viewport.offsetTop}px`;
+    panel.style.height = `${viewport.height}px`;
+    if (atEnd) scrollToEnd();
   };
 
   const handleLauncher = () => (isOpen() ? close() : open());
@@ -458,6 +495,11 @@
   examples.addEventListener("click", handleExample);
   document.addEventListener("keydown", handleEscape);
   document.addEventListener("click", handleAskLink);
+  window.addEventListener("resize", fitToViewport);
+  if (viewport) {
+    viewport.addEventListener("resize", fitToViewport);
+    viewport.addEventListener("scroll", fitToViewport);
+  }
   new MutationObserver(render).observe(document.body, { attributes: true, attributeFilter: ["data-lang"] });
 
   render();
