@@ -376,6 +376,13 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(landing.contains(r#"<div class="amount">€9,99<small>"#));
     assert!(landing.contains(r#"<div class="amount">€2,99<small>"#));
     assert!(landing.contains("€19,99 a year"));
+    // Justa Pro lists what the app's paywall locks: scans, month chapters, savings goals.
+    assert!(landing.contains("id=\"pro\""));
+    assert!(landing.contains("Unlimited receipt scans"));
+    assert!(landing.contains("A chapter for every month"));
+    assert!(landing.contains("Savings goals with a monthly plan"));
+    assert!(landing.contains("one full chapter for the household"));
+    assert!(landing.contains("Objetivos de poupança"));
     assert!(!landing.contains("€7,99"));
     assert!(landing.contains("Prices are in euros. The App Store shows the price for your country."));
     assert!(!landing.contains("Prices are for Portugal"));

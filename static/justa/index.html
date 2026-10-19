@@ -280,6 +280,7 @@
     .v-muted { color: var(--muted); font-size: 0.85rem; }
     .v-serif { font-family: ui-serif, "New York", var(--serif); font-weight: 600; }
     .v-pill { display: inline-flex; align-items: center; gap: 0.4rem; width: fit-content; padding: 0.3rem 0.7rem; border-radius: 10px; font-size: 0.85rem; font-weight: 600; color: var(--tone); background: color-mix(in srgb, var(--tone) 14%, transparent); }
+    .v-row .v-pill { white-space: nowrap; flex-shrink: 0; }
     .v-good { --tone: var(--moss); }
     .v-warn { --tone: var(--sienna); }
     .v-over { --tone: var(--over); }
@@ -1315,6 +1316,56 @@
       </div>
     </section>
 
+    <section class="wrap" id="pro" aria-labelledby="pro-title">
+      <div class="section-head">
+        <span class="eyebrow">Justa Pro</span>
+        <h2 id="pro-title"><span class="en">When you want <em>a little more.</em></span><span class="pt" lang="pt-PT">Para quando quer <em>um pouco mais.</em></span></h2>
+        <p class="en">The household book stays free. Justa Pro reads every receipt, gives each month its own chapter, and plans what you’re saving for.</p>
+        <p class="pt" lang="pt-PT">O livro da casa continua grátis. O Justa Pro lê todas as faturas, dá a cada mês o seu capítulo e planeia aquilo para que estão a poupar.</p>
+      </div>
+      <div class="moments">
+        <article class="moment">
+          <div class="vignette" data-theme="azulejo" aria-hidden="true">
+            <div class="v-card stack gap-8">
+              <div class="v-row"><span class="hstack strong"><svg class="i" style="color:var(--pine)"><use href="#i-camera"/></svg><span class="en">Scan receipt</span><span class="pt" lang="pt-PT">Ler fatura</span></span><span class="v-pill v-good"><span class="en">Unlimited</span><span class="pt" lang="pt-PT">Sem limite</span></span></div>
+              <div class="v-row v-muted"><span class="hstack"><svg class="i"><use href="#i-camera"/></svg><span class="en">Camera</span><span class="pt" lang="pt-PT">Câmara</span></span><span class="hstack"><svg class="i"><use href="#i-photo"/></svg><span class="en">Photos</span><span class="pt" lang="pt-PT">Fotos</span></span><span class="hstack"><svg class="i"><use href="#i-doc"/></svg>PDF</span></div>
+            </div>
+            <span class="v-pill v-good"><svg class="i"><use href="#i-lock"/></svg><span class="en">Read on this iPhone</span><span class="pt" lang="pt-PT">Lida neste iPhone</span></span>
+          </div>
+          <h3><span class="en">Every receipt, read for you</span><span class="pt" lang="pt-PT">Todas as faturas, lidas por si</span><span class="tag">Pro</span></h3>
+          <p class="en">Scan from the camera, a photo, or a PDF as often as you like. Still read on this iPhone, never uploaded. Without Pro, five scans a month are free.</p>
+          <p class="pt" lang="pt-PT">Leia da câmara, de uma foto ou de um PDF sempre que quiser. Continuam a ser lidas neste iPhone, nunca enviadas. Sem o Pro, cinco leituras por mês são grátis.</p>
+        </article>
+        <article class="moment">
+          <div class="vignette" data-theme="fado" aria-hidden="true">
+            <div class="v-card stack gap-8">
+              <div class="v-row"><span class="strong"><span class="en">September chapter</span><span class="pt" lang="pt-PT">Capítulo de setembro</span></span><svg class="i muted"><use href="#i-chev-r"/></svg></div>
+              <span class="v-serif" style="font-size:1.6rem"><span class="en">€830 left over</span><span class="pt" lang="pt-PT">Sobraram €830</span></span>
+              <div class="v-row v-muted"><span class="hstack"><svg class="i" style="color:var(--moss)"><use href="#i-check-fill"/></svg><span class="en">Emergency · 50%</span><span class="pt" lang="pt-PT">Emergência · 50%</span></span><span class="tnum">€415</span></div>
+              <div class="v-row v-muted"><span class="hstack"><svg class="i"><use href="#i-check-o"/></svg><span class="en">Holidays · 30%</span><span class="pt" lang="pt-PT">Férias · 30%</span></span><span class="tnum">€249</span></div>
+            </div>
+          </div>
+          <h3><span class="en">Every month, its own chapter</span><span class="pt" lang="pt-PT">Cada mês, o seu capítulo</span><span class="tag">Pro</span></h3>
+          <p class="en">When a month closes, its chapter tells how it went: what was left over, where the money went, and what to put aside in each account. Your household’s first chapter is free.</p>
+          <p class="pt" lang="pt-PT">Quando um mês fecha, o capítulo conta como correu: quanto sobrou, para onde foi o dinheiro e quanto pôr de lado em cada conta. O primeiro capítulo da casa é grátis.</p>
+        </article>
+        <article class="moment">
+          <div class="vignette" data-theme="algarve" aria-hidden="true">
+            <div class="v-card stack gap-8">
+              <div class="v-row"><span class="hstack strong"><svg class="i" style="color:var(--pine)"><use href="#i-sun"/></svg><span class="en">Azores holiday</span><span class="pt" lang="pt-PT">Férias nos Açores</span></span><span class="v-pill v-good"><span class="en">On plan</span><span class="pt" lang="pt-PT">No plano</span></span></div>
+              <div class="v-row"><span class="v-serif" style="font-size:1.6rem">€1 150</span><span class="v-muted"><span class="en">of €2 400</span><span class="pt" lang="pt-PT">de €2 400</span></span></div>
+              <div class="v-bar"><span style="width:48%;--c:var(--moss)"></span></div>
+              <div class="v-row v-muted"><span><span class="en">€150 a month until Aug 2027</span><span class="pt" lang="pt-PT">€150 por mês até ago 2027</span></span></div>
+              <div class="v-row v-muted"><span>Inês €82,50</span><span>Tiago €67,50</span></div>
+            </div>
+          </div>
+          <h3><span class="en">Save for what’s next, together</span><span class="pt" lang="pt-PT">Poupem juntos para o que vem a seguir</span><span class="tag">Pro</span></h3>
+          <p class="en">Set a target and a month. Justa works out what to put aside each month, splits it by income, tells you if it fits a usual month, and keeps who put in what.</p>
+          <p class="pt" lang="pt-PT">Defina um valor e um mês. A Justa calcula quanto pôr de lado por mês, divide-o pelo rendimento, diz se cabe num mês habitual e guarda quem pôs o quê.</p>
+        </article>
+      </div>
+    </section>
+
     <section class="wrap" id="pricing" aria-labelledby="pricing-title">
       <div class="section-head">
         <span class="eyebrow"><span class="en">Pricing</span><span class="pt" lang="pt-PT">Preço</span></span>
@@ -1332,6 +1383,7 @@
             <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Monthly plan split by income, a percent, or a fixed amount</span><span class="pt" lang="pt-PT">Plano mensal dividido pelo rendimento, uma percentagem ou um valor fixo</span></li>
             <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Extras, settle-up, accounts, insights, and invoices against the plan</span><span class="pt" lang="pt-PT">Extras, ajuste, contas, resumo e faturas contra o plano</span></li>
             <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Five receipt scans a month on this iPhone</span><span class="pt" lang="pt-PT">Cinco leituras de faturas por mês neste iPhone</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Each month’s result, and one full chapter for the household</span><span class="pt" lang="pt-PT">O resultado de cada mês, e um capítulo completo para a casa</span></li>
             <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Six themes, several households, Face&nbsp;ID</span><span class="pt" lang="pt-PT">Seis temas, várias casas, Face&nbsp;ID</span></li>
             <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Stop sharing stays free</span><span class="pt" lang="pt-PT">Parar de partilhar continua grátis</span></li>
           </ul>
@@ -1353,10 +1405,12 @@
           <span class="ribbon-tag"><span class="en">Save 44% yearly</span><span class="pt" lang="pt-PT">Poupe 44% no anual</span></span>
           <h3>Justa Pro</h3>
           <div class="amount">€2,99<small><span class="en">a month</span><span class="pt" lang="pt-PT">por mês</span></small></div>
-          <p class="pitch en">or €19,99 a year, about €1,67 a month. Every receipt, read on this iPhone.</p>
-          <p class="pitch pt" lang="pt-PT">ou €19,99 por ano, cerca de €1,67 por mês. Todas as faturas, lidas neste iPhone.</p>
+          <p class="pitch en">or €19,99 a year, about €1,67 a month. Every receipt, every month’s chapter, and your savings goals.</p>
+          <p class="pitch pt" lang="pt-PT">ou €19,99 por ano, cerca de €1,67 por mês. Todas as faturas, o capítulo de cada mês e os objetivos de poupança.</p>
           <ul>
             <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Unlimited receipt scans, from the camera, photos, and PDFs</span><span class="pt" lang="pt-PT">Leituras de faturas sem limite, da câmara, das fotos e de PDFs</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">A chapter for every month: how it went, and what to put aside in each account</span><span class="pt" lang="pt-PT">Um capítulo para cada mês: como correu e quanto pôr de lado em cada conta</span></li>
+            <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Savings goals with a monthly plan and who put in what</span><span class="pt" lang="pt-PT">Objetivos de poupança com plano mensal e quem pôs o quê</span></li>
             <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Start sharing and Join, while the subscription lasts</span><span class="pt" lang="pt-PT">Começar a partilhar e Entrar, enquanto a subscrição durar</span></li>
             <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Each new Pro feature, as it lands</span><span class="pt" lang="pt-PT">Cada novidade Pro, assim que chega</span></li>
             <li><svg class="i" aria-hidden="true"><use href="#i-check"/></svg><span class="en">Family Sharing included. Renews until you cancel.</span><span class="pt" lang="pt-PT">Partilha em família incluída. Renova-se até cancelar.</span></li>
@@ -1387,6 +1441,11 @@
           <summary><span class="en">Does a receipt photo leave my iPhone?</span><span class="pt" lang="pt-PT">Uma fotografia de fatura sai do meu iPhone?</span></summary>
           <p class="en">No. Justa reads the text on this iPhone with Apple Vision, or straight from a PDF’s text layer. The file is never uploaded or saved. Only the fields you keep — title, amount, date, category, note — go into the household book. Five scans a month are free on each iPhone, and they come back on the 1st. Justa Pro scans without a limit.</p>
           <p class="pt" lang="pt-PT">Não. A Justa lê o texto neste iPhone com o Vision da Apple, ou directamente da camada de texto de um PDF. O ficheiro nunca é enviado nem guardado. Só os campos que ficar — título, valor, data, categoria, nota — entram no livro da casa. Cinco leituras por mês são grátis em cada iPhone, e voltam no dia 1. O Justa Pro lê sem limite.</p>
+        </details>
+        <details>
+          <summary><span class="en">What does Justa Pro add?</span><span class="pt" lang="pt-PT">O que acrescenta o Justa Pro?</span></summary>
+          <p class="en">Unlimited receipt scans, a chapter for every month that has closed, and savings goals. It also unlocks sharing while the subscription lasts. Without it, each iPhone gets five scans a month, every month still shows its result, and the household gets one full chapter, the same month on every iPhone. Pro follows your Apple ID and is never written into the shared folder. If it ends, your goals and chapter choices stay in the household book and come back with Pro.</p>
+          <p class="pt" lang="pt-PT">Leituras de faturas sem limite, um capítulo para cada mês que já fechou e objetivos de poupança. Também desbloqueia a partilha enquanto a subscrição durar. Sem ele, cada iPhone tem cinco leituras por mês, cada mês continua a mostrar o seu resultado, e a casa tem um capítulo completo, o mesmo mês em todos os iPhones. O Pro segue o seu Apple ID e nunca é escrito na pasta partilhada. Se acabar, os objetivos e as escolhas dos capítulos ficam no livro da casa e voltam com o Pro.</p>
         </details>
         <details>
           <summary><span class="en">Can we each have our own theme?</span><span class="pt" lang="pt-PT">Podemos ter cada um o seu tema?</span></summary>
