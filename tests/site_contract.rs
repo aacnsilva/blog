@@ -214,12 +214,17 @@ fn assert_post_pages(root: &Path) {
         "href=\"/how-al-interfaces-might-finally-grow-without-a-version-bump/\""
     ));
 
+    let justa_evals = read(root, "evaluating-the-justa-agent/index.html");
+    assert!(justa_evals.contains("Previous Post"));
+    assert!(justa_evals.contains("<strike>Next Post"));
+    assert!(justa_evals.contains("<table>"));
+
     let newest = read(
         root,
         "how-al-interfaces-might-finally-grow-without-a-version-bump/index.html",
     );
     assert!(newest.contains("Previous Post"));
-    assert!(newest.contains("<strike>Next Post"));
+    assert!(newest.contains("href=\"/evaluating-the-justa-agent/\""));
     assert!(newest.contains("class=\"theme-diagram\""));
     assert!(newest.contains("class=\"theme-diagram__light\""));
     assert!(newest.contains("class=\"theme-diagram__dark\""));
@@ -356,7 +361,6 @@ fn assert_unlisted_privacy_page(root: &Path) {
     let rss = read(root, "index.xml");
     assert!(!rss.contains("/justa/privacy"));
     assert!(!rss.contains("/joora/privacy"));
-    assert!(!rss.contains("Justa"));
     assert!(!rss.contains("Joora"));
 }
 
