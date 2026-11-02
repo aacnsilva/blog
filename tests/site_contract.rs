@@ -375,7 +375,8 @@ fn assert_justa_fair_split_landing(root: &Path) {
         landing.contains("split fairly."),
         "landing should be the Fair-split page"
     );
-    assert!(landing.contains("Coming soon to the"));
+    assert!(landing.contains("Download on the"));
+    assert!(!landing.contains("Coming soon"));
     // Euros are the base price. The App Store converts them per country.
     assert!(landing.contains(r#"<div class="amount">€9,99<small>"#));
     assert!(landing.contains(r#"<div class="amount">€2,99<small>"#));
@@ -390,8 +391,10 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(!landing.contains("€7,99"));
     assert!(landing.contains("Prices are in euros. The App Store shows the price for your country."));
     assert!(!landing.contains("Prices are for Portugal"));
-    assert!(landing.contains(r#"aria-disabled="true""#));
-    assert!(!landing.contains("apps.apple.com"));
+    assert!(!landing.contains(r#"aria-disabled="true""#));
+    assert!(landing.contains(
+        r#"href="https://apps.apple.com/us/app/justa-household-management/id6813808595""#
+    ));
     assert!(landing.contains(r#"<meta name="robots" content="noindex, nofollow" />"#));
     assert!(landing.contains("href=\"./privacy/\""));
     assert!(landing.contains("href=\"./ask/\">Ask</a>"));
@@ -440,7 +443,8 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(landing.contains("O dinheiro da casa"));
     assert!(landing.contains("sem o aperto"));
     assert!(landing.contains("Contas partilhadas"));
-    assert!(landing.contains("Em breve na"));
+    assert!(landing.contains("Descarregar na"));
+    assert!(!landing.contains("Em breve"));
     assert!(landing.contains("pasta do cofre da Justa Plus"));
     assert!(landing.contains("política de privacidade"));
     assert!(landing.contains("Começar a partilhar"));
