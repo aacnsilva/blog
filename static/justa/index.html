@@ -271,7 +271,7 @@
     /* Little moments */
     .moments { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
     .moment { background: var(--surface); border: 1px solid var(--line); border-radius: 28px; padding: 1.5rem 1.5rem 1.8rem; display: flex; flex-direction: column; }
-    .moment .vignette { min-height: 190px; border-radius: 20px; margin-bottom: 1.4rem; padding: 1.2rem; display: grid; align-content: center; gap: 0.6rem; background: var(--paper); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", var(--sans); }
+    .moment .vignette { min-height: 190px; border-radius: 20px; margin-bottom: 1.4rem; padding: 1.2rem; display: grid; grid-template-columns: minmax(0, 1fr); align-content: center; gap: 0.6rem; background: var(--paper); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", var(--sans); }
     .moment h3 { font-size: 1.55rem; margin-bottom: 0.4rem; }
     .moment p { margin: 0; color: var(--soft); }
     .moment .tag { display: inline-block; margin-left: 0.4rem; font-family: var(--sans); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); vertical-align: middle; }
@@ -572,7 +572,7 @@
     }
     @media (max-width: 900px) {
       .nav ul { display: none; }
-      .hero, .calc, .step, .prices, .moments { grid-template-columns: 1fr; }
+      .hero, .calc, .step, .prices, .moments { grid-template-columns: minmax(0, 1fr); }
       .hero { padding-top: 1rem; }
       .stage-hero { min-height: 640px; }
       .stage-hero .back-slot { display: none; }
@@ -604,6 +604,12 @@
       .sticker { font-size: 0.8rem; }
       .sticker.mood { display: none; }
       .stage-hero { min-height: 0; }
+    }
+    @media (max-width: 360px) {
+      .device { --zoom: 0.58; }
+      .glance-phones .device { --zoom: 0.32; }
+      .theme-phone .device { --zoom: 0.56; }
+      .moment .v-row { flex-wrap: wrap; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation: none !important; transition: none !important; }
