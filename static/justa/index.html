@@ -117,7 +117,7 @@
     .store {
       display: inline-flex; align-items: center; gap: 0.75rem;
       padding: 0.8rem 1.4rem 0.8rem 1.1rem; border-radius: 14px; border: 0;
-      background: var(--text); color: #fff; text-decoration: none; cursor: not-allowed;
+      background: var(--text); color: #fff; text-decoration: none; cursor: pointer;
     }
     .store svg { width: 26px; height: 26px; fill: currentColor; }
     .store small { display: block; font-size: 0.72rem; opacity: 0.75; line-height: 1.1; }
@@ -687,10 +687,10 @@
         <p class="lede en">Plan the month, log the extras, and settle up in one warm, calm place. Justa splits the plan fairly by income, tells you how the month feels, and throws confetti when you’re all square.</p>
         <p class="lede pt" lang="pt-PT">Planeie o mês, registe as extras e ajuste contas num sítio calmo e acolhedor. A Justa divide o plano de forma justa pelo rendimento, diz como o mês se sente e solta confetes quando ficam quites.</p>
         <div class="cta-row">
-          <button class="store" type="button" aria-disabled="true" aria-label="Download on the App Store — coming soon">
+          <a class="store" href="https://apps.apple.com/us/app/justa-household-management/id6813808595" aria-label="Download on the App Store">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 12.64c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.77-3.32-1.8-1.41-.14-2.76.83-3.47.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.76 2.27-1.6 2.78-.41 6.9 1.15 9.16.77 1.1 1.68 2.34 2.87 2.3 1.15-.05 1.59-.75 2.98-.75 1.39 0 1.78.75 3 .72 1.24-.02 2.02-1.12 2.78-2.23.87-1.28 1.23-2.52 1.25-2.58-.03-.01-2.4-.92-2.44-3.67zM14.1 5.9c.63-.77 1.06-1.84.94-2.9-.91.04-2.02.61-2.67 1.37-.58.67-1.1 1.77-.96 2.81 1.02.08 2.06-.52 2.69-1.28z"/></svg>
-            <span><small><span class="en">Coming soon to the</span><span class="pt" lang="pt-PT">Em breve na</span></small><strong>App Store</strong></span>
-          </button>
+            <span><small><span class="en">Download on the</span><span class="pt" lang="pt-PT">Descarregar na</span></small><strong>App Store</strong></span>
+          </a>
           <span class="cta-note"><span class="en">Free · iPhone · iOS 17+</span><span class="pt" lang="pt-PT">Grátis · iPhone · iOS 17+</span></span>
         </div>
         <div class="trust">
@@ -1589,8 +1589,8 @@
       pt: "O dinheiro da casa, sem o aperto. A Justa planeia o mês, divide-o de forma justa pelo rendimento, regista as extras e diz quem paga a quem. Seis temas portugueses, leitura de faturas no aparelho, e confetes quando ficam quites. Sem conta. Sem servidor."
     };
     const storeLabels = {
-      en: "Download on the App Store — coming soon",
-      pt: "Descarregar na App Store — em breve"
+      en: "Download on the App Store",
+      pt: "Descarregar na App Store"
     };
 
     /* Hero: settle the month on the phone. */
