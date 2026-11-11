@@ -376,7 +376,11 @@ fn assert_justa_fair_split_landing(root: &Path) {
         "landing should be the Fair-split page"
     );
     assert!(landing.contains("Download on the"));
-    assert!(!landing.contains("Coming soon"));
+    // The app is live, so only the Justa Companion band may say "Coming soon", and it names no tier or price.
+    assert!(landing.contains("id=\"companion\""));
+    assert_eq!(landing.matches("Coming soon").count(), 1);
+    assert!(landing.contains(r#"<span class="soon"><span class="en">Coming soon</span>"#));
+    assert!(!landing.contains("Justa Max"));
     // Euros are the base price. The App Store converts them per country.
     assert!(landing.contains(r#"<div class="amount">€9,99<small>"#));
     assert!(landing.contains(r#"<div class="amount">€2,99<small>"#));
@@ -444,7 +448,7 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(landing.contains("sem o aperto"));
     assert!(landing.contains("Contas partilhadas"));
     assert!(landing.contains("Descarregar na"));
-    assert!(!landing.contains("Em breve"));
+    assert_eq!(landing.matches("Em breve").count(), 1);
     assert!(landing.contains("pasta do cofre da Justa Plus"));
     assert!(landing.contains("política de privacidade"));
     assert!(landing.contains("Começar a partilhar"));
