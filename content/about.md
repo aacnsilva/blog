@@ -28,6 +28,8 @@ I'm António, a software engineer from **Porto, Portugal**, with about **11 year
 
 **[Animal Racing Social](https://racing.aacnsilva.com)** is a live racing game, with the [source on GitHub](https://github.com/aacnsilva/animal-racing-social). The race simulation is written in Rust and prices its odds with Monte Carlo runs. Around it are TypeScript services that talk over Kafka with Protobuf messages, races sealed with AES-GCM, an outbox with a dead-letter queue, an idempotent wallet ledger, Playwright tests in CI, and OpenTelemetry with Grafana. I made the design calls.
 
+**[Music lessons](https://music.aacnsilva.com)** is a site of interactive music lessons for guitar and piano. It has two courses, Guitar from zero and Piano from zero, each with 25 lessons (about 7 hours of practice). The lessons are short and guided, start from zero, and each one ends with practice against a metronome. I built it with Astro and TypeScript and write the lesson content as YAML. The site also serves a static JSON API of the courses and lessons, and it is hosted on Cloudflare Pages.
+
 ### Background
 
 My depth is in ERP and finance systems: Microsoft Dynamics 365 Business Central and Finance & Operations, at LS Retail (an Aptos company) and, earlier, at myPartner. That taught me how business rules, integrations, and money actually move through a company. I treat it as background I bring to AI work, not as the thing I plan to specialise in.
