@@ -138,11 +138,11 @@ fn assert_navigation_and_core_pages(root: &Path) {
 
     let about = read(root, "about/index.html");
     assert!(about.contains("About me"));
-    assert!(
-        about.contains("Senior Software Engineer building ERP, FinTech, and developer tooling")
-    );
-    assert!(about.contains("Rust learning path"));
-    assert!(about.contains("10+ years"));
+    assert!(about.contains(
+        "Senior Software Engineer moving into applied AI, with a background in ERP and backend systems"
+    ));
+    assert!(about.contains("Claude Academy badges"));
+    assert!(about.contains("11 years"));
     assert!(about.contains("mailto:antoniosilva1017@gmail.com"));
 
     let resume = read(root, "resume/index.html");
