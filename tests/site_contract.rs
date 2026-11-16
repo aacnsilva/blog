@@ -132,7 +132,7 @@ fn assert_navigation_and_core_pages(root: &Path) {
     assert!(home.contains("<a href=\"/about/\">About</a>"));
     assert!(!home.contains("<a href=\"/resume/\">Resume</a>"));
     assert!(home.contains(
-        "<a href=\"/about/\">About</a>\n\n<a href=\"/justa/\">Justa</a>"
+        "<a href=\"/about/\">About</a>\n\n<a href=\"/justa/\">Justa</a>\n\n<a href=\"https://music.aacnsilva.com/\">Music</a>\n\n<a href=\"https://racing.aacnsilva.com/\">Racing</a>"
     ));
     assert!(!home.contains("/justa/privacy"));
     assert!(!home.contains("/joora/privacy"));

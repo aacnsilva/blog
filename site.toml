@@ -15,3 +15,13 @@ enablePostNavigator = true
 name = "Justa"
 url = "/justa/"
 weight = 30
+
+[[menu.main]]
+name = "Music"
+url = "https://music.aacnsilva.com/"
+weight = 40
+
+[[menu.main]]
+name = "Racing"
+url = "https://racing.aacnsilva.com/"
+weight = 50
