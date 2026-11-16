@@ -1617,7 +1617,7 @@ enablePostNavigator = true
         assert_eq!(config.description, "A blog");
         assert_eq!(config.images, vec!["static/images/share.png"]);
         assert!(config.enable_post_navigator);
-        assert!(config.menu_links.is_empty());
+        assert_eq!(config.menu_links, Vec::new());
     }
 
     #[test]
