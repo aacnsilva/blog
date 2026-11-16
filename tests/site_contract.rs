@@ -535,6 +535,9 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(!widget.contains("Anthropic"));
     assert!(widget.contains("pasta do cofre da Justa Plus"));
     assert!(widget.contains(r#"launcher.className = "ja-launcher";"#));
+    // The answer streams in as it is written. A worker that cannot stream still answers in JSON.
+    assert!(widget.contains(r#"accept: "text/event-stream""#));
+    assert!(widget.contains("response.json()"));
     assert!(!widget.contains("sk-ant-"));
 
     // The old address still works: it opens the panel over the landing page.

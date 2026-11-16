@@ -353,6 +353,53 @@
     }
   };
 
+  /* Reads a streamed answer: "delta" events grow the bubble as the answer is written, then
+     "done" carries the answer to keep. It can differ from what was typed out so far (a refusal
+     replaces it), so the bubble always ends on the "done" text. Screen readers hear the
+     finished answer once: the bubble is marked busy while it grows. */
+  const readStream = async (response, pending) => {
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffered = "";
+    let bubble = null;
+    let answer = "";
+    const show = (text, replace) => {
+      if (!bubble) {
+        pending.remove();
+        bubble = addBubble("assistant", "");
+        bubble.setAttribute("aria-busy", "true");
+      }
+      const paragraph = bubble.firstChild;
+      paragraph.textContent = replace ? text : paragraph.textContent + text;
+      scrollToEnd();
+    };
+    const handle = (event) => {
+      if (event.type === "delta" && typeof event.text === "string") show(event.text, false);
+      if (event.type === "done" && typeof event.answer === "string" && event.answer.trim()) {
+        answer = event.answer.trim();
+        show(answer, true);
+      }
+    };
+    try {
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffered += decoder.decode(value, { stream: true });
+        const blocks = buffered.split("\n\n");
+        buffered = blocks.pop();
+        blocks.forEach((block) => {
+          if (!block.startsWith("data: ")) return;
+          try { handle(JSON.parse(block.slice(6))); } catch (error) { /* a broken event is skipped */ }
+        });
+      }
+    } catch (error) {
+      /* The connection dropped mid-answer. Without "done" there is no answer to keep. */
+    }
+    pending.remove();
+    if (bubble) bubble.removeAttribute("aria-busy");
+    return { answer, bubble };
+  };
+
   const ask = async (text) => {
     const asked = text.trim();
     if (!asked || sending || closed) return;
@@ -373,9 +420,23 @@
     try {
       const response = await fetch(`${ENDPOINT}/ask`, {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        // Asks the worker to stream. A worker that cannot stream answers in JSON, handled below.
+        headers: { "content-type": "application/json", accept: "text/event-stream" },
         body: JSON.stringify({ messages: conversation.slice(-6) })
       });
+
+      if (response.ok && (response.headers.get("content-type") || "").includes("text/event-stream") && response.body) {
+        const result = await readStream(response, pending);
+        if (!result.answer) {
+          conversation.pop();
+          if (result.bubble) result.bubble.remove();
+          addBubble("assistant", say("upstream"));
+          return;
+        }
+        conversation.push({ role: "assistant", content: result.answer.slice(0, 1500) });
+        return;
+      }
+
       const payload = await response.json().catch(() => ({}));
       pending.remove();
       if (!response.ok) {
