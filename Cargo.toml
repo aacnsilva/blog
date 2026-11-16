@@ -5,3 +5,21 @@ edition = "2024"
 
 [dependencies]
 pulldown-cmark = { version = "0.13", default-features = false, features = ["html"] }
+
+[lints.rust]
+unsafe_code = "forbid"
+unused_must_use = "deny"
+
+[lints.clippy]
+all = { level = "warn", priority = -1 }
+pedantic = { level = "warn", priority = -1 }
+# The generator builds HTML by pushing formatted strings; write! would add noise.
+format_push_string = "allow"
+# The library is this binary's internals, not a public API.
+missing_errors_doc = "allow"
+must_use_candidate = "allow"
+# The site contract test is a long list of assertions by design.
+too_many_lines = "allow"
+dbg_macro = "warn"
+todo = "warn"
+unwrap_used = "warn"

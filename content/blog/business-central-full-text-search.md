@@ -18,8 +18,8 @@ Here’s a comparison of how different search inputs might be interpreted:
 
 | Full-text search input | Equivalent traditional search logic     | Microsoft fall-back |
 | :--------------------- | :-------------------------------------- | :------------------ |
-| `&&com`                | @ \*COM\*                                | @\*COM\* 
-| `&&com&&&cust`         | @ \*COM\*& \*CUST\*                       | @\*COM\*&\*CUST\* 
+| `&&com`                | @ \*COM\*                                | @\*COM\*
+| `&&com&&&cust`         | @ \*COM\*& \*CUST\*                       | @\*COM\*&\*CUST\*
 
 #### Note
 Please take into consideration the added space in the equivalent search logic, as this is what mimics the full-text search results

@@ -186,7 +186,7 @@ fn assert_post_pages(root: &Path) {
         let html = read(root, &format!("{}index.html", path.trim_start_matches('/')));
         assert!(html.contains(&format!("<h1>{title}</h1>")));
         assert!(html.contains(date));
-        assert!(html.contains("<content>"));
+        assert!(html.contains("<div class=\"content\">"));
         assert!(html.contains("article:published_time"));
     }
 
@@ -210,13 +210,14 @@ fn assert_post_pages(root: &Path) {
     );
     assert!(previous_newest.contains("Next Post"));
     assert!(previous_newest.contains("Previous Post"));
-    assert!(previous_newest.contains(
-        "href=\"/how-al-interfaces-might-finally-grow-without-a-version-bump/\""
-    ));
+    assert!(
+        previous_newest
+            .contains("href=\"/how-al-interfaces-might-finally-grow-without-a-version-bump/\"")
+    );
 
     let justa_evals = read(root, "evaluating-the-justa-agent/index.html");
     assert!(justa_evals.contains("Previous Post"));
-    assert!(justa_evals.contains("<strike>Next Post"));
+    assert!(justa_evals.contains("<span class=\"post-nav__disabled\">Next Post"));
     assert!(justa_evals.contains("<table>"));
 
     let newest = read(
@@ -275,7 +276,7 @@ fn assert_well_formed_xml(root: &Path, relative: &str) {
         .args([
             "-c",
             "import sys, xml.etree.ElementTree as ET; ET.parse(sys.argv[1])",
-            path.to_str().unwrap(),
+            path.to_str().expect("output paths are UTF-8"),
         ])
         .output()
         .unwrap_or_else(|error| panic!("python3 is required to parse XML: {error}"));
@@ -293,7 +294,9 @@ fn assert_rust_design_contract(root: &Path) {
     let home = read(root, "index.html");
     assert!(home.contains("data-theme-toggle"));
     assert!(home.contains("href=\"/images/favicon-32x32.png\""));
-    assert!(!home.contains("href=\"https://aacnsilva.com/\""));
+    // Navigation stays root-relative; only the canonical link is absolute.
+    assert!(!home.contains("<a href=\"https://aacnsilva.com/\""));
+    assert!(home.contains("<link rel=\"canonical\" href=\"https://aacnsilva.com/\" />"));
 
     let post = read(
         root,
@@ -393,7 +396,9 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(landing.contains("one full chapter for the household"));
     assert!(landing.contains("Objetivos de poupança"));
     assert!(!landing.contains("€7,99"));
-    assert!(landing.contains("Prices are in euros. The App Store shows the price for your country."));
+    assert!(
+        landing.contains("Prices are in euros. The App Store shows the price for your country.")
+    );
     assert!(!landing.contains("Prices are for Portugal"));
     assert!(!landing.contains(r#"aria-disabled="true""#));
     assert!(landing.contains(
@@ -427,16 +432,25 @@ fn assert_justa_fair_split_landing(root: &Path) {
         ("fado", "#15100C", "#F4C95E"),
     ] {
         let palette = format!("[data-theme=\"{theme}\"] {{ --paper: {paper};");
-        assert!(landing.contains(&palette), "{theme} should match the app palette");
-        assert!(landing.contains(&format!("--fill: {action};")), "{theme} action colour");
-        assert!(landing.contains(&format!("data-pick=\"{theme}\"")), "{theme} should be pickable");
+        assert!(
+            landing.contains(&palette),
+            "{theme} should match the app palette"
+        );
+        assert!(
+            landing.contains(&format!("--fill: {action};")),
+            "{theme} action colour"
+        );
+        assert!(
+            landing.contains(&format!("data-pick=\"{theme}\"")),
+            "{theme} should be pickable"
+        );
     }
     assert!(landing.contains("id=\"home-screen\""));
     assert!(landing.contains("data-demo=\"settle-up\""));
     assert!(landing.contains("data-receipt-action=\"read\""));
-    assert!(landing.contains(
-        "<button class=\"try-hint\" type=\"button\" data-receipt-action=\"open\""
-    ));
+    assert!(
+        landing.contains("<button class=\"try-hint\" type=\"button\" data-receipt-action=\"open\"")
+    );
     assert!(landing.contains("Experimente Ler fatura"));
     assert!(!landing.contains("class=\"try-hint\" aria-hidden=\"true\""));
     assert!(landing.contains("Read on this iPhone. Nothing is uploaded."));
@@ -532,7 +546,7 @@ fn target_dir(name: &str) -> PathBuf {
         .join("target")
         .join(name);
     if dir.exists() {
-        fs::remove_dir_all(&dir).unwrap();
+        fs::remove_dir_all(&dir).expect("stale test output is removable");
     }
     dir
 }

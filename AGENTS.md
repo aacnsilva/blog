@@ -9,3 +9,10 @@ We work trunk-based (TBD). `main` is the trunk:
 - Keep branches short-lived (hours, at most a day or two) and changes small.
 - Merge into `main` often; do not build up long-running feature branches.
 - Keep `main` green and releasable. Hide unfinished work behind a flag instead of holding it on a branch.
+
+## Checks
+
+Run `./scripts/check.sh` before pushing. It is the same script CI runs: formatting, Clippy with warnings denied, the site contract, and the site lints.
+
+- Fix a lint finding at its source. Do not add `#[allow]` or loosen a rule in `Cargo.toml` or `tests/site_lint.rs` without saying why in a comment.
+- A new page type or template gets a rule in `tests/site_lint.rs` if it can break in a way the existing rules miss.

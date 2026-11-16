@@ -18,7 +18,7 @@ Instead of asking an agent to guess what is wrong from a pasted compiler error, 
 
 ## From chat assistant to development loop
 
-In my previous post about my [Business Central dev workflow with Glaze WM and AI agents](/blog/business-central-dev-workflow-with-glazewm-and-agents/), the main idea was that agents become useful when they live inside a real development lane.
+In my previous post about my [Business Central dev workflow with Glaze WM and AI agents](/my-business-central-dev-workflow-with-glaze-wm-and-ai-agents/), the main idea was that agents become useful when they live inside a real development lane.
 
 That means:
 

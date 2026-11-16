@@ -165,14 +165,13 @@ pub fn parse_site_config(raw: &str) -> Result<SiteConfig> {
 
         match (section.as_str(), key, value) {
             ("", "baseURL", TomlValue::String(value)) => config.base_url = value,
-            ("", "title", TomlValue::String(value)) => config.title = value,
+            ("" | "params", "title", TomlValue::String(value)) => config.title = value,
             ("", "author", TomlValue::String(value)) => config.author = value,
             ("", "copyright", TomlValue::String(value)) => config.copyright = value,
             ("", "languageCode", TomlValue::String(value)) => config.language_code = value,
             ("params", "description", TomlValue::String(value)) => config.description = value,
             ("params", "favicon", TomlValue::String(value)) => config.favicon = value,
             ("params", "images", TomlValue::Array(value)) => config.images = value,
-            ("params", "title", TomlValue::String(value)) => config.title = value,
             ("params", "enablePostNavigator", TomlValue::Bool(value)) => {
                 config.enable_post_navigator = value;
             }
@@ -305,8 +304,7 @@ fn parse_toml_value(value: &str) -> TomlValue {
         "false" => TomlValue::Bool(false),
         _ => value
             .parse::<i32>()
-            .map(TomlValue::Integer)
-            .unwrap_or_else(|_| TomlValue::String(unquote(value))),
+            .map_or_else(|_| TomlValue::String(unquote(value)), TomlValue::Integer),
     }
 }
 
@@ -415,7 +413,10 @@ fn render_page(site: &Site, page: &Page) -> String {
 }
 
 fn render_blog_index(site: &Site) -> String {
-    let mut content = String::from("<content>\n  <ul class=\"blog-posts\">\n");
+    let mut content = String::from(&format!(
+        "<h1 class=\"visually-hidden\">{}</h1>\n<div class=\"content\">\n  <ul class=\"blog-posts\">\n",
+        html_escape(&site.blog.title)
+    ));
     for post in &site.posts {
         let date = post.date.as_deref().unwrap_or_default();
         content.push_str("    <li>\n");
@@ -433,7 +434,7 @@ fn render_blog_index(site: &Site) -> String {
         ));
         content.push_str("    </li>\n");
     }
-    content.push_str("  </ul>\n</content>\n");
+    content.push_str("  </ul>\n</div>\n");
     render_document(site, &site.blog, &site.config.description, &content)
 }
 
@@ -447,9 +448,9 @@ fn render_post(site: &Site, post: &Page) -> String {
             html_escape(&display_date(date))
         ));
     }
-    content.push_str("<content>\n");
+    content.push_str("<div class=\"content\">\n");
     content.push_str(&render_markdown(&post.body));
-    content.push_str("\n</content>\n");
+    content.push_str("\n</div>\n");
 
     if site.config.enable_post_navigator {
         content.push_str(&render_post_navigator(site, post));
@@ -467,22 +468,24 @@ fn render_post_navigator(site: &Site, post: &Page) -> String {
     let previous = site.posts.get(index + 1);
     let next = index.checked_sub(1).and_then(|value| site.posts.get(value));
 
-    let previous_html = previous
-        .map(|page| {
+    let previous_html = previous.map_or_else(
+        || "<span class=\"post-nav__disabled\">&lt;&lt; Previous Post</span>".to_string(),
+        |page| {
             format!(
                 "<a href=\"{}\">&lt;&lt; Previous Post</a>",
                 attr_escape(&page_url(&page.url_path))
             )
-        })
-        .unwrap_or_else(|| "<strike>&lt;&lt; Previous Post</strike>".to_string());
-    let next_html = next
-        .map(|page| {
+        },
+    );
+    let next_html = next.map_or_else(
+        || "<span class=\"post-nav__disabled\">Next Post &gt;&gt;</span>".to_string(),
+        |page| {
             format!(
                 "<a href=\"{}\">Next Post &gt;&gt;</a>",
                 attr_escape(&page_url(&page.url_path))
             )
-        })
-        .unwrap_or_else(|| "<strike>Next Post &gt;&gt;</strike>".to_string());
+        },
+    );
 
     format!(
         "\n<nav class=\"post-nav\" aria-label=\"Post navigation\">\n  <p>{previous_html}</p>\n  <p aria-hidden=\"true\">/</p>\n  <p>{next_html}</p>\n</nav>\n"
@@ -519,7 +522,7 @@ fn render_document(site: &Site, page: &Page, description: &str, main_content: &s
     );
     if !site.config.favicon.is_empty() {
         document.push_str(&format!(
-            "<link rel=\"shortcut icon\" href=\"{}\" />\n",
+            "<link rel=\"icon\" href=\"{}\" />\n",
             attr_escape(&asset_url(&site.config.favicon))
         ));
     }
@@ -536,7 +539,12 @@ fn render_document(site: &Site, page: &Page, description: &str, main_content: &s
         "<meta name=\"description\" content=\"{}\" />\n",
         attr_escape(description)
     ));
-    document.push_str("<meta name=\"keywords\" content=\"\" />\n\n");
+    if page.url_path != "/404.html" {
+        document.push_str(&format!(
+            "<link rel=\"canonical\" href=\"{}\" />\n",
+            attr_escape(&absolute_url(site, &page.url_path))
+        ));
+    }
     document.push_str(&render_open_graph(site, page, description));
     document.push_str("<meta name=\"referrer\" content=\"no-referrer-when-downgrade\" />\n");
     if page.kind == PageKind::Section && page.url_path == "/" {
@@ -708,6 +716,7 @@ pub fn render_markdown(markdown: &str) -> String {
 }
 
 fn add_heading_ids(events: &mut [Event<'_>]) {
+    let mut used: BTreeMap<String, usize> = BTreeMap::new();
     let mut index = 0;
     while index < events.len() {
         if matches!(&events[index], Event::Start(Tag::Heading { id: None, .. })) {
@@ -723,7 +732,15 @@ fn add_heading_ids(events: &mut [Event<'_>]) {
                 scan += 1;
             }
 
-            let id_value = heading_id(&heading_text);
+            // Repeated headings get -1, -2, ... so every id stays unique on the page.
+            let base = heading_id(&heading_text);
+            let repeats = used.entry(base.clone()).or_insert(0);
+            let id_value = if *repeats == 0 {
+                base
+            } else {
+                format!("{base}-{repeats}")
+            };
+            *repeats += 1;
             if !id_value.is_empty()
                 && let Event::Start(Tag::Heading { id, .. }) = &mut events[index]
             {
@@ -841,8 +858,7 @@ fn rss_date(date: &str) -> String {
     let time = date.get(11..19).unwrap_or("00:00:00");
     let offset = date
         .get(19..25)
-        .map(|value| value.replace(':', ""))
-        .unwrap_or_else(|| "+0000".to_string());
+        .map_or_else(|| "+0000".to_string(), |value| value.replace(':', ""));
     format!(
         "{}, {day:02} {} {} {} {}",
         weekday_name(year, month, day),
@@ -859,17 +875,15 @@ fn weekday_name(year: i32, month: u32, day: u32) -> &'static str {
     if month < 3 {
         year -= 1;
     }
-    let index = (year + year / 4 - year / 100
-        + year / 400
-        + month_offsets[(month - 1) as usize]
-        + day as i32)
-        % 7;
-    ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][index as usize]
+    let day = i32::try_from(day).unwrap_or(1);
+    let index =
+        (year + year / 4 - year / 100 + year / 400 + month_offsets[(month - 1) as usize] + day)
+            .rem_euclid(7);
+    ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][usize::try_from(index).unwrap_or(0)]
 }
 
 fn month_name(month: u32) -> &'static str {
     match month {
-        1 => "Jan",
         2 => "Feb",
         3 => "Mar",
         4 => "Apr",
@@ -947,8 +961,7 @@ fn render_rss(site: &Site, scope: FeedScope) -> String {
         ),
     };
     let last_build = newest_post_date(site)
-        .map(rss_date)
-        .unwrap_or_else(|| "Thu, 01 Jan 1970 00:00:00 +0000".to_string());
+        .map_or_else(|| "Thu, 01 Jan 1970 00:00:00 +0000".to_string(), rss_date);
 
     let mut rss = String::new();
     rss.push_str("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
@@ -1361,7 +1374,7 @@ const STYLE: &str = r#"  :root {
     font-style: normal;
   }
 
-  content {
+  .content {
     display: block;
   }
 
@@ -1524,11 +1537,21 @@ const STYLE: &str = r#"  :root {
     font-size: 0.9rem;
   }
 
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   .post-nav p {
     margin: 0;
   }
 
-  .post-nav strike {
+  .post-nav__disabled {
+    text-decoration: line-through;
     color: var(--muted-color);
   }
 
@@ -1762,10 +1785,14 @@ url = "/cv/"
     fn theme_diagram_css_follows_site_toggle() {
         assert!(STYLE.contains(".theme-diagram img.theme-diagram__light"));
         assert!(STYLE.contains(".theme-diagram img.theme-diagram__dark"));
-        assert!(STYLE.contains(
-            ":root:not([data-theme=\"light\"]) .theme-diagram img.theme-diagram__dark"
-        ));
-        assert!(STYLE.contains(":root[data-theme=\"dark\"] .theme-diagram img.theme-diagram__dark"));
+        assert!(
+            STYLE.contains(
+                ":root:not([data-theme=\"light\"]) .theme-diagram img.theme-diagram__dark"
+            )
+        );
+        assert!(
+            STYLE.contains(":root[data-theme=\"dark\"] .theme-diagram img.theme-diagram__dark")
+        );
         assert!(
             STYLE.contains(":root[data-theme=\"light\"] .theme-diagram img.theme-diagram__light")
         );
