@@ -412,8 +412,10 @@ fn assert_justa_fair_split_landing(root: &Path) {
         "landing should be the Fair-split page"
     );
     assert!(landing.contains("Download on the"));
-    // The app is live, so only the Justa Companion band may say "Coming soon", and it names no tier or price.
-    assert!(landing.contains("id=\"companion\""));
+    // The app is live, so only the block of features from later releases may say "Coming soon",
+    // once, on its heading. It names no tier or price.
+    assert!(landing.contains("id=\"coming\""));
+    assert!(landing.contains("Coming in a future release"));
     assert_eq!(landing.matches("Coming soon").count(), 1);
     assert!(landing.contains(r#"<span class="soon"><span class="en">Coming soon</span>"#));
     assert!(!landing.contains("Justa Max"));
@@ -478,14 +480,19 @@ fn assert_justa_fair_split_landing(root: &Path) {
             "{theme} should be pickable"
         );
     }
-    assert!(landing.contains("id=\"home-screen\""));
+    // The hero is the split itself: sliders, then a Settle up button that lands on "All square".
     assert!(landing.contains("data-demo=\"settle-up\""));
-    assert!(landing.contains("data-receipt-action=\"read\""));
-    assert!(
-        landing.contains("<button class=\"try-hint\" type=\"button\" data-receipt-action=\"open\"")
-    );
-    assert!(landing.contains("Experimente Ler fatura"));
-    assert!(!landing.contains("class=\"try-hint\" aria-hidden=\"true\""));
+    assert!(landing.contains("id=\"calc-square\""));
+    // Privacy says where everything goes, including what does leave the iPhone.
+    assert!(landing.contains("id=\"privacy\""));
+    assert!(landing.contains("Data Not Collected"));
+    assert!(landing.contains("Where everything goes"));
+    assert!(landing.contains("Anyone who can open that folder can read the book"));
+    // Plans say exactly where free stops.
+    assert!(landing.contains("id=\"plans\""));
+    assert!(landing.contains("Exactly where free stops"));
+    // Both languages share one grid cell, so switching language shifts nothing.
+    assert!(landing.contains(".en, .pt { grid-area: 1 / 1;"));
     assert!(landing.contains("Read on this iPhone. Nothing is uploaded."));
     assert!(landing.contains("Justa on both iPhones"));
     assert!(landing.contains("data-set-lang=\"pt\""));
