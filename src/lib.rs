@@ -27,6 +27,25 @@ pub struct SiteConfig {
     pub images: Vec<String>,
     pub enable_post_navigator: bool,
     pub menu_links: Vec<MenuLink>,
+    /// Home page headline and the line under it.
+    pub headline: String,
+    pub intro: String,
+    /// The projects shown as panels on the home page and as a strip elsewhere.
+    pub projects: Vec<Project>,
+}
+
+/// One project panel. The four colours are CSS colours for that panel only,
+/// so each project keeps its own identity in both site themes.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct Project {
+    pub name: String,
+    pub url: String,
+    pub label: String,
+    pub description: String,
+    pub background: String,
+    pub text: String,
+    pub muted: String,
+    pub title: String,
 }
 
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
@@ -49,6 +68,9 @@ impl Default for SiteConfig {
             images: Vec::new(),
             enable_post_navigator: false,
             menu_links: Vec::new(),
+            headline: String::new(),
+            intro: String::new(),
+            projects: Vec::new(),
         }
     }
 }
@@ -155,6 +177,9 @@ pub fn parse_site_config(raw: &str) -> Result<SiteConfig> {
             if line.starts_with("[[") && section == "menu.main" {
                 config.menu_links.push(MenuLink::default());
             }
+            if line.starts_with("[[") && section == "projects" {
+                config.projects.push(Project::default());
+            }
             continue;
         }
         let Some((key, value)) = line.split_once('=') else {
@@ -174,6 +199,23 @@ pub fn parse_site_config(raw: &str) -> Result<SiteConfig> {
             ("params", "images", TomlValue::Array(value)) => config.images = value,
             ("params", "enablePostNavigator", TomlValue::Bool(value)) => {
                 config.enable_post_navigator = value;
+            }
+            ("params", "headline", TomlValue::String(value)) => config.headline = value,
+            ("params", "intro", TomlValue::String(value)) => config.intro = value,
+            ("projects", key, TomlValue::String(value)) => {
+                if let Some(project) = config.projects.last_mut() {
+                    match key {
+                        "name" => project.name = value,
+                        "url" => project.url = value,
+                        "label" => project.label = value,
+                        "description" => project.description = value,
+                        "background" => project.background = value,
+                        "text" => project.text = value,
+                        "muted" => project.muted = value,
+                        "title" => project.title = value,
+                        _ => {}
+                    }
+                }
             }
             ("menu.main", "name", TomlValue::String(value)) => {
                 if let Some(link) = config.menu_links.last_mut() {
@@ -342,12 +384,8 @@ fn write_site(site: &Site, paths: &BuildPaths) -> Result<()> {
 
     copy_static(&paths.static_dir, &paths.output_dir)?;
 
-    write_page_file(
-        &paths.output_dir,
-        &site.blog.url_path,
-        &render_blog_index(site),
-    )?;
-    write_page_file(&paths.output_dir, "/blog/", &render_blog_index(site))?;
+    write_page_file(&paths.output_dir, &site.blog.url_path, &render_home(site))?;
+    write_page_file(&paths.output_dir, ARCHIVE_PATH, &render_archive(site))?;
     for page in &site.pages {
         write_page_file(&paths.output_dir, &page.url_path, &render_page(site, page))?;
     }
@@ -412,30 +450,111 @@ fn render_page(site: &Site, page: &Page) -> String {
     render_document(site, page, &description, &content)
 }
 
-fn render_blog_index(site: &Site) -> String {
-    let mut content = String::from(&format!(
-        "<h1 class=\"visually-hidden\">{}</h1>\n<div class=\"content\">\n  <ul class=\"blog-posts\">\n",
-        html_escape(&site.blog.title)
+/// Where the full list of posts lives. The home page shows only the latest few.
+const ARCHIVE_PATH: &str = "/blog/";
+const LATEST_POSTS_ON_HOME: usize = 6;
+
+fn render_home(site: &Site) -> String {
+    let config = &site.config;
+    let headline = if config.headline.is_empty() {
+        &config.title
+    } else {
+        &config.headline
+    };
+
+    let mut content = String::from("<div class=\"home\">\n<section class=\"hero\">\n");
+    content.push_str(&format!("  <h1>{}</h1>\n", html_escape(headline)));
+    if !config.intro.is_empty() {
+        content.push_str(&format!("  <p>{}</p>\n", html_escape(&config.intro)));
+    }
+    content.push_str("</section>\n");
+
+    if !config.projects.is_empty() {
+        content.push_str("<section class=\"doors\" aria-label=\"Projects\">\n");
+        content.push_str(&render_projects(site));
+        content.push_str("</section>\n");
+    }
+
+    content.push_str("<section aria-labelledby=\"latest-writing\">\n  <div class=\"section-head\">\n    <h2 id=\"latest-writing\">Latest writing</h2>\n");
+    content.push_str(&format!(
+        "    <a href=\"{}\">All {} posts →</a>\n  </div>\n  <ul class=\"latest-posts\">\n",
+        attr_escape(&page_url(ARCHIVE_PATH)),
+        site.posts.len()
     ));
-    for post in &site.posts {
-        let date = post.date.as_deref().unwrap_or_default();
-        content.push_str("    <li>\n");
-        content.push_str("      <span><i>");
+    for post in site.posts.iter().take(LATEST_POSTS_ON_HOME) {
         content.push_str(&format!(
-            "<time datetime='{}'>{}</time>",
-            html_escape(&date_only(date)),
-            html_escape(&display_date(date))
-        ));
-        content.push_str("</i></span>\n");
-        content.push_str(&format!(
-            "      <a href=\"{}\">{}</a>\n",
+            "    <li>\n      {}\n      <a href=\"{}\">{}</a>\n    </li>\n",
+            render_time(post.date.as_deref().unwrap_or_default()),
             attr_escape(&page_url(&post.url_path)),
             html_escape(&post.title)
         ));
-        content.push_str("    </li>\n");
+    }
+    content.push_str("  </ul>\n</section>\n</div>\n");
+
+    let home = Page {
+        title: config.title.clone(),
+        ..site.blog.clone()
+    };
+    render_document(site, &home, &config.description, &content)
+}
+
+fn render_archive(site: &Site) -> String {
+    let mut content = format!(
+        "<h1>{}</h1>\n<div class=\"content\">\n  <ul class=\"blog-posts\">\n",
+        html_escape(&site.blog.title)
+    );
+    for post in &site.posts {
+        content.push_str(&format!(
+            "    <li>\n      {}\n      <a href=\"{}\">{}</a>\n    </li>\n",
+            render_time(post.date.as_deref().unwrap_or_default()),
+            attr_escape(&page_url(&post.url_path)),
+            html_escape(&post.title)
+        ));
     }
     content.push_str("  </ul>\n</div>\n");
-    render_document(site, &site.blog, &site.config.description, &content)
+
+    let archive = Page {
+        url_path: ARCHIVE_PATH.to_string(),
+        ..site.blog.clone()
+    };
+    render_document(site, &archive, &site.config.description, &content)
+}
+
+fn render_time(date: &str) -> String {
+    format!(
+        "<time datetime=\"{}\">{}</time>",
+        attr_escape(&date_only(date)),
+        html_escape(&display_date(date))
+    )
+}
+
+/// The project panels: full size on the home page, compact under every other page.
+fn render_projects(site: &Site) -> String {
+    const ARROW: &str = "<svg aria-hidden=\"true\" width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M7 17 17 7M8 7h9v9\"></path></svg>";
+
+    let mut html = String::new();
+    for project in &site.config.projects {
+        let mut style = String::new();
+        for (property, value) in [
+            ("--door-bg", &project.background),
+            ("--door-fg", &project.text),
+            ("--door-muted", &project.muted),
+            ("--door-title", &project.title),
+        ] {
+            if !value.is_empty() {
+                style.push_str(&format!("{property}:{value};"));
+            }
+        }
+        html.push_str(&format!(
+            "  <a class=\"door\" href=\"{}\" style=\"{}\">\n    <span class=\"door__label\"><span>{}</span>{ARROW}</span>\n    <span class=\"door__body\">\n      <span class=\"door__name\">{}</span>\n      <span class=\"door__text\">{}</span>\n    </span>\n  </a>\n",
+            attr_escape(&project.url),
+            attr_escape(&style),
+            html_escape(&project.label),
+            html_escape(&project.name),
+            html_escape(&project.description)
+        ));
+    }
+    html
 }
 
 fn render_post(site: &Site, post: &Page) -> String {
@@ -443,9 +562,8 @@ fn render_post(site: &Site, post: &Page) -> String {
     content.push_str(&format!("\n<h1>{}</h1>\n", html_escape(&post.title)));
     if let Some(date) = &post.date {
         content.push_str(&format!(
-            "<p><i><time datetime='{}'>{}</time></i></p>\n",
-            html_escape(&date_only(date)),
-            html_escape(&display_date(date))
+            "<p class=\"post-meta\">{}</p>\n",
+            render_time(date)
         ));
     }
     content.push_str("<div class=\"content\">\n");
@@ -526,11 +644,22 @@ fn render_document(site: &Site, page: &Page, description: &str, main_content: &s
             attr_escape(&asset_url(&site.config.favicon))
         ));
     }
-    document.push_str(&format!(
-        "<title>{} | {}</title>\n",
-        html_escape(&page.title),
-        html_escape(&site.config.title)
-    ));
+    let is_home = page.kind == PageKind::Section && page.url_path == "/";
+    if is_home {
+        document.push_str(&format!(
+            "<title>{}</title>\n",
+            html_escape(&site.config.title)
+        ));
+    } else {
+        document.push_str(&format!(
+            "<title>{} | {}</title>\n",
+            html_escape(&page.title),
+            html_escape(&site.config.title)
+        ));
+    }
+    document.push_str(
+        "<link rel=\"preload\" href=\"/fonts/bricolage-grotesque-latin-wght-normal.woff2\" as=\"font\" type=\"font/woff2\" crossorigin />\n",
+    );
     document.push_str(&format!(
         "<meta name=\"title\" content=\"{}\" />\n",
         attr_escape(&page.title)
@@ -547,7 +676,7 @@ fn render_document(site: &Site, page: &Page, description: &str, main_content: &s
     }
     document.push_str(&render_open_graph(site, page, description));
     document.push_str("<meta name=\"referrer\" content=\"no-referrer-when-downgrade\" />\n");
-    if page.kind == PageKind::Section && page.url_path == "/" {
+    if is_home {
         document.push_str(&format!(
             "  <link rel=\"alternate\" type=\"application/rss+xml\" href=\"{}\" title=\"{}\" />\n",
             attr_escape(&page_url("/index.xml")),
@@ -567,9 +696,20 @@ fn render_document(site: &Site, page: &Page, description: &str, main_content: &s
     document.push_str(STYLE);
     document.push_str("\n</style>\n\n</head>\n\n<body>\n");
     document.push_str(&render_header(site));
-    document.push_str("  <main>\n");
+    document.push_str(if is_home {
+        "  <main>\n"
+    } else {
+        "  <main class=\"prose\">\n"
+    });
     document.push_str(main_content);
-    document.push_str("\n  </main>\n  <footer>\n</footer>\n<script>");
+    document.push_str("\n  </main>\n");
+    if !is_home && !site.config.projects.is_empty() {
+        document.push_str("  <aside class=\"projects-strip\" aria-labelledby=\"projects-strip\">\n  <h2 id=\"projects-strip\">Things I've built</h2>\n  <div class=\"doors doors--compact\">\n");
+        document.push_str(&render_projects(site));
+        document.push_str("  </div>\n  </aside>\n");
+    }
+    document.push_str(&render_footer(site));
+    document.push_str("<script>");
     document.push_str(THEME_SCRIPT);
     document.push_str("</script>\n</body>\n\n</html>\n");
     document
@@ -658,33 +798,45 @@ fn render_open_graph(site: &Site, page: &Page, description: &str) -> String {
 }
 
 fn render_header(site: &Site) -> String {
-    let mut links: Vec<(i32, &str, &str)> = std::iter::once(&site.blog)
-        .chain(
-            site.pages
-                .iter()
-                .filter(|page| page.menu.as_deref() == Some("main")),
+    // The section page is the home page; its menu entry points at the full archive.
+    let mut links: Vec<(i32, &str, &str)> = std::iter::once((
+        site.blog.weight.unwrap_or(i32::MAX),
+        site.blog.title.as_str(),
+        ARCHIVE_PATH,
+    ))
+    .chain(
+        site.pages
+            .iter()
+            .filter(|page| page.menu.as_deref() == Some("main"))
+            .map(|page| {
+                (
+                    page.weight.unwrap_or(i32::MAX),
+                    page.title.as_str(),
+                    page.url_path.as_str(),
+                )
+            }),
+    )
+    .chain(site.config.menu_links.iter().map(|link| {
+        (
+            link.weight.unwrap_or(i32::MAX),
+            link.name.as_str(),
+            link.url.as_str(),
         )
-        .map(|page| {
-            (
-                page.weight.unwrap_or(i32::MAX),
-                page.title.as_str(),
-                page.url_path.as_str(),
-            )
-        })
-        .chain(site.config.menu_links.iter().map(|link| {
-            (
-                link.weight.unwrap_or(i32::MAX),
-                link.name.as_str(),
-                link.url.as_str(),
-            )
-        }))
-        .collect();
+    }))
+    .collect();
     links.sort_by(|left, right| left.0.cmp(&right.0).then_with(|| left.1.cmp(right.1)));
 
+    let brand = if site.config.author.is_empty() {
+        &site.config.title
+    } else {
+        &site.config.author
+    };
+
     let mut header = String::new();
-    header.push_str("  <header><a href=\"/\" class=\"title\">\n");
-    header.push_str(&format!("  <h2>{}</h2>\n", html_escape(&site.config.title)));
-    header.push_str("</a>\n<nav>\n");
+    header.push_str(&format!(
+        "  <header class=\"site-header\">\n<a href=\"/\" class=\"brand\">{}</a>\n<nav class=\"site-nav\" aria-label=\"Main\">\n",
+        html_escape(brand)
+    ));
     for (_, title, url) in links {
         header.push_str(&format!(
             "<a href=\"{}\">{}</a>\n\n",
@@ -697,6 +849,33 @@ fn render_header(site: &Site) -> String {
     );
     header.push_str("</nav>\n</header>\n");
     header
+}
+
+fn render_footer(site: &Site) -> String {
+    let mut footer = String::from("  <footer class=\"site-footer\">\n");
+    if !site.config.copyright.is_empty() {
+        footer.push_str(&format!(
+            "  <span>{}</span>\n",
+            html_escape(&site.config.copyright)
+        ));
+    }
+    footer.push_str("  <nav aria-label=\"Footer\">\n");
+    for page in site
+        .pages
+        .iter()
+        .filter(|page| page.menu.as_deref() == Some("main"))
+    {
+        footer.push_str(&format!(
+            "    <a href=\"{}\">{}</a>\n",
+            attr_escape(&page.url_path),
+            html_escape(&page.title)
+        ));
+    }
+    footer.push_str(&format!(
+        "    <a href=\"{}\">RSS</a>\n  </nav>\n  </footer>\n",
+        attr_escape(&page_url("/index.xml"))
+    ));
+    footer
 }
 
 pub fn render_markdown(markdown: &str) -> String {
@@ -1098,494 +1277,7 @@ const THEME_BOOTSTRAP: &str = r#"(function(){try{var theme=localStorage.getItem(
 
 const THEME_SCRIPT: &str = r#"(function(){var root=document.documentElement;var toggle=document.querySelector("[data-theme-toggle]");if(!toggle){return;}var media=window.matchMedia("(prefers-color-scheme: dark)");function current(){return root.dataset.theme||(media.matches?"dark":"light");}function sync(){toggle.setAttribute("aria-pressed",current()==="dark"?"true":"false");}toggle.addEventListener("click",function(){var next=current()==="dark"?"light":"dark";root.dataset.theme=next;try{localStorage.setItem("theme",next);}catch(_){}sync();});if(media.addEventListener){media.addEventListener("change",sync);}sync();})();"#;
 
-const STYLE: &str = r#"  :root {
-    color-scheme: light;
-    --width: 760px;
-    --font-main: Georgia, "Times New Roman", serif;
-    --font-secondary: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-    --background-color: #f7f3ed;
-    --surface-color: #fffaf3;
-    --surface-muted: #eee8de;
-    --heading-color: #25231f;
-    --text-color: #38342f;
-    --muted-color: #6d675f;
-    --border-color: #d9d0c3;
-    --link-color: #315f6d;
-    --visited-color: #735b84;
-    --accent-color: #5c7568;
-    --accent-contrast: #f8fbf7;
-    --code-background: #ebe5da;
-    --code-color: #27231f;
-    --blockquote-background: #f0e8dc;
-    --shadow-color: rgba(68, 55, 40, 0.08);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      color-scheme: dark;
-      --background-color: #171a1d;
-      --surface-color: #202428;
-      --surface-muted: #2a2e32;
-      --heading-color: #f3eee6;
-      --text-color: #e7dfd3;
-      --muted-color: #b9afa3;
-      --border-color: #3c4144;
-      --link-color: #9bc7d2;
-      --visited-color: #d2adc6;
-      --accent-color: #abc5b5;
-      --accent-contrast: #162019;
-      --code-background: #121518;
-      --code-color: #f3eee6;
-      --blockquote-background: #242b2b;
-      --shadow-color: rgba(0, 0, 0, 0.24);
-    }
-  }
-
-  :root[data-theme="dark"] {
-    color-scheme: dark;
-    --background-color: #171a1d;
-    --surface-color: #202428;
-    --surface-muted: #2a2e32;
-    --heading-color: #f3eee6;
-    --text-color: #e7dfd3;
-    --muted-color: #b9afa3;
-    --border-color: #3c4144;
-    --link-color: #9bc7d2;
-    --visited-color: #d2adc6;
-    --accent-color: #abc5b5;
-    --accent-contrast: #162019;
-    --code-background: #121518;
-    --code-color: #f3eee6;
-    --blockquote-background: #242b2b;
-    --shadow-color: rgba(0, 0, 0, 0.24);
-  }
-
-  :root[data-theme="light"] {
-    color-scheme: light;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  html {
-    background: var(--background-color);
-  }
-
-  body {
-    min-height: 100vh;
-    margin: 0;
-    padding: 0 22px;
-    text-align: left;
-    background: var(--background-color);
-    color: var(--text-color);
-    font-family: var(--font-secondary);
-    font-size: 17px;
-    line-height: 1.72;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    transition: background-color 180ms ease, color 180ms ease;
-  }
-
-  header,
-  main,
-  footer {
-    max-width: var(--width);
-    margin-inline: auto;
-  }
-
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    padding: 34px 0 22px;
-    margin-bottom: 30px;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .title {
-    color: var(--heading-color);
-  }
-
-  .title:hover {
-    text-decoration: none;
-  }
-
-  .title h2 {
-    margin: 0;
-    font-family: var(--font-main);
-    font-size: 1.42rem;
-    font-weight: 650;
-    line-height: 1.1;
-  }
-
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  nav a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 36px;
-    padding: 0 10px;
-    border-radius: 999px;
-    color: var(--muted-color);
-    font-size: 0.9rem;
-    font-weight: 650;
-  }
-
-  nav a:hover {
-    background: var(--surface-muted);
-    color: var(--heading-color);
-    text-decoration: none;
-  }
-
-  .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 36px;
-    padding: 0;
-    border: 1px solid var(--border-color);
-    border-radius: 999px;
-    background: var(--surface-color);
-    color: var(--heading-color);
-    box-shadow: 0 8px 24px var(--shadow-color);
-    cursor: pointer;
-  }
-
-  .theme-toggle:focus-visible,
-  a:focus-visible {
-    outline: 3px solid var(--accent-color);
-    outline-offset: 3px;
-  }
-
-  .theme-toggle__track {
-    position: relative;
-    width: 26px;
-    height: 14px;
-    border-radius: 999px;
-    background: var(--surface-muted);
-  }
-
-  .theme-toggle__knob {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 8px;
-    height: 8px;
-    border-radius: 999px;
-    background: var(--accent-color);
-    transition: transform 180ms ease;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .theme-toggle__knob {
-      transform: translateX(12px);
-    }
-  }
-
-  :root[data-theme="dark"] .theme-toggle__knob {
-    transform: translateX(12px);
-  }
-
-  :root[data-theme="light"] .theme-toggle__knob {
-    transform: translateX(0);
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: var(--heading-color);
-    font-family: var(--font-main);
-    line-height: 1.18;
-  }
-
-  h1 {
-    margin: 0 0 22px;
-    font-size: 2.35rem;
-    font-weight: 650;
-  }
-
-  h2 {
-    margin-top: 2.4em;
-    margin-bottom: 0.65em;
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    margin-top: 2em;
-    margin-bottom: 0.55em;
-    font-size: 1.15rem;
-  }
-
-  h4,
-  h5,
-  h6 {
-    margin-top: 1.7em;
-    margin-bottom: 0.45em;
-    font-size: 1rem;
-  }
-
-  p,
-  ul,
-  ol,
-  blockquote,
-  table,
-  pre {
-    margin-top: 0;
-    margin-bottom: 1.18rem;
-  }
-
-  a {
-    color: var(--link-color);
-    cursor: pointer;
-    text-decoration-thickness: 0.08em;
-    text-underline-offset: 0.18em;
-  }
-
-  a:hover {
-    color: var(--accent-color);
-  }
-
-  main a:visited {
-    color: var(--visited-color);
-  }
-
-  strong,
-  b {
-    color: var(--heading-color);
-  }
-
-  time {
-    color: var(--muted-color);
-    font-family: var(--font-mono);
-    font-size: 0.88rem;
-    font-style: normal;
-  }
-
-  .content {
-    display: block;
-  }
-
-  hr {
-    height: 1px;
-    margin: 2rem 0;
-    border: 0;
-    background: var(--border-color);
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-
-  .theme-diagram {
-    margin: 1.18rem 0 1.6rem;
-    max-width: 100%;
-  }
-
-  .theme-diagram img {
-    width: 100%;
-    height: auto;
-    margin: 0;
-    border-radius: 8px;
-  }
-
-  .theme-diagram img.theme-diagram__light {
-    display: block;
-  }
-
-  .theme-diagram img.theme-diagram__dark {
-    display: none;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) .theme-diagram img.theme-diagram__light {
-      display: none;
-    }
-
-    :root:not([data-theme="light"]) .theme-diagram img.theme-diagram__dark {
-      display: block;
-    }
-  }
-
-  :root[data-theme="dark"] .theme-diagram img.theme-diagram__light {
-    display: none;
-  }
-
-  :root[data-theme="dark"] .theme-diagram img.theme-diagram__dark {
-    display: block;
-  }
-
-  :root[data-theme="light"] .theme-diagram img.theme-diagram__light {
-    display: block;
-  }
-
-  :root[data-theme="light"] .theme-diagram img.theme-diagram__dark {
-    display: none;
-  }
-
-  code {
-    padding: 0.12em 0.34em;
-    border-radius: 5px;
-    background: var(--code-background);
-    color: var(--code-color);
-    font-family: var(--font-mono);
-    font-size: 0.9em;
-  }
-
-  pre {
-    overflow-x: auto;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    background: var(--code-background);
-  }
-
-  pre code {
-    display: block;
-    padding: 16px;
-    background: transparent;
-  }
-
-  blockquote {
-    padding: 18px 20px;
-    border-left: 4px solid var(--accent-color);
-    border-radius: 0 8px 8px 0;
-    background: var(--blockquote-background);
-    color: var(--text-color);
-    font-style: italic;
-  }
-
-  table {
-    display: block;
-    width: 100%;
-    border-collapse: collapse;
-    overflow-x: auto;
-    font-size: 0.95rem;
-  }
-
-  th,
-  td {
-    padding: 10px 12px;
-    border-bottom: 1px solid var(--border-color);
-    vertical-align: top;
-  }
-
-  th {
-    color: var(--heading-color);
-    text-align: left;
-    background: var(--surface-muted);
-  }
-
-  footer {
-    margin-top: 48px;
-    min-height: 36px;
-  }
-
-  ul.blog-posts {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-  }
-
-  ul.blog-posts li {
-    display: grid;
-    grid-template-columns: 132px 1fr;
-    gap: 18px;
-    align-items: baseline;
-    padding: 16px 0;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  ul.blog-posts li a {
-    color: var(--heading-color);
-    font-family: var(--font-main);
-    font-size: 1.08rem;
-    line-height: 1.35;
-    text-decoration: none;
-  }
-
-  ul.blog-posts li a:hover {
-    color: var(--link-color);
-    text-decoration: underline;
-  }
-
-  ul.blog-posts li a:visited {
-    color: var(--visited-color);
-  }
-
-  .post-nav {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-top: 42px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border-color);
-    color: var(--muted-color);
-    font-size: 0.9rem;
-  }
-
-  .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-  }
-
-  .post-nav p {
-    margin: 0;
-  }
-
-  .post-nav__disabled {
-    text-decoration: line-through;
-    color: var(--muted-color);
-  }
-
-  @media (max-width: 640px) {
-    body {
-      padding-inline: 18px;
-      font-size: 16px;
-    }
-
-    header {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: 14px;
-      margin-bottom: 34px;
-      padding-top: 28px;
-    }
-
-    nav {
-      justify-content: flex-start;
-    }
-
-    h1 {
-      font-size: 2rem;
-    }
-
-    ul.blog-posts li {
-      grid-template-columns: 1fr;
-      gap: 4px;
-    }
-
-    .post-nav {
-      flex-wrap: wrap;
-    }
-  }"#;
+const STYLE: &str = include_str!("style.css");
 
 #[cfg(test)]
 mod tests {
@@ -1653,6 +1345,34 @@ url = "/cv/"
                 },
             ]
         );
+    }
+
+    #[test]
+    fn parses_projects_and_home_copy() {
+        let config = parse_site_config(
+            r##"
+[params]
+headline = "Hello"
+intro = "A line under it"
+
+[[projects]]
+name = "Justa"
+url = "/justa/"
+background = "#1A3A32" # a hash inside quotes is not a comment
+
+[[projects]]
+name = "Music"
+url = "https://music.example.com/"
+"##,
+        )
+        .unwrap();
+
+        assert_eq!(config.headline, "Hello");
+        assert_eq!(config.intro, "A line under it");
+        assert_eq!(config.projects.len(), 2);
+        assert_eq!(config.projects[0].name, "Justa");
+        assert_eq!(config.projects[0].background, "#1A3A32");
+        assert_eq!(config.projects[1].url, "https://music.example.com/");
     }
 
     #[test]

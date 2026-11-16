@@ -1,7 +1,7 @@
 baseURL = 'https://aacnsilva.com/'
 title = "António's DevLog"
 author = "António Silva"
-copyright = "Copyright © 2026, António Silva."
+copyright = "© 2026 António Silva"
 languageCode = "en-US"
 
 [params]
@@ -10,18 +10,36 @@ favicon = "static/images/favicon-32x32.png"
 images = ["static/images/share.png"]
 title = "António's DevLog"
 enablePostNavigator = true
+headline = "All things AI. Software that works."
+intro = "I'm António, a software engineer in Porto. These are three things I've built; the writing on AI and agents is below."
 
-[[menu.main]]
+# The three project panels. Colours are per panel and stay the same in light and dark.
+[[projects]]
 name = "Justa"
 url = "/justa/"
-weight = 30
+label = "iPhone app · On the App Store"
+description = "Household money, without the dread. Plans the month, splits it fairly by income, and tells you who pays whom."
+background = "#1A3A32"
+text = "#F4F7FC"
+muted = "#D5E3DC"
+title = "#F4F7FC"
 
-[[menu.main]]
+[[projects]]
 name = "Music"
 url = "https://music.aacnsilva.com/"
-weight = 40
+label = "Interactive lessons · Guitar now, piano next"
+description = "Pick an instrument. Start from zero. Short interactive lessons you play along with, at your own tempo."
+background = "#2B1B5A"
+text = "#FFFFFF"
+muted = "#E2DAF7"
+title = "#FFB3D1"
 
-[[menu.main]]
+[[projects]]
 name = "Racing"
 url = "https://racing.aacnsilva.com/"
-weight = 50
+label = "Portfolio project · No real money"
+description = "Back a shark, or be the shark. Bet play points on provably fair animal races, then take the reins yourself, solo or against friends."
+background = "#FFD23F"
+text = "#17130A"
+muted = "#3A300F"
+title = "#17130A"

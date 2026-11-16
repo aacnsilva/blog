@@ -128,16 +128,13 @@ fn assert_required_files_exist(root: &Path) {
 
 fn assert_navigation_and_core_pages(root: &Path) {
     let home = read(root, "index.html");
-    assert!(home.contains("<a href=\"/\">Blog</a>"));
-    assert!(home.contains("<a href=\"/about/\">About</a>"));
+    assert!(home.contains("<a href=\"/\" class=\"brand\">António Silva</a>"));
+    assert!(home.contains("<a href=\"/blog/\">Writing</a>\n\n<a href=\"/about/\">About</a>"));
     assert!(!home.contains("<a href=\"/resume/\">Resume</a>"));
-    assert!(home.contains(
-        "<a href=\"/about/\">About</a>\n\n<a href=\"/justa/\">Justa</a>\n\n<a href=\"https://music.aacnsilva.com/\">Music</a>\n\n<a href=\"https://racing.aacnsilva.com/\">Racing</a>"
-    ));
+    assert_home_landing(&home);
     assert!(!home.contains("/justa/privacy"));
     assert!(!home.contains("/joora/privacy"));
     assert!(!home.contains("Joora"));
-    assert!(home.contains("<ul class=\"blog-posts\">"));
 
     let about = read(root, "about/index.html");
     assert!(about.contains("About me"));
@@ -155,8 +152,42 @@ fn assert_navigation_and_core_pages(root: &Path) {
     assert!(resume.contains("LS Retail"));
 }
 
+/// The home page leads with the headline, then the three projects, then the latest posts.
+fn assert_home_landing(home: &str) {
+    assert!(home.contains("<title>António&#39;s DevLog</title>"));
+    assert!(home.contains("<h1>All things AI. Software that works.</h1>"));
+
+    let doors = [
+        ("/justa/", "Justa"),
+        ("https://music.aacnsilva.com/", "Music"),
+        ("https://racing.aacnsilva.com/", "Racing"),
+    ];
+    let mut last_position = home.find("<h1>").expect("home has a headline");
+    for (url, name) in doors {
+        let position = home
+            .find(&format!("<a class=\"door\" href=\"{url}\""))
+            .unwrap_or_else(|| panic!("home should have a panel linking to {url}"));
+        assert!(position > last_position, "{name} panel is out of order");
+        last_position = position;
+        assert!(home.contains(&format!("<span class=\"door__name\">{name}</span>")));
+    }
+    // Betting on a personal site needs the disclaimer next to it.
+    assert!(home.contains("No real money"));
+
+    let latest = home
+        .find("<ul class=\"latest-posts\">")
+        .expect("home lists the latest posts");
+    assert!(latest > last_position, "writing comes after the projects");
+    assert!(home.contains("<a href=\"/blog/\">All 11 posts →</a>"));
+    // Only the six newest posts; the archive has the rest.
+    let list = &home[latest..];
+    let list = &list[..list.find("</ul>").expect("latest posts list closes")];
+    assert_eq!(list.matches("<li>").count(), 6);
+    assert!(list.contains("Evaluating the Justa agent"));
+    assert!(!home.contains("What are events in Business Central"));
+}
+
 fn assert_blog_index(root: &Path, require_blog_archive_page: bool) {
-    assert_blog_listing(root, "index.html");
     if require_blog_archive_page {
         assert_blog_listing(root, "blog/index.html");
     }
@@ -352,7 +383,9 @@ fn assert_unlisted_privacy_page(root: &Path) {
     assert!(!home.contains("Joora"));
 
     let about = read(root, "about/index.html");
-    assert!(about.contains("<a href=\"/justa/\">Justa</a>"));
+    // Every page other than home carries the projects as a compact strip.
+    assert!(about.contains("<div class=\"doors doors--compact\">"));
+    assert!(about.contains("<a class=\"door\" href=\"/justa/\""));
     assert!(!about.contains("/justa/privacy"));
     assert!(!about.contains("/joora/privacy"));
     assert!(!about.contains("Joora"));
