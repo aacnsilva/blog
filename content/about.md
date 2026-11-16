@@ -20,7 +20,7 @@ I'm António, a software engineer from **Porto, Portugal**, with about **11 year
 
 **How I work:** Agent-first, every day. Claude Code is my main tool, and I also use Cursor and Grok Bot.
 
-**Learning:** I've earned three Claude Academy badges: Building with the Claude API, MCP: Advanced topics, and Claude Code in action. I'm studying for Microsoft AI-103, LangChain LCAE, and AWS AIP-C01, and I haven't earned those yet.
+**Learning:** I've earned three Claude Academy badges: Building with the Claude API, MCP: Advanced topics, and Claude Code in action. I'm studying for Microsoft AI-103, LangChain LCAE, and AWS AIP-C01.
 
 ### Projects
 
