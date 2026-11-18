@@ -178,7 +178,7 @@ fn assert_home_landing(home: &str) {
         .find("<ul class=\"latest-posts\">")
         .expect("home lists the latest posts");
     assert!(latest > last_position, "writing comes after the projects");
-    assert!(home.contains("<a href=\"/blog/\">All 11 posts →</a>"));
+    assert!(home.contains("<a href=\"/blog/\">All 12 posts →</a>"));
     // Only the six newest posts; the archive has the rest.
     let list = &home[latest..];
     let list = &list[..list.find("</ul>").expect("latest posts list closes")];
@@ -248,8 +248,19 @@ fn assert_post_pages(root: &Path) {
 
     let justa_evals = read(root, "evaluating-the-justa-agent/index.html");
     assert!(justa_evals.contains("Previous Post"));
-    assert!(justa_evals.contains("<span class=\"post-nav__disabled\">Next Post"));
+    assert!(
+        justa_evals.contains("href=\"/your-coding-agent-takes-shortcuts-because-you-let-it/\"")
+    );
     assert!(justa_evals.contains("<table>"));
+
+    let coding_agent = read(
+        root,
+        "your-coding-agent-takes-shortcuts-because-you-let-it/index.html",
+    );
+    assert!(coding_agent.contains("Previous Post"));
+    assert!(coding_agent.contains("<span class=\"post-nav__disabled\">Next Post"));
+    assert!(coding_agent.contains("href=\"/evaluating-the-justa-agent/\""));
+    assert!(coding_agent.contains("src=\"/images/music-system-design.svg\""));
 
     let newest = read(
         root,

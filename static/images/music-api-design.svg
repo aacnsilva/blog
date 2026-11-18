@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 556" role="img" aria-labelledby="title desc">
+  <title id="title">API design of music.aacnsilva.com</title>
+  <desc id="desc">Lesson YAML in git is validated and built by Astro into static HTML pages and a read-only JSON API under /api/v1: instruments.json, a curriculum per instrument, one JSON file per lesson, and the original guitar-only endpoints. Additive changes are fine; a breaking change needs /api/v2.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1.2 L 8 5 L 0 8.8 z" fill="#5c7568"/></marker></defs>
+  <rect width="760" height="556" rx="16" fill="#fffaf3" stroke="#d9d0c3" stroke-width="1"/>
+  <rect x="40" y="28" width="190" height="80" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="135.0" y="62" text-anchor="middle" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="17">YAML in git</text>
+  <text x="135.0" y="85" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">lessons/&lt;instrument&gt;/</text>
+  <rect x="285" y="28" width="190" height="80" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="380.0" y="62" text-anchor="middle" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="17">Astro build</text>
+  <text x="380.0" y="85" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">validates every file</text>
+  <rect x="530" y="28" width="190" height="80" rx="12" fill="#eef4f0" stroke="#5c7568" stroke-width="1.75"/>
+  <text x="625.0" y="62" text-anchor="middle" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="17">Static files</text>
+  <text x="625.0" y="85" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">HTML pages + JSON API</text>
+  <line x1="234" y1="68" x2="279" y2="68" stroke="#5c7568" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="479" y1="68" x2="524" y2="68" stroke="#5c7568" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="40" y="146" text-anchor="start" fill="#5c7568" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="11.5" font-weight="600" letter-spacing="1.2">GET · READ-ONLY · GENERATED AT BUILD TIME</text>
+  <rect x="40" y="160" width="680" height="64" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="60" y="187" text-anchor="start" fill="#25231f" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5">/api/v1/instruments.json</text>
+  <text x="60" y="208" text-anchor="start" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="13">The courses: title, lesson count and total minutes for each instrument.</text>
+  <rect x="40" y="234" width="680" height="64" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="60" y="261" text-anchor="start" fill="#25231f" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5">/api/v1/{instrument}/curriculum.json</text>
+  <text x="60" y="282" text-anchor="start" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="13">The course map: every module and lesson summary, in order.</text>
+  <rect x="40" y="308" width="680" height="64" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="60" y="335" text-anchor="start" fill="#25231f" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5">/api/v1/{instrument}/lessons/{slug}.json</text>
+  <text x="60" y="356" text-anchor="start" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="13">One lesson: goals, previous and next lesson, and its ordered list of typed blocks.</text>
+  <rect x="40" y="382" width="680" height="64" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="60" y="409" text-anchor="start" fill="#25231f" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="13.5">/api/v1/curriculum.json  ·  /api/v1/lessons/{slug}.json</text>
+  <text x="60" y="430" text-anchor="start" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="13">The original guitar-only endpoints, kept unchanged.</text>
+  <rect x="40" y="458" width="680" height="70" rx="12" fill="#eef4f0" stroke="#5c7568" stroke-width="1.75"/>
+  <text x="64" y="488" text-anchor="start" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="17">A public contract</text>
+  <text x="64" y="510" text-anchor="start" fill="#38342f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="13">Additive changes are fine. A breaking change needs /api/v2.</text>
+</svg>

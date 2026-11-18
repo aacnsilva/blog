@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 474" role="img" aria-labelledby="title desc">
+  <title id="title">System design of music.aacnsilva.com</title>
+  <desc id="desc">Lessons and code go through pull requests to a GitHub repo. Cloudflare Pages builds every push to main and publishes static files to the Cloudflare CDN. The browser loads the static site over HTTPS, keeps progress in localStorage and loads lesson videos from YouTube. There is no server and no database.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 1.2 L 8 5 L 0 8.8 z" fill="#5c7568"/></marker></defs>
+  <rect width="760" height="474" rx="16" fill="#fffaf3" stroke="#d9d0c3" stroke-width="1"/>
+  <text x="40" y="42" text-anchor="start" fill="#5c7568" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="11.5" font-weight="600" letter-spacing="1.2">AUTHORING AND DEPLOY</text>
+  <rect x="40" y="56" width="190" height="92" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="135.0" y="90" text-anchor="middle" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="17">Me + coding agent</text>
+  <text x="135.0" y="113" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">lessons and code,</text>
+  <text x="135.0" y="130" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">one pull request at a time</text>
+  <rect x="285" y="56" width="190" height="92" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="380.0" y="90" text-anchor="middle" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="17">GitHub repo</text>
+  <text x="380.0" y="113" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">lessons/ · src/</text>
+  <text x="380.0" y="130" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">CI checks every PR</text>
+  <rect x="530" y="56" width="190" height="92" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="625.0" y="90" text-anchor="middle" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="17">Cloudflare Pages</text>
+  <text x="625.0" y="113" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">builds every push to main</text>
+  <text x="625.0" y="130" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">npm run build</text>
+  <line x1="234" y1="102" x2="279" y2="102" stroke="#5c7568" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="257" y="93" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12">PR</text>
+  <line x1="479" y1="102" x2="524" y2="102" stroke="#5c7568" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="502" y="93" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12">merge</text>
+  <line x1="625.0" y1="152" x2="625.0" y2="240" stroke="#5c7568" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="613.0" y="199" text-anchor="end" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12">publishes dist/</text>
+  <text x="40" y="232" text-anchor="start" fill="#5c7568" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="11.5" font-weight="600" letter-spacing="1.2">RUNTIME</text>
+  <rect x="40" y="246" width="190" height="92" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="135.0" y="280" text-anchor="middle" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="17">YouTube</text>
+  <text x="135.0" y="303" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">lesson videos,</text>
+  <text x="135.0" y="320" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">embedded by ID</text>
+  <rect x="285" y="246" width="190" height="92" rx="12" fill="#eef4f0" stroke="#5c7568" stroke-width="1.75"/>
+  <text x="380.0" y="280" text-anchor="middle" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="17">Your browser</text>
+  <text x="380.0" y="303" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">static pages,</text>
+  <text x="380.0" y="320" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">progress in localStorage</text>
+  <rect x="530" y="246" width="190" height="92" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="625.0" y="280" text-anchor="middle" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="17">Cloudflare CDN</text>
+  <text x="625.0" y="303" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">HTML, JS and</text>
+  <text x="625.0" y="320" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12.5">/api/v1/*.json</text>
+  <line x1="479" y1="292" x2="524" y2="292" stroke="#5c7568" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="502" y="283" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12">HTTPS</text>
+  <line x1="281" y1="292" x2="236" y2="292" stroke="#5c7568" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="257" y="283" text-anchor="middle" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="12">videos</text>
+  <rect x="40" y="366" width="680" height="80" rx="12" fill="#f7f3ed" stroke="#d9d0c3"/>
+  <text x="64" y="398" text-anchor="start" fill="#25231f" font-family="Georgia, Times New Roman, serif" font-size="17">No server, no database</text>
+  <text x="64" y="422" text-anchor="start" fill="#6d675f" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="13">Lessons are files in git. The build turns them into static HTML and JSON at deploy time.</text>
+</svg>
