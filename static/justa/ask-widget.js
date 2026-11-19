@@ -13,6 +13,8 @@
       launcher: "Ask Justa",
       openLabel: "Open Ask Justa",
       closeLabel: "Close Ask Justa",
+      fullLabel: "Full screen",
+      exitFullLabel: "Exit full screen",
       title: "Ask Justa",
       subtitle: "Plain answers about the app",
       greeting: "Hi. Ask me about plans, what is free, the Justa Plus vault, privacy, or sharing a household. English or português.",
@@ -34,6 +36,8 @@
       launcher: "Perguntar",
       openLabel: "Abrir Perguntar à Justa",
       closeLabel: "Fechar Perguntar à Justa",
+      fullLabel: "Ecrã inteiro",
+      exitFullLabel: "Sair do ecrã inteiro",
       title: "Perguntar à Justa",
       subtitle: "Respostas simples sobre a app",
       greeting: "Olá. Pergunte sobre planos, o que é grátis, a pasta do cofre da Justa Plus, privacidade ou partilhar uma casa. Em português ou inglês.",
@@ -130,12 +134,23 @@
     .ja-head-text { flex: 1; min-width: 0; }
     .ja-panel .ja-title { margin: 0; font: 500 1.15rem/1.2 var(--serif, "Fraunces", Georgia, serif); letter-spacing: -0.01em; }
     .ja-subtitle { margin: 0.1rem 0 0; color: var(--soft, #4E5B75); font-size: 0.82rem; }
-    .ja-close {
+    .ja-close, .ja-full {
       flex: none; width: 38px; height: 38px; border: 0; border-radius: 999px;
       display: grid; place-items: center; background: transparent; color: var(--soft, #4E5B75); cursor: pointer;
     }
-    .ja-close:hover { background: var(--tint, #E3EAF8); color: var(--text, #101B33); }
+    .ja-close:hover, .ja-full:hover { background: var(--tint, #E3EAF8); color: var(--text, #101B33); }
+    .ja-close:focus-visible, .ja-full:focus-visible { outline: 2px solid var(--cobalt, #1F4CC4); outline-offset: 1px; }
     .ja-close svg { width: 20px; height: 20px; }
+    .ja-full { margin-right: -0.5rem; }
+    .ja-full svg { width: 18px; height: 18px; }
+    .ja-full .ja-icon-collapse, .ja-full[aria-pressed="true"] .ja-icon-expand { display: none; }
+    .ja-full[aria-pressed="true"] .ja-icon-collapse { display: block; }
+
+    /* Full screen: the panel covers the window and the conversation keeps a readable column. */
+    .ja-launcher[aria-expanded="true"][data-full="true"] { display: none; }
+    .ja-panel[data-full="true"] { top: 0; right: 0; bottom: auto; left: 0; width: 100%; height: 100%; border: 0; border-radius: 0; }
+    .ja-panel[data-full="true"] .ja-body { padding-left: max(1.1rem, calc((100% - 760px) / 2)); padding-right: max(1.1rem, calc((100% - 760px) / 2)); }
+    .ja-panel[data-full="true"] .ja-foot { padding-left: max(0.9rem, calc((100% - 776px) / 2)); padding-right: max(0.9rem, calc((100% - 776px) / 2)); }
 
     .ja-body { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; padding: 1.1rem 1.1rem 0.6rem; display: flex; flex-direction: column; gap: 0.75rem; }
     .ja-bubble { max-width: 88%; padding: 0.7rem 1rem; border-radius: 18px; white-space: pre-line; overflow-wrap: anywhere; }
@@ -187,6 +202,8 @@
     @media (max-width: 600px) {
       .ja-launcher { height: 52px; padding: 0 1.1rem 0 0.9rem; }
       .ja-launcher[aria-expanded="true"] { display: none; }
+      /* The panel already covers a phone screen, so there is nothing to toggle. */
+      .ja-full { display: none; }
       /* The script sets top and height to the visible viewport, so the keyboard never uncovers the page. */
       .ja-panel { top: 0; right: 0; bottom: auto; left: 0; width: 100%; height: 100%; border: 0; border-radius: 0; transform: translateY(24px); transform-origin: bottom center; }
       .ja-head { padding-top: max(0.95rem, env(safe-area-inset-top)); }
@@ -206,6 +223,8 @@
     chat: '<svg class="ja-icon-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6.5A2.5 2.5 0 016.5 4h11A2.5 2.5 0 0120 6.5v8a2.5 2.5 0 01-2.5 2.5H10l-4.2 3.2c-.5.4-1.3 0-1.3-.6V17A2.5 2.5 0 014 14.5z"/><path d="M8.5 9.5h7M8.5 12.5h4.5"/></svg>',
     close: '<svg class="ja-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>',
     x: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+    expand: '<svg class="ja-icon-expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"/></svg>',
+    collapse: '<svg class="ja-icon-collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9h5V4M20 9h-5V4M4 15h5v5M20 15h-5v5"/></svg>',
     send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>'
   };
 
@@ -233,6 +252,7 @@
         <h2 class="ja-title" id="ja-title"></h2>
         <p class="ja-subtitle"></p>
       </div>
+      <button type="button" class="ja-full" aria-pressed="false">${icons.expand}${icons.collapse}</button>
       <button type="button" class="ja-close">${icons.x}</button>
     </div>
     <div class="ja-body" role="log" aria-live="polite" aria-relevant="additions">
@@ -263,6 +283,7 @@
   const question = $("#ja-question");
   const send = $(".ja-send");
   const closeButton = $(".ja-close");
+  const fullButton = $(".ja-full");
 
   const conversation = [];
   let sending = false;
@@ -274,12 +295,16 @@
   const say = (code) => (messages[code] || messages.network)[currentLang()];
   const isOpen = () => panel.dataset.open === "true";
   const isNarrow = () => window.matchMedia("(max-width: 600px)").matches;
+  const isFull = () => panel.dataset.full === "true";
 
   const render = () => {
     const text = copy[currentLang()];
     launcher.querySelector(".ja-launcher-text").textContent = text.launcher;
     launcher.setAttribute("aria-label", isOpen() ? text.closeLabel : text.openLabel);
     closeButton.setAttribute("aria-label", text.closeLabel);
+    fullButton.setAttribute("aria-label", isFull() ? text.exitFullLabel : text.fullLabel);
+    fullButton.title = isFull() ? text.exitFullLabel : text.fullLabel;
+    fullButton.setAttribute("aria-pressed", String(isFull()));
     $(".ja-title").textContent = text.title;
     $(".ja-subtitle").textContent = text.subtitle;
     $(".ja-greeting p").textContent = text.greeting;
@@ -487,8 +512,8 @@
     target.focus({ preventScroll: true });
   };
 
-  // On a phone the panel covers the screen. The page behind is pinned, and the panel follows
-  // the visible viewport, which shrinks and moves when the keyboard opens.
+  // On a phone, or in full screen, the panel covers the screen. The page behind is pinned, and
+  // the panel follows the visible viewport, which shrinks and moves when the keyboard opens.
   const viewport = window.visualViewport;
   let pinnedScroll = 0;
 
@@ -507,7 +532,7 @@
   };
 
   const fitToViewport = () => {
-    if (!isOpen() || !isNarrow()) {
+    if (!isOpen() || !(isNarrow() || isFull())) {
       unpinPage();
       panel.style.top = "";
       panel.style.height = "";
@@ -519,6 +544,16 @@
     panel.style.top = `${viewport.offsetTop}px`;
     panel.style.height = `${viewport.height}px`;
     if (atEnd) scrollToEnd();
+  };
+
+  // The choice lasts for the visit: closing and reopening the panel keeps it.
+  const toggleFull = () => {
+    const full = String(!isFull());
+    panel.dataset.full = full;
+    launcher.dataset.full = full;
+    fitToViewport();
+    render();
+    scrollToEnd();
   };
 
   const handleLauncher = () => (isOpen() ? close() : open());
@@ -550,6 +585,7 @@
 
   launcher.addEventListener("click", handleLauncher);
   closeButton.addEventListener("click", close);
+  fullButton.addEventListener("click", toggleFull);
   form.addEventListener("submit", handleSubmit);
   question.addEventListener("keydown", handleKeyDown);
   question.addEventListener("input", grow);

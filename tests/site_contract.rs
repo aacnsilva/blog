@@ -545,6 +545,10 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(!widget.contains("Haiku"));
     assert!(!widget.contains("Anthropic"));
     assert!(widget.contains("pasta do cofre da Justa Plus"));
+    // The panel can be widened to the whole window, in both languages.
+    assert!(widget.contains(r#"class="ja-full""#));
+    assert!(widget.contains("Exit full screen"));
+    assert!(widget.contains("Sair do ecrã inteiro"));
     assert!(widget.contains(r#"launcher.className = "ja-launcher";"#));
     // The answer streams in as it is written. A worker that cannot stream still answers in JSON.
     assert!(widget.contains(r#"accept: "text/event-stream""#));
