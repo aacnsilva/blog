@@ -539,7 +539,13 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(landing.contains(r#"<script src="ask-widget.js" defer></script>"#));
     assert!(privacy.contains(r#"<script src="../ask-widget.js" defer></script>"#));
     let widget = read(root, "justa/ask-widget.js");
-    assert!(widget.contains(r#"const ENDPOINT = "https://justa-ask.aacnsilva.workers.dev";"#));
+    // It asks the agent runtime's "justa-ask" tenant, not the old justa-ask worker.
+    assert!(widget.contains(
+        r#"const ENDPOINT = "https://agent-runtime.aacnsilva.workers.dev/v1/tenants/justa-ask";"#
+    ));
+    assert!(widget.contains("fetch(`${ENDPOINT}/runs`"));
+    assert!(widget.contains("fetch(`${ENDPOINT}/status`)"));
+    assert!(!widget.contains("justa-ask.aacnsilva.workers.dev"));
     assert!(widget.contains("is answered from Justa’s public notes"));
     assert!(widget.contains("é respondida a partir das notas públicas da Justa"));
     assert!(!widget.contains("Haiku"));
@@ -550,7 +556,7 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(widget.contains("Exit full screen"));
     assert!(widget.contains("Sair do ecrã inteiro"));
     assert!(widget.contains(r#"launcher.className = "ja-launcher";"#));
-    // The answer streams in as it is written. A worker that cannot stream still answers in JSON.
+    // The answer streams in as it is written. Limits and errors still answer in JSON.
     assert!(widget.contains(r#"accept: "text/event-stream""#));
     assert!(widget.contains("response.json()"));
     assert!(!widget.contains("sk-ant-"));

@@ -1,8 +1,9 @@
 /* Ask Justa: a launcher in the bottom-right corner that opens a chat panel over the page.
    Closing the panel leaves you where you were. Shared by /justa/ and /justa/privacy/. */
 (() => {
-  // The Cloudflare Worker that answers. The worker only accepts this site's origin.
-  const ENDPOINT = "https://justa-ask.aacnsilva.workers.dev";
+  // Ask Justa is the "justa-ask" tenant of the agent runtime, a Cloudflare Worker. It only
+  // answers this site's origin. The tenant's prompt, notes, and limits live in aacnsilva/justa.
+  const ENDPOINT = "https://agent-runtime.aacnsilva.workers.dev/v1/tenants/justa-ask";
   const MAX_LENGTH = 800;
 
   const script = document.currentScript;
@@ -443,9 +444,9 @@
     lock(true);
 
     try {
-      const response = await fetch(`${ENDPOINT}/ask`, {
+      const response = await fetch(`${ENDPOINT}/runs`, {
         method: "POST",
-        // Asks the worker to stream. A worker that cannot stream answers in JSON, handled below.
+        // Asks the runtime to stream. Limits and errors still answer in JSON, handled below.
         headers: { "content-type": "application/json", accept: "text/event-stream" },
         body: JSON.stringify({ messages: conversation.slice(-6) })
       });
