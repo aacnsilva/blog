@@ -413,6 +413,7 @@ fn assert_unlisted_privacy_page(root: &Path) {
 
 fn assert_justa_fair_split_landing(root: &Path) {
     let landing = read(root, "justa/index.html");
+    assert_justa_search_metadata(&landing);
     assert!(
         landing.contains("<title>Justa — Shared bills, split fairly</title>"),
         "landing should carry Justa branding"
@@ -574,6 +575,101 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(!sitemap.contains("https://aacnsilva.com/joora/"));
     assert!(!sitemap.contains("https://aacnsilva.com/justa/ask/"));
 }
+
+/// Head-only search metadata: one official URL, and a parseable app description.
+fn assert_justa_search_metadata(landing: &str) {
+    let head_end = landing
+        .find("</head>")
+        .expect("Justa landing head should close");
+    let canonical = r#"<link rel="canonical" href="https://aacnsilva.com/justa/" />"#;
+    let canonical_at = landing
+        .find(canonical)
+        .expect("Justa landing should declare its canonical URL");
+    assert!(canonical_at < head_end, "canonical link belongs in <head>");
+    assert_eq!(landing.matches(canonical).count(), 1);
+
+    let marker = r#"<script type="application/ld+json">"#;
+    let json_at = landing
+        .find(marker)
+        .expect("Justa landing should describe the app in JSON-LD");
+    assert!(json_at < head_end, "JSON-LD belongs in <head>");
+    assert_eq!(landing.matches(marker).count(), 1);
+    let json = landing[json_at + marker.len()..]
+        .split_once("</script>")
+        .map(|(body, _)| body.trim())
+        .expect("JSON-LD script should close");
+    assert_mobile_application_json_ld(json);
+}
+
+fn assert_mobile_application_json_ld(json: &str) {
+    let output = Command::new("python3")
+        .args(["-c", MOBILE_APPLICATION_JSON_LD_CHECK, json])
+        .output()
+        .unwrap_or_else(|error| panic!("python3 is required to parse JSON: {error}"));
+    assert!(
+        output.status.success(),
+        "Justa JSON-LD is not a valid MobileApplication: {}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+const MOBILE_APPLICATION_JSON_LD_CHECK: &str = r#"
+import json, sys
+
+data = json.loads(sys.argv[1])
+if not isinstance(data, dict):
+    raise SystemExit("JSON-LD must be one object")
+
+expected = {
+    "@context": "https://schema.org",
+    "@type": "MobileApplication",
+    "name": "Justa",
+    "operatingSystem": "iOS",
+    "applicationCategory": "FinanceApplication",
+    "description": "Shared bills, split fairly. Justa plans the month, splits it by income, logs the extras, and tells you who pays whom. Private by design: no account, no server, no analytics.",
+    "url": "https://aacnsilva.com/justa/",
+    "installUrl": "https://apps.apple.com/app/id6813808595",
+    "sameAs": "https://apps.apple.com/app/id6813808595",
+    "image": "https://aacnsilva.com/justa/og-image.png",
+}
+for key, value in expected.items():
+    if data.get(key) != value:
+        raise SystemExit(f"{key}: expected {value!r}, got {data.get(key)!r}")
+
+for role in ("author", "publisher"):
+    person = data.get(role)
+    if (
+        not isinstance(person, dict)
+        or person.get("@type") != "Person"
+        or person.get("name") != "António Silva"
+        or person.get("url") != "https://aacnsilva.com"
+    ):
+        raise SystemExit(f"{role} is {person!r}")
+
+offers = data.get("offers")
+if (
+    not isinstance(offers, dict)
+    or offers.get("@type") != "Offer"
+    or offers.get("price") != "0"
+    or offers.get("priceCurrency") != "EUR"
+):
+    raise SystemExit(f"offers is {offers!r}")
+
+banned = {"aggregateRating", "review", "reviewRating", "ratingValue", "ratingCount"}
+
+def walk(node):
+    if isinstance(node, dict):
+        found = banned.intersection(node)
+        if found:
+            raise SystemExit("unexpected rating or review data: " + ", ".join(sorted(found)))
+        for child in node.values():
+            walk(child)
+    elif isinstance(node, list):
+        for child in node:
+            walk(child)
+
+walk(data)
+"#;
 
 fn assert_justa_footer(page: &str) {
     assert!(page.contains("Made with care in Porto · © Justa"));
