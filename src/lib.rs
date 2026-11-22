@@ -1102,6 +1102,8 @@ fn render_sitemap(site: &Site) -> String {
     for post in &site.posts {
         push_sitemap_url(&mut sitemap, site, &post.url_path, post.date.as_deref());
     }
+    // Hand-written landing page. /justa/ask/ and /justa/privacy/ stay unlisted.
+    push_sitemap_url(&mut sitemap, site, "/justa/", None);
     sitemap.push_str("</urlset>\n");
     sitemap
 }

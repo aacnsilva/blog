@@ -450,7 +450,10 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(landing.contains(
         r#"href="https://apps.apple.com/us/app/justa-household-management/id6813808595""#
     ));
-    assert!(landing.contains(r#"<meta name="robots" content="noindex, nofollow" />"#));
+    assert!(
+        !landing.contains("noindex"),
+        "the Justa landing page should be indexable"
+    );
     assert!(landing.contains("href=\"./privacy/\""));
     assert!(landing.contains("href=\"./ask/\">Ask</a>"));
     assert!(landing.contains("class=\"ask-card\" href=\"./ask/\""));
@@ -570,9 +573,13 @@ fn assert_justa_fair_split_landing(root: &Path) {
     assert!(!ask.contains("sk-ant-"));
 
     let sitemap = read(root, "sitemap.xml");
-    assert!(!sitemap.contains("https://aacnsilva.com/justa/"));
-    assert!(!sitemap.contains("https://aacnsilva.com/joora/"));
+    assert!(
+        sitemap.contains("<loc>https://aacnsilva.com/justa/</loc>"),
+        "the Justa landing page belongs in the sitemap"
+    );
     assert!(!sitemap.contains("https://aacnsilva.com/justa/ask/"));
+    assert!(!sitemap.contains("https://aacnsilva.com/justa/privacy/"));
+    assert!(!sitemap.contains("https://aacnsilva.com/joora/"));
 }
 
 fn assert_justa_footer(page: &str) {
