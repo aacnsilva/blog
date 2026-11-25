@@ -27,7 +27,7 @@ jobs:
         # Installs the version and components pinned in rust-toolchain.toml.
         run: rustup toolchain install
       - name: Cache Cargo
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: |
             ~/.cargo/registry
