@@ -178,7 +178,7 @@ fn assert_home_landing(home: &str) {
         .find("<ul class=\"latest-posts\">")
         .expect("home lists the latest posts");
     assert!(latest > last_position, "writing comes after the projects");
-    assert!(home.contains("<a href=\"/blog/\">All 12 posts →</a>"));
+    assert!(home.contains("<a href=\"/blog/\">All 13 posts →</a>"));
     // Only the six newest posts; the archive has the rest.
     let list = &home[latest..];
     let list = &list[..list.find("</ul>").expect("latest posts list closes")];
@@ -258,9 +258,18 @@ fn assert_post_pages(root: &Path) {
         "your-coding-agent-takes-shortcuts-because-you-let-it/index.html",
     );
     assert!(coding_agent.contains("Previous Post"));
-    assert!(coding_agent.contains("<span class=\"post-nav__disabled\">Next Post"));
+    assert!(coding_agent.contains("href=\"/why-just-add-rag-still-gets-the-exam-wrong/\""));
     assert!(coding_agent.contains("href=\"/evaluating-the-justa-agent/\""));
     assert!(coding_agent.contains("src=\"/images/music-system-design.svg\""));
+
+    let rag_exam = read(
+        root,
+        "why-just-add-rag-still-gets-the-exam-wrong/index.html",
+    );
+    assert!(rag_exam.contains("Previous Post"));
+    assert!(rag_exam.contains("<span class=\"post-nav__disabled\">Next Post"));
+    assert!(rag_exam.contains("href=\"/your-coding-agent-takes-shortcuts-because-you-let-it/\""));
+    assert!(rag_exam.contains("<table>"));
 
     let newest = read(
         root,

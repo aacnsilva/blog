@@ -16,3 +16,14 @@ Run `./scripts/check.sh` before pushing. It is the same script CI runs: formatti
 
 - Fix a lint finding at its source. Do not add `#[allow]` or loosen a rule in `Cargo.toml` or `tests/site_lint.rs` without saying why in a comment.
 - A new page type or template gets a rule in `tests/site_lint.rs` if it can break in a way the existing rules miss.
+
+## Writing
+
+Posts follow the reader-first principles from Larry McEnerney's lecture [*The Craft of Writing Effectively*](https://youtu.be/vtIzMaLkCaM):
+
+- **Write for the reader's problem, not your topic.** Do not open with "In this post I will discuss X" or a chronological diary of what you built. Name what readers currently believe or do, show where it breaks down, and offer what fixes that instability.
+- **Value is judged by the reader.** Busy, skeptical readers stop the moment a paragraph stops helping them. Cut background that only proves you did the work.
+- **Challenge an existing assumption.** Intervene in a real technical conversation—show why the obvious approach fails, or when a sensible rule stops holding.
+- **Substance over transition polish.** Words like "however", "furthermore", and "consequently" do not create value. Concrete failures, trade-offs, and numbers do.
+- **Match the blog's voice.** Direct, concrete, first-person engineering prose with real metrics and no hype.
+
