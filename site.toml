@@ -11,9 +11,9 @@ images = ["static/images/share.png"]
 title = "António's DevLog"
 enablePostNavigator = true
 headline = "All things AI. Software that works."
-intro = "I'm António, a software engineer in Porto. These are three things I've built; the writing on AI and agents is below."
+intro = "I'm António, a software engineer in Porto. These are four things I've built; the writing on AI and agents is below."
 
-# The three project panels. Colours are per panel and stay the same in light and dark.
+# The project panels. Colours are per panel and stay the same in light and dark.
 [[projects]]
 name = "Justa"
 url = "/justa/"
@@ -43,3 +43,13 @@ background = "#FFD23F"
 text = "#17130A"
 muted = "#3A300F"
 title = "#17130A"
+
+[[projects]]
+name = "Ensino"
+url = "https://ensino.aacnsilva.com/"
+label = "Study platform · Nine Portuguese national exams"
+description = "Short lessons, quizzes, spaced repetition, and an AI tutor grounded in the 2027 curriculum for nine Portuguese national exams."
+background = "#163A70"
+text = "#F3F4FB"
+muted = "#D6E2F5"
+title = "#FFC83D"

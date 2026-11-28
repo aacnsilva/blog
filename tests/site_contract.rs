@@ -152,7 +152,7 @@ fn assert_navigation_and_core_pages(root: &Path) {
     assert!(resume.contains("LS Retail"));
 }
 
-/// The home page leads with the headline, then the three projects, then the latest posts.
+/// The home page leads with the headline, then the featured projects, then the latest posts.
 fn assert_home_landing(home: &str) {
     assert!(home.contains("<title>António&#39;s DevLog</title>"));
     assert!(home.contains("<h1>All things AI. Software that works.</h1>"));
@@ -161,6 +161,7 @@ fn assert_home_landing(home: &str) {
         ("/justa/", "Justa"),
         ("https://music.aacnsilva.com/", "Music"),
         ("https://racing.aacnsilva.com/", "Racing"),
+        ("https://ensino.aacnsilva.com/", "Ensino"),
     ];
     let mut last_position = home.find("<h1>").expect("home has a headline");
     for (url, name) in doors {

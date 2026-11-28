@@ -30,6 +30,8 @@ I'm António, a software engineer from **Porto, Portugal**, with about **11 year
 
 **[Music lessons](https://music.aacnsilva.com)** is a site of interactive music lessons for guitar and piano. It has two courses, Guitar from zero and Piano from zero, each with 25 lessons (about 7 hours of practice). The lessons are short and guided, start from zero, and each one ends with practice against a metronome. I built it with Astro and TypeScript and write the lesson content as YAML. The site also serves a static JSON API of the courses and lessons, and it is hosted on Cloudflare Pages.
 
+**[Ensino](https://ensino.aacnsilva.com)** is a study platform for nine Portuguese national exams, with 134 lessons, 70 quizzes, spaced repetition, and a grounded AI tutor. The tutor runs on my multi-tenant `ai-platform` with RAG over 164 documents, a 10-word answer-leakage guard, and two eval suites (73 retrieval cases and 96 end-to-end conversations). I wrote up how it works in [Why "just add RAG" still gets the exam wrong](/why-just-add-rag-still-gets-the-exam-wrong/).
+
 ### Background
 
 My depth is in ERP and finance systems: Microsoft Dynamics 365 Business Central and Finance & Operations, at LS Retail (an Aptos company) and, earlier, at myPartner. That taught me how business rules, integrations, and money actually move through a company. I treat it as background I bring to AI work, not as the thing I plan to specialise in.
