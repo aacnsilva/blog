@@ -10,11 +10,11 @@ When a study tutor gets that wrong, it is not a harmless hallucination—it send
 
 A month ago, in [Evaluating the Justa agent](/evaluating-the-justa-agent/), I argued against building RAG. For Justa, that was the right call: the entire product manual was 3,800 words in one file, and caching it in the system prompt was cheaper and more reliable than retrieval. On [Ensino](https://ensino.aacnsilva.com), a study platform for nine Portuguese national exams, that assumption breaks. The tutor's corpus is 164 documents—134 published lessons and 30 official reference documents—totalling 1,613 chunks and nearly 79,000 words of reference specs alone. Stuffing it into every turn does not scale, and relying on the model's parametric memory teaches the wrong exam.
 
-We went from zero to a grounded tutor across all nine subjects quickly because we did not build the AI plumbing from scratch—we already had our own multi-tenant `ai-platform` handling RAG, quotas, model routing, and sessions. That freed us to focus on the parts where naive RAG actually fails: the content pipeline, answer-leakage guards, cross-subject chunking, end-to-end citations, and layered evals.
+I went from zero to a grounded tutor across all nine subjects quickly because I did not build the AI plumbing from scratch—I already had my own multi-tenant `ai-platform` handling RAG, quotas, model routing, and sessions. That freed me to focus on the parts where naive RAG actually fails: the content pipeline, answer-leakage guards, cross-subject chunking, end-to-end citations, and layered evals.
 
 ## Standing on `ai-platform`
 
-Most teams lose weeks on RAG before they ever test a single query: setting up a vector store, wiring chunking and embeddings, building rate limits, streaming responses, and tracking spend. We skipped all of that because Ensino is simply one tenant on `ai-platform`, a multi-tenant Cloudflare Worker with Durable Objects that already sits behind our other products.
+Most teams lose weeks on RAG before they ever test a single query: setting up a vector store, wiring chunking and embeddings, building rate limits, streaming responses, and tracking spend. I skipped all of that because Ensino is simply one tenant on `ai-platform`, a multi-tenant Cloudflare Worker with Durable Objects that already sits behind my other products.
 
 Out of the box, `ai-platform` gave Ensino:
 
@@ -23,7 +23,7 @@ Out of the box, `ai-platform` gave Ensino:
 - **Model routing and sessions:** capability tiers (`fast` on Claude Haiku 5.5 for the free plan, `balanced` on Claude Sonnet 5.5 for Plus), circuit breakers, stored conversations with turn locks and idempotent retries, streaming, and read-only tools behind an egress allowlist.
 - **A built-in eval pass:** tenants on the dev deployment can opt in with a secret hash so eval runners bypass browser origins and receive full traces—model, rounds, tools called, and cost—with every answer.
 
-Because the runtime holds all of those mechanisms, Ensino's entire integration is one tenant config (`tools/tutor/tenant.ts`), one sync script (`tools/tutor/push.ts`), and a token-signing endpoint. We spent our time on exam accuracy instead of infrastructure.
+Because the runtime holds all of those mechanisms, Ensino's entire integration is one tenant config (`tools/tutor/tenant.ts`), one sync script (`tools/tutor/push.ts`), and a token-signing endpoint. I spent my time on exam accuracy instead of infrastructure.
 
 ## A content pipeline that guards the index
 
@@ -31,7 +31,7 @@ Everything students study and everything the tutor retrieves flows from one git-
 
 That shared pipeline creates a hazard most RAG guides ignore: your platform stores explanations, grading criteria, and model answers right next to the teaching material. A tutor is supposed to guide a student with hints, not hand over the answer key. If solutions slip into the retrieval store, the tutor retrieves them and leaks them.
 
-We enforce the boundary in two places:
+I enforce the boundary in two places:
 
 - **Split read-only tools.** `get_lesson` reads the public lesson API, which returns reading blocks and question prompts while stripping answers, grading criteria, and explanations. `search_knowledge` searches the uploaded corpus: published lessons (prompts only) plus `content/reference/`.
 - **A 10-word answer-overlap guard.** Even with separate files, it is easy for a human or an agent authoring reference material to paraphrase a quiz explanation too closely. `pnpm content:check` builds a 10-word shingle index across every question's explanation, open-question grading rubric, and model answer across all 883 questions, then scans every reference file against it. Any 10-word overlap fails the build.
@@ -48,7 +48,7 @@ Even with clean documents, naive chunking breaks as soon as a corpus spans multi
 
 When a chunker slices a document into 1,200-character blocks, middle chunks lose the title at the top of the file. A query for "funções sintáticas" or "intervalo de confiança no formulário de Matemática A" starts pulling chunks from the wrong subject.
 
-We fixed this in the chunker and the content linter together. The chunker tracks the active Markdown heading and prepends it to every chunk produced under that section. `pnpm content:check` then enforces strict heading prefixes on every reference file: the H1 must carry the subject name and exam code (for example, `# Matemática A (635) · Informação-Prova do exame nacional de 2027`), and every H2 must start with a subject prefix (`## Mat A`, `## FQA`, `## Port`, `## MACS`, and so on).
+I fixed this in the chunker and the content linter together. The chunker tracks the active Markdown heading and prepends it to every chunk produced under that section. `pnpm content:check` then enforces strict heading prefixes on every reference file: the H1 must carry the subject name and exam code (for example, `# Matemática A (635) · Informação-Prova do exame nacional de 2027`), and every H2 must start with a subject prefix (`## Mat A`, `## FQA`, `## Port`, `## MACS`, and so on).
 
 Because BM25 indexes the document title plus the chunk text—with diacritic folding so `funcao` and `função` match—every 1,200-character chunk carries its own subject identity. A middle chunk can no longer masquerade as another exam.
 
@@ -58,12 +58,12 @@ Telling a model "always cite your sources" without putting verifiable sources in
 
 1. **One canonical registry.** `content/sources.json` holds 42 official sources—EduQA 2027 *Informações-Prova*, DGE *Aprendizagens Essenciais*, official formula sheets, and exam archives—each with a permanent ID, title, publisher, URL, and retrieval date.
 2. **Same sources in the UI and in RAG.** Lessons declare `sources: [...]` in frontmatter. The lesson page renders them as clickable links at the bottom of the lesson, and `tutor:push` appends a `## Fontes` block with those exact titles and URLs to every lesson uploaded to `ai-platform`.
-3. **Citations inside every reference section.** In `content/reference/`, we do not put links only at the bottom of a 15,000-character file where chunking would orphan them. Every H2 section ends with its own `Fonte: <title> — <url>` line. Whichever 1,200-character chunk BM25 returns, the exact official document and URL come along for the ride.
+3. **Citations inside every reference section.** In `content/reference/`, I do not put links only at the bottom of a 15,000-character file where chunking would orphan them. Every H2 section ends with its own `Fonte: <title> — <url>` line. Whichever 1,200-character chunk BM25 returns, the exact official document and URL come along for the ride.
 4. **Prompt rules that prefer honesty over guessing.** The tutor prompt instructs the model to cite the source returned by `get_lesson` or `search_knowledge` at the end of its answer, never invent citations, dates, or formulas, and say clearly when it is not sure.
 
 ## Two eval suites, four layers of grading
 
-When a RAG tutor gives a wrong answer, there are two different bugs it could be: retrieval never surfaced the right chunk, or the model ignored the chunk it was given. Debugging both at once against a live LLM is slow and expensive, so we split evaluation into two suites.
+When a RAG tutor gives a wrong answer, there are two different bugs it could be: retrieval never surfaced the right chunk, or the model ignored the chunk it was given. Debugging both at once against a live LLM is slow and expensive, so I split evaluation into two suites.
 
 **1. Offline retrieval benchmark (`pnpm evals:retrieval`).** It mirrors `ai-platform`'s exact 1,200-character chunker and diacritic-insensitive BM25 ranker locally, with zero API calls. It runs 73 gold queries across all nine subjects, general exam rules, and 15 cross-subject disambiguation traps. Each case checks Recall@5, required factual terms in the retrieved text, and zero forbidden documents at rank 1. The suite fails below 90% Recall@5 or on any forbidden #1 hit:
 
@@ -83,7 +83,7 @@ A `--live` flag checks the deployed `ai-platform` tenant against the repository 
 
 ## What the evals caught that RAG did not fix
 
-100% Recall@5 in the retrieval benchmark did not give us 100% grounded answers from the tutor. Running the full 96-case suite against both tiers exposed a failure mode that pure retrieval metrics never see:
+100% Recall@5 in the retrieval benchmark did not give me 100% grounded answers from the tutor. Running the full 96-case suite against both tiers exposed a failure mode that pure retrieval metrics never see:
 
 | Tier (model) | `citacao` checks | `ambito-2027` checks | Cost / answer |
 | --- | --- | --- | --- |
